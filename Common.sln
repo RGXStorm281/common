@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Util", "Common.Util\Common.Util.csproj", "{81A54E2C-8F4E-4395-AA4F-37DECEB730F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Util", "Common.Util\Common.Util.csproj", "{81A54E2C-8F4E-4395-AA4F-37DECEB730F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Forms", "Common.Forms\Common.Forms.csproj", "{8364EB3F-8179-480A-AF3A-290606EEE9B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{81A54E2C-8F4E-4395-AA4F-37DECEB730F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81A54E2C-8F4E-4395-AA4F-37DECEB730F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81A54E2C-8F4E-4395-AA4F-37DECEB730F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8364EB3F-8179-480A-AF3A-290606EEE9B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8364EB3F-8179-480A-AF3A-290606EEE9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8364EB3F-8179-480A-AF3A-290606EEE9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8364EB3F-8179-480A-AF3A-290606EEE9B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
