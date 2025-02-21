@@ -8,7 +8,8 @@
 		"vscode": {
 			"extensions": [
 				"ms-dotnettools.csdevkit",
-				"patcx.vscode-nuget-gallery"
+				"patcx.vscode-nuget-gallery",
+				"EditorConfig.EditorConfig"
 			]
 		}
 	}
