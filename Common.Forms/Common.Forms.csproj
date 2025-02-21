@@ -1,15 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net8.0</TargetFramework>
-	  <ImplicitUsings>enable</ImplicitUsings>
-	  <Nullable>enable</Nullable>
 	  <AssemblyName>RobinEpple.Common.Forms</AssemblyName>
 	  <PackageId>RobinEpple.Common.Forms</PackageId>
 	  <RootNamespace>RobinEpple.Common.Forms</RootNamespace>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <Title>Private Form Engine</Title>
-	  <Authors>Robin Epple</Authors>
 	  <Version>1.0.0.0</Version>
   </PropertyGroup>
 
