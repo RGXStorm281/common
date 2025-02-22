@@ -28,7 +28,17 @@
 	// }
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "dotnet tool restore"
+	"postCreateCommand": {
+		"initializeWorkloads": "sudo dotnet workload update",
+		"restoreTools": "dotnet tool restore",
+		"mountLocalNuget": "dotnet nuget add source /local-nuget -n local",
+		"restoreDotNet": "dotnet restore"
+	},
+
+	// Mount host volumes.
+	"mounts": [
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/local-nuget/,target=/local-nuget,type=bind,consistency=cached"
+	]
 
 	// Configure tool-specific properties.
 	// "customizations": {},
