@@ -1,8 +1,8 @@
-﻿using RobinEpple.Common.Forms.BasicApi;
+﻿namespace RobinEpple.Common.Forms.BasicForm.Fields;
+
+using RobinEpple.Common.Forms.BasicApi;
 using RobinEpple.Common.Forms.BasicApi.DataContainers;
 using RobinEpple.Common.Forms.BasicApi.Nodes;
-
-namespace RobinEpple.Common.Forms.BasicForm.Fields;
 
 /// <inheritdoc cref="NodeBase{TNodeType}" />
 /// <summary>
@@ -17,14 +17,8 @@ internal abstract class FormFieldBase<TNodeType, TValue>(
 	ILabel? label,
 	IExpression<bool>? visibilityCondition,
 	IEnumerable<INodeValidator<TNodeType>> validators,
-	TValue initialValue)
-	: NodeBase<TNodeType>(
-		  id,
-		  parent,
-		  label,
-		  visibilityCondition,
-		  validators),
-	  IFieldNode<TValue>
+	TValue initialValue
+) : NodeBase<TNodeType>(id, parent, label, visibilityCondition, validators), IFieldNode<TValue>
 	where TNodeType : IFormNode
 {
 	private readonly TValue _initialValue = initialValue;

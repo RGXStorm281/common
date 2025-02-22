@@ -5,12 +5,8 @@ using RobinEpple.Common.Util.Comparison;
 [TestClass]
 public class ComparisonAmbiguousKeyLeftDifferenceTest : ComparisonTestBase
 {
-	private IDictionary<int, List<Left>> GetLeftDifference(IEnumerable<Left> left, IEnumerable<Right> right)
-		=> Comparison.GetLeftDifferenceByAmbiguousKey(
-			left,
-			right,
-			leftItem => leftItem.Key,
-			rightItem => rightItem.Key);
+	private IDictionary<int, List<Left>> GetLeftDifference(IEnumerable<Left> left, IEnumerable<Right> right) =>
+		Comparison.GetLeftDifferenceByAmbiguousKey(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key);
 
 	[TestMethod]
 	public void LeftEmpty_ShouldReturnEmpty()
@@ -55,20 +51,14 @@ public class ComparisonAmbiguousKeyLeftDifferenceTest : ComparisonTestBase
 	[TestMethod]
 	public void EqualityComparer_ShouldTakeEffect()
 	{
-		string[] left =
-		[
-			"O'ne",
-			"Tw#o",
-			"O-ne"
-		];
-		string[] right =
-		[
-			"On*e",
-			"One",
-			"THREE"
-		];
+		string[] left = ["O'ne", "Tw#o", "O-ne"];
+		string[] right = ["On*e", "One", "THREE"];
 
-		var leftDiff = Comparison.GetLeftDifferenceByAmbiguousKey(left, right, new AlphanumericStringEqualityComparer());
+		var leftDiff = Comparison.GetLeftDifferenceByAmbiguousKey(
+			left,
+			right,
+			new AlphanumericStringEqualityComparer()
+		);
 		if (leftDiff.Count != 1)
 		{
 			Assert.Fail("The set has the wrong multiplicity.");

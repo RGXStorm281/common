@@ -4,11 +4,9 @@ using RobinEpple.Common.Util.Comparison;
 
 public abstract class ComparisonTestBase
 {
-	protected IEnumerable<Left> LeftSet(params int[] keys)
-		=> keys.Select(key => new Left(key));
+	protected IEnumerable<Left> LeftSet(params int[] keys) => keys.Select(key => new Left(key));
 
-	protected IEnumerable<Right> RightSet(params int[] keys)
-		=> keys.Select(key => new Right(key));
+	protected IEnumerable<Right> RightSet(params int[] keys) => keys.Select(key => new Right(key));
 
 	protected record Left(int Key);
 
@@ -67,9 +65,7 @@ public abstract class ComparisonTestBase
 
 	protected void AssertSetEquals(IDictionary<int, List<Left>> left, int[] keys)
 	{
-		var groupedKeys = keys.ToLookup(key => key)
-		                      .ToDictionary(group => group.Key,
-		                                    group => group.ToList());
+		var groupedKeys = keys.ToLookup(key => key).ToDictionary(group => group.Key, group => group.ToList());
 
 		if (left.Count != groupedKeys.Count)
 		{
@@ -92,9 +88,7 @@ public abstract class ComparisonTestBase
 
 	protected void AssertSetEquals(IDictionary<int, List<Right>> right, int[] keys)
 	{
-		var groupedKeys = keys.ToLookup(key => key)
-		                      .ToDictionary(group => group.Key,
-		                                    group => group.ToList());
+		var groupedKeys = keys.ToLookup(key => key).ToDictionary(group => group.Key, group => group.ToList());
 
 		if (right.Count != groupedKeys.Count)
 		{
@@ -115,14 +109,14 @@ public abstract class ComparisonTestBase
 		}
 	}
 
-	protected void AssertSetEquals(IDictionary<int, AmbiguousEqualityGrouping<Left, Right>> intersection, int[] leftKeys, int[] rightKeys)
+	protected void AssertSetEquals(
+		IDictionary<int, AmbiguousEqualityGrouping<Left, Right>> intersection,
+		int[] leftKeys,
+		int[] rightKeys
+	)
 	{
-		var groupedLeftKeys = leftKeys.ToLookup(key => key)
-		                              .ToDictionary(group => group.Key,
-		                                            group => group.ToList());
-		var groupedRightKeys = rightKeys.ToLookup(key => key)
-		                                .ToDictionary(group => group.Key,
-		                                              group => group.ToList());
+		var groupedLeftKeys = leftKeys.ToLookup(key => key).ToDictionary(group => group.Key, group => group.ToList());
+		var groupedRightKeys = rightKeys.ToLookup(key => key).ToDictionary(group => group.Key, group => group.ToList());
 
 		if (groupedLeftKeys.Count != groupedRightKeys.Count)
 		{

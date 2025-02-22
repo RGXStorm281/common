@@ -9,7 +9,8 @@
 public class UniqueKeyComparisonResult<TLeft, TRight>(
 	IEnumerable<TLeft> leftDifference,
 	IEnumerable<UniqueEqualityGrouping<TLeft, TRight>> intersection,
-	IEnumerable<TRight> rightDifference)
+	IEnumerable<TRight> rightDifference
+)
 {
 	/// <summary>
 	/// The tuples of left and right elements that are part of the intersection according to the equality condition.

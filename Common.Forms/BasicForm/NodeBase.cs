@@ -1,7 +1,7 @@
-﻿using RobinEpple.Common.Forms.BasicApi;
-using RobinEpple.Common.Forms.BasicApi.Nodes;
+﻿namespace RobinEpple.Common.Forms.BasicForm;
 
-namespace RobinEpple.Common.Forms.BasicForm;
+using RobinEpple.Common.Forms.BasicApi;
+using RobinEpple.Common.Forms.BasicApi.Nodes;
 
 /// <summary>
 /// The abstract base class for a node in the form tree.
@@ -17,8 +17,8 @@ internal abstract class NodeBase<TNodeImplementationType>(
 	IParentNode parent,
 	ILabel? label,
 	IExpression<bool>? visibilityCondition,
-	IEnumerable<INodeValidator<TNodeImplementationType>> validators)
-	: IFormNode
+	IEnumerable<INodeValidator<TNodeImplementationType>> validators
+) : IFormNode
 	where TNodeImplementationType : IFormNode
 {
 	#region form structure
@@ -55,8 +55,7 @@ internal abstract class NodeBase<TNodeImplementationType>(
 	private List<string> _validationErrors = [];
 
 	/// <inheritdoc />
-	public IEnumerable<string> ValidationErrors
-		=> _validationErrors;
+	public IEnumerable<string> ValidationErrors => _validationErrors;
 
 	/// <summary>
 	/// A list of validators to execute on <see cref="UpdateState" />.
@@ -121,11 +120,11 @@ internal abstract class NodeBase<TNodeImplementationType>(
 	/// <inheritdoc />
 	public virtual object Clone()
 	{
-		var clone = (NodeBase<TNodeImplementationType>) MemberwiseClone();
-		clone.Label = (ILabel?) Label?.Clone();
-		clone.VisibilityCondition = (IExpression<bool>?) VisibilityCondition?.Clone();
-		clone._validationErrors = [.._validationErrors];
-		clone.Validators = [..Validators];
+		var clone = (NodeBase<TNodeImplementationType>)MemberwiseClone();
+		clone.Label = (ILabel?)Label?.Clone();
+		clone.VisibilityCondition = (IExpression<bool>?)VisibilityCondition?.Clone();
+		clone._validationErrors = [.. _validationErrors];
+		clone.Validators = [.. Validators];
 		return clone;
 	}
 

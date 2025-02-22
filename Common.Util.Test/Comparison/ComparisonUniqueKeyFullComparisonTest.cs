@@ -5,12 +5,10 @@ using RobinEpple.Common.Util.Comparison;
 [TestClass]
 public class ComparisonUniqueKeyFullComparisonTest : ComparisonTestBase
 {
-	private UniqueKeyComparisonResult<Left, Right> GetComparisonResult(IEnumerable<Left> left, IEnumerable<Right> right)
-		=> Comparison.CompareByUniqueKeyEquality(
-			left,
-			right,
-			leftItem => leftItem.Key,
-			rightItem => rightItem.Key);
+	private UniqueKeyComparisonResult<Left, Right> GetComparisonResult(
+		IEnumerable<Left> left,
+		IEnumerable<Right> right
+	) => Comparison.CompareByUniqueKeyEquality(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key);
 
 	[TestMethod]
 	public void LeftEmpty_ShouldSortAllInRightDiff()
@@ -63,20 +61,14 @@ public class ComparisonUniqueKeyFullComparisonTest : ComparisonTestBase
 	[TestMethod]
 	public void EqualityComparer_ShouldTakeEffect()
 	{
-		string[] left =
-		[
-			"One",
-			"Tw#o",
-			"Three"
-		];
-		string[] right =
-		[
-			"One",
-			"T#wo",
-			"THREE"
-		];
+		string[] left = ["One", "Tw#o", "Three"];
+		string[] right = ["One", "T#wo", "THREE"];
 
-		var comparisonResult = Comparison.CompareByUniqueKeyEquality(left, right, new AlphanumericStringEqualityComparer());
+		var comparisonResult = Comparison.CompareByUniqueKeyEquality(
+			left,
+			right,
+			new AlphanumericStringEqualityComparer()
+		);
 
 		var leftDiff = comparisonResult.LeftDifference.ToList();
 		if (leftDiff.Count != 1)

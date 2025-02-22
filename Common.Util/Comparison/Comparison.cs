@@ -1,5 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-namespace RobinEpple.Common.Util.Comparison;
+﻿namespace RobinEpple.Common.Util.Comparison;
 
 /// <summary>
 /// A static helper class to compare two sets of potentially different types by a common key.
@@ -26,7 +25,8 @@ public static class Comparison
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		// Index right set by key.
@@ -60,7 +60,8 @@ public static class Comparison
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		// Index left set by key.
@@ -94,7 +95,8 @@ public static class Comparison
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		// Index left set by key.
@@ -128,7 +130,8 @@ public static class Comparison
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		var leftDifference = new List<TLeft>();
@@ -182,14 +185,13 @@ public static class Comparison
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		// Group and index left set by key.
 		var leftDictionary = left.ToLookup(leftKeySelector, comparer)
-		                         .ToDictionary(group => group.Key,
-		                                       group => group.ToList(),
-		                                       comparer);
+			.ToDictionary(group => group.Key, group => group.ToList(), comparer);
 		var rightKeyIndex = new HashSet<TKey>(right.Select(rightKeySelector), comparer);
 
 		// Iterate over the left set and remove those that are also contained in the right set.
@@ -222,14 +224,14 @@ public static class Comparison
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		// Group and index right set by key.
-		var rightDictionary = right.ToLookup(rightKeySelector, comparer)
-		                           .ToDictionary(group => group.Key,
-		                                         group => group.ToList(),
-		                                         comparer);
+		var rightDictionary = right
+			.ToLookup(rightKeySelector, comparer)
+			.ToDictionary(group => group.Key, group => group.ToList(), comparer);
 		var leftKeyIndex = new HashSet<TKey>(left.Select(leftKeySelector), comparer);
 
 		// Iterate over the right set and remove those that are also contained in the left set.
@@ -257,25 +259,27 @@ public static class Comparison
 	/// <param name="rightKeySelector">The function to select the key from the right elements.</param>
 	/// <param name="comparer">Optional comparer for individual equality definitions on the key.</param>
 	/// <returns>The intersection.</returns>
-	public static IDictionary<TKey, AmbiguousEqualityGrouping<TLeft, TRight>> GetIntersectionByAmbiguousKey<TLeft, TRight, TKey>(
+	public static IDictionary<TKey, AmbiguousEqualityGrouping<TLeft, TRight>> GetIntersectionByAmbiguousKey<
+		TLeft,
+		TRight,
+		TKey
+	>(
 		IEnumerable<TLeft> left,
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		var intersection = new Dictionary<TKey, AmbiguousEqualityGrouping<TLeft, TRight>>(comparer);
 
 		// Group and index both sets by key.
 		var leftDictionary = left.ToLookup(leftKeySelector, comparer)
-		                         .ToDictionary(group => group.Key, 
-		                                       group => group.ToList(), 
-		                                       comparer);
-		var rightDictionary = right.ToLookup(rightKeySelector, comparer)
-		                           .ToDictionary(group => group.Key, 
-		                                         group => group.ToList(), 
-		                                         comparer);
+			.ToDictionary(group => group.Key, group => group.ToList(), comparer);
+		var rightDictionary = right
+			.ToLookup(rightKeySelector, comparer)
+			.ToDictionary(group => group.Key, group => group.ToList(), comparer);
 
 		// Iterate over the right set and return only those that are also contained in the left set.
 		foreach (var rightGrouping in rightDictionary)
@@ -307,7 +311,8 @@ public static class Comparison
 		IEnumerable<TRight> right,
 		Func<TLeft, TKey> leftKeySelector,
 		Func<TRight, TKey> rightKeySelector,
-		IEqualityComparer<TKey>? comparer = null)
+		IEqualityComparer<TKey>? comparer = null
+	)
 		where TKey : notnull
 	{
 		var leftDifference = new Dictionary<TKey, List<TLeft>>(comparer);
@@ -315,13 +320,10 @@ public static class Comparison
 
 		// Grouping and indexing sets by key.
 		var leftDictionary = left.ToLookup(leftKeySelector, comparer)
-		                         .ToDictionary(group => group.Key, 
-		                                       group => group.ToList(), 
-		                                       comparer);
-		var rightDictionary = right.ToLookup(rightKeySelector, comparer)
-		                           .ToDictionary(group => group.Key, 
-		                                         group => group.ToList(), 
-		                                         comparer);
+			.ToDictionary(group => group.Key, group => group.ToList(), comparer);
+		var rightDictionary = right
+			.ToLookup(rightKeySelector, comparer)
+			.ToDictionary(group => group.Key, group => group.ToList(), comparer);
 
 		// Iterate over the left dictionary to form left difference and intersection.
 		foreach (var pair in leftDictionary)
@@ -354,208 +356,136 @@ public static class Comparison
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> GetLeftDifferenceByUniqueKey(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => GetLeftDifferenceByUniqueKey(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="GetLeftDifferenceByUniqueKey{TLeft,TRight,TKey}"/>
 	public static IEnumerable<TItem> GetLeftDifferenceByUniqueKey<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> GetLeftDifferenceByUniqueKey(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => GetLeftDifferenceByUniqueKey(left, right, item => item, comparer);
 
 	/// <inheritdoc cref="GetRightDifferenceByUniqueKey{TLeft,TRight,TKey}"/>
 	public static IEnumerable<TItem> GetRightDifferenceByUniqueKey<TItem, TKey>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> GetRightDifferenceByUniqueKey(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => GetRightDifferenceByUniqueKey(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="GetRightDifferenceByUniqueKey{TLeft,TRight,TKey}"/>
 	public static IEnumerable<TItem> GetRightDifferenceByUniqueKey<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> GetRightDifferenceByUniqueKey(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => GetRightDifferenceByUniqueKey(left, right, item => item, comparer);
 
 	/// <inheritdoc cref="GetIntersectionByUniqueKey{TLeft,TRight,TKey}"/>
 	public static IEnumerable<UniqueEqualityGrouping<TItem, TItem>> GetIntersectionByUniqueKey<TItem, TKey>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> GetIntersectionByUniqueKey(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => GetIntersectionByUniqueKey(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="GetIntersectionByUniqueKey{TLeft,TRight,TKey}"/>
 	public static IEnumerable<UniqueEqualityGrouping<TItem, TItem>> GetIntersectionByUniqueKey<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> GetIntersectionByUniqueKey(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => GetIntersectionByUniqueKey(left, right, item => item, comparer);
 
 	/// <inheritdoc cref="CompareByUniqueKeyEquality{TLeft,TRight,TKey}"/>
 	public static UniqueKeyComparisonResult<TItem, TItem> CompareByUniqueKeyEquality<TItem, TKey>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> CompareByUniqueKeyEquality(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => CompareByUniqueKeyEquality(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="CompareByUniqueKeyEquality{TLeft,TRight,TKey}"/>
 	public static UniqueKeyComparisonResult<TItem, TItem> CompareByUniqueKeyEquality<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> CompareByUniqueKeyEquality(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => CompareByUniqueKeyEquality(left, right, item => item, comparer);
 
 	/// <inheritdoc cref="GetLeftDifferenceByAmbiguousKey{TLeft,TRight,TKey}"/>
 	public static IDictionary<TKey, List<TItem>> GetLeftDifferenceByAmbiguousKey<TItem, TKey>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> GetLeftDifferenceByAmbiguousKey(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => GetLeftDifferenceByAmbiguousKey(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="GetLeftDifferenceByAmbiguousKey{TLeft,TRight,TKey}"/>
 	public static IDictionary<TItem, List<TItem>> GetLeftDifferenceByAmbiguousKey<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> GetLeftDifferenceByAmbiguousKey(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => GetLeftDifferenceByAmbiguousKey(left, right, item => item, comparer);
 
 	/// <inheritdoc cref="GetRightDifferenceByAmbiguousKey{TLeft,TRight,TKey}"/>
 	public static IDictionary<TKey, List<TItem>> GetRightDifferenceByAmbiguousKey<TItem, TKey>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> GetRightDifferenceByAmbiguousKey(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => GetRightDifferenceByAmbiguousKey(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="GetRightDifferenceByAmbiguousKey{TLeft,TRight,TKey}"/>
 	public static IDictionary<TItem, List<TItem>> GetRightDifferenceByAmbiguousKey<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> GetRightDifferenceByAmbiguousKey(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => GetRightDifferenceByAmbiguousKey(left, right, item => item, comparer);
 
 	/// <inheritdoc cref="GetIntersectionByAmbiguousKey{TLeft,TRight,TKey}"/>
 	public static IDictionary<TKey, AmbiguousEqualityGrouping<TItem, TItem>> GetIntersectionByAmbiguousKey<TItem, TKey>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> GetIntersectionByAmbiguousKey(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => GetIntersectionByAmbiguousKey(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="GetIntersectionByAmbiguousKey{TLeft,TRight,TKey}"/>
 	public static IDictionary<TItem, AmbiguousEqualityGrouping<TItem, TItem>> GetIntersectionByAmbiguousKey<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> GetIntersectionByAmbiguousKey(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => GetIntersectionByAmbiguousKey(left, right, item => item, comparer);
 
 	/// <inheritdoc cref="CompareByAmbiguousKeyEquality{TLeft,TRight,TKey}"/>
 	public static AmbiguousKeyComparisonResult<TItem, TItem, TKey> CompareByAmbiguousKeyEquality<TItem, TKey>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
 		Func<TItem, TKey> keySelector,
-		IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> CompareByAmbiguousKeyEquality(
-			left,
-			right,
-			keySelector,
-			keySelector,
-			comparer);
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => CompareByAmbiguousKeyEquality(left, right, keySelector, keySelector, comparer);
 
 	/// <inheritdoc cref="CompareByAmbiguousKeyEquality{TLeft,TRight,TKey}"/>
 	public static AmbiguousKeyComparisonResult<TItem, TItem, TItem> CompareByAmbiguousKeyEquality<TItem>(
 		IEnumerable<TItem> left,
 		IEnumerable<TItem> right,
-		IEqualityComparer<TItem>? comparer = null)
-		where TItem : notnull
-		=> CompareByAmbiguousKeyEquality(
-			left,
-			right,
-			item => item,
-			comparer);
+		IEqualityComparer<TItem>? comparer = null
+	)
+		where TItem : notnull => CompareByAmbiguousKeyEquality(left, right, item => item, comparer);
 
 	#endregion
 }

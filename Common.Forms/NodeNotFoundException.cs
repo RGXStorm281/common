@@ -1,5 +1,3 @@
 ﻿namespace RobinEpple.Common.Forms;
 
-public class NodeNotFoundException(
-	string message)
-	: Exception(message);
+public class NodeNotFoundException(string message) : Exception(message);

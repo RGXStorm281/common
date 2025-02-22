@@ -1,9 +1,9 @@
-﻿using RobinEpple.Common.Forms.BasicApi;
+﻿namespace RobinEpple.Common.Forms.BasicForm.Collections;
+
+using RobinEpple.Common.Forms.BasicApi;
 using RobinEpple.Common.Forms.BasicApi.DataContainers;
 using RobinEpple.Common.Forms.BasicApi.Nodes;
 using RobinEpple.Common.Forms.BasicForm.DataContainers;
-
-namespace RobinEpple.Common.Forms.BasicForm.Collections;
 
 /// <inheritdoc cref="NodeBase{TNodeImplementationType}" />
 /// <summary>
@@ -16,14 +16,8 @@ internal abstract class CollectionBase<TNodeType, TItem>(
 	IParentNode parent,
 	ILabel? label,
 	IExpression<bool>? visibilityCondition,
-	IEnumerable<INodeValidator<TNodeType>> validators)
-	: NodeBase<TNodeType>(
-		  id,
-		  parent,
-		  label,
-		  visibilityCondition,
-		  validators),
-	  ICollectionNode<TItem>
+	IEnumerable<INodeValidator<TNodeType>> validators
+) : NodeBase<TNodeType>(id, parent, label, visibilityCondition, validators), ICollectionNode<TItem>
 	where TNodeType : IFormNode
 {
 	/// <summary>
@@ -32,8 +26,7 @@ internal abstract class CollectionBase<TNodeType, TItem>(
 	protected List<TItem> Items = [];
 
 	/// <inheritdoc />
-	public IEnumerable<TItem> Values
-		=> Items;
+	public IEnumerable<TItem> Values => Items;
 
 	/// <inheritdoc />
 	public override void ResetState()
@@ -46,20 +39,21 @@ internal abstract class CollectionBase<TNodeType, TItem>(
 	public virtual void SetData(ICollectionDataContainer context)
 	{
 		// Use field data containers to carry simple form values.
-		Items = context.ItemDataContainers
-					   .OfType<IFieldDataContainer<TItem>>()
-					   .Select(container => container.Value)
-					   .OfType<TItem>()
-					   .ToList();
+		Items = context
+			.ItemDataContainers.OfType<IFieldDataContainer<TItem>>()
+			.Select(container => container.Value)
+			.OfType<TItem>()
+			.ToList();
 	}
 
 	/// <inheritdoc />
-	public virtual ICollectionDataContainer GetData()
-		=> new BasicCollectionDataContainer
+	public virtual ICollectionDataContainer GetData() =>
+		new BasicCollectionDataContainer
 		{
 			// Use field data containers to carry simple form values.
-			MutableList = Items.Select(item => new BasicFieldDataContainer<TItem> { Value = item })
-								  .OfType<IFormDataContainer>()
-								  .ToList()
+			MutableList = Items
+				.Select(item => new BasicFieldDataContainer<TItem> { Value = item })
+				.OfType<IFormDataContainer>()
+				.ToList(),
 		};
 }

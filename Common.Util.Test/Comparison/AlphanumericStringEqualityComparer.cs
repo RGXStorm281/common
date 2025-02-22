@@ -11,7 +11,8 @@ public class AlphanumericStringEqualityComparer : IEqualityComparer<string>
 
 	private string CleanupString(string? target)
 	{
-		if(target == null){
+		if (target == null)
+		{
 			return string.Empty;
 		}
 		_cleanupRegex ??= new Regex("[^a-zA-Z0-9]", RegexOptions.Compiled);
@@ -28,6 +29,5 @@ public class AlphanumericStringEqualityComparer : IEqualityComparer<string>
 	}
 
 	/// <inheritdoc />
-	public int GetHashCode(string obj)
-		=> CleanupString(obj).GetHashCode();
+	public int GetHashCode(string obj) => CleanupString(obj).GetHashCode();
 }

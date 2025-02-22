@@ -1,9 +1,9 @@
-﻿using RobinEpple.Common.Forms.BasicApi;
+﻿namespace RobinEpple.Common.Forms.BasicForm.Forms;
+
+using RobinEpple.Common.Forms.BasicApi;
 using RobinEpple.Common.Forms.BasicApi.DataContainers;
 using RobinEpple.Common.Forms.BasicApi.Nodes;
 using RobinEpple.Common.Forms.BasicForm.DataContainers;
-
-namespace RobinEpple.Common.Forms.BasicForm.Forms;
 
 /// <summary>
 /// Represents a sub-form on a complex property in a parent model.
@@ -14,14 +14,8 @@ internal class SubForm(
 	IParentNode parent,
 	ILabel? label,
 	IExpression<bool>? visibilityCondition,
-	IEnumerable<INodeValidator<SubForm>> validators)
-	: NodeBase<SubForm>(
-		  id,
-		  parent,
-		  label,
-		  visibilityCondition,
-		  validators),
-	  IContainerNode
+	IEnumerable<INodeValidator<SubForm>> validators
+) : NodeBase<SubForm>(id, parent, label, visibilityCondition, validators), IContainerNode
 {
 	private readonly Dictionary<string, IFormNode> _nodesById = [];
 
@@ -40,8 +34,7 @@ internal class SubForm(
 	}
 
 	/// <inheritdoc />
-	public IEnumerable<IFormNode> Children
-		=> _nodesById.Values;
+	public IEnumerable<IFormNode> Children => _nodesById.Values;
 
 	/// <inheritdoc />
 	public void SetData(IContainerDataContainer context)
@@ -50,13 +43,12 @@ internal class SubForm(
 	}
 
 	/// <inheritdoc />
-	public IContainerDataContainer GetData()
-		=> new BasicContainerDataContainer { ChildDataContainersByChildId = _nodesById.GetDataContainers() };
+	public IContainerDataContainer GetData() =>
+		new BasicContainerDataContainer { ChildDataContainersByChildId = _nodesById.GetDataContainers() };
 
 	/// <summary>
 	/// Adds a node to the root.
 	/// </summary>
 	/// <param name="node">The node.</param>
-	public void AddNode(IFormNode node)
-		=> _nodesById.Add(node.Id, node);
+	public void AddNode(IFormNode node) => _nodesById.Add(node.Id, node);
 }

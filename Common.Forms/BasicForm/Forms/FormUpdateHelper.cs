@@ -1,9 +1,9 @@
-﻿using RobinEpple.Common.Forms.BasicApi.DataContainers;
+﻿namespace RobinEpple.Common.Forms.BasicForm.Forms;
+
+using RobinEpple.Common.Forms.BasicApi.DataContainers;
 using RobinEpple.Common.Forms.BasicApi.Nodes;
 using RobinEpple.Common.Forms.BasicForm.Collections;
 using RobinEpple.Common.Forms.BasicForm.Fields;
-
-namespace RobinEpple.Common.Forms.BasicForm.Forms;
 
 public static class FormUpdateHelper
 {
@@ -101,7 +101,9 @@ public static class FormUpdateHelper
 	/// </summary>
 	/// <param name="nodesById">The nodes.</param>
 	/// <returns>The data container dictionary.</returns>
-	public static IDictionary<string, IFormDataContainer> GetDataContainers(this IDictionary<string, IFormNode> nodesById)
+	public static IDictionary<string, IFormDataContainer> GetDataContainers(
+		this IDictionary<string, IFormNode> nodesById
+	)
 	{
 		var dataContainersByChildId = new Dictionary<string, IFormDataContainer>();
 
@@ -192,7 +194,11 @@ public static class FormUpdateHelper
 	/// <param name="predicate">The predicate, that the node has to match.</param>
 	/// <returns>The first node that matches the predicate.</returns>
 	/// <exception cref="NodeNotFoundException">When no node matched the <paramref name="predicate" />.</exception>
-	public static IFormNode FindClosestBefore(this IList<IFormNode> nodes, IFormNode currentNode, Func<IFormNode, bool> predicate)
+	public static IFormNode FindClosestBefore(
+		this IList<IFormNode> nodes,
+		IFormNode currentNode,
+		Func<IFormNode, bool> predicate
+	)
 	{
 		// Find the child node first.
 		var startSearching = false;
@@ -225,10 +231,7 @@ public static class FormUpdateHelper
 			}
 
 			// If the child is a container, search the whole container.
-			if (child is IParentNode container
-				&& container.FindFirstBackwards(predicate) is
-				{
-				} result)
+			if (child is IParentNode container && container.FindFirstBackwards(predicate) is { } result)
 			{
 				return result;
 			}
@@ -237,7 +240,9 @@ public static class FormUpdateHelper
 		if (startSearching == false)
 		{
 			// Current node never found.
-			throw new NodeNotFoundException($"The 'currentNode' #{currentNode.Id} was not found in the children of this form.");
+			throw new NodeNotFoundException(
+				$"The 'currentNode' #{currentNode.Id} was not found in the children of this form."
+			);
 		}
 
 		throw new NodeNotFoundException("No node could be found for this predicate.");
@@ -265,10 +270,7 @@ public static class FormUpdateHelper
 			}
 
 			// If the child is a container, search the whole container.
-			if (child is IParentNode container
-				&& container.FindFirstBackwards(predicate) is
-				{
-				} result)
+			if (child is IParentNode container && container.FindFirstBackwards(predicate) is { } result)
 			{
 				return result;
 			}

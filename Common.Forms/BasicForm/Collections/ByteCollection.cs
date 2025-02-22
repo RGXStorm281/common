@@ -1,7 +1,7 @@
-﻿using RobinEpple.Common.Forms.BasicApi;
-using RobinEpple.Common.Forms.BasicApi.Nodes;
+﻿namespace RobinEpple.Common.Forms.BasicForm.Collections;
 
-namespace RobinEpple.Common.Forms.BasicForm.Collections;
+using RobinEpple.Common.Forms.BasicApi;
+using RobinEpple.Common.Forms.BasicApi.Nodes;
 
 /// <inheritdoc cref="CollectionBase{TNodeType,TItem}"/>
 /// <summary>
@@ -12,10 +12,5 @@ internal class ByteCollection(
 	IParentNode parent,
 	ILabel? label,
 	IExpression<bool>? visibilityCondition,
-	IEnumerable<INodeValidator<ByteCollection>> validators)
-	: CollectionBase<ByteCollection, byte[]>(
-		id,
-		parent,
-		label,
-		visibilityCondition,
-		validators);
+	IEnumerable<INodeValidator<ByteCollection>> validators
+) : CollectionBase<ByteCollection, byte[]>(id, parent, label, visibilityCondition, validators);

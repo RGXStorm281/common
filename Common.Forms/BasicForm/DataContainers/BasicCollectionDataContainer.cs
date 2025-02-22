@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.DataContainers;
+﻿namespace RobinEpple.Common.Forms.BasicForm.DataContainers;
 
-namespace RobinEpple.Common.Forms.BasicForm.DataContainers;
+using RobinEpple.Common.Forms.BasicApi.DataContainers;
 
 /// <summary>
 /// The collection data container for a basic form.

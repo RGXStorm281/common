@@ -5,12 +5,13 @@ using RobinEpple.Common.Util.Comparison;
 [TestClass]
 public class ComparisonUniqueKeyIntersectionTest : ComparisonTestBase
 {
-	private List<UniqueEqualityGrouping<Left, Right>> GetIntersection(IEnumerable<Left> left, IEnumerable<Right> right)
-		=> Comparison.GetIntersectionByUniqueKey(
-			left,
-			right,
-			leftItem => leftItem.Key,
-			rightItem => rightItem.Key).ToList();
+	private List<UniqueEqualityGrouping<Left, Right>> GetIntersection(
+		IEnumerable<Left> left,
+		IEnumerable<Right> right
+	) =>
+		Comparison
+			.GetIntersectionByUniqueKey(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key)
+			.ToList();
 
 	[TestMethod]
 	public void LeftEmpty_ShouldReturnEmpty()
@@ -55,20 +56,12 @@ public class ComparisonUniqueKeyIntersectionTest : ComparisonTestBase
 	[TestMethod]
 	public void EqualityComparer_ShouldTakeEffect()
 	{
-		string[] left =
-		[
-			"One",
-			"Tw#o",
-			"Three"
-		];
-		string[] right =
-		[
-			"One",
-			"T#wo",
-			"THREE"
-		];
+		string[] left = ["One", "Tw#o", "Three"];
+		string[] right = ["One", "T#wo", "THREE"];
 
-		var intersection = Comparison.GetIntersectionByUniqueKey(left, right, new AlphanumericStringEqualityComparer()).ToList();
+		var intersection = Comparison
+			.GetIntersectionByUniqueKey(left, right, new AlphanumericStringEqualityComparer())
+			.ToList();
 		if (intersection.Count != 2)
 		{
 			Assert.Fail("The set has the wrong multiplicity.");

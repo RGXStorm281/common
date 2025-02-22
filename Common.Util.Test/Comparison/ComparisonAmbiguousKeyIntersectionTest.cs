@@ -5,13 +5,10 @@ using RobinEpple.Common.Util.Comparison;
 [TestClass]
 public class ComparisonAmbiguousKeyIntersectionTest : ComparisonTestBase
 {
-	private IDictionary<int, AmbiguousEqualityGrouping<Left, Right>> GetIntersection(IEnumerable<Left> left, IEnumerable<Right> right)
-		=> Comparison.GetIntersectionByAmbiguousKey(
-			left,
-			right,
-			leftItem => leftItem.Key,
-			rightItem => rightItem.Key);
-
+	private IDictionary<int, AmbiguousEqualityGrouping<Left, Right>> GetIntersection(
+		IEnumerable<Left> left,
+		IEnumerable<Right> right
+	) => Comparison.GetIntersectionByAmbiguousKey(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key);
 
 	[TestMethod]
 	public void LeftEmpty_ShouldReturnEmpty()
@@ -56,20 +53,14 @@ public class ComparisonAmbiguousKeyIntersectionTest : ComparisonTestBase
 	[TestMethod]
 	public void EqualityComparer_ShouldTakeEffect()
 	{
-		string[] left =
-		[
-			"O'ne",
-			"Tw#o",
-			"O-ne"
-		];
-		string[] right =
-		[
-			"On*e",
-			"One",
-			"THREE"
-		];
+		string[] left = ["O'ne", "Tw#o", "O-ne"];
+		string[] right = ["On*e", "One", "THREE"];
 
-		var intersection = Comparison.GetIntersectionByAmbiguousKey(left, right, new AlphanumericStringEqualityComparer());
+		var intersection = Comparison.GetIntersectionByAmbiguousKey(
+			left,
+			right,
+			new AlphanumericStringEqualityComparer()
+		);
 		if (intersection.Count != 1)
 		{
 			Assert.Fail("The set has the wrong multiplicity.");
@@ -82,10 +73,12 @@ public class ComparisonAmbiguousKeyIntersectionTest : ComparisonTestBase
 			Assert.Fail("The grouping has the wrong multiplicity.");
 		}
 
-		if (intersectionGroupings.Left[0] != left[0] 
+		if (
+			intersectionGroupings.Left[0] != left[0]
 			|| intersectionGroupings.Left[1] != left[2]
 			|| intersectionGroupings.Right[0] != right[0]
-			|| intersectionGroupings.Right[1] != right[1])
+			|| intersectionGroupings.Right[1] != right[1]
+		)
 		{
 			Assert.Fail("Mismatch in the intersection elements.");
 		}

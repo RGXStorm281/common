@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.DataContainers;
+﻿namespace RobinEpple.Common.Forms.BasicApi.Nodes;
 
-namespace RobinEpple.Common.Forms.BasicApi.Nodes;
+using RobinEpple.Common.Forms.BasicApi.DataContainers;
 
 /// <summary>
 /// The interface for nodes that store a list of values.

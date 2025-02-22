@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.DataContainers;
+﻿namespace RobinEpple.Common.Forms.BasicApi.Nodes;
 
-namespace RobinEpple.Common.Forms.BasicApi.Nodes;
+using RobinEpple.Common.Forms.BasicApi.DataContainers;
 
 public interface IRootNode : IParentNode
 {

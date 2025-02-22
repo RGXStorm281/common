@@ -1,10 +1,10 @@
-﻿using RobinEpple.Common.Forms.BasicApi;
+﻿namespace RobinEpple.Common.Forms.BasicForm.Collections;
+
+using RobinEpple.Common.Forms.BasicApi;
 using RobinEpple.Common.Forms.BasicApi.DataContainers;
 using RobinEpple.Common.Forms.BasicApi.Nodes;
 using RobinEpple.Common.Forms.BasicForm.DataContainers;
 using RobinEpple.Common.Forms.BasicForm.Forms;
-
-namespace RobinEpple.Common.Forms.BasicForm.Collections;
 
 /// <inheritdoc cref="CollectionBase{TNodeType,TItem}" />
 /// <summary>
@@ -16,15 +16,11 @@ internal class TemplateCollection(
 	ILabel? label,
 	IExpression<bool>? visibilityCondition,
 	IEnumerable<INodeValidator<TemplateCollection>> validators,
-	IEnumerable<ITemplate> templates)
-	: NodeBase<TemplateCollection>(
-		  id,
-		  parent,
-		  label,
-		  visibilityCondition,
-		  validators),
-	  ICollectionNode<IContainerNode>,
-	  IParentNode
+	IEnumerable<ITemplate> templates
+)
+	: NodeBase<TemplateCollection>(id, parent, label, visibilityCondition, validators),
+		ICollectionNode<IContainerNode>,
+		IParentNode
 {
 	private readonly List<(string TemplateId, IContainerNode Instance)> _templateInstances = [];
 
@@ -34,8 +30,7 @@ internal class TemplateCollection(
 	private readonly IDictionary<string, ITemplate> _templatesById = templates.ToDictionary(template => template.Id);
 
 	/// <inheritdoc />
-	public IEnumerable<IContainerNode> Values
-		=> _templateInstances.Select(instance => instance.Instance);
+	public IEnumerable<IContainerNode> Values => _templateInstances.Select(instance => instance.Instance);
 
 	/// <inheritdoc />
 	public void SetData(ICollectionDataContainer context)
@@ -61,28 +56,30 @@ internal class TemplateCollection(
 	}
 
 	/// <inheritdoc />
-	public ICollectionDataContainer GetData()
-		=> new BasicCollectionDataContainer
+	public ICollectionDataContainer GetData() =>
+		new BasicCollectionDataContainer
 		{
-			MutableList = _templateInstances.Select(
-												instance => new BasicTemplateDataContainer
-												{
-													TemplateId = instance.TemplateId,
-													ChildDataContainersByChildId = instance.Instance.GetData().ChildDataContainersByChildId
-												})
-											.OfType<IFormDataContainer>()
-											.ToList()
+			MutableList = _templateInstances
+				.Select(instance => new BasicTemplateDataContainer
+				{
+					TemplateId = instance.TemplateId,
+					ChildDataContainersByChildId = instance.Instance.GetData().ChildDataContainersByChildId,
+				})
+				.OfType<IFormDataContainer>()
+				.ToList(),
 		};
 
-	public IFormNode FindClosestBefore(IFormNode currentNode, Func<IFormNode, bool> predicate)
-		=> _templateInstances.Select(instance => instance.Instance)
-							 .OfType<IFormNode>()
-							 .ToList()
-							 .FindClosestBefore(currentNode, predicate);
+	public IFormNode FindClosestBefore(IFormNode currentNode, Func<IFormNode, bool> predicate) =>
+		_templateInstances
+			.Select(instance => instance.Instance)
+			.OfType<IFormNode>()
+			.ToList()
+			.FindClosestBefore(currentNode, predicate);
 
-	public IFormNode? FindFirstBackwards(Func<IFormNode, bool> predicate)
-		=> _templateInstances.Select(instance => instance.Instance)
-							 .OfType<IFormNode>()
-							 .ToList()
-							 .FindFirstBackwards(predicate);
+	public IFormNode? FindFirstBackwards(Func<IFormNode, bool> predicate) =>
+		_templateInstances
+			.Select(instance => instance.Instance)
+			.OfType<IFormNode>()
+			.ToList()
+			.FindFirstBackwards(predicate);
 }

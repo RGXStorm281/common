@@ -5,12 +5,10 @@ using RobinEpple.Common.Util.Comparison;
 [TestClass]
 public class ComparisonAmbiguousKeyFullComparisonTest : ComparisonTestBase
 {
-	private AmbiguousKeyComparisonResult<Left, Right, int> GetComparisonResult(IEnumerable<Left> left, IEnumerable<Right> right)
-		=> Comparison.CompareByAmbiguousKeyEquality(
-			left,
-			right,
-			leftItem => leftItem.Key,
-			rightItem => rightItem.Key);
+	private AmbiguousKeyComparisonResult<Left, Right, int> GetComparisonResult(
+		IEnumerable<Left> left,
+		IEnumerable<Right> right
+	) => Comparison.CompareByAmbiguousKeyEquality(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key);
 
 	[TestMethod]
 	public void LeftEmpty_ShouldSortAllInRightDiff()
@@ -63,20 +61,14 @@ public class ComparisonAmbiguousKeyFullComparisonTest : ComparisonTestBase
 	[TestMethod]
 	public void EqualityComparer_ShouldTakeEffect()
 	{
-		string[] left =
-		[
-			"O'ne",
-			"Tw#o",
-			"O-ne"
-		];
-		string[] right =
-		[
-			"On*e",
-			"One",
-			"THREE"
-		];
+		string[] left = ["O'ne", "Tw#o", "O-ne"];
+		string[] right = ["On*e", "One", "THREE"];
 
-		var comparisonResult = Comparison.CompareByAmbiguousKeyEquality(left, right, new AlphanumericStringEqualityComparer());
+		var comparisonResult = Comparison.CompareByAmbiguousKeyEquality(
+			left,
+			right,
+			new AlphanumericStringEqualityComparer()
+		);
 
 		var leftDiff = comparisonResult.LeftDifference;
 		if (leftDiff.Count != 1)
@@ -107,10 +99,12 @@ public class ComparisonAmbiguousKeyFullComparisonTest : ComparisonTestBase
 			Assert.Fail("The grouping has the wrong multiplicity.");
 		}
 
-		if (intersectionGroupings.Left[0] != left[0]
-		    || intersectionGroupings.Left[1] != left[2]
-		    || intersectionGroupings.Right[0] != right[0]
-		    || intersectionGroupings.Right[1] != right[1])
+		if (
+			intersectionGroupings.Left[0] != left[0]
+			|| intersectionGroupings.Left[1] != left[2]
+			|| intersectionGroupings.Right[0] != right[0]
+			|| intersectionGroupings.Right[1] != right[1]
+		)
 		{
 			Assert.Fail("Mismatch in the intersection elements.");
 		}

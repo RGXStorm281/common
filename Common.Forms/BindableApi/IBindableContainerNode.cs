@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.Nodes;
+﻿namespace RobinEpple.Common.Forms.BindableApi;
 
-namespace RobinEpple.Common.Forms.BindableApi;
+using RobinEpple.Common.Forms.BasicApi.Nodes;
 
 /// <summary>
 /// A complex node that can load and store its values from and to a model.

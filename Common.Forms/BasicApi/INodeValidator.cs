@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.Nodes;
+﻿namespace RobinEpple.Common.Forms.BasicApi;
 
-namespace RobinEpple.Common.Forms.BasicApi;
+using RobinEpple.Common.Forms.BasicApi.Nodes;
 
 /// <summary>
 /// Interface for validators. Validators are not cloned, so they should not keep any state.

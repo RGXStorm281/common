@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.DataContainers;
+﻿namespace RobinEpple.Common.Forms.BasicApi.Nodes;
 
-namespace RobinEpple.Common.Forms.BasicApi.Nodes;
+using RobinEpple.Common.Forms.BasicApi.DataContainers;
 
 /// <summary>
 /// The interface for a node that groups a set of child nodes into a complex structure in the form.

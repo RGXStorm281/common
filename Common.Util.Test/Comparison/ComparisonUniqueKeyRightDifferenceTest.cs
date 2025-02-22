@@ -5,12 +5,10 @@ using RobinEpple.Common.Util.Comparison;
 [TestClass]
 public class ComparisonUniqueKeyRightDifferenceTest : ComparisonTestBase
 {
-	private IEnumerable<Right> GetRightDifference(IEnumerable<Left> left, IEnumerable<Right> right)
-		=> Comparison.GetRightDifferenceByUniqueKey(
-			left,
-			right,
-			leftItem => leftItem.Key,
-			rightItem => rightItem.Key).ToList();
+	private IEnumerable<Right> GetRightDifference(IEnumerable<Left> left, IEnumerable<Right> right) =>
+		Comparison
+			.GetRightDifferenceByUniqueKey(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key)
+			.ToList();
 
 	[TestMethod]
 	public void RightEmpty_ShouldReturnEmpty()
@@ -56,20 +54,12 @@ public class ComparisonUniqueKeyRightDifferenceTest : ComparisonTestBase
 	[TestMethod]
 	public void EqualityComparer_ShouldTakeEffect()
 	{
-		string[] left =
-		[
-			"One",
-			"Tw#o",
-			"Three"
-		];
-		string[] right =
-		[
-			"One",
-			"T#wo",
-			"THREE"
-		];
+		string[] left = ["One", "Tw#o", "Three"];
+		string[] right = ["One", "T#wo", "THREE"];
 
-		var rightDiff = Comparison.GetRightDifferenceByUniqueKey(left, right, new AlphanumericStringEqualityComparer()).ToList();
+		var rightDiff = Comparison
+			.GetRightDifferenceByUniqueKey(left, right, new AlphanumericStringEqualityComparer())
+			.ToList();
 		if (rightDiff.Count != 1)
 		{
 			Assert.Fail("The set has the wrong multiplicity.");

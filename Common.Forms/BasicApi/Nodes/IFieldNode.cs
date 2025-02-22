@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.DataContainers;
+﻿namespace RobinEpple.Common.Forms.BasicApi.Nodes;
 
-namespace RobinEpple.Common.Forms.BasicApi.Nodes;
+using RobinEpple.Common.Forms.BasicApi.DataContainers;
 
 /// <summary>
 /// The interface for a field, that holds a value of type <typeparamref name="TValue" />.

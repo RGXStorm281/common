@@ -3,10 +3,7 @@ namespace RobinEpple.Common.Util.Test;
 [TestClass]
 public class CollectionExtensionsTest
 {
-	private int Test { get; set; }
-
-	private List<int> List(params int[] items)
-		=> items.ToList();
+	private List<int> List(params int[] items) => items.ToList();
 
 	private void AssertListEquals(List<int> left, List<int> right)
 	{

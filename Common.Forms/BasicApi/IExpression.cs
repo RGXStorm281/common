@@ -1,6 +1,6 @@
-﻿using RobinEpple.Common.Forms.BasicApi.Nodes;
+﻿namespace RobinEpple.Common.Forms.BasicApi;
 
-namespace RobinEpple.Common.Forms.BasicApi;
+using RobinEpple.Common.Forms.BasicApi.Nodes;
 
 public interface IExpression<out TResult> : ICloneable
 {

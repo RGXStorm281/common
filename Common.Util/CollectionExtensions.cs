@@ -1,9 +1,6 @@
 ﻿namespace RobinEpple.HomeSuite.Common.Util;
 
-using System.Xml.Linq;
-
-public static class 
-	CollectionExtensions
+public static class CollectionExtensions
 {
 	#region Enumerables
 
@@ -84,7 +81,11 @@ public static class
 	/// <param name="obsoleteItem">The item to remove.</param>
 	/// <param name="comparer">A comparer to define when two elements are equal.</param>
 	/// <returns>The reduced collection.</returns>
-	public static IEnumerable<TElement> WithRemoved<TElement>(this IList<TElement> collection, TElement obsoleteItem, IEqualityComparer<TElement> comparer)
+	public static IEnumerable<TElement> WithRemoved<TElement>(
+		this IList<TElement> collection,
+		TElement obsoleteItem,
+		IEqualityComparer<TElement> comparer
+	)
 	{
 		foreach (var element in collection)
 		{
@@ -119,8 +120,8 @@ public static class
 	/// <param name="collection">The collection.</param>
 	/// <param name="condition">The condition, that the items are tested for.</param>
 	/// <returns><see langword="true"/>, when none of the elements meet the condition.</returns>
-	public static bool None<TElement>(this IEnumerable<TElement> collection, Func<TElement, bool> condition) 
-		=> collection.All(item => !condition(item));
+	public static bool None<TElement>(this IEnumerable<TElement> collection, Func<TElement, bool> condition) =>
+		collection.All(item => !condition(item));
 
 	/// <summary>
 	/// Immediately aggregates the collection to a list after transforming each element with the selector function.
@@ -130,8 +131,10 @@ public static class
 	/// <param name="collection">The source collection.</param>
 	/// <param name="selector">The transformation function.</param>
 	/// <returns>The new list.</returns>
-	public static List<TResult>? ToList<TSource, TResult>(this IEnumerable<TSource>? collection, Func<TSource, TResult> selector)
-		=> collection?.Select(selector).ToList();
+	public static List<TResult>? ToList<TSource, TResult>(
+		this IEnumerable<TSource>? collection,
+		Func<TSource, TResult> selector
+	) => collection?.Select(selector).ToList();
 
 	/// <summary>
 	/// Deep clones the collection by cloning each element.
@@ -140,8 +143,7 @@ public static class
 	/// <param name="collection">The source collection.</param>
 	/// <returns>The new collection with the cloned elements.</returns>
 	public static IEnumerable<TElement>? Clone<TElement>(this IEnumerable<TElement>? collection)
-		where TElement : ICloneable
-		=> collection?.Select(element => (TElement)element.Clone()).ToList();
+		where TElement : ICloneable => collection?.Select(element => (TElement)element.Clone()).ToList();
 
 	#endregion
 
@@ -153,8 +155,8 @@ public static class
 	/// <typeparam name="TElement">The element type in the source collections.</typeparam>
 	/// <param name="collections">The source collections.</param>
 	/// <returns>The aggregated collection, containing all elements of all source collections.</returns>
-	public static IEnumerable<TElement> FlatMap<TElement>(this IEnumerable<IEnumerable<TElement>> collections)
-		=> collections.SelectMany(list => list);
+	public static IEnumerable<TElement> FlatMap<TElement>(this IEnumerable<IEnumerable<TElement>> collections) =>
+		collections.SelectMany(list => list);
 
 	/// <summary>
 	/// Aggregates multiple collections of the same element type into one collection, and materializes it into a list.
@@ -162,9 +164,8 @@ public static class
 	/// <typeparam name="TElement">The element type in the source collections.</typeparam>
 	/// <param name="collections">The source collections.</param>
 	/// <returns>The aggregated list, containing all elements of all source collections.</returns>
-	public static List<TElement> FlatMapList<TElement>(this IEnumerable<IEnumerable<TElement>> collections)
-		=> collections.FlatMap()
-				   .ToList();
+	public static List<TElement> FlatMapList<TElement>(this IEnumerable<IEnumerable<TElement>> collections) =>
+		collections.FlatMap().ToList();
 
 	#endregion
 
@@ -180,9 +181,12 @@ public static class
 	/// <param name="keySelector">The selector function, sourcing the key from each item.</param>
 	/// <param name="comparer">An optional comparer for defining the equality of two keys.</param>
 	/// <returns>The grouped elements.</returns>
-	public static Dictionary<TKey, List<TElement>> ToMultiDict<TElement, TKey>(this IEnumerable<TElement> collection, Func<TElement, TKey> keySelector, IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> collection.ToMultiDict(keySelector, element => element, comparer);
+	public static Dictionary<TKey, List<TElement>> ToMultiDict<TElement, TKey>(
+		this IEnumerable<TElement> collection,
+		Func<TElement, TKey> keySelector,
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull => collection.ToMultiDict(keySelector, element => element, comparer);
 
 	/// <summary>
 	/// Similar to <see cref="Enumerable.ToLookup{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey})"/>, this method groups items with the same key.<br/>
@@ -196,9 +200,16 @@ public static class
 	/// <param name="valueSelector">A transformation function to translate each item in the source collection into the desired format for the groupings.</param>
 	/// <param name="comparer">An optional comparer for defining the equality of two keys.</param>
 	/// <returns>The grouped elements.</returns>
-	public static Dictionary<TKey, List<TValue>> ToMultiDict<TElement, TKey, TValue>(this IEnumerable<TElement> collection, Func<TElement, TKey> keySelector, Func<TElement, TValue> valueSelector, IEqualityComparer<TKey>? comparer = null)
-		where TKey : notnull
-		=> collection.ToLookup(keySelector, valueSelector).ToDictionary(grouping => grouping.Key, grouping => grouping.ToList(), comparer);
+	public static Dictionary<TKey, List<TValue>> ToMultiDict<TElement, TKey, TValue>(
+		this IEnumerable<TElement> collection,
+		Func<TElement, TKey> keySelector,
+		Func<TElement, TValue> valueSelector,
+		IEqualityComparer<TKey>? comparer = null
+	)
+		where TKey : notnull =>
+		collection
+			.ToLookup(keySelector, valueSelector)
+			.ToDictionary(grouping => grouping.Key, grouping => grouping.ToList(), comparer);
 
 	/// <summary>
 	/// Only replaces a value in the dictionary, but never creates a new entry.
@@ -230,7 +241,11 @@ public static class
 	/// <param name="key">The key type, that the value is searched for.</param>
 	/// <param name="createNew">The constructor function, that is called, if a new value needs to be created for the given key for the given key.</param>
 	/// <returns>The value for the key.</returns>
-	public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> createNew)
+	public static TValue GetOrAdd<TKey, TValue>(
+		this IDictionary<TKey, TValue> dictionary,
+		TKey key,
+		Func<TValue> createNew
+	)
 	{
 		if (!dictionary.ContainsKey(key))
 		{

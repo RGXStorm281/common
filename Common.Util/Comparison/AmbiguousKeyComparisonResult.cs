@@ -10,7 +10,8 @@
 public class AmbiguousKeyComparisonResult<TLeft, TRight, TKey>(
 	IDictionary<TKey, List<TLeft>> leftDifference,
 	IDictionary<TKey, AmbiguousEqualityGrouping<TLeft, TRight>> intersection,
-	IDictionary<TKey, List<TRight>> rightDifference)
+	IDictionary<TKey, List<TRight>> rightDifference
+)
 	where TKey : notnull
 {
 	/// <summary>
