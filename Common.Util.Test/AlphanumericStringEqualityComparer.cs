@@ -1,4 +1,4 @@
-﻿namespace RobinEpple.Common.Util.Test.Comparison;
+﻿namespace RobinEpple.Common.Util.Test;
 
 using System.Text.RegularExpressions;
 

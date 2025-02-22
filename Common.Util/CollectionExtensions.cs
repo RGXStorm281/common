@@ -1,5 +1,7 @@
 ﻿namespace RobinEpple.HomeSuite.Common.Util;
 
+using System.Diagnostics.CodeAnalysis;
+
 public static class CollectionExtensions
 {
 	#region Enumerables
@@ -44,51 +46,31 @@ public static class CollectionExtensions
 	/// <typeparam name="TElement">The type of elements in the collection.</typeparam>
 	/// <param name="collection">The collection.</param>
 	/// <param name="obsoleteItem">The item to remove.</param>
-	/// <returns>The reduced collection.</returns>
-	public static IEnumerable<TElement> WithRemoved<TElement>(this IList<TElement> collection, TElement obsoleteItem)
-	{
-		foreach (var element in collection)
-		{
-			if (obsoleteItem == null && element == null)
-			{
-				// both are null -> do not return.
-				continue;
-			}
-
-			if (element == null)
-			{
-				// unequal -> return this item.
-				yield return element;
-				continue;
-			}
-
-			if (element.Equals(obsoleteItem))
-			{
-				// equal -> do not return.
-				continue;
-			}
-
-			// unequal -> return this item.
-			yield return element;
-		}
-	}
-
-	/// <summary>
-	/// Returns the same collection but with the specified item removed.
-	/// </summary>
-	/// <typeparam name="TElement">The type of elements in the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="obsoleteItem">The item to remove.</param>
-	/// <param name="comparer">A comparer to define when two elements are equal.</param>
+	/// <param name="comparer">Optional comparer to define when two elements are equal.</param>
 	/// <returns>The reduced collection.</returns>
 	public static IEnumerable<TElement> WithRemoved<TElement>(
 		this IList<TElement> collection,
 		TElement obsoleteItem,
-		IEqualityComparer<TElement> comparer
+		IEqualityComparer<TElement>? comparer = null
 	)
 	{
 		foreach (var element in collection)
 		{
+			// Dedicated comparer.
+			if (comparer != null)
+			{
+				if (comparer.Equals(element, obsoleteItem))
+				{
+					continue;
+				}
+				else
+				{
+					yield return element;
+					continue;
+				}
+			}
+
+			// Use default equals implementation.
 			if (obsoleteItem == null && element == null)
 			{
 				// both are null -> do not return.
@@ -131,6 +113,7 @@ public static class CollectionExtensions
 	/// <param name="collection">The source collection.</param>
 	/// <param name="selector">The transformation function.</param>
 	/// <returns>The new list.</returns>
+	[return: NotNullIfNotNull(nameof(collection))]
 	public static List<TResult>? ToList<TSource, TResult>(
 		this IEnumerable<TSource>? collection,
 		Func<TSource, TResult> selector
@@ -142,30 +125,9 @@ public static class CollectionExtensions
 	/// <typeparam name="TElement">The element type in the source collection.</typeparam>
 	/// <param name="collection">The source collection.</param>
 	/// <returns>The new collection with the cloned elements.</returns>
-	public static IEnumerable<TElement>? Clone<TElement>(this IEnumerable<TElement>? collection)
+	[return: NotNullIfNotNull(nameof(collection))]
+	public static IEnumerable<TElement>? CloneList<TElement>(this IEnumerable<TElement>? collection)
 		where TElement : ICloneable => collection?.Select(element => (TElement)element.Clone()).ToList();
-
-	#endregion
-
-	#region Flatten Operationen
-
-	/// <summary>
-	/// Aggregates multiple collections of the same element type into one collection.
-	/// </summary>
-	/// <typeparam name="TElement">The element type in the source collections.</typeparam>
-	/// <param name="collections">The source collections.</param>
-	/// <returns>The aggregated collection, containing all elements of all source collections.</returns>
-	public static IEnumerable<TElement> FlatMap<TElement>(this IEnumerable<IEnumerable<TElement>> collections) =>
-		collections.SelectMany(list => list);
-
-	/// <summary>
-	/// Aggregates multiple collections of the same element type into one collection, and materializes it into a list.
-	/// </summary>
-	/// <typeparam name="TElement">The element type in the source collections.</typeparam>
-	/// <param name="collections">The source collections.</param>
-	/// <returns>The aggregated list, containing all elements of all source collections.</returns>
-	public static List<TElement> FlatMapList<TElement>(this IEnumerable<IEnumerable<TElement>> collections) =>
-		collections.FlatMap().ToList();
 
 	#endregion
 
@@ -208,7 +170,7 @@ public static class CollectionExtensions
 	)
 		where TKey : notnull =>
 		collection
-			.ToLookup(keySelector, valueSelector)
+			.ToLookup(keySelector, valueSelector, comparer)
 			.ToDictionary(grouping => grouping.Key, grouping => grouping.ToList(), comparer);
 
 	/// <summary>
@@ -233,7 +195,8 @@ public static class CollectionExtensions
 
 	/// <summary>
 	/// If a value is already present for the key, it is returned.<br/>
-	/// Otherwise, a new record is created, before returning it.
+	/// Otherwise, a new record is created, before returning it.<br/>
+	/// Attention: This imitates the method of the <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}"/>, but is NOT threadsafe!!
 	/// </summary>
 	/// <typeparam name="TKey">The key type of the dictionary.</typeparam>
 	/// <typeparam name="TValue">The value type of the dictionary.</typeparam>
@@ -244,12 +207,15 @@ public static class CollectionExtensions
 	public static TValue GetOrAdd<TKey, TValue>(
 		this IDictionary<TKey, TValue> dictionary,
 		TKey key,
-		Func<TValue> createNew
+		Func<TValue> createNew,
+		out bool created
 	)
 	{
+		created = false;
 		if (!dictionary.ContainsKey(key))
 		{
 			dictionary[key] = createNew();
+			created = true;
 		}
 
 		return dictionary[key];
