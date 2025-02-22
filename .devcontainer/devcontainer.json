@@ -10,7 +10,8 @@
 				"ms-dotnettools.csdevkit",
 				"patcx.vscode-nuget-gallery",
 				"EditorConfig.EditorConfig",
-				"csharpier.csharpier-vscode"
+				"csharpier.csharpier-vscode",
+				"esbenp.prettier-vscode"
 			]
 		}
 	},
