@@ -24,6 +24,7 @@
     -   or retrieve all instances of a field (which searches through collections)
     -   search does not move up in scope (e.g. search does not leave current collection item)
         -   to move up, search on the root node
+    -   no update events, just an external update call that restores consistency after inputs have changed
 -   KEEP THE BASE CLEAN
     -   no requirements on underlying data-binding/storage
     -   no requirements on rendering
@@ -76,19 +77,40 @@
 
 ## Binding
 
--
+-   should map values 1:1 to a property
+-   should do auto cast (e.g. decimal to double) implicit conversion operators and constructor conversion
+-   should be able to create items for list entries
 
 ## Web Input Loader
 
+-   should read values from default form post
+
 ## Field Renderers
+
+-   as little dependencies as necessary
+-   css/js only for layouting and functinality
+-   styling is task of the wrapping page
+-   should support selection lists
 
 ## Layout renderers
 
+-   ordering of fields
+-   tabs
+-   split panels
+-   collapsable sections
+-   css/js only for layouting and functinality
+-   styling is task of the wrapping page
+
 ## Web Responsive Panels
 
+-   model should be kept open on server (keyed by user, not session!)
+    -   the user should always be able to reset
+    -   regular cleanup of old models is necessary
+-   all the processing happens on the server
+-   the current state is then rendered into html
 -   signal button presses and form input changes to the server
 -   recieve updated html
--   sync to existing html:
+-   sync to existing html in java script:
     -   remove/add nodes
     -   remove/add attributes
     -   greedy possible thanks to unique field ids
