@@ -15,7 +15,6 @@
 -   support for recursive data structures
 -   support for readonly fields
 -   support externally walking the tree structure
--   support external updates after creation
 -   support for default values
 -   support for field-interdependencies
     -   reference by field NAME
@@ -42,8 +41,13 @@
         -   dedicated push and pull, no automatic sync
         -   dont want invalid form contents to write to the model
         -   need to be able to reset form to model state
+    -   event based extensibility
 -   WIDE APPLICABILITY
     -   support for sync and async updates
+
+## Form Builders
+
+-   Flow API
 
 ## Expressions
 
@@ -56,8 +60,8 @@
     -   <
     -   <=
     -   =
-    -   > =
-    -   >
+    -   \>=
+    -   \>
 -   reference unique field to access value
 -   functions
     -   extensible by interface
