@@ -184,7 +184,7 @@
         <mxCell id="6xftwZw5f3BE2wH4BhlQ-24" value="+ Value: byte[]?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" parent="6xftwZw5f3BE2wH4BhlQ-23" vertex="1">
           <mxGeometry y="26" width="140" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="9wIGUkpYC2heJH-PDLrB-2" value="+ Value: byte[]?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="6xftwZw5f3BE2wH4BhlQ-23">
+        <mxCell id="9wIGUkpYC2heJH-PDLrB-2" value="+ FileName: string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="6xftwZw5f3BE2wH4BhlQ-23">
           <mxGeometry y="52" width="140" height="26" as="geometry" />
         </mxCell>
         <mxCell id="6xftwZw5f3BE2wH4BhlQ-30" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=block;endFill=0;" parent="1" source="6xftwZw5f3BE2wH4BhlQ-26" target="m99GT-mjRImgJTyzYSu6-5" edge="1">
