@@ -36,7 +36,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder AddTextNode(string name, FieldBuilder configure);
+	public IFormBuilder WithTextNode(string name, FieldBuilder configure);
 
 	/// <summary>
 	/// Adds a <see cref="INumberNode"/> to the form.
@@ -44,7 +44,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder AddNumberNode(string name, FieldBuilder configure);
+	public IFormBuilder WithNumberNode(string name, FieldBuilder configure);
 
 	/// <summary>
 	/// Adds a <see cref="ITimestampNode"/> to the form.
@@ -52,7 +52,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder AddTimestampNode(string name, FieldBuilder configure);
+	public IFormBuilder WithTimestampNode(string name, FieldBuilder configure);
 
 	/// <summary>
 	/// Adds a <see cref="IBooleanNode"/> to the form.
@@ -60,7 +60,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder AddBooleanNode(string name, FieldBuilder configure);
+	public IFormBuilder WithBooleanNode(string name, FieldBuilder configure);
 
 	/// <summary>
 	/// Adds a <see cref="IFileNode"/> to the form.
@@ -68,7 +68,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder AddFileNode(string name, FieldBuilder configure);
+	public IFormBuilder WithFileNode(string name, FieldBuilder configure);
 
 	/// <summary>
 	/// Adds a <see cref="ICollectionNode"/> to the form.
@@ -76,7 +76,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the collection.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder AddCollectionNode(string name, CollectionBuilder configure);
+	public IFormBuilder WithCollectionNode(string name, CollectionBuilder configure);
 
 	/// <summary>
 	/// Adds a <see cref="ITemplateNode"/> to the form.
@@ -84,5 +84,5 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the template section.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder AddTemplatedSection(string name, TemplatedSectionBuilder configure);
+	public IFormBuilder WithTemplatedSection(string name, TemplatedSectionBuilder configure);
 }

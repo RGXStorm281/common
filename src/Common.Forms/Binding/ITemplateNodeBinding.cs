@@ -1,8 +1,3 @@
-using System;
-
 namespace RobinEpple.Common.Forms.Binding;
 
-public interface ITemplateNodeBinding
-{
-
-}
+public interface ITemplateNodeBinding { }
