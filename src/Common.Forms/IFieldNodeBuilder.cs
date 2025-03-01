@@ -11,7 +11,7 @@ public interface IFieldNodeBuilder : INodeBuilder<IFieldNodeBuilder>
 	/// </summary>
 	/// <param name="binding">The binding to pull and push changes from and to some model.</param>
 	/// <returns>The field builder to add further configurations.</returns>
-	public IFieldNodeBuilder UseBinding(IFieldBinding binding);
+	public IFieldNodeBuilder UseBinding(IFieldNodeBinding binding);
 
 	/// <summary>
 	/// Configures the field to use the given formatter for converting between the internal value and string representations.<br/>

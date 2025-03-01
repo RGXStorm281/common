@@ -10,9 +10,9 @@ public interface IFieldNode : IFormNode
 	public bool HasUserInteraction { get; set; }
 
 	/// <summary>
-	/// Optional binding to load the state from and save changes.
+	/// Optional binding to load the state from and save changes to.
 	/// </summary>
-	public IFieldBinding? Binding { get; set; }
+	public IFieldNodeBinding? Binding { get; set; }
 
 	/// <summary>
 	/// Returns the value of this node in a string representation.

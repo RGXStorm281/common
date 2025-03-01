@@ -1,3 +1,3 @@
 namespace RobinEpple.Common.Forms.Binding;
 
-public interface IFieldBinding { }
+public interface IFieldNodeBinding { }
