@@ -17,7 +17,7 @@ public interface ICollectionNode : IFormNode
 	/// <summary>
 	/// Optional binding to load the state from and save changes.
 	/// </summary>
-	public IFormBinding? Binding { get; }
+	public ICollectionBinding? Binding { get; }
 
 	/// <summary>
 	/// Creates a new instance of the given template.

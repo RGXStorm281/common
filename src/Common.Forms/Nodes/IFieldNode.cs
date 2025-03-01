@@ -12,7 +12,7 @@ public interface IFieldNode : IFormNode
 	/// <summary>
 	/// Optional binding to load the state from and save changes.
 	/// </summary>
-	public IFormBinding? Binding { get; set; }
+	public IFieldBinding? Binding { get; set; }
 
 	/// <summary>
 	/// Returns the value of this node in a string representation.

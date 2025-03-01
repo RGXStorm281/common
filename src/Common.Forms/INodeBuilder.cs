@@ -1,0 +1,55 @@
+namespace RobinEpple.Common.Forms;
+
+using RobinEpple.Common.Forms.Expressions;
+using RobinEpple.Common.Forms.Extensions;
+using RobinEpple.Common.Forms.Validation;
+
+public interface INodeBuilder<TSpecificNodeBuilder>
+{
+	/// <summary>
+	/// Configures the node to use a label different to the field name.
+	/// </summary>
+	/// <param name="label">The label of the node.</param>
+	/// <returns>The node builder to add futher configurations.</returns>
+	public TSpecificNodeBuilder UseLabel(string label);
+
+	/// <summary>
+	/// Configures the nodes default visibility. Default is true.
+	/// </summary>
+	/// <param name="visible">Whether the node is visible.</param>
+	/// <returns>The node builder to add further configurations.</returns>
+	public TSpecificNodeBuilder SetDefaultVisibility(bool visible);
+
+	/// <summary>
+	/// Configures the nodes default modifiablility. Default is false.
+	/// </summary>
+	/// <param name="isReadonly">Whether the node is readonly.</param>
+	/// <returns>The node builder to add further configurations.</returns>
+	public TSpecificNodeBuilder SetDefaultReadonly(bool isReadonly);
+
+	/// <summary>
+	/// Configures the node to use a visibility condition.<br/>
+	/// Only one of them can be used on one node.
+	/// </summary>
+	/// <param name="condition">The condition. The field is visible, when this evaluates to true.</param>
+	/// <returns>The node builder to add further configurations.</returns>
+	public TSpecificNodeBuilder UseVisibilityCondition(IFormExpression<bool> condition);
+
+	/// <summary>
+	/// Configures the node to use a validator.<br/>
+	/// Multiple validators can be added and active at the same time.<br/>
+	/// The order of <see cref="UseValidator"/> calls determines the order of execution.
+	/// </summary>
+	/// <param name="validator">The validator.</param>
+	/// <returns>The node builder to add further configurations.</returns>
+	public TSpecificNodeBuilder UseValidator(INodeValidator validator);
+
+	/// <summary>
+	/// Configures the node to use an extension.<br/>
+	/// Multiple extensions can be registered and active at the same time.<br/>
+	/// The order of <see cref="UseExtension"/> calls determines the order of execution.
+	/// </summary>
+	/// <param name="extension">The extension.</param>
+	/// <returns>The node builder to add further configurations.</returns>
+	public TSpecificNodeBuilder UseExtension(IFormNodeExtension extension);
+}
