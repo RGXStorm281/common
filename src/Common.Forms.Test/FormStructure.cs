@@ -18,7 +18,7 @@ public sealed class FormStructure
 	[TestMethod]
 	public void WithTextNode_ShouldAddSingleTextNode()
 	{
-		var builder = new FormBuilder("Test").WithTextNode("Text", _ => { });
+		var builder = new FormBuilder("Test").WithTextNode("Text");
 		var form = builder.Build();
 
 		Assert.IsTrue(form.Nodes.Count() == 1);
@@ -28,7 +28,7 @@ public sealed class FormStructure
 	[TestMethod]
 	public void WithNumberNode_ShouldAddSingleNumberNode()
 	{
-		var builder = new FormBuilder("Test").WithNumberNode("Number", _ => { });
+		var builder = new FormBuilder("Test").WithNumberNode("Number");
 		var form = builder.Build();
 
 		Assert.IsTrue(form.Nodes.Count() == 1);
@@ -38,7 +38,7 @@ public sealed class FormStructure
 	[TestMethod]
 	public void WithTimestampNode_ShouldAddSingleTimestampNode()
 	{
-		var builder = new FormBuilder("Test").WithTimestampNode("Timestamp", _ => { });
+		var builder = new FormBuilder("Test").WithTimestampNode("Timestamp");
 		var form = builder.Build();
 
 		Assert.IsTrue(form.Nodes.Count() == 1);
@@ -48,7 +48,7 @@ public sealed class FormStructure
 	[TestMethod]
 	public void WithBooleanNode_ShouldAddSingleBooleanNode()
 	{
-		var builder = new FormBuilder("Test").WithBooleanNode("Boolean", _ => { });
+		var builder = new FormBuilder("Test").WithBooleanNode("Boolean");
 		var form = builder.Build();
 
 		Assert.IsTrue(form.Nodes.Count() == 1);
@@ -58,7 +58,7 @@ public sealed class FormStructure
 	[TestMethod]
 	public void WithFileNode_ShouldAddSingleFileNode()
 	{
-		var builder = new FormBuilder("Test").WithFileNode("File", _ => { });
+		var builder = new FormBuilder("Test").WithFileNode("File");
 		var form = builder.Build();
 
 		Assert.IsTrue(form.Nodes.Count() == 1);
@@ -89,10 +89,10 @@ public sealed class FormStructure
 	public void MultipleNodes_ShouldStayInOrder()
 	{
 		var builder = new FormBuilder("Test")
-			.WithTextNode("Text1", _ => { })
-			.WithNumberNode("Number1", _ => { })
+			.WithTextNode("Text1")
+			.WithNumberNode("Number1")
 			.WithCollectionNode("Collection1", (_, _) => { })
-			.WithTextNode("Text2", _ => { });
+			.WithTextNode("Text2");
 		var form = builder.Build();
 
 		var nodeList = form.Nodes.ToList();
@@ -106,8 +106,8 @@ public sealed class FormStructure
 	[TestMethod]
 	public void IdenticalName_ShouldThrowInvalidOperationException()
 	{
-		var builder = new FormBuilder("Test").WithTextNode("Text", _ => { });
-		Assert.ThrowsException<InvalidOperationException>(() => builder.WithNumberNode("Text", _ => { }));
+		var builder = new FormBuilder("Test").WithTextNode("Text");
+		Assert.ThrowsException<InvalidOperationException>(() => builder.WithNumberNode("Text"));
 	}
 
 	[TestMethod]
@@ -115,7 +115,7 @@ public sealed class FormStructure
 	{
 		var builder = new FormBuilder("Test").WithTemplatedSection(
 			"TemplatedSection",
-			(builder, _) => builder.UseTemplate("Template1", _ => { }).UseTemplate("Template2", _ => { })
+			(builder, _) => builder.UseTemplate("Template1").UseTemplate("Template2")
 		);
 
 		var form = builder.Build();
@@ -152,7 +152,7 @@ public sealed class FormStructure
 			(builder, recursiveTemplate) =>
 			{
 				builder.UsePreconfiguredTemplate(recursiveTemplate);
-				Assert.ThrowsException<InvalidOperationException>(() => builder.UseTemplate("Test", _ => { }));
+				Assert.ThrowsException<InvalidOperationException>(() => builder.UseTemplate("Test"));
 			}
 		);
 	}
@@ -161,19 +161,13 @@ public sealed class FormStructure
 	public void IdenticalNamesInTemplates_ShouldNotThrow()
 	{
 		var builder = new FormBuilder("Test")
-			.WithBooleanNode("Boolean", _ => { })
+			.WithBooleanNode("Boolean")
 			.WithTemplatedSection(
 				"TemplatedSection",
 				(builder, _) =>
 					builder
-						.UseTemplate(
-							"Template1",
-							templateBuilder => templateBuilder.WithBooleanNode("Boolean", _ => { })
-						)
-						.UseTemplate(
-							"Template2",
-							templateBuilder => templateBuilder.WithBooleanNode("Boolean", _ => { })
-						)
+						.UseTemplate("Template1", templateBuilder => templateBuilder.WithBooleanNode("Boolean"))
+						.UseTemplate("Template2", templateBuilder => templateBuilder.WithBooleanNode("Boolean"))
 			);
 	}
 }

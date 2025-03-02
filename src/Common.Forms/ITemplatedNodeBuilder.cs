@@ -16,7 +16,7 @@ public interface ITemplatedNodeBuilder<TSpecificNodeBuilder> : INodeBuilder<TSpe
 	/// <param name="name">The name of the template.</param>
 	/// <param name="configure">The function to configure the inner workings of the template.</param>
 	/// <returns>The collection builder to add further configurations.</returns>
-	public TSpecificNodeBuilder UseTemplate(string name, TemplateBuilder configure);
+	public TSpecificNodeBuilder UseTemplate(string name, TemplateBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a template to this collection, that can be instantiated.

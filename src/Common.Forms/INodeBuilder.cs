@@ -18,14 +18,14 @@ public interface INodeBuilder<TSpecificNodeBuilder>
 	/// </summary>
 	/// <param name="visible">Whether the node is visible.</param>
 	/// <returns>The node builder to add further configurations.</returns>
-	public TSpecificNodeBuilder SetDefaultVisibility(bool visible);
+	public TSpecificNodeBuilder UseDefaultVisibility(bool visible);
 
 	/// <summary>
 	/// Configures the nodes default modifiablility. Default is false.
 	/// </summary>
 	/// <param name="isReadonly">Whether the node is readonly.</param>
 	/// <returns>The node builder to add further configurations.</returns>
-	public TSpecificNodeBuilder SetDefaultReadonly(bool isReadonly);
+	public TSpecificNodeBuilder UseDefaultReadonly(bool isReadonly);
 
 	/// <summary>
 	/// Configures the node to use a visibility condition.<br/>
