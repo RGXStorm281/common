@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Nodes;
 
 using RobinEpple.Common.Forms.Binding;
 
-public interface ITemplateNode : IFormNode
+public interface ITemplateNode : IParentNode
 {
 	/// <summary>
 	/// The list of templates, that can be instantiated to live in this collection.

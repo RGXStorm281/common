@@ -19,12 +19,12 @@ public interface IFormNode : ICloneable
 	/// The unique id of this node in the instance tree.<br/>
 	/// This is always unique, even if a template gets instantiated multiple times.
 	/// </summary>
-	public string Id { get; }
+	public string GetId();
 
 	/// <summary>
 	/// The parent of this node in the tree structure.
 	/// </summary>
-	public IForm Parent { get; }
+	public IParentNode? Parent { get; }
 
 	/// <summary>
 	/// The root node
@@ -75,7 +75,7 @@ public interface IFormNode : ICloneable
 	public IEnumerable<INodeValidator> NodeValidators { get; }
 
 	/// <summary>
-	/// Adds a validation error to this node.
+	/// Adds or replaces a validation error on this node.
 	/// </summary>
 	/// <param name="id">
 	/// The id of this error. <br/>
@@ -83,12 +83,12 @@ public interface IFormNode : ICloneable
 	/// It is used to filter out duplicates and ensures the ability to remove the error again.
 	/// </param>
 	/// <param name="error">The error text.</param>
-	public void AddValidationError(string id, string error);
+	public void SetValidationError(string id, string error);
 
 	/// <summary>
 	/// Removes the validation error with the given id from this node.
 	/// </summary>
-	/// <param name="id">The id of the error. See <see cref="AddValidationError"/> for details.</param>
+	/// <param name="id">The id of the error. See <see cref="SetValidationError"/> for details.</param>
 	public void RemoveValidationError(string id);
 
 	#endregion
