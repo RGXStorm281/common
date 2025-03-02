@@ -32,7 +32,8 @@
 		"initializeWorkloads": "sudo dotnet workload update",
 		"restoreTools": "dotnet tool restore",
 		"mountLocalNuget": "dotnet nuget add source /local-nuget -n local",
-		"restoreDotNet": "dotnet restore"
+		"restoreDotNet": "dotnet restore /workspaces/common/src",
+		"allowBuildingLocalNuget": "chmod +rwx /workspaces/common/buildLocalNuget.sh"
 	},
 
 	// Mount host volumes.
