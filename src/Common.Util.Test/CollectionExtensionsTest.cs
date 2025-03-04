@@ -1,6 +1,6 @@
 namespace RobinEpple.Common.Util.Test;
 
-using RobinEpple.HomeSuite.Common.Util;
+using RobinEpple.Common.Util;
 
 [TestClass]
 public class CollectionExtensionsTest

@@ -12,7 +12,7 @@ public interface ITemplateNode : IParentNode
 	/// <summary>
 	/// The current instance, if it exists.
 	/// </summary>
-	public IForm? Instances { get; }
+	public IForm? Instance { get; }
 
 	/// <summary>
 	/// Optional binding to load the state from and save changes to.

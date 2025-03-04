@@ -15,6 +15,9 @@ public interface IFormNode : ICloneable
 	/// </summary>
 	public string Name { get; }
 
+	public const char PathSeparator = '/';
+	public const string IndexIdentifer = "[{0}]";
+
 	/// <summary>
 	/// The unique id of this node in the instance tree.<br/>
 	/// This is always unique, even if a template gets instantiated multiple times.
@@ -30,6 +33,12 @@ public interface IFormNode : ICloneable
 	/// The root node
 	/// </summary>
 	public IForm Root { get; }
+
+	/// <summary>
+	/// Changes the parent of this node to the given container.
+	/// </summary>
+	/// <param name="parent">The new parent.</param>
+	internal void ChangeParent(IParentNode parent);
 
 	#endregion
 

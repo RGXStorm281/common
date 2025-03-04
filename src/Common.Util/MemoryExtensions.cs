@@ -1,4 +1,4 @@
-﻿namespace RobinEpple.HomeSuite.Common.Util;
+﻿namespace RobinEpple.Common.Util;
 
 public static class MemoryExtensions
 {

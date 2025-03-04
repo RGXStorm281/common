@@ -12,23 +12,10 @@ public interface IFieldNode : IFormNode
 	/// <summary>
 	/// Optional binding to load the state from and save changes to.
 	/// </summary>
-	public IFieldNodeBinding? Binding { get; set; }
+	public IFieldNodeBinding? Binding { get; }
 
 	/// <summary>
-	/// Returns the value of this node in a string representation.
+	/// The formatter responsible for converting values to string and parse them again.
 	/// </summary>
-	/// <returns>The string representation of the inner value.</returns>
-	public string? GetStringValue();
-
-	/// <inheritdoc cref="GetStringValue"/>
-	public Task<string?> GetStringValueAsync();
-
-	/// <summary>
-	/// Sets the value of this node by parsing it from this string.
-	/// </summary>
-	/// <param name="value">The new value in string representation.</param>
-	public void SetStringValue(string? value);
-
-	/// <inheritdoc cref="SetStringValue"/>
-	public Task SetStringValueAsync(string? value);
+	public IValueFormatter Formatter { get; }
 }

@@ -1,6 +1,7 @@
 namespace Common.Forms.Test;
 
 using System.Globalization;
+using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
 public class TestCurrencyFormatter(CultureInfo culture) : IValueFormatter
@@ -17,6 +18,8 @@ public class TestCurrencyFormatter(CultureInfo culture) : IValueFormatter
 		return number.ToString("c", _culture);
 	}
 
+	public Task<string?> FormatAsync(object? value) => Task.FromResult(Format(value));
+
 	public object? Parse(string? textInput)
 	{
 		if (!decimal.TryParse(textInput, _culture, out var value))
@@ -26,4 +29,6 @@ public class TestCurrencyFormatter(CultureInfo culture) : IValueFormatter
 
 		return value;
 	}
+
+	public Task<object?> ParseAsync(string? textInput) => Task.FromResult(Parse(textInput));
 }

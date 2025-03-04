@@ -31,9 +31,16 @@ internal abstract class NodeBase : IFormNode
 	public IParentNode? Parent { get; private set; }
 
 	/// <inheritdoc />
-	public IForm Root { get; private set; }
+	public IForm Root { get; protected set; }
 
-	private ResetableProperty<string> _label { get; }
+	/// <inheritdoc />
+	public virtual void ChangeParent(IParentNode parent)
+	{
+		Parent = parent;
+		Root = Parent.Root;
+	}
+
+	private ResetableProperty<string> _label { get; set; }
 
 	/// <inheritdoc />
 	public string Label
@@ -44,7 +51,7 @@ internal abstract class NodeBase : IFormNode
 
 	internal void ReplaceDefaultLabel(string newDefaultLabel) => _label.ReplaceDefault(newDefaultLabel);
 
-	private ResetableProperty<bool> _visibility { get; }
+	private ResetableProperty<bool> _visibility { get; set; }
 
 	/// <inheritdoc />
 	public bool IsVisible
@@ -56,7 +63,7 @@ internal abstract class NodeBase : IFormNode
 	internal void ReplaceDefaultVisibility(bool newDefaultVisibility) =>
 		_visibility.ReplaceDefault(newDefaultVisibility);
 
-	private ResetableProperty<bool> _readonly { get; }
+	private ResetableProperty<bool> _readonly { get; set; }
 
 	/// <inheritdoc />
 	public bool IsReadonly
@@ -70,7 +77,7 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public IFormExpression<bool>? VisibilityCondition { get; internal set; }
 
-	private Dictionary<string, string> _validationErrorsById { get; }
+	private Dictionary<string, string> _validationErrorsById { get; set; }
 
 	/// <inheritdoc />
 	public bool IsValid => !_validationErrorsById.Any();
@@ -78,14 +85,14 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public IEnumerable<string> ValidationErrors => _validationErrorsById.Values;
 
-	private List<INodeValidator> _validators { get; }
+	private List<INodeValidator> _validators { get; set; }
 
 	/// <inheritdoc />
 	public IEnumerable<INodeValidator> NodeValidators => _validators;
 
 	internal void AddValidator(INodeValidator validator) => _validators.Add(validator);
 
-	private List<IFormNodeExtension> _extensions { get; }
+	private List<IFormNodeExtension> _extensions { get; set; }
 
 	/// <inheritdoc />
 	public IEnumerable<IFormNodeExtension> Extensions => _extensions;
@@ -96,7 +103,17 @@ internal abstract class NodeBase : IFormNode
 	public void SetValidationError(string id, string error) => _validationErrorsById[id] = error;
 
 	/// <inheritdoc />
-	public abstract object Clone();
+	public virtual object Clone()
+	{
+		var clone = (NodeBase)MemberwiseClone();
+		clone._label = (ResetableProperty<string>)_label.Clone();
+		clone._visibility = (ResetableProperty<bool>)_visibility.Clone();
+		clone._readonly = (ResetableProperty<bool>)_readonly.Clone();
+		clone._validationErrorsById = [];
+		clone._validators = [.. _validators];
+		clone._extensions = [.. _extensions];
+		return clone;
+	}
 
 	/// <inheritdoc />
 	public void RemoveValidationError(string id)
@@ -108,7 +125,7 @@ internal abstract class NodeBase : IFormNode
 	}
 
 	/// <inheritdoc />
-	public void Reset()
+	public virtual void Reset()
 	{
 		_label.Reset();
 		_visibility.Reset();
@@ -117,20 +134,20 @@ internal abstract class NodeBase : IFormNode
 	}
 
 	/// <inheritdoc />
-	public Task ResetAsync()
+	public virtual Task ResetAsync()
 	{
 		Reset();
 		return Task.CompletedTask;
 	}
 
 	/// <inheritdoc />
-	public void Update()
+	public virtual void Update()
 	{
 		throw new NotImplementedException();
 	}
 
 	/// <inheritdoc />
-	public Task UpdateAsync()
+	public virtual Task UpdateAsync()
 	{
 		throw new NotImplementedException();
 	}

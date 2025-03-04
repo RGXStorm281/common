@@ -89,8 +89,8 @@ public class FormConfiguration
 		var form = builder.Build();
 		var node = (INumberNode)form.Nodes.First();
 		node.Value = 10;
-		Assert.AreEqual(node.GetStringValue(), "10,00 €");
-		node.SetStringValue("20,00 €");
+		Assert.AreEqual(node.Formatter.Format(node.Value), "10,00 €");
+		node.Value = (decimal?)node.Formatter.Parse("20,00 €");
 		Assert.AreEqual(node.Value, 10);
 	}
 }
