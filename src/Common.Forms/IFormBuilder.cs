@@ -5,10 +5,39 @@ using RobinEpple.Common.Forms.Nodes;
 public interface IFormBuilder : INodeBuilder<IFormBuilder>
 {
 	/// <summary>
+	/// The list of characters a node name is allowed to consist of.
+	/// </summary>
+	public const string ValidNameCharacters = "ABCDEFGHIKLMNOPQRSTUVXYZabcdefghiklmnopqrstuvxyz0123456789_";
+
+	/// <summary>
 	/// A delegate to configure an added form field.
 	/// </summary>
 	/// <param name="builder">The builder to configure the field.</param>
-	public delegate void FieldBuilder(IFieldNodeBuilder builder);
+	public delegate void BooleanFieldBuilder(IBooleanNodeBuilder builder);
+
+	/// <summary>
+	/// A delegate to configure an added form field.
+	/// </summary>
+	/// <param name="builder">The builder to configure the field.</param>
+	public delegate void FileFieldBuilder(IFileNodeBuilder builder);
+
+	/// <summary>
+	/// A delegate to configure an added form field.
+	/// </summary>
+	/// <param name="builder">The builder to configure the field.</param>
+	public delegate void NumberFieldBuilder(INumberNodeBuilder builder);
+
+	/// <summary>
+	/// A delegate to configure an added form field.
+	/// </summary>
+	/// <param name="builder">The builder to configure the field.</param>
+	public delegate void TextFieldBuilder(ITextNodeBuilder builder);
+
+	/// <summary>
+	/// A delegate to configure an added form field.
+	/// </summary>
+	/// <param name="builder">The builder to configure the field.</param>
+	public delegate void TimestampFieldBuilder(ITimestampNodeBuilder builder);
 
 	/// <summary>
 	/// A delegate to configure an added form collection.
@@ -36,7 +65,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithTextNode(string name, FieldBuilder? configure = null);
+	public IFormBuilder WithTextNode(string name, TextFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="INumberNode"/> to the form.
@@ -44,7 +73,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithNumberNode(string name, FieldBuilder? configure = null);
+	public IFormBuilder WithNumberNode(string name, NumberFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="ITimestampNode"/> to the form.
@@ -52,7 +81,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithTimestampNode(string name, FieldBuilder? configure = null);
+	public IFormBuilder WithTimestampNode(string name, TimestampFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="IBooleanNode"/> to the form.
@@ -60,7 +89,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithBooleanNode(string name, FieldBuilder? configure = null);
+	public IFormBuilder WithBooleanNode(string name, BooleanFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="IFileNode"/> to the form.
@@ -68,7 +97,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithFileNode(string name, FieldBuilder? configure = null);
+	public IFormBuilder WithFileNode(string name, FileFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="ICollectionNode"/> to the form.

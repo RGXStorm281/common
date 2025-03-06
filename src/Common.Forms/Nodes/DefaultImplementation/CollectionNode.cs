@@ -28,7 +28,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	/// <inheritdoc />
 	public IEnumerable<IForm> Templates => _templatesByName.Values;
 
-	internal void AddTemplate(IForm template)
+	internal void UseTemplate(IForm template)
 	{
 		if (_templatesByName.ContainsKey(template.Name))
 		{

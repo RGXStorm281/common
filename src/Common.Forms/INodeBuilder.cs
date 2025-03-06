@@ -16,9 +16,9 @@ public interface INodeBuilder<TSpecificNodeBuilder>
 	/// <summary>
 	/// Configures the nodes default visibility. Default is true.
 	/// </summary>
-	/// <param name="visible">Whether the node is visible.</param>
+	/// <param name="isVisible">Whether the node is visible.</param>
 	/// <returns>The node builder to add further configurations.</returns>
-	public TSpecificNodeBuilder UseDefaultVisibility(bool visible);
+	public TSpecificNodeBuilder UseDefaultVisibility(bool isVisible);
 
 	/// <summary>
 	/// Configures the nodes default modifiablility. Default is false.

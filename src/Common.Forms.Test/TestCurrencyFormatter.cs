@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class TestCurrencyFormatter(CultureInfo culture) : IValueFormatter
+public class TestEuroFormatter() : IValueFormatter
 {
-	private readonly CultureInfo _culture = culture;
+	private readonly CultureInfo _culture = new CultureInfo("de-DE");
 
 	public string? Format(object? value)
 	{
@@ -22,6 +22,7 @@ public class TestCurrencyFormatter(CultureInfo culture) : IValueFormatter
 
 	public object? Parse(string? textInput)
 	{
+		textInput = textInput?.TrimEnd('€').Trim();
 		if (!decimal.TryParse(textInput, _culture, out var value))
 		{
 			throw new InvalidOperationException("Unsupported format.");

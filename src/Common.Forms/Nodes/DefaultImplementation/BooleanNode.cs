@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using RobinEpple.Common.Forms.Nodes.Formatters;
 
-internal class BooleanNode : FieldNode
+internal class BooleanNode : FieldNode, IBooleanNode
 {
 	public BooleanNode(string name, IParentNode parent)
 		: base(name, parent, new BooleanFormatter("yes", "no")) { }

@@ -1,8 +1,12 @@
 namespace RobinEpple.Common.Forms;
 
+using System.Globalization;
+using System.Text.RegularExpressions;
+using RobinEpple.Common.Forms.Building;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 using RobinEpple.Common.Forms.Validation;
 
 /// <summary>
@@ -10,58 +14,154 @@ using RobinEpple.Common.Forms.Validation;
 /// </summary>
 public class FormBuilder : IFormBuilder
 {
+	private Form _form;
+	private readonly CultureInfo _defaultFormatCulture;
+
 	/// <summary>
 	/// Instantiates a new form builder.
 	/// </summary>
 	/// <param name="name">The name of the root form.</param>
-	public FormBuilder(string name) { }
+	/// <param name="defaultFormatCulture">The culture to use for default formatting. If <see langword="null"/>, "de-DE" is used.</param>
+	public FormBuilder(string name, CultureInfo? defaultFormatCulture = null)
+	{
+		ValidateName(name);
+		_form = new Form(name, null);
+		_defaultFormatCulture = defaultFormatCulture ?? new CultureInfo("de-DE");
+	}
+
+	private static Regex? _invalidCharRegex;
+
+	private void ValidateName(string name)
+	{
+		_invalidCharRegex ??= new Regex($"[^{IFormBuilder.ValidNameCharacters}]", RegexOptions.Compiled);
+		if (_invalidCharRegex.IsMatch(name))
+		{
+			throw new InvalidOperationException($"The given name '{name}' contains invalid characters.");
+		}
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithBooleanNode(string name, IFormBuilder.FieldBuilder? configure = null) =>
-		throw new NotImplementedException();
+	public IFormBuilder WithBooleanNode(string name, IFormBuilder.BooleanFieldBuilder? configure = null)
+	{
+		ValidateName(name);
+		var node = new BooleanNode(name, _form);
+		var builder = new BooleanNodeBuilder(node);
+		configure?.Invoke(builder);
+		_form.AddNode(node);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithCollectionNode(string name, IFormBuilder.CollectionBuilder? configure = null) =>
-		throw new NotImplementedException();
+	public IFormBuilder WithCollectionNode(string name, IFormBuilder.CollectionBuilder? configure = null)
+	{
+		ValidateName(name);
+		var node = new CollectionNode(name, _form);
+		var builder = new CollectionNodeBuilder(node);
+		configure?.Invoke(builder, _form);
+		_form.AddNode(node);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithFileNode(string name, IFormBuilder.FieldBuilder? configure = null) =>
-		throw new NotImplementedException();
+	public IFormBuilder WithFileNode(string name, IFormBuilder.FileFieldBuilder? configure = null)
+	{
+		ValidateName(name);
+		var node = new FileNode(name, _form);
+		var builder = new FileNodeBuilder(node);
+		configure?.Invoke(builder);
+		_form.AddNode(node);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithNumberNode(string name, IFormBuilder.FieldBuilder? configure = null) =>
-		throw new NotImplementedException();
+	public IFormBuilder WithNumberNode(string name, IFormBuilder.NumberFieldBuilder? configure = null)
+	{
+		ValidateName(name);
+		var node = new NumberNode(name, _form, _defaultFormatCulture);
+		var builder = new NumberNodeBuilder(node);
+		configure?.Invoke(builder);
+		_form.AddNode(node);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithTemplatedSection(string name, IFormBuilder.TemplatedSectionBuilder? configure = null) =>
-		throw new NotImplementedException();
+	public IFormBuilder WithTemplatedSection(string name, IFormBuilder.TemplatedSectionBuilder? configure = null)
+	{
+		ValidateName(name);
+		var node = new TemplateNode(name, _form);
+		var builder = new TemplateNodeBuilder(node);
+		configure?.Invoke(builder, _form);
+		_form.AddNode(node);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithTextNode(string name, IFormBuilder.FieldBuilder? configure = null) =>
-		throw new NotImplementedException();
+	public IFormBuilder WithTextNode(string name, IFormBuilder.TextFieldBuilder? configure = null)
+	{
+		ValidateName(name);
+		var node = new TextNode(name, _form);
+		var builder = new TextNodeBuilder(node);
+		configure?.Invoke(builder);
+		_form.AddNode(node);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithTimestampNode(string name, IFormBuilder.FieldBuilder? configure = null) =>
-		throw new NotImplementedException();
+	public IFormBuilder WithTimestampNode(string name, IFormBuilder.TimestampFieldBuilder? configure = null)
+	{
+		ValidateName(name);
+		var node = new TimestampNode(name, _form, _defaultFormatCulture);
+		var builder = new TimestampNodeBuilder(node);
+		configure?.Invoke(builder);
+		_form.AddNode(node);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IForm Build() => throw new NotImplementedException();
+	public IForm Build() => _form;
 
 	/// <inheritdoc/>
-	public IFormBuilder UseDefaultReadonly(bool isReadonly) => throw new NotImplementedException();
+	public IFormBuilder UseDefaultReadonly(bool isReadonly)
+	{
+		_form.IsReadonly = isReadonly;
+		_form.ReplaceDefaultReadonly(isReadonly);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder UseDefaultVisibility(bool visible) => throw new NotImplementedException();
+	public IFormBuilder UseDefaultVisibility(bool isVisible)
+	{
+		_form.IsVisible = isVisible;
+		_form.ReplaceDefaultVisibility(isVisible);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder UseExtension(IFormNodeExtension extension) => throw new NotImplementedException();
+	public IFormBuilder UseExtension(IFormNodeExtension extension)
+	{
+		_form.UseExtension(extension);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder UseLabel(string label) => throw new NotImplementedException();
+	public IFormBuilder UseLabel(string label)
+	{
+		_form.Label = label;
+		_form.ReplaceDefaultLabel(label);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder UseValidator(INodeValidator validator) => throw new NotImplementedException();
+	public IFormBuilder UseValidator(INodeValidator validator)
+	{
+		_form.UseValidator(validator);
+		return this;
+	}
 
 	/// <inheritdoc/>
-	public IFormBuilder UseVisibilityCondition(IFormExpression<bool> condition) => throw new NotImplementedException();
+	public IFormBuilder UseVisibilityCondition(IFormExpression<bool> condition)
+	{
+		_form.UseVisibilityCondition(condition);
+		return this;
+	}
 }

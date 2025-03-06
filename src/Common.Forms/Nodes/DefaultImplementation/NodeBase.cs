@@ -75,7 +75,9 @@ internal abstract class NodeBase : IFormNode
 	internal void ReplaceDefaultReadonly(bool newDefaultReadonly) => _readonly.ReplaceDefault(newDefaultReadonly);
 
 	/// <inheritdoc />
-	public IFormExpression<bool>? VisibilityCondition { get; internal set; }
+	public IFormExpression<bool>? VisibilityCondition { get; private set; }
+
+	internal void UseVisibilityCondition(IFormExpression<bool> condition) => VisibilityCondition = condition;
 
 	private Dictionary<string, string> _validationErrorsById { get; set; }
 
@@ -90,14 +92,14 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public IEnumerable<INodeValidator> NodeValidators => _validators;
 
-	internal void AddValidator(INodeValidator validator) => _validators.Add(validator);
+	internal void UseValidator(INodeValidator validator) => _validators.Add(validator);
 
 	private List<IFormNodeExtension> _extensions { get; set; }
 
 	/// <inheritdoc />
 	public IEnumerable<IFormNodeExtension> Extensions => _extensions;
 
-	internal void AddExtension(IFormNodeExtension extension) => _extensions.Add(extension);
+	internal void UseExtension(IFormNodeExtension extension) => _extensions.Add(extension);
 
 	/// <inheritdoc />
 	public void SetValidationError(string id, string error) => _validationErrorsById[id] = error;

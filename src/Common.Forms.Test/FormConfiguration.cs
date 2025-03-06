@@ -60,23 +60,20 @@ public class FormConfiguration
 		var builder = new FormBuilder("Test").WithTextNode("Text");
 		var form = builder.Build();
 		var node = form.Nodes.First();
-		Assert.IsTrue(node is ITextNode { IsReadonly: true });
+		Assert.IsTrue(node is ITextNode { IsReadonly: false });
 		node.Reset();
-		Assert.IsTrue(node is ITextNode { IsReadonly: true });
+		Assert.IsTrue(node is ITextNode { IsReadonly: false });
 	}
 
 	[TestMethod]
 	public void UseDefaultReadonly_ShouldReplaceDefaultReadonly()
 	{
-		var builder = new FormBuilder("Test").WithTextNode(
-			"Text",
-			nodeBuilder => nodeBuilder.UseDefaultReadonly(false)
-		);
+		var builder = new FormBuilder("Test").WithTextNode("Text", nodeBuilder => nodeBuilder.UseDefaultReadonly(true));
 		var form = builder.Build();
 		var node = form.Nodes.First();
-		Assert.IsTrue(node is ITextNode { IsReadonly: false });
+		Assert.IsTrue(node is ITextNode { IsReadonly: true });
 		node.Reset();
-		Assert.IsTrue(node is ITextNode { IsReadonly: false });
+		Assert.IsTrue(node is ITextNode { IsReadonly: true });
 	}
 
 	[TestMethod]
@@ -84,13 +81,14 @@ public class FormConfiguration
 	{
 		var builder = new FormBuilder("Test").WithNumberNode(
 			"Number",
-			nodeBuilder => nodeBuilder.UseFormatter(new TestCurrencyFormatter(new CultureInfo("de_DE")))
+			nodeBuilder => nodeBuilder.UseFormatter(new TestEuroFormatter())
 		);
 		var form = builder.Build();
 		var node = (INumberNode)form.Nodes.First();
 		node.Value = 10;
-		Assert.AreEqual(node.Formatter.Format(node.Value), "10,00 €");
+		var formattedValue = node.Formatter.Format(node.Value);
+		Assert.AreEqual("10,00 €", formattedValue);
 		node.Value = (decimal?)node.Formatter.Parse("20,00 €");
-		Assert.AreEqual(node.Value, 10);
+		Assert.AreEqual(20, node.Value);
 	}
 }

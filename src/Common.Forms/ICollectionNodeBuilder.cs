@@ -1,7 +1,6 @@
 namespace RobinEpple.Common.Forms;
 
 using RobinEpple.Common.Forms.Binding;
-using RobinEpple.Common.Forms.Nodes;
 
 public interface ICollectionNodeBuilder : ITemplatedNodeBuilder<ICollectionNodeBuilder>
 {

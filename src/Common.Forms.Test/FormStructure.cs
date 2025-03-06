@@ -111,24 +111,20 @@ public sealed class FormStructure
 	}
 
 	[TestMethod]
-	public void PathSeparatorInName_ShouldThrowInvalidOperationException()
+	public void InvalidCharacterInName_ShouldThrowInvalidOperationException()
 	{
 		var builder = new FormBuilder("Test");
 		Assert.ThrowsException<InvalidOperationException>(
 			() => builder.WithNumberNode($"Tex{IFormNode.PathSeparator}t")
 		);
-	}
-
-	[TestMethod]
-	public void IndexPatternInName_ShouldThrowInvalidOperationException()
-	{
-		var builder = new FormBuilder("Test");
 		Assert.ThrowsException<InvalidOperationException>(
 			() => builder.WithNumberNode($"Tex{IFormNode.IndexIdentifer.First()}t")
 		);
 		Assert.ThrowsException<InvalidOperationException>(
 			() => builder.WithNumberNode($"Tex{IFormNode.IndexIdentifer.Last()}t")
 		);
+		Assert.ThrowsException<InvalidOperationException>(() => builder.WithNumberNode($"$Text"));
+		Assert.ThrowsException<InvalidOperationException>(() => builder.WithNumberNode($"Text "));
 	}
 
 	[TestMethod]
