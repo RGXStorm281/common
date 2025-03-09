@@ -64,10 +64,10 @@ internal class TemplateNode : NodeBase, ITemplateNode
 	}
 
 	/// <inheritdoc />
-	public void Create(IForm template) => throw new NotImplementedException();
+	public void Instantiate(IForm template) => throw new NotImplementedException();
 
 	/// <inheritdoc />
-	public Task CreateAsync(IForm template) => throw new NotImplementedException();
+	public Task InstantiateAsync(IForm template) => throw new NotImplementedException();
 
 	/// <inheritdoc />
 	public IFormNode? FindNode(string name) => throw new NotImplementedException();

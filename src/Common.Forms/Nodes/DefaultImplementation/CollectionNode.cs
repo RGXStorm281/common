@@ -65,16 +65,16 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public void CreateChild(IForm template) => throw new NotImplementedException();
+	public void Instantiate(IForm template) => throw new NotImplementedException();
 
 	/// <inheritdoc />
-	public Task CreateChildAsync(IForm template) => throw new NotImplementedException();
+	public Task InstantiateAsync(IForm template) => throw new NotImplementedException();
 
 	/// <inheritdoc />
-	public void RemoveChild(IForm instance) => throw new NotImplementedException();
+	public void RemoveItem(IForm instance) => throw new NotImplementedException();
 
 	/// <inheritdoc />
-	public Task RemoveChildAsync(IForm instance) => throw new NotImplementedException();
+	public Task RemoveItemAsync(IForm instance) => throw new NotImplementedException();
 
 	/// <inheritdoc />
 	public void Clear()

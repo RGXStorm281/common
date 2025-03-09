@@ -23,19 +23,19 @@ public interface ICollectionNode : IParentNode
 	/// Creates a new instance of the given template.
 	/// </summary>
 	/// <param name="template">The template.</param>
-	public void CreateChild(IForm template);
+	public void Instantiate(IForm template);
 
-	/// <inheritdoc cref="CreateChild"/>
-	public Task CreateChildAsync(IForm template);
+	/// <inheritdoc cref="Instantiate"/>
+	public Task InstantiateAsync(IForm template);
 
 	/// <summary>
 	/// Removes the given instance from this collection.
 	/// </summary>
 	/// <param name="instance">The instance.</param>
-	public void RemoveChild(IForm instance);
+	public void RemoveItem(IForm instance);
 
-	/// <inheritdoc cref="RemoveChild"/>
-	public Task RemoveChildAsync(IForm instance);
+	/// <inheritdoc cref="RemoveItem"/>
+	public Task RemoveItemAsync(IForm instance);
 
 	/// <summary>
 	/// Removes all instances.
