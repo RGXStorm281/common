@@ -27,4 +27,16 @@ internal class FileNode : FieldNode, IFileNode
 		Value.FileContents = null;
 		Value.FileName = null;
 	}
+
+	/// <inheritdoc />
+	public override object Clone()
+	{
+		var clone = (FileNode)base.Clone();
+		clone.Value = new FileValue()
+		{
+			FileContents = (byte[]?)Value.FileContents?.Clone(),
+			FileName = Value.FileName,
+		};
+		return clone;
+	}
 }

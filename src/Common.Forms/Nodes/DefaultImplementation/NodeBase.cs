@@ -108,12 +108,19 @@ internal abstract class NodeBase : IFormNode
 	public virtual object Clone()
 	{
 		var clone = (NodeBase)MemberwiseClone();
+		clone.Name = Name;
+		clone.Parent = Parent;
+		clone.Root = Root;
 		clone._label = (ResetableProperty<string>)_label.Clone();
 		clone._visibility = (ResetableProperty<bool>)_visibility.Clone();
 		clone._readonly = (ResetableProperty<bool>)_readonly.Clone();
 		clone._validationErrorsById = [];
 		clone._validators = [.. _validators];
 		clone._extensions = [.. _extensions];
+
+		// Do not clone stateless decorators.
+		clone.VisibilityCondition = VisibilityCondition;
+		clone._extensions = _extensions.ToList();
 		return clone;
 	}
 

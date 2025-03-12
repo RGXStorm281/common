@@ -100,7 +100,14 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	{
 		var clone = (CollectionNode)base.Clone();
 		clone._templatesByName = _templatesByName.ToDictionary(item => item.Key, item => (IForm)item.Value.Clone());
-		clone._instances.Clear();
+		clone._instances = _instances.CloneAll().ToList();
+		foreach (var clonedChild in clone._instances)
+		{
+			clonedChild.ChangeParent(clone);
+		}
+
+		// Do not clone stateless decorators.
+		clone.Binding = Binding;
 		return clone;
 	}
 

@@ -59,7 +59,11 @@ internal class TemplateNode : NodeBase, ITemplateNode
 	{
 		var clone = (TemplateNode)base.Clone();
 		clone._templatesByName = _templatesByName.ToDictionary(item => item.Key, item => (IForm)item.Value.Clone());
-		clone.Instance = null;
+		clone.Instance = (IForm?)Instance?.Clone();
+		clone.Instance?.ChangeParent(clone);
+
+		// Do not clone stateless decorators.
+		clone.Binding = Binding;
 		return clone;
 	}
 

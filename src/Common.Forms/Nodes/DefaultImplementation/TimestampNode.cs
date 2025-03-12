@@ -24,4 +24,12 @@ internal class TimestampNode : FieldNode, ITimestampNode
 		await base.ResetAsync();
 		Value = null;
 	}
+
+	/// <inheritdoc />
+	public override object Clone()
+	{
+		var clone = (TimestampNode)base.Clone();
+		clone.Value = Value;
+		return clone;
+	}
 }

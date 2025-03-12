@@ -126,7 +126,7 @@ public static class CollectionExtensions
 	/// <param name="collection">The source collection.</param>
 	/// <returns>The new collection with the cloned elements.</returns>
 	[return: NotNullIfNotNull(nameof(collection))]
-	public static IEnumerable<TElement>? CloneList<TElement>(this IEnumerable<TElement>? collection)
+	public static IEnumerable<TElement>? CloneAll<TElement>(this IEnumerable<TElement>? collection)
 		where TElement : ICloneable => collection?.Select(element => (TElement)element.Clone()).ToList();
 
 	#endregion

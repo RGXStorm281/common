@@ -111,7 +111,7 @@ public class CollectionExtensionsTest
 			new CloneableInt(3),
 			new CloneableInt(4),
 		};
-		var clone = source.CloneList();
+		var clone = source.CloneAll();
 		AssertListEquals(source, clone);
 	}
 

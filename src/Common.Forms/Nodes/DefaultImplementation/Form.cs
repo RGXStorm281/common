@@ -63,6 +63,10 @@ internal class Form : NodeBase, IForm
 	{
 		var clone = (Form)base.Clone();
 		clone._nodesByName = _nodesByName.ToDictionary(item => item.Key, item => (IFormNode)item.Value.Clone());
+		foreach (var clonedChild in clone._nodesByName.Values)
+		{
+			clonedChild.ChangeParent(clone);
+		}
 		return clone;
 	}
 

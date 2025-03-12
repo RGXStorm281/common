@@ -24,4 +24,12 @@ internal class NumberNode : FieldNode, INumberNode
 		await base.ResetAsync();
 		Value = null;
 	}
+
+	/// <inheritdoc />
+	public override object Clone()
+	{
+		var clone = (NumberNode)base.Clone();
+		clone.Value = Value;
+		return clone;
+	}
 }

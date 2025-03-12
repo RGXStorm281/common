@@ -23,4 +23,12 @@ internal class BooleanNode : FieldNode, IBooleanNode
 		await base.ResetAsync();
 		Value = null;
 	}
+
+	/// <inheritdoc />
+	public override object Clone()
+	{
+		var clone = (BooleanNode)base.Clone();
+		clone.Value = Value;
+		return clone;
+	}
 }

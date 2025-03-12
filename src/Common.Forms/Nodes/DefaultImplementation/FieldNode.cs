@@ -37,4 +37,16 @@ internal class FieldNode : NodeBase, IFieldNode
 		await base.ResetAsync();
 		HasUserInteraction = false;
 	}
+
+	/// <inheritdoc />
+	public override object Clone()
+	{
+		var clone = (FieldNode)base.Clone();
+		clone.HasUserInteraction = HasUserInteraction;
+
+		// Do not clone stateless decorators.
+		clone.Binding = Binding;
+		clone.Formatter = Formatter;
+		return clone;
+	}
 }

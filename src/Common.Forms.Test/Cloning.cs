@@ -16,7 +16,7 @@ public class Cloning
 				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
 			)
 			.WithFileNode("File")
-			.WithNumberNode("Number", fieldBuilder => fieldBuilder.UseFormatter(new TestEuroFormatter()))
+			.WithNumberNode("Number")
 			.WithTemplatedSection(
 				"TemplatedSection",
 				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
@@ -26,9 +26,6 @@ public class Cloning
 			.UseLabel("TestLabel")
 			.UseDefaultVisibility(false)
 			.UseDefaultReadonly(true)
-			.UseVisibilityCondition(new FalseMockCondition())
-			.UseValidator(new ValidMockValidator())
-			.UseExtension(new MockExtension())
 			.Build();
 
 		// Get individual nodes.
@@ -67,17 +64,55 @@ public class Cloning
 		Assert.AreEqual(clone, clone.Root);
 		Assert.AreEqual(form.IsVisible, clone.IsVisible);
 		Assert.AreEqual(form.IsReadonly, clone.IsReadonly);
-		Assert.AreEqual(form.VisibilityCondition, clone.VisibilityCondition);
-		Assert.AreEqual(form.NodeValidators.Count(), clone.NodeValidators.Count());
-		Assert.AreEqual(form.NodeValidators.First(), clone.NodeValidators.First());
-		Assert.AreEqual(form.Extensions.Count(), clone.Extensions.Count());
-		Assert.AreEqual(form.Extensions.First(), clone.Extensions.First());
 
 		Assert.AreEqual(form.Nodes.Count(), clone.Nodes.Count());
 		Assert.AreEqual(collectionNode.Templates.Count(), clonedCollectionNode.Templates.Count());
-		Assert.AreEqual(numberNode.Formatter, clonedNumberNode.Formatter);
 		Assert.AreEqual(templateNode.Templates.Count(), clonedTemplateNode.Templates.Count());
-		Assert.IsTrue(clonedNumberNode.Formatter is TestEuroFormatter);
+	}
+
+	[TestMethod]
+	public void StatelessDecorators_ShouldNotBeCloned()
+	{
+		// Build structure.
+		var form = new FormBuilder("Test")
+			.WithCollectionNode(
+				"Collection",
+				(builder, recursiveTemplate) =>
+					builder.UsePreconfiguredTemplate(recursiveTemplate).UseBinding(new MockCollectionBinding())
+			)
+			.WithNumberNode(
+				"Number",
+				fieldBuilder => fieldBuilder.UseFormatter(new TestEuroFormatter()).UseBinding(new MockFieldBinding())
+			)
+			.WithTemplatedSection(
+				"TemplatedSection",
+				(builder, recursiveTemplate) =>
+					builder.UsePreconfiguredTemplate(recursiveTemplate).UseBinding(new MockTemplateBinding())
+			)
+			.UseVisibilityCondition(new FalseMockCondition())
+			.UseValidator(new ValidMockValidator())
+			.UseExtension(new MockExtension())
+			.Build();
+
+		// Get individual nodes.
+		var collectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "Collection");
+		var numberNode = (INumberNode)form.Nodes.First(node => node.Name == "Number");
+		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "TemplatedSection");
+
+		// Clone.
+		var clone = (IForm)form.Clone();
+		var clonedCollectionNode = (ICollectionNode)clone.Nodes.First(node => node.Name == "Collection");
+		var clonedNumberNode = (INumberNode)clone.Nodes.First(node => node.Name == "Number");
+		var clonedTemplateNode = (ITemplateNode)clone.Nodes.First(node => node.Name == "TemplatedSection");
+
+		// Compare.
+		Assert.AreEqual(form.VisibilityCondition, clone.VisibilityCondition);
+		Assert.AreEqual(form.NodeValidators.First(), clone.NodeValidators.First());
+		Assert.AreEqual(form.Extensions.First(), clone.Extensions.First());
+		Assert.AreEqual(collectionNode.Binding, clonedCollectionNode.Binding);
+		Assert.AreEqual(numberNode.Formatter, clonedNumberNode.Formatter);
+		Assert.AreEqual(numberNode.Binding, clonedNumberNode.Binding);
+		Assert.AreEqual(templateNode.Binding, clonedTemplateNode.Binding);
 	}
 
 	[TestMethod]

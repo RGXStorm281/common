@@ -24,4 +24,12 @@ internal class TextNode : FieldNode, ITextNode
 		await base.ResetAsync();
 		Value = null;
 	}
+
+	/// <inheritdoc />
+	public override object Clone()
+	{
+		var clone = (TextNode)base.Clone();
+		clone.Value = Value;
+		return clone;
+	}
 }
