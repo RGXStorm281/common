@@ -42,14 +42,14 @@ public class TemplateInstantiation
 				(builder, _) =>
 					builder
 						.UseTemplate(
-							"Template 1",
+							"Template1",
 							templateBuilder =>
 							{
 								templateBuilder.WithTextNode("TemplateText");
 							}
 						)
 						.UseTemplate(
-							"Template 2",
+							"Template2",
 							templateBuilder =>
 							{
 								templateBuilder.WithNumberNode("TemplateNumber");
@@ -59,12 +59,12 @@ public class TemplateInstantiation
 			.Build();
 
 		var templateNode = (ITemplateNode)form.Nodes.First();
-		var template1 = templateNode.Templates.First(template => template.Name == "Template 1");
-		var template2 = templateNode.Templates.First(template => template.Name == "Template 2");
+		var template1 = templateNode.Templates.First(template => template.Name == "Template1");
+		var Template2 = templateNode.Templates.First(template => template.Name == "Template2");
 
 		Assert.IsTrue(templateNode.Instance == null);
 		templateNode.Instantiate(template1);
-		templateNode.Instantiate(template2);
+		templateNode.Instantiate(Template2);
 		var instance = templateNode.Instance;
 		Assert.IsTrue(instance != null);
 		Assert.IsTrue(instance.Nodes.First() is INumberNode { Name: "TemplateNumber" });
@@ -201,14 +201,14 @@ public class TemplateInstantiation
 				(builder, _) =>
 					builder
 						.UseTemplate(
-							"Template 1",
+							"Template1",
 							templateBuilder =>
 							{
 								templateBuilder.WithTextNode("TextNode");
 							}
 						)
 						.UseTemplate(
-							"Template 2",
+							"Template2",
 							templateBuilder =>
 							{
 								templateBuilder.WithNumberNode("NumberNode");
@@ -218,16 +218,16 @@ public class TemplateInstantiation
 			.Build();
 
 		var collectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
-		var template1 = collectionNode.Templates.First(template => template.Name == "Template 1");
-		var template2 = collectionNode.Templates.First(template => template.Name == "Template 2");
+		var template1 = collectionNode.Templates.First(template => template.Name == "Template1");
+		var Template2 = collectionNode.Templates.First(template => template.Name == "Template2");
 
 		collectionNode.Instantiate(template1);
-		collectionNode.Instantiate(template2);
+		collectionNode.Instantiate(Template2);
 
 		var instances = collectionNode.Instances.ToList();
 		Assert.IsTrue(instances.Count == 2);
-		Assert.IsTrue(instances[0].Name == "Template 1");
-		Assert.IsTrue(instances[1].Name == "Template 2");
+		Assert.IsTrue(instances[0].Name == "Template1");
+		Assert.IsTrue(instances[1].Name == "Template2");
 	}
 
 	[TestMethod]
@@ -309,14 +309,14 @@ public class TemplateInstantiation
 			.Build();
 
 		var outerTextNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
-		var outerCollectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "TemplateNode");
+		var outerCollectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
 
 		outerTextNode.Value = "outer Text";
 		outerCollectionNode.Instantiate(form);
 		var instances = outerCollectionNode.Instances.ToList();
 		var innerForm = instances[0];
 		var innerTextNode = (ITextNode)innerForm.Nodes.First(node => node.Name == "TextNode");
-		var innerCollectionNode = (ICollectionNode)innerForm.Nodes.First(node => node.Name == "TemplateNode");
+		var innerCollectionNode = (ICollectionNode)innerForm.Nodes.First(node => node.Name == "CollectionNode");
 
 		Assert.IsTrue(outerTextNode.Value == "outer Text");
 		Assert.IsTrue(innerTextNode.Value == null);

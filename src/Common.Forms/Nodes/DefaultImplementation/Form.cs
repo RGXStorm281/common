@@ -59,9 +59,49 @@ internal class Form : NodeBase, IForm
 	}
 
 	/// <inheritdoc />
+	public bool StackContains(IParentNode node, out int index)
+	{
+		var parent = (IParentNode)this;
+		index = 0;
+		while (parent != null)
+		{
+			if (parent == node)
+			{
+				return true;
+			}
+			parent = parent.Parent;
+			index++;
+		}
+		return false;
+	}
+
+	/// <inheritdoc />
+	public IParentNode GetParentAt(int index)
+	{
+		if (index < 0)
+		{
+			throw new InvalidOperationException("Negative indices are not allowed.");
+		}
+		var parent = (IParentNode)this;
+		for (int i = 0; i < index; i++)
+		{
+			parent = parent?.Parent;
+		}
+		if (parent == null)
+		{
+			throw new IndexOutOfRangeException();
+		}
+		return parent;
+	}
+
+	/// <inheritdoc />
 	public override object Clone()
 	{
 		var clone = (Form)base.Clone();
+		if (clone.Root == this)
+		{
+			clone.Root = clone;
+		}
 		clone._nodesByName = _nodesByName.ToDictionary(item => item.Key, item => (IFormNode)item.Value.Clone());
 		foreach (var clonedChild in clone._nodesByName.Values)
 		{
@@ -74,14 +114,20 @@ internal class Form : NodeBase, IForm
 	public override void Reset()
 	{
 		base.Reset();
-		_nodesByName.Clear();
+		foreach (var node in _nodesByName.Values)
+		{
+			node.Reset();
+		}
 	}
 
 	/// <inheritdoc />
 	public override async Task ResetAsync()
 	{
 		await base.ResetAsync();
-		_nodesByName.Clear();
+		foreach (var node in _nodesByName.Values)
+		{
+			await node.ResetAsync();
+		}
 	}
 
 	/// <inheritdoc />

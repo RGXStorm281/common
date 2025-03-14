@@ -16,11 +16,68 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	/// <inheritdoc />
 	public override void ChangeParent(IParentNode parent)
 	{
+		if (Parent != null)
+		{
+			foreach (var currentTemplate in _templatesByName.Values.ToList())
+			{
+				if (!Parent.StackContains(currentTemplate, out var index))
+				{
+					// No parent reference, so nothing to be done.
+					continue;
+				}
+
+				// Template is a parent reference -> needs to be fixed.
+				var newParent = parent.GetParentAt(index);
+				if (newParent is not IForm newTemplate || newTemplate.Name != currentTemplate.Name)
+				{
+					throw new InvalidOperationException(
+						$"This node contains a template reference on parent {currentTemplate.Name}. The given new parent has a different structure and breaks this reference."
+					);
+				}
+				_templatesByName[currentTemplate.Name] = newTemplate;
+			}
+		}
 		base.ChangeParent(parent);
 		foreach (var instance in Instances)
 		{
 			instance.ChangeParent(this);
 		}
+	}
+
+	/// <inheritdoc />
+	public bool StackContains(IParentNode node, out int index)
+	{
+		var parent = (IParentNode)this;
+		index = 0;
+		while (parent != null)
+		{
+			if (parent == node)
+			{
+				return true;
+			}
+			parent = parent.Parent;
+			index++;
+		}
+		return false;
+	}
+
+	/// <inheritdoc />
+	public IParentNode GetParentAt(int index)
+	{
+		if (index < 0)
+		{
+			throw new InvalidOperationException("Negative indices are not allowed.");
+		}
+		var parent = (IParentNode)this;
+		for (int i = 0; i < index; i++)
+		{
+			parent = parent?.Parent;
+		}
+		if (parent == null)
+		{
+			throw new IndexOutOfRangeException();
+		}
+		return parent;
 	}
 
 	private Dictionary<string, IForm> _templatesByName;
@@ -65,16 +122,55 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public void Instantiate(IForm template) => throw new NotImplementedException();
+	public void Instantiate(IForm template)
+	{
+		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
+		{
+			throw new InvalidOperationException("The given node is not a child of this collection.");
+		}
+
+		var child = (IForm)template.Clone();
+		child.ChangeParent(this);
+		_instances.Add(child);
+		child.Reset();
+	}
 
 	/// <inheritdoc />
-	public Task InstantiateAsync(IForm template) => throw new NotImplementedException();
+	public async Task InstantiateAsync(IForm template)
+	{
+		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
+		{
+			throw new InvalidOperationException("The given node is not a child of this collection.");
+		}
+
+		var child = (IForm)template.Clone();
+		child.ChangeParent(this);
+		_instances.Add(child);
+		await child.ResetAsync();
+	}
 
 	/// <inheritdoc />
-	public void RemoveItem(IForm instance) => throw new NotImplementedException();
+	public void RemoveItem(IForm instance)
+	{
+		var indexOfChild = _instances.IndexOf(instance);
+		if (indexOfChild < 0)
+		{
+			throw new InvalidOperationException("The given node is not a child of this collection.");
+		}
+		_instances.RemoveAt(indexOfChild);
+	}
 
 	/// <inheritdoc />
-	public Task RemoveItemAsync(IForm instance) => throw new NotImplementedException();
+	public Task RemoveItemAsync(IForm instance)
+	{
+		var indexOfChild = _instances.IndexOf(instance);
+		if (indexOfChild < 0)
+		{
+			throw new InvalidOperationException("The given node is not a child of this collection.");
+		}
+		_instances.RemoveAt(indexOfChild);
+		return Task.CompletedTask;
+	}
 
 	/// <inheritdoc />
 	public void Clear()
@@ -99,7 +195,18 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	public override object Clone()
 	{
 		var clone = (CollectionNode)base.Clone();
-		clone._templatesByName = _templatesByName.ToDictionary(item => item.Key, item => (IForm)item.Value.Clone());
+		clone._templatesByName = _templatesByName.ToDictionary(
+			item => item.Key,
+			item =>
+			{
+				if (Parent?.StackContains(item.Value, out _) == true)
+				{
+					// Do not clone parents.
+					return item.Value;
+				}
+				return (IForm)item.Value.Clone();
+			}
+		);
 		clone._instances = _instances.CloneAll().ToList();
 		foreach (var clonedChild in clone._instances)
 		{

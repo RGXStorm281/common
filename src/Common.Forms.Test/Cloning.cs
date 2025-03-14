@@ -182,7 +182,9 @@ public class Cloning
 		Assert.AreEqual(booleanNode.Value, clonedBooleanNode.Value);
 		Assert.AreEqual(collectionNode.Instances.Count(), clonedCollectionNode.Instances.Count());
 		Assert.IsFalse(ReferenceEquals(collectionNode.Instances.First(), clonedCollectionNode.Instances.First()));
-		Assert.AreEqual(fileNode.Value.FileContents, clonedFileNode.Value.FileContents);
+		Assert.AreEqual(fileNode.Value.FileContents[0], clonedFileNode.Value.FileContents![0]);
+		Assert.AreEqual(fileNode.Value.FileContents[1], clonedFileNode.Value.FileContents![1]);
+		Assert.AreEqual(fileNode.Value.FileContents[2], clonedFileNode.Value.FileContents![2]);
 		Assert.AreEqual(fileNode.Value.FileName, clonedFileNode.Value.FileName);
 		Assert.AreEqual(numberNode.Value, clonedNumberNode.Value);
 		Assert.IsTrue(clonedTemplateNode.Instance != null);
@@ -270,7 +272,9 @@ public class Cloning
 		Assert.AreEqual(true, booleanNode.HasUserInteraction);
 		Assert.AreEqual(false, booleanNode.Value);
 		Assert.AreEqual(1, collectionNode.Instances.Count());
-		Assert.AreEqual([1, 2, 3], fileNode.Value.FileContents);
+		Assert.AreEqual(1, fileNode.Value.FileContents[0]);
+		Assert.AreEqual(2, fileNode.Value.FileContents[1]);
+		Assert.AreEqual(3, fileNode.Value.FileContents[2]);
 		Assert.AreEqual("TestFile", fileNode.Value.FileName);
 		Assert.AreEqual(42, numberNode.Value);
 		Assert.IsTrue(templateNode.Instance != null);
@@ -305,6 +309,6 @@ public class Cloning
 		Assert.AreEqual(form, collectionNode.Templates.First());
 		Assert.AreEqual(form, templateNode.Templates.First());
 		Assert.AreEqual(clone, clonedCollectionNode.Templates.First());
-		Assert.AreEqual(clone, templateNode.Templates.First());
+		Assert.AreEqual(clone, clonedTemplateNode.Templates.First());
 	}
 }

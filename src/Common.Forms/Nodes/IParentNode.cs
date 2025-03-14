@@ -24,4 +24,21 @@ public interface IParentNode : IFormNode
 	/// <param name="name">The name of the template node.</param>
 	/// <returns>The list of all instances.</returns>
 	public IEnumerable<IFormNode> FindNodes(string name);
+
+	/// <summary>
+	/// Checks if the given node appears somewhere in the parent hierarchy.
+	/// </summary>
+	/// <param name="node">The node to check for.</param>
+	/// <param name="index">If <see langword="true"/>, this is the number of layers to go up. The direct parent has index 0.</param>
+	/// <returns><see langword="true"/> if the <paramref name="node"/> is somewhere in the parent stack.</returns>
+	public bool StackContains(IParentNode node, out int index);
+
+	/// <summary>
+	/// Travels up <paramref name="index"/> layers in the parent stack and returns that parent.
+	/// </summary>
+	/// <param name="index">The index of the parent layer. The direct parent is index 0.</param>
+	/// <returns>The parent at the given index.</returns>
+	/// <exception cref="InvalidOperationException">If the given <paramref name="index"/> is negative.</exception>
+	/// <exception cref="IndexOutOfRangeException">If the given <paramref name="index"/> is greater than the actual parent stack.</exception>
+	public IParentNode GetParentAt(int index);
 }
