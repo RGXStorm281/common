@@ -16,6 +16,7 @@ internal abstract class NodeBase : IFormNode
 		_label = new(name);
 		_visibility = new(true);
 		_readonly = new(false);
+		_valid = new(true);
 		_validationErrorsById = [];
 		_validators = [];
 		_extensions = [];
@@ -81,8 +82,10 @@ internal abstract class NodeBase : IFormNode
 
 	private Dictionary<string, string> _validationErrorsById { get; set; }
 
+	private ResetableProperty<bool> _valid { get; set; }
+
 	/// <inheritdoc />
-	public bool IsValid => !_validationErrorsById.Any();
+	public bool IsValid => _valid.CurrentValue;
 
 	/// <inheritdoc />
 	public IEnumerable<string> ValidationErrors => _validationErrorsById.Values;
@@ -114,6 +117,7 @@ internal abstract class NodeBase : IFormNode
 		clone._label = (ResetableProperty<string>)_label.Clone();
 		clone._visibility = (ResetableProperty<bool>)_visibility.Clone();
 		clone._readonly = (ResetableProperty<bool>)_readonly.Clone();
+		clone._valid = (ResetableProperty<bool>)_valid.Clone();
 		clone._validationErrorsById = _validationErrorsById.ToDictionary(error => error.Key, error => error.Value);
 
 		// Do not clone stateless decorators.
@@ -138,6 +142,7 @@ internal abstract class NodeBase : IFormNode
 		_label.Reset();
 		_visibility.Reset();
 		_readonly.Reset();
+		_valid.Reset();
 		_validationErrorsById.Clear();
 	}
 

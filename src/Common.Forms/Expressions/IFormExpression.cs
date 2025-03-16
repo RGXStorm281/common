@@ -1,3 +1,8 @@
 namespace RobinEpple.Common.Forms.Expressions;
 
-public interface IFormExpression<TValue> { }
+using RobinEpple.Common.Forms.Nodes;
+
+public interface IFormExpression<TValue>
+{
+	public TValue EvaluateOn(IFormNode node);
+}

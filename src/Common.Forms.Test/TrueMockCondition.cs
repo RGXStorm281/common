@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Test;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 
-public class FalseMockCondition : IFormExpression<bool>
+public class TrueMockCondition : IFormExpression<bool>
 {
-	public bool EvaluateOn(IFormNode node) => false;
+	public bool EvaluateOn(IFormNode node) => true;
 }
