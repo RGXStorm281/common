@@ -50,7 +50,9 @@ public interface IFormNode : ICloneable
 	public string Label { get; set; }
 
 	/// <summary>
-	/// Whether the node is visible.
+	/// Whether the node is visible.<br/>
+	/// Manual changes might be overwritten by the <see cref="VisibilityCondition"/><br/>
+	/// or get lost once the parents turns invisible.
 	/// </summary>
 	public bool IsVisible { get; set; }
 

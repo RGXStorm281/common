@@ -137,6 +137,7 @@ internal class Form : NodeBase, IForm
 		foreach (var node in _nodesByName.Values)
 		{
 			node.Update();
+			IsValid = IsValid && node.IsValid;
 		}
 	}
 
@@ -147,6 +148,7 @@ internal class Form : NodeBase, IForm
 		foreach (var node in _nodesByName.Values)
 		{
 			await node.UpdateAsync();
+			IsValid = IsValid && node.IsValid;
 		}
 	}
 }

@@ -85,7 +85,11 @@ internal abstract class NodeBase : IFormNode
 	private ResetableProperty<bool> _valid { get; set; }
 
 	/// <inheritdoc />
-	public bool IsValid => _valid.CurrentValue;
+	public bool IsValid
+	{
+		get => _valid.CurrentValue;
+		protected set => _valid.CurrentValue = value;
+	}
 
 	/// <inheritdoc />
 	public IEnumerable<string> ValidationErrors => _validationErrorsById.Values;
@@ -156,12 +160,70 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public virtual void Update()
 	{
-		throw new NotImplementedException();
+		if (Parent != null && !Parent.IsVisible)
+		{
+			// If the parent of this node is not visible, this node is also not visible.
+			// That manual changes get lost is an accepted behaviour.
+			IsVisible = false;
+		}
+		else if (VisibilityCondition != null)
+		{
+			// If the node does not have a parent or the parent is visible
+			// visibility is determined by the visibility condition (if set)
+			// or stays at the value defined externally.
+			IsVisible = VisibilityCondition.EvaluateOn(this);
+		}
+
+		// Run all validators.
+		foreach (var validator in _validators)
+		{
+			validator.Validate(this);
+		}
+
+		if (!IsVisible)
+		{
+			// Invisible Nodes are always valid.
+			IsValid = true;
+		}
+		else
+		{
+			// Visible Nodes are valid if they have no validation errors.
+			IsValid = !ValidationErrors.Any();
+		}
 	}
 
 	/// <inheritdoc />
-	public virtual Task UpdateAsync()
+	public virtual async Task UpdateAsync()
 	{
-		throw new NotImplementedException();
+		if (Parent != null && !Parent.IsVisible)
+		{
+			// If the parent of this node is not visible, this node is also not visible.
+			// That manual changes get lost is an accepted behaviour.
+			IsVisible = false;
+		}
+		else if (VisibilityCondition != null)
+		{
+			// If the node does not have a parent or the parent is visible
+			// visibility is determined by the visibility condition (if set)
+			// or stays at the value defined externally.
+			IsVisible = await VisibilityCondition.EvaluateOnAsync(this);
+		}
+
+		// Run all validators.
+		foreach (var validator in _validators)
+		{
+			await validator.ValidateAsync(this);
+		}
+
+		if (!IsVisible)
+		{
+			// Invisible Nodes are always valid.
+			IsValid = true;
+		}
+		else
+		{
+			// Visible Nodes are valid if they have no validation errors.
+			IsValid = !ValidationErrors.Any();
+		}
 	}
 }

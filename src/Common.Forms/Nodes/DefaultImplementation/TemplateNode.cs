@@ -198,13 +198,21 @@ internal class TemplateNode : NodeBase, ITemplateNode
 	public override void Update()
 	{
 		base.Update();
-		throw new NotImplementedException();
+		if (Instance != null)
+		{
+			Instance.Update();
+			IsValid = IsValid && Instance.IsValid;
+		}
 	}
 
 	/// <inheritdoc />
 	public override async Task UpdateAsync()
 	{
 		await base.UpdateAsync();
-		throw new NotImplementedException();
+		if (Instance != null)
+		{
+			await Instance.UpdateAsync();
+			IsValid = IsValid && Instance.IsValid;
+		}
 	}
 }

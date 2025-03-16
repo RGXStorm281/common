@@ -239,6 +239,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 		foreach (var instance in _instances)
 		{
 			instance.Update();
+			IsValid = IsValid && instance.IsValid;
 		}
 	}
 
@@ -249,6 +250,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 		foreach (var instance in _instances)
 		{
 			await instance.UpdateAsync();
+			IsValid = IsValid && instance.IsValid;
 		}
 	}
 }

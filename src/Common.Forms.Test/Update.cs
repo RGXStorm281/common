@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Test;
 
+using System.Runtime.CompilerServices;
 using RobinEpple.Common.Forms.Nodes;
 
 [TestClass]
@@ -130,7 +131,7 @@ public class Update
 		collectionText.SetValidationError("error", "text");
 
 		form.Update();
-		Assert.IsFalse(sectionTemplate.IsValid);
+		Assert.IsFalse(sectionInstance.IsValid);
 		Assert.IsFalse(templateNode.IsValid);
 		Assert.IsFalse(collectionInstance.IsValid);
 		Assert.IsFalse(collectionNode.IsValid);
@@ -168,6 +169,16 @@ public class Update
 		Assert.IsTrue(templateNode.IsValid);
 		Assert.IsTrue(collectionInstance.IsValid);
 		Assert.IsTrue(collectionNode.IsValid);
+		Assert.IsTrue(form.IsValid);
+	}
+
+	[TestMethod]
+	public void InvisibleNodes_ShouldAlwaysBeValid()
+	{
+		var form = new FormBuilder("Test").Build();
+		form.SetValidationError("error", "text");
+		form.IsVisible = false;
+		form.Update();
 		Assert.IsTrue(form.IsValid);
 	}
 }

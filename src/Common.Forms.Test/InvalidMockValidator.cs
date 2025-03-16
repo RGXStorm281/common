@@ -4,18 +4,20 @@ using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Validation;
 
-public class ValidMockValidator : INodeValidator
+public class InvalidMockValidator : INodeValidator
 {
 	/// <inhertidoc />
 	public void Validate(IFormNode node)
 	{
-		// Do nothing.
+		// Always set the error.
+		node.SetValidationError(nameof(InvalidMockValidator), "always wrong");
 	}
 
 	/// <inhertidoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		// Do nothing.
+		// Always set the error.
+		node.SetValidationError(nameof(InvalidMockValidator), "always wrong");
 		return Task.CompletedTask;
 	}
 }
