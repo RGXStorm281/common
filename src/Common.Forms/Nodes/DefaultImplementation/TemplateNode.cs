@@ -164,10 +164,24 @@ internal class TemplateNode : NodeBase, ITemplateNode
 	}
 
 	/// <inheritdoc />
-	public IFormNode? FindNode(string name) => throw new NotImplementedException();
+	public IFormNode? FindNode(string name, StringComparer? comparer = null)
+	{
+		// Default comparer is case sensitive.
+		comparer ??= StringComparer.Ordinal;
+
+		// Search instance if set.
+		return Instance?.FindNode(name, comparer);
+	}
 
 	/// <inheritdoc />
-	public IEnumerable<IFormNode> FindNodes(string name) => throw new NotImplementedException();
+	public IEnumerable<IFormNode> FindNodes(string name, StringComparer? comparer = null)
+	{
+		// Default comparer is case sensitive.
+		comparer ??= StringComparer.Ordinal;
+
+		// Search instance if set.
+		return Instance?.FindNodes(name, comparer) ?? [];
+	}
 
 	/// <inheritdoc />
 	public string GetChildId(IFormNode child)

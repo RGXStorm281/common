@@ -16,8 +16,9 @@ public interface IParentNode : IFormNode
 	/// Hint: If recursive templates are used, the search will return the uppermost instance.
 	/// </summary>
 	/// <param name="name">The name of the desired node.</param>
+	/// <param name="comparer">Optional comparer for the name search.</param>
 	/// <returns>A single node or none.</returns>
-	public IFormNode? FindNode(string name);
+	public IFormNode? FindNode(string name, StringComparer? comparer = null);
 
 	/// <summary>
 	/// Searches for all instances of a node with the given name.<br/>
@@ -25,8 +26,9 @@ public interface IParentNode : IFormNode
 	/// are searched.
 	/// </summary>
 	/// <param name="name">The name of the template node.</param>
+	/// <param name="comparer">Optional comparer for the name search.</param>
 	/// <returns>The list of all instances.</returns>
-	public IEnumerable<IFormNode> FindNodes(string name);
+	public IEnumerable<IFormNode> FindNodes(string name, StringComparer? comparer = null);
 
 	/// <summary>
 	/// Checks if the given node appears somewhere in the parent hierarchy.

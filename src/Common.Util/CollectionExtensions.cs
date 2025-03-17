@@ -102,8 +102,11 @@ public static class CollectionExtensions
 	/// <param name="collection">The collection.</param>
 	/// <param name="condition">The condition, that the items are tested for.</param>
 	/// <returns><see langword="true"/>, when none of the elements meet the condition.</returns>
-	public static bool None<TElement>(this IEnumerable<TElement> collection, Func<TElement, bool> condition) =>
-		collection.All(item => !condition(item));
+	public static bool None<TElement>(this IEnumerable<TElement> collection, Func<TElement, bool>? condition = null)
+	{
+		condition ??= _ => true;
+		return !collection.Any(item => condition(item));
+	}
 
 	/// <summary>
 	/// Immediately aggregates the collection to a list after transforming each element with the selector function.

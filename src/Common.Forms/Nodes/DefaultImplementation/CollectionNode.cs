@@ -186,10 +186,27 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public IFormNode? FindNode(string name) => throw new NotImplementedException();
+	public IFormNode? FindNode(string name, StringComparer? comparer = null)
+	{
+		// Never search collections for unique nodes.
+		return null;
+	}
 
 	/// <inheritdoc />
-	public IEnumerable<IFormNode> FindNodes(string name) => throw new NotImplementedException();
+	public IEnumerable<IFormNode> FindNodes(string name, StringComparer? comparer = null)
+	{
+		// Default comparer is case sensitive.
+		comparer ??= StringComparer.Ordinal;
+
+		// Search all instances in order.
+		foreach (var instance in Instances)
+		{
+			foreach (var target in instance.FindNodes(name, comparer))
+			{
+				yield return target;
+			}
+		}
+	}
 
 	/// <inheritdoc />
 	public override object Clone()

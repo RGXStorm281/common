@@ -32,10 +32,57 @@ internal class Form : NodeBase, IForm
 	}
 
 	/// <inheritdoc />
-	public IFormNode? FindNode(string name) => throw new NotImplementedException();
+	public IFormNode? FindNode(string name, StringComparer? comparer = null)
+	{
+		// Default comparer is case sensitive.
+		comparer ??= StringComparer.Ordinal;
+
+		// First search the current layer.
+		foreach (var node in Nodes)
+		{
+			if (comparer.Equals(node.Name, name))
+			{
+				return node;
+			}
+		}
+
+		// Then search all subsections in order.
+		foreach (var subsection in Nodes.OfType<IParentNode>())
+		{
+			if (subsection.FindNode(name, comparer) is { } target)
+			{
+				return target;
+			}
+		}
+
+		// If none is found return null.
+		return null;
+	}
 
 	/// <inheritdoc />
-	public IEnumerable<IFormNode> FindNodes(string name) => throw new NotImplementedException();
+	public IEnumerable<IFormNode> FindNodes(string name, StringComparer? comparer = null)
+	{
+		// Default comparer is case sensitive.
+		comparer ??= StringComparer.Ordinal;
+
+		// First return all matches in this node.
+		foreach (var node in Nodes)
+		{
+			if (comparer.Equals(node.Name, name))
+			{
+				yield return node;
+			}
+		}
+
+		// Then search all subsections subsequently.
+		foreach (var subsection in Nodes.OfType<IParentNode>())
+		{
+			foreach (var target in subsection.FindNodes(name, comparer))
+			{
+				yield return target;
+			}
+		}
+	}
 
 	/// <inheritdoc />
 	public string GetChildId(IFormNode child)
