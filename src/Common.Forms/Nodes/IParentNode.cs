@@ -11,7 +11,9 @@ public interface IParentNode : IFormNode
 
 	/// <summary>
 	/// Searches for a unique node in this form.<br/>
-	/// Layers are traversed down, but not up.
+	/// Layers are traversed down, but not up. Since only unique nodes are considered, <br/>
+	/// subsections are searched, but not collections.<br/>
+	/// Hint: If recursive templates are used, the search will return the uppermost instance.
 	/// </summary>
 	/// <param name="name">The name of the desired node.</param>
 	/// <returns>A single node or none.</returns>
@@ -19,7 +21,8 @@ public interface IParentNode : IFormNode
 
 	/// <summary>
 	/// Searches for all instances of a node with the given name.<br/>
-	/// Layers are traversed down, but not up.
+	/// Layers are traversed down, but not up. Both sections and collections <br/>
+	/// are searched.
 	/// </summary>
 	/// <param name="name">The name of the template node.</param>
 	/// <returns>The list of all instances.</returns>
