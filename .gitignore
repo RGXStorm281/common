@@ -399,3 +399,5 @@ FodyWeavers.xsd
 
 # MacOS
 .DS_Store
+linesofcode.md
+*.bkp
