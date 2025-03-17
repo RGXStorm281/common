@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Building;
 
+using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 internal class FileNodeBuilder : FieldNodeBuilder<IFileNodeBuilder, FileNode>, IFileNodeBuilder
@@ -7,7 +8,13 @@ internal class FileNodeBuilder : FieldNodeBuilder<IFileNodeBuilder, FileNode>, I
 	public FileNodeBuilder(FileNode node)
 		: base(node) { }
 
-	public void UseDefaultValue(string? fileName, byte[]? fileContent) => throw new NotImplementedException();
+	/// <inheritdoc />
+	public IFileNodeBuilder UseDefaultValue(FileValue defaultValue)
+	{
+		Node.Value = defaultValue;
+		Node.ReplaceDefaultValue(defaultValue);
+		return CastThis();
+	}
 
 	/// <inheritdoc />
 	protected override FileNodeBuilder CastThis() => this;

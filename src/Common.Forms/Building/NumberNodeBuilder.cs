@@ -7,7 +7,13 @@ internal class NumberNodeBuilder : FieldNodeBuilder<INumberNodeBuilder, NumberNo
 	public NumberNodeBuilder(NumberNode node)
 		: base(node) { }
 
-	public void UseDefaultValue(decimal? defaultValue) => throw new NotImplementedException();
+	/// <inheritdoc />
+	public INumberNodeBuilder UseDefaultValue(decimal? defaultValue)
+	{
+		Node.Value = defaultValue;
+		Node.ReplaceDefaultValue(defaultValue);
+		return CastThis();
+	}
 
 	/// <inheritdoc />
 	protected override NumberNodeBuilder CastThis() => this;

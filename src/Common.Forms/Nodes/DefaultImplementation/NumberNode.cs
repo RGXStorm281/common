@@ -6,30 +6,41 @@ using RobinEpple.Common.Forms.Nodes.Formatters;
 internal class NumberNode : FieldNode, INumberNode
 {
 	public NumberNode(string name, IParentNode parent, CultureInfo displayCulture)
-		: base(name, parent, new LocalizedNumberFormatter(displayCulture)) { }
+		: base(name, parent, new LocalizedNumberFormatter(displayCulture))
+	{
+		_value = new(null);
+	}
+
+	private ResetableProperty<decimal?> _value { get; set; }
 
 	/// <inheritdoc />
-	public decimal? Value { get; set; }
+	public decimal? Value
+	{
+		get => _value.CurrentValue;
+		set => _value.CurrentValue = value;
+	}
+
+	internal void ReplaceDefaultValue(decimal? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
 	public override void Reset()
 	{
 		base.Reset();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override async Task ResetAsync()
 	{
 		await base.ResetAsync();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override object Clone()
 	{
 		var clone = (NumberNode)base.Clone();
-		clone.Value = Value;
+		clone._value = (ResetableProperty<decimal?>)_value.Clone();
 		return clone;
 	}
 }

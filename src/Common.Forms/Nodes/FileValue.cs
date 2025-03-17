@@ -1,6 +1,6 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
-public class FileValue
+public struct FileValue
 {
 	/// <summary>
 	/// The byte content of the file.

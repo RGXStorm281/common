@@ -7,36 +7,39 @@ internal class FileNode : FieldNode, IFileNode
 	public FileNode(string name, IParentNode parent)
 		: base(name, parent, new FileSerializer())
 	{
-		Value = new();
+		_value = new(new());
 	}
 
-	public FileValue Value { get; set; }
+	private ResetableProperty<FileValue> _value { get; set; }
+
+	/// <inheritdoc />
+	public FileValue Value
+	{
+		get => _value.CurrentValue;
+		set => _value.CurrentValue = value;
+	}
+
+	internal void ReplaceDefaultValue(FileValue newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
 	public override void Reset()
 	{
 		base.Reset();
-		Value.FileContents = null;
-		Value.FileName = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override async Task ResetAsync()
 	{
 		await base.ResetAsync();
-		Value.FileContents = null;
-		Value.FileName = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override object Clone()
 	{
 		var clone = (FileNode)base.Clone();
-		clone.Value = new FileValue()
-		{
-			FileContents = (byte[]?)Value.FileContents?.Clone(),
-			FileName = Value.FileName,
-		};
+		clone._value = (ResetableProperty<FileValue>)_value.Clone();
 		return clone;
 	}
 }

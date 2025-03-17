@@ -5,30 +5,41 @@ using RobinEpple.Common.Forms.Nodes.Formatters;
 internal class BooleanNode : FieldNode, IBooleanNode
 {
 	public BooleanNode(string name, IParentNode parent)
-		: base(name, parent, new BooleanFormatter("yes", "no")) { }
+		: base(name, parent, new BooleanFormatter("yes", "no"))
+	{
+		_value = new(null);
+	}
+
+	private ResetableProperty<bool?> _value { get; set; }
 
 	/// <inheritdoc />
-	public bool? Value { get; set; }
+	public bool? Value
+	{
+		get => _value.CurrentValue;
+		set => _value.CurrentValue = value;
+	}
+
+	internal void ReplaceDefaultValue(bool? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
 	public override void Reset()
 	{
 		base.Reset();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override async Task ResetAsync()
 	{
 		await base.ResetAsync();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override object Clone()
 	{
 		var clone = (BooleanNode)base.Clone();
-		clone.Value = Value;
+		clone._value = (ResetableProperty<bool?>)_value.Clone();
 		return clone;
 	}
 }

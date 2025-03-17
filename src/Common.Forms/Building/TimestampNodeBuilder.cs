@@ -8,7 +8,13 @@ internal class TimestampNodeBuilder : FieldNodeBuilder<ITimestampNodeBuilder, Ti
 	public TimestampNodeBuilder(TimestampNode node)
 		: base(node) { }
 
-	public void UseDefaultValue(DateTime? defaultValue) => throw new NotImplementedException();
+	/// <inheritdoc />
+	public ITimestampNodeBuilder UseDefaultValue(DateTime? defaultValue)
+	{
+		Node.Value = defaultValue;
+		Node.ReplaceDefaultValue(defaultValue);
+		return CastThis();
+	}
 
 	/// <inheritdoc />
 	protected override TimestampNodeBuilder CastThis() => this;

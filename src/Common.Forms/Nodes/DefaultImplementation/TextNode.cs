@@ -6,30 +6,41 @@ using RobinEpple.Common.Forms.Nodes.Formatters;
 internal class TextNode : FieldNode, ITextNode
 {
 	public TextNode(string name, IParentNode parent)
-		: base(name, parent, new TrimTextFormatter()) { }
+		: base(name, parent, new TrimTextFormatter())
+	{
+		_value = new(null);
+	}
+
+	private ResetableProperty<string?> _value { get; set; }
 
 	/// <inheritdoc />
-	public string? Value { get; set; }
+	public string? Value
+	{
+		get => _value.CurrentValue;
+		set => _value.CurrentValue = value;
+	}
+
+	internal void ReplaceDefaultValue(string? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
 	public override void Reset()
 	{
 		base.Reset();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override async Task ResetAsync()
 	{
 		await base.ResetAsync();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override object Clone()
 	{
 		var clone = (TextNode)base.Clone();
-		clone.Value = Value;
+		clone._value = (ResetableProperty<string?>)_value.Clone();
 		return clone;
 	}
 }

@@ -7,7 +7,13 @@ internal class BooleanNodeBuilder : FieldNodeBuilder<IBooleanNodeBuilder, Boolea
 	public BooleanNodeBuilder(BooleanNode node)
 		: base(node) { }
 
-	public void UseDefaultValue(bool? defaultValue) => throw new NotImplementedException();
+	/// <inheritdoc />
+	public IBooleanNodeBuilder UseDefaultValue(bool? defaultValue)
+	{
+		Node.Value = defaultValue;
+		Node.ReplaceDefaultValue(defaultValue);
+		return CastThis();
+	}
 
 	/// <inheritdoc />
 	protected override BooleanNodeBuilder CastThis() => this;

@@ -6,30 +6,41 @@ using RobinEpple.Common.Forms.Nodes.Formatters;
 internal class TimestampNode : FieldNode, ITimestampNode
 {
 	public TimestampNode(string name, IParentNode parent, CultureInfo displayCulture)
-		: base(name, parent, new LocalizedNumberFormatter(displayCulture)) { }
+		: base(name, parent, new LocalizedNumberFormatter(displayCulture))
+	{
+		_value = new(null);
+	}
+
+	private ResetableProperty<DateTime?> _value { get; set; }
 
 	/// <inheritdoc />
-	public DateTime? Value { get; set; }
+	public DateTime? Value
+	{
+		get => _value.CurrentValue;
+		set => _value.CurrentValue = value;
+	}
+
+	internal void ReplaceDefaultValue(DateTime? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
 	public override void Reset()
 	{
 		base.Reset();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override async Task ResetAsync()
 	{
 		await base.ResetAsync();
-		Value = null;
+		_value.Reset();
 	}
 
 	/// <inheritdoc />
 	public override object Clone()
 	{
 		var clone = (TimestampNode)base.Clone();
-		clone.Value = Value;
+		clone._value = (ResetableProperty<DateTime?>)_value.Clone();
 		return clone;
 	}
 }

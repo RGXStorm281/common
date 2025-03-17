@@ -7,7 +7,13 @@ internal class TextNodeBuilder : FieldNodeBuilder<ITextNodeBuilder, TextNode>, I
 	public TextNodeBuilder(TextNode node)
 		: base(node) { }
 
-	public void UseDefaultValue(string? defaultValue) => throw new NotImplementedException();
+	/// <inheritdoc />
+	public ITextNodeBuilder UseDefaultValue(string? defaultValue)
+	{
+		Node.Value = defaultValue;
+		Node.ReplaceDefaultValue(defaultValue);
+		return CastThis();
+	}
 
 	/// <inheritdoc />
 	protected override TextNodeBuilder CastThis() => this;
