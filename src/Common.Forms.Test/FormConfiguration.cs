@@ -76,6 +76,94 @@ public class FormConfiguration
 	}
 
 	[TestMethod]
+	public void DefaultValue_ShouldBeNull()
+	{
+		var builder = new FormBuilder("Test")
+			.WithBooleanNode("Boolean")
+			.WithFileNode("File")
+			.WithNumberNode("Number")
+			.WithTextNode("Text")
+			.WithTimestampNode("Timestamp");
+		var form = builder.Build();
+		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "Boolean");
+		var fileNode = (IFileNode)form.Nodes.First(node => node.Name == "File");
+		var numberNode = (INumberNode)form.Nodes.First(node => node.Name == "Number");
+		var textNode = (ITextNode)form.Nodes.First(node => node.Name == "Text");
+		var timestampNode = (ITimestampNode)form.Nodes.First(node => node.Name == "Timestamp");
+
+		// Make sure it starts with the right default.
+		Assert.Equals(null, booleanNode.Value);
+		Assert.Equals(null, fileNode.Value.FileContents);
+		Assert.Equals(null, fileNode.Value.FileName);
+		Assert.Equals(null, numberNode.Value);
+		Assert.Equals(null, textNode.Value);
+		Assert.Equals(null, timestampNode.Value);
+
+		// just to make sure that reset reaches the children
+		booleanNode.Value = true;
+		fileNode.Value.FileContents = [1, 2, 3];
+		fileNode.Value.FileName = "TestFile";
+		numberNode.Value = 42;
+		textNode.Value = "Test Text";
+		timestampNode.Value = DateTime.Now;
+
+		form.Reset();
+
+		// Make sure it resets to the right default.
+		Assert.Equals(null, booleanNode.Value);
+		Assert.Equals(null, fileNode.Value.FileContents);
+		Assert.Equals(null, fileNode.Value.FileName);
+		Assert.Equals(null, numberNode.Value);
+		Assert.Equals(null, textNode.Value);
+		Assert.Equals(null, timestampNode.Value);
+	}
+
+	[TestMethod]
+	public void UseDefaultValue_ShouldReplaceDefaultValue()
+	{
+		var builder = new FormBuilder("Test")
+			.WithBooleanNode("Boolean", node => node.UseDefaultValue(false))
+			.WithFileNode("File", node => node.UseDefaultValue("DefaultFile", [1, 2]))
+			.WithNumberNode("Number", node => node.UseDefaultValue(31))
+			.WithTextNode("Text", node => node.UseDefaultValue("Default Text"))
+			.WithTimestampNode("Timestamp", node => node.UseDefaultValue(DateTime.Today));
+		var form = builder.Build();
+		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "Boolean");
+		var fileNode = (IFileNode)form.Nodes.First(node => node.Name == "File");
+		var numberNode = (INumberNode)form.Nodes.First(node => node.Name == "Number");
+		var textNode = (ITextNode)form.Nodes.First(node => node.Name == "Text");
+		var timestampNode = (ITimestampNode)form.Nodes.First(node => node.Name == "Timestamp");
+
+		// Make sure it starts with the right default.
+		Assert.Equals(false, booleanNode.Value);
+		Assert.Equals(1, fileNode.Value.FileContents![0]);
+		Assert.Equals(2, fileNode.Value.FileContents![1]);
+		Assert.Equals("DefaultFile", fileNode.Value.FileName);
+		Assert.Equals(31, numberNode.Value);
+		Assert.Equals("Default Text", textNode.Value);
+		Assert.Equals(DateTime.Today, timestampNode.Value);
+
+		// just to make sure that reset reaches the children
+		booleanNode.Value = true;
+		fileNode.Value.FileContents = [1, 2, 3];
+		fileNode.Value.FileName = "TestFile";
+		numberNode.Value = 42;
+		textNode.Value = "Test Text";
+		timestampNode.Value = DateTime.Now;
+
+		form.Reset();
+
+		// Make sure it resets to the right default.
+		Assert.Equals(false, booleanNode.Value);
+		Assert.Equals(1, fileNode.Value.FileContents![0]);
+		Assert.Equals(2, fileNode.Value.FileContents![1]);
+		Assert.Equals("DefaultFile", fileNode.Value.FileName);
+		Assert.Equals(31, numberNode.Value);
+		Assert.Equals("Default Text", textNode.Value);
+		Assert.Equals(DateTime.Today, timestampNode.Value);
+	}
+
+	[TestMethod]
 	public void UseFormatter_ShouldReplaceDefaultFormatter()
 	{
 		var builder = new FormBuilder("Test").WithNumberNode(

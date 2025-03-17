@@ -7,6 +7,8 @@ internal class BooleanNodeBuilder : FieldNodeBuilder<IBooleanNodeBuilder, Boolea
 	public BooleanNodeBuilder(BooleanNode node)
 		: base(node) { }
 
+	public void UseDefaultValue(bool? defaultValue) => throw new NotImplementedException();
+
 	/// <inheritdoc />
 	protected override BooleanNodeBuilder CastThis() => this;
 }
