@@ -1,4 +1,4 @@
-namespace RobinEpple.Common.Forms.Test;
+namespace RobinEpple.Common.Forms.Test.Mocks;
 
 using RobinEpple.Common.Forms.Binding;
 

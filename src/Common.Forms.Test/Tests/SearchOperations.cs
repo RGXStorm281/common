@@ -1,4 +1,4 @@
-namespace Company.TestProject1;
+namespace RobinEpple.Common.Forms.Test.Tests;
 
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;

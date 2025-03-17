@@ -1,7 +1,8 @@
-namespace RobinEpple.Common.Forms.Test;
+namespace RobinEpple.Common.Forms.Test.Tests;
 
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Forms.Test.Mocks;
 
 [TestClass]
 public class FormConfiguration
