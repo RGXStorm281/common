@@ -5,7 +5,7 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="2iBS2Hq4_cnO49i6PDha-1" value="&lt;b&gt;IFormExpression&amp;lt;TValue&amp;gt;&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="648.13" y="60" width="306" height="78" as="geometry" />
+          <mxGeometry x="687" y="60" width="306" height="78" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-2" value="+ EvaluateOn(node: IFormNode): TValue" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-1" vertex="1">
           <mxGeometry y="26" width="306" height="26" as="geometry" />
@@ -17,130 +17,139 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-5" value="&lt;i&gt;&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;FormExpression&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="350" y="230" width="902.25" height="998" as="geometry" />
+          <mxGeometry x="350" y="230" width="980" height="1076" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-6" value="+ And(operands: params IFormExpression&amp;lt;bool&amp;gt;[]): IFormExpression&amp;lt;bool&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="40" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="40" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-7" value="+ Or(operands: params IFormExpression&amp;lt;bool&amp;gt;[]): IFormExpression&amp;lt;bool&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="66" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="66" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-18" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="92" width="902.25" height="8" as="geometry" />
+          <mxGeometry y="92" width="980" height="8" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-8" value="+ StaticValue&amp;lt;TValue&amp;gt;(value: TValue): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="100" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="100" width="980" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-10" value="+ Coalesce&amp;lt;TValue&amp;gt;(sourceExpression: this IFormExpression&amp;lt;TValue?&amp;gt;, fallbackValue: TValue): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="126" width="902.25" height="26" as="geometry" />
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-10" value="+ Coalesce&amp;lt;TValue&amp;gt;(source: this IFormExpression&amp;lt;TValue?&amp;gt;, fallbackValue:&amp;nbsp;&amp;nbsp;IFormExpression&amp;lt;TValue&amp;gt;): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+          <mxGeometry y="126" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="LwlLtPMbgpoA2TASlh6D-2" value="+ Conditional&amp;lt;TValue&amp;gt;(condition: this IFormExpression&amp;lt;bool&amp;gt;, whenTrue: IFormExpression&amp;lt;TValue&amp;gt;, whenFalse: this IFormExpression&amp;lt;TValue&amp;gt;): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
+          <mxGeometry y="152" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-19" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="152" width="902.25" height="8" as="geometry" />
+          <mxGeometry y="178" width="980" height="8" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-12" value="+ BooleanFieldValue(name: string): IFormExpression&amp;lt;bool?&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="160" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="186" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-14" value="+ FileFieldFileName(name: string): IFormExpression&amp;lt;string?&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="186" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="212" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-15" value="+ FileFieldFileContent(name: string): IFormExpression&amp;lt;byte[]?&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="212" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="238" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-13" value="+ NumberFieldValue(name: string): IFormExpression&amp;lt;decimal?&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="238" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="264" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-11" value="+ TextFieldValue(name: string): IFormExpression&amp;lt;string?&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="264" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="290" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-16" value="+ TimestampFieldValue(name: string): IFormExpression&amp;lt;DateTime?&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="290" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="316" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-39" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="316" width="902.25" height="8" as="geometry" />
+          <mxGeometry y="342" width="980" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-57" value="+ InSection&amp;lt;TValue&amp;gt;(name: string, IFormExpression&amp;lt;TValue&amp;gt;): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="324" width="902.25" height="26" as="geometry" />
+        <mxCell id="LwlLtPMbgpoA2TASlh6D-3" value="+ ScopeName(): IFormExpression&amp;lt;string&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
+          <mxGeometry y="350" width="980" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-44" value="+ ForEachCollectionItem&amp;lt;TValue&amp;gt;(name: string, IFormExpression&amp;lt;TValue&amp;gt;): IFormExpression&amp;lt;TValue&amp;gt;[]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="350" width="902.25" height="26" as="geometry" />
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-57" value="+ InSection&amp;lt;TValue?&amp;gt;(name: string, expression: IFormExpression&amp;lt;TValue&amp;gt;): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+          <mxGeometry y="376" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-44" value="+ ForEachCollectionItem&amp;lt;TValue&amp;gt;(name: string, expression: IFormExpression&amp;lt;TValue&amp;gt;): IFormExpression&amp;lt;TValue&amp;gt;[]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+          <mxGeometry y="402" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="LwlLtPMbgpoA2TASlh6D-1" value="+ InRootScope&amp;lt;TValue&amp;gt;(expression: IFormExpression&amp;lt;TValue&amp;gt;): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
+          <mxGeometry y="428" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-20" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="376" width="902.25" height="8" as="geometry" />
+          <mxGeometry y="454" width="980" height="8" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-21" value="+ SmallerThan&amp;lt;TComparable&amp;gt;(source: this IFormExpression&amp;lt;TComparable&amp;gt;, upperBound: IFormExpression&amp;lt;TComparable&amp;gt;): IFormExpression&amp;lt;bool&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="384" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="462" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-22" value="+ SmallerOrEqual&amp;lt;TComparable&amp;gt;(source: this IFormExpression&amp;lt;TComparable&amp;gt;, inclusiveUpperBound: IFormExpression&amp;lt;TComparable&amp;gt;): IFormExpression&amp;lt;bool&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="410" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="488" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-23" value="+ EqualTo&amp;lt;TComparable&amp;gt;(source: this IFormExpression&amp;lt;TComparable&amp;gt;, target: IFormExpression&amp;lt;TComparable&amp;gt;): IFormExpression&amp;lt;bool&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="436" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="514" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-24" value="+ BiggerOrEqual&amp;lt;TComparable&amp;gt;(source: this IFormExpression&amp;lt;TComparable&amp;gt;, inclusiveLowerBound: IFormExpression&amp;lt;TComparable&amp;gt;): IFormExpression&amp;lt;bool&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="462" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="540" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-25" value="+ BiggerThan&amp;lt;TComparable&amp;gt;(source: this IFormExpression&amp;lt;TComparable&amp;gt;, lowerBound: IFormExpression&amp;lt;TComparable&amp;gt;): IFormExpression&amp;lt;bool&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="488" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="566" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-26" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="514" width="902.25" height="8" as="geometry" />
+          <mxGeometry y="592" width="980" height="8" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-27" value="+ Add(target: this IFormExpression&amp;lt;decimal&amp;gt;, summands: params IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="522" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="600" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-56" value="+ Sum(summands: this params IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="548" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="626" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-28" value="+ Subtract(target: this IFormExpression&amp;lt;decimal&amp;gt;, summands: params IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="574" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="652" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-29" value="+ MultiplyBy(target: this IFormExpression&amp;lt;decimal&amp;gt;, factors: params IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="600" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="678" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-30" value="+ DivideBy(target: this IFormExpression&amp;lt;decimal&amp;gt;, factors: params IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="626" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="704" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-31" value="+ Modulo(target: this IFormExpression&amp;lt;decimal&amp;gt;, factor: IFormExpression&amp;lt;int&amp;gt;): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="652" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="730" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-32" value="+ CastInt(target: this IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="678" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="756" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-50" value="+ Min(items: this IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="704" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="782" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-51" value="+ Max(items: this IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="730" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="808" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-52" value="+ Average(items: this IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="756" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="834" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-33" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="782" width="902.25" height="8" as="geometry" />
+          <mxGeometry y="860" width="980" height="8" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-34" value="+ Add(target: this IFormExpression&amp;lt;DateTime&amp;gt;, summands: params IFormExpression&amp;lt;TimeSpan&amp;gt;[]): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="790" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="868" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-35" value="+ Subtract(target: this IFormExpression&amp;lt;DateTime&amp;gt;, summands: params IFormExpression&amp;lt;TimeSpan&amp;gt;[]): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="816" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="894" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-36" value="+ Difference(start: this IFormExpression&amp;lt;DateTime&amp;gt;, end: IFormExpression&amp;lt;DateTime&amp;gt;): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="842" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="920" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-37" value="+ MultiplyBy(target: this IFormExpression&amp;lt;TimeSpan&amp;gt;, factors: params IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="868" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="946" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-38" value="+ DivideBy(target: this IFormExpression&amp;lt;TimeSpan&amp;gt;, factors: params IFormExpression&amp;lt;decimal&amp;gt;[]): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="894" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="972" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-53" value="+ Min(items: this IFormExpression&amp;lt;DateTime&amp;gt;[]): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="920" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="998" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-54" value="+ Max(items: this IFormExpression&amp;lt;DateTime&amp;gt;[]): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="946" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="1024" width="980" height="26" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-55" value="+ Average(items: this IFormExpression&amp;lt;DateTime&amp;gt;[]): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="972" width="902.25" height="26" as="geometry" />
+          <mxGeometry y="1050" width="980" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
