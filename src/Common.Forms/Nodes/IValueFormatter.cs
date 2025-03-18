@@ -1,5 +1,8 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// This interface defines API for formatters that export field values to or parse them from strings.
+/// </summary>
 public interface IValueFormatter
 {
 	/// <summary>

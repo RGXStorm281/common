@@ -1,5 +1,8 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// This interface defines an API that containers in a form have to provide to their children.
+/// </summary>
 public interface IParentNode : IFormNode
 {
 	/// <summary>

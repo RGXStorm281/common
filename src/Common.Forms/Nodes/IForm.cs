@@ -1,5 +1,8 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// This interface represents a section in a form. It may be the root.
+/// </summary>
 public interface IForm : IParentNode
 {
 	/// <summary>

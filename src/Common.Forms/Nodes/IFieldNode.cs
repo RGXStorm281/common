@@ -2,6 +2,9 @@ namespace RobinEpple.Common.Forms.Nodes;
 
 using RobinEpple.Common.Forms.Binding;
 
+/// <summary>
+/// This is the base interface for an input of any type in the form.
+/// </summary>
 public interface IFieldNode : IFormNode
 {
 	/// <summary>

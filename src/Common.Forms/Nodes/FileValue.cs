@@ -1,5 +1,9 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// This struct represents a file with name and bytes.<br/>
+/// It is a value type.
+/// </summary>
 public struct FileValue
 {
 	/// <summary>

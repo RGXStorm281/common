@@ -4,6 +4,9 @@ using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
 
+/// <summary>
+/// This is the base interface for common properties of all form members.
+/// </summary>
 public interface IFormNode : ICloneable
 {
 	#region structure

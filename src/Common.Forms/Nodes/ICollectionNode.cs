@@ -2,6 +2,10 @@ namespace RobinEpple.Common.Forms.Nodes;
 
 using RobinEpple.Common.Forms.Binding;
 
+/// <summary>
+/// This interface represents a collection of subsections in the form.<br/>
+/// Subsections may be polymorphic by providing multiple templates.
+/// </summary>
 public interface ICollectionNode : IParentNode
 {
 	/// <summary>

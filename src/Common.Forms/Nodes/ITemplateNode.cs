@@ -2,6 +2,10 @@ namespace RobinEpple.Common.Forms.Nodes;
 
 using RobinEpple.Common.Forms.Binding;
 
+/// <summary>
+/// This interface represents an (optional) subsection in the form.<br/>
+/// The subsection may be polymorphic by providing multiple templates.
+/// </summary>
 public interface ITemplateNode : IParentNode
 {
 	/// <summary>
