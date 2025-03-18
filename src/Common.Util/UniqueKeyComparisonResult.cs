@@ -1,4 +1,4 @@
-﻿namespace RobinEpple.Common.Util.Comparison;
+﻿namespace RobinEpple.Common.Util;
 
 /// <summary>
 /// The result of a comparison of two sets, consisting of the intersection and the two differences.<br />

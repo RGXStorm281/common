@@ -1,6 +1,6 @@
 ﻿namespace RobinEpple.Common.Util.Test.Comparison;
 
-using RobinEpple.Common.Util.Comparison;
+using RobinEpple.Common.Util;
 
 [TestClass]
 public class ComparisonAmbiguousKeyFullComparisonTest : ComparisonTestBase
@@ -76,12 +76,13 @@ public class ComparisonAmbiguousKeyFullComparisonTest : ComparisonTestBase
 			Assert.Fail("The set has the wrong multiplicity.");
 		}
 
-		if (leftDiff["Two"].Count != 1)
+		var twoGrouping = leftDiff["Two"].ToList();
+		if (twoGrouping.Count != 1)
 		{
 			Assert.Fail("The grouping for 'Two' has the wrong multiplicity.");
 		}
 
-		if (leftDiff["Two"][0] != left[1])
+		if (twoGrouping[0] != left[1])
 		{
 			Assert.Fail("Mismatch in the first element in 'Two'.");
 		}
@@ -94,16 +95,18 @@ public class ComparisonAmbiguousKeyFullComparisonTest : ComparisonTestBase
 
 		var intersectionGroupings = intersection["One"];
 
-		if (intersectionGroupings.Left.Count != 2 || intersectionGroupings.Right.Count != 2)
+		var intersectionsLeft = intersectionGroupings.Left.ToList();
+		var intersectionsRight = intersectionGroupings.Right.ToList();
+		if (intersectionsLeft.Count != 2 || intersectionsRight.Count != 2)
 		{
 			Assert.Fail("The grouping has the wrong multiplicity.");
 		}
 
 		if (
-			intersectionGroupings.Left[0] != left[0]
-			|| intersectionGroupings.Left[1] != left[2]
-			|| intersectionGroupings.Right[0] != right[0]
-			|| intersectionGroupings.Right[1] != right[1]
+			intersectionsLeft[0] != left[0]
+			|| intersectionsLeft[1] != left[2]
+			|| intersectionsRight[0] != right[0]
+			|| intersectionsRight[1] != right[1]
 		)
 		{
 			Assert.Fail("Mismatch in the intersection elements.");
@@ -115,12 +118,13 @@ public class ComparisonAmbiguousKeyFullComparisonTest : ComparisonTestBase
 			Assert.Fail("The set has the wrong multiplicity.");
 		}
 
-		if (rightDiff["THREE"].Count != 1)
+		var threeGrouping = rightDiff["THREE"].ToList();
+		if (threeGrouping.Count != 1)
 		{
 			Assert.Fail("The grouping for 'THREE' has the wrong multiplicity.");
 		}
 
-		if (rightDiff["THREE"][0] != right[2])
+		if (threeGrouping[0] != right[2])
 		{
 			Assert.Fail("Mismatch in the first element in 'THREE'.");
 		}

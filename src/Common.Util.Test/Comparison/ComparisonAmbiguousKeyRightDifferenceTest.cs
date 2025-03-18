@@ -1,11 +1,11 @@
 ﻿namespace RobinEpple.Common.Util.Test.Comparison;
 
-using RobinEpple.Common.Util.Comparison;
+using RobinEpple.Common.Util;
 
 [TestClass]
 public class ComparisonAmbiguousKeyRightDifferenceTest : ComparisonTestBase
 {
-	private IDictionary<int, List<Right>> GetRightDifference(IEnumerable<Left> left, IEnumerable<Right> right) =>
+	private IDictionary<int, IEnumerable<Right>> GetRightDifference(IEnumerable<Left> left, IEnumerable<Right> right) =>
 		Comparison.GetRightDifferenceByAmbiguousKey(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key);
 
 	[TestMethod]
@@ -64,12 +64,13 @@ public class ComparisonAmbiguousKeyRightDifferenceTest : ComparisonTestBase
 			Assert.Fail("The set has the wrong multiplicity.");
 		}
 
-		if (rightDiff["THREE"].Count != 1)
+		var threeGrouping = rightDiff["THREE"].ToList();
+		if (threeGrouping.Count != 1)
 		{
 			Assert.Fail("The grouping for 'THREE' has the wrong multiplicity.");
 		}
 
-		if (rightDiff["THREE"][0] != right[2])
+		if (threeGrouping[0] != right[2])
 		{
 			Assert.Fail("Mismatch in the first element in 'THREE'.");
 		}

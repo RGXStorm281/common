@@ -1,4 +1,4 @@
-﻿namespace RobinEpple.Common.Util.Comparison;
+﻿namespace RobinEpple.Common.Util;
 
 /// <summary>
 /// Groups two elements that are considered equal under a unique key.

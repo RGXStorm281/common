@@ -1,6 +1,6 @@
 ﻿namespace RobinEpple.Common.Util.Test.Comparison;
 
-using RobinEpple.Common.Util.Comparison;
+using RobinEpple.Common.Util;
 
 public abstract class ComparisonTestBase
 {
@@ -63,7 +63,7 @@ public abstract class ComparisonTestBase
 		}
 	}
 
-	protected void AssertSetEquals(IDictionary<int, List<Left>> left, int[] keys)
+	protected void AssertSetEquals(IDictionary<int, IEnumerable<Left>> left, int[] keys)
 	{
 		var groupedKeys = keys.ToLookup(key => key).ToDictionary(group => group.Key, group => group.ToList());
 
@@ -79,14 +79,14 @@ public abstract class ComparisonTestBase
 				Assert.Fail($"The set is missing the key {key}.");
 			}
 
-			if (leftForKey.Count != duplicates.Count)
+			if (leftForKey.Count() != duplicates.Count)
 			{
 				Assert.Fail($"The grouping for key {key} does not have the right multiplicity.");
 			}
 		}
 	}
 
-	protected void AssertSetEquals(IDictionary<int, List<Right>> right, int[] keys)
+	protected void AssertSetEquals(IDictionary<int, IEnumerable<Right>> right, int[] keys)
 	{
 		var groupedKeys = keys.ToLookup(key => key).ToDictionary(group => group.Key, group => group.ToList());
 
@@ -102,7 +102,7 @@ public abstract class ComparisonTestBase
 				Assert.Fail($"The set is missing the key {key}.");
 			}
 
-			if (rightForKey.Count != duplicates.Count)
+			if (rightForKey.Count() != duplicates.Count)
 			{
 				Assert.Fail($"The grouping for key {key} does not have the right multiplicity.");
 			}
@@ -140,12 +140,12 @@ public abstract class ComparisonTestBase
 				Assert.Fail($"The set is missing the key {key}.");
 			}
 
-			if (intersectionForKey.Left.Count != leftDuplicates.Count)
+			if (intersectionForKey.Left.Count() != leftDuplicates.Count)
 			{
 				Assert.Fail($"The left grouping for key {key} does not have the right multiplicity.");
 			}
 
-			if (intersectionForKey.Right.Count != rightDuplicates.Count)
+			if (intersectionForKey.Right.Count() != rightDuplicates.Count)
 			{
 				Assert.Fail($"The right grouping for key {key} does not have the right multiplicity.");
 			}

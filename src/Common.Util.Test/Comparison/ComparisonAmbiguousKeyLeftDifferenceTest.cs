@@ -1,11 +1,11 @@
 ﻿namespace RobinEpple.Common.Util.Test.Comparison;
 
-using RobinEpple.Common.Util.Comparison;
+using RobinEpple.Common.Util;
 
 [TestClass]
 public class ComparisonAmbiguousKeyLeftDifferenceTest : ComparisonTestBase
 {
-	private IDictionary<int, List<Left>> GetLeftDifference(IEnumerable<Left> left, IEnumerable<Right> right) =>
+	private IDictionary<int, IEnumerable<Left>> GetLeftDifference(IEnumerable<Left> left, IEnumerable<Right> right) =>
 		Comparison.GetLeftDifferenceByAmbiguousKey(left, right, leftItem => leftItem.Key, rightItem => rightItem.Key);
 
 	[TestMethod]
@@ -64,12 +64,13 @@ public class ComparisonAmbiguousKeyLeftDifferenceTest : ComparisonTestBase
 			Assert.Fail("The set has the wrong multiplicity.");
 		}
 
-		if (leftDiff["Two"].Count != 1)
+		var twoGrouping = leftDiff["Two"].ToList();
+		if (twoGrouping.Count != 1)
 		{
 			Assert.Fail("The grouping for 'Two' has the wrong multiplicity.");
 		}
 
-		if (leftDiff["Two"][0] != left[1])
+		if (twoGrouping[0] != left[1])
 		{
 			Assert.Fail("Mismatch in the first element in 'Two'.");
 		}

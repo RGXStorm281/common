@@ -1,6 +1,6 @@
 ﻿namespace RobinEpple.Common.Util.Test.Comparison;
 
-using RobinEpple.Common.Util.Comparison;
+using RobinEpple.Common.Util;
 
 [TestClass]
 public class ComparisonUniqueKeyLeftDifferenceTest : ComparisonTestBase
