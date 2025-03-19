@@ -160,4 +160,276 @@ public static class FormExpression
 		throw new NotImplementedException();
 
 	# endregion
+
+	# region comparisons
+
+	/// <summary>
+	/// Checks whether the <paramref name="source"/> is smaller than the <paramref name="exclusiveUpperBound"/>.
+	/// </summary>
+	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
+	/// <param name="source">The source value that is supposed to be smaller.</param>
+	/// <param name="exclusiveUpperBound">The exclusive upper bound for the source.</param>
+	/// <returns><see langword="true"/> if it is smaller, <see langword="false"/> otherwise.</returns>
+	public static IFormExpression<bool> SmallerThan<TComparable>(
+		this IFormExpression<TComparable> source,
+		IFormExpression<TComparable> exclusiveUpperBound
+	)
+		where TComparable : IComparable => throw new NotImplementedException();
+
+	/// <summary>
+	/// Checks whether the <paramref name="source"/> is smaller or equal to the <paramref name="inclusiveUpperBound"/>.
+	/// </summary>
+	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
+	/// <param name="source">The source value that is supposed to be smaller or equal.</param>
+	/// <param name="inclusiveUpperBound">The inclusive upper bound for the source.</param>
+	/// <returns><see langword="true"/> if it is smaller or equal, <see langword="false"/> otherwise.</returns>
+	public static IFormExpression<bool> SmallerOrEqual<TComparable>(
+		this IFormExpression<TComparable> source,
+		IFormExpression<TComparable> inclusiveUpperBound
+	)
+		where TComparable : IComparable => throw new NotImplementedException();
+
+	/// <summary>
+	/// Checks whether the <paramref name="source"/> is equal to the <paramref name="target"/>.
+	/// </summary>
+	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
+	/// <param name="source">The source value that is supposed to be equal.</param>
+	/// <param name="target">The target value, the source is supposed to match.</param>
+	/// <returns><see langword="true"/> if the two values are equal, <see langword="false"/> otherwise.</returns>
+	public static IFormExpression<bool> EqualTo<TComparable>(
+		this IFormExpression<TComparable> source,
+		IFormExpression<TComparable> target
+	)
+		where TComparable : IComparable => throw new NotImplementedException();
+
+	/// <summary>
+	/// Checks whether the <paramref name="source"/> is bigger or equal to the <paramref name="inclusiveLowerBound"/>.
+	/// </summary>
+	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
+	/// <param name="source">The source value that is supposed to be bigger or equal.</param>
+	/// <param name="inclusiveLowerBound">The inclusive lower bound for the source.</param>
+	/// <returns><see langword="true"/> if the source is bigger or equal, <see langword="false"/> otherwise.</returns>
+	public static IFormExpression<bool> BiggerOrEqual<TComparable>(
+		this IFormExpression<TComparable> source,
+		IFormExpression<TComparable> inclusiveLowerBound
+	)
+		where TComparable : IComparable => throw new NotImplementedException();
+
+	/// <summary>
+	/// Checks whether the <paramref name="source"/> is bigger than the <paramref name="exclusiveLowerBound"/>.
+	/// </summary>
+	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
+	/// <param name="source">The source value that is supposed to be bigger.</param>
+	/// <param name="exclusiveLowerBound">The exclusive lower bound for the source.</param>
+	/// <returns><see langword="true"/> if the source is bigger, <see langword="false"/> otherwise.</returns>
+	public static IFormExpression<bool> BiggerThan<TComparable>(
+		this IFormExpression<TComparable> source,
+		IFormExpression<TComparable> exclusiveLowerBound
+	)
+		where TComparable : IComparable => throw new NotImplementedException();
+
+	/// <summary>
+	/// Finds the smallest value in the list.
+	/// </summary>
+	/// <param name="items">The list of items.</param>
+	/// <returns>The smallest value or <see langword="null"/> if the sequence is empty.</returns>
+	public static IFormExpression<TComparable?> Min<TComparable>(
+		this IEnumerable<IFormExpression<TComparable>> items
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Finds the biggest value in the list.
+	/// </summary>
+	/// <param name="items">The list of items.</param>
+	/// <returns>The biggest value or <see langword="null"/> if the sequence is empty.</returns>
+	public static IFormExpression<TComparable?> Max<TComparable>(
+		this IEnumerable<IFormExpression<TComparable>> items
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Finds the value that sits in the middle of an ordered list.<br/>
+	/// If the list has an even number of items, the default bias will pick the smaller item, <br/>
+	/// but that can be overwritten with <paramref name="preferBigger"/>.
+	/// </summary>
+	/// <param name="items">The list of items.</param>
+	/// <param name="preferBigger">Defines the bias if there is an even number of <paramref name="items"/>.</param>
+	/// <returns>The median or <see langword="null"/> if the sequence is empty.</returns>
+	public static IFormExpression<TComparable?> Median<TComparable>(
+		this IEnumerable<IFormExpression<TComparable>> items,
+		bool preferBigger = false
+	) => throw new NotImplementedException();
+
+	# endregion
+
+	# region number calculations
+
+	/// <summary>
+	/// Adds the <paramref name="summands"/> onto the <paramref name="target"/> and returns the result.
+	/// </summary>
+	/// <param name="target">The base number that is added to.</param>
+	/// <param name="summands">The list of numbers that are added.</param>
+	/// <returns>The sum of all values.</returns>
+	public static IFormExpression<decimal> Add(
+		this IFormExpression<decimal> target,
+		params IEnumerable<IFormExpression<decimal>> summands
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Calculates the sum of all <paramref name="summands"/>.
+	/// </summary>
+	/// <param name="summands">The list of numbers that are added.</param>
+	/// <returns>The sum of all values.</returns>
+	public static IFormExpression<decimal> Sum(params IEnumerable<IFormExpression<decimal>> summands) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Subtracts the <paramref name="summands"/> from the <paramref name="target"/> and returns the result.
+	/// </summary>
+	/// <param name="target">The base number that is subtracted from.</param>
+	/// <param name="summands">The list of numbers that are subtracted.</param>
+	/// <returns>The remainder.</returns>
+	public static IFormExpression<decimal> Subtract(
+		this IFormExpression<decimal> target,
+		params IEnumerable<IFormExpression<decimal>> summands
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Multiplys the <paramref name="target"/> with all <paramref name="factors"/> and returns the result.
+	/// </summary>
+	/// <param name="target">The base number that is multiplied.</param>
+	/// <param name="factors">The list of factors.</param>
+	/// <returns>The product of all values.</returns>
+	public static IFormExpression<decimal> MultiplyBy(
+		this IFormExpression<decimal> target,
+		params IEnumerable<IFormExpression<decimal>> factors
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Multiplys the all <paramref name="factors"/> and returns the result.
+	/// </summary>
+	/// <param name="factors">The list of factors.</param>
+	/// <returns>The product of all values.</returns>
+	public static IFormExpression<decimal> Multiply(params IEnumerable<IFormExpression<decimal>> factors) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Divides the <paramref name="target"/> by all <paramref name="factors"/> and returns the result.
+	/// </summary>
+	/// <param name="target">The base number that is divided.</param>
+	/// <param name="factors">The list of factors.</param>
+	/// <returns>The remainder.</returns>
+	public static IFormExpression<decimal> DivideBy(
+		this IFormExpression<decimal> target,
+		params IEnumerable<IFormExpression<decimal>> factors
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Strips the <paramref name="target"/> of comma values and returns only the integer part.
+	/// </summary>
+	/// <param name="target">The number that is converted to an integer.</param>
+	/// <returns>The integer part of the target.</returns>
+	public static IFormExpression<int> CastInt(this IFormExpression<decimal> target) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Strips the <paramref name="items"/> of comma values and returns only the integer part.
+	/// </summary>
+	/// <param name="items">The list of numbers that are converted to integers.</param>
+	/// <returns>The integer part of each item.</returns>
+	public static IEnumerable<IFormExpression<int>> CastInt(this IEnumerable<IFormExpression<decimal>> items) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Converts the integer <paramref name="target"/> into a decimal that can hold comma values.
+	/// </summary>
+	/// <param name="target">The number that is converted to a decimal.</param>
+	/// <returns>The casted number.</returns>
+	public static IFormExpression<decimal> CastDecimal(this IFormExpression<int> target) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Converts each integer in <paramref name="items"/> into a decimal that can hold comma values.
+	/// </summary>
+	/// <param name="items">The list of numbers that are converted to a decimal.</param>
+	/// <returns>The casted numbers.</returns>
+	public static IEnumerable<IFormExpression<decimal>> CastDecimal(this IEnumerable<IFormExpression<int>> items) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Divides the <paramref name="target"/> by the <paramref name="field"/> and returns the rest.
+	/// </summary>
+	/// <param name="target">The base number that may be bigger than the field.</param>
+	/// <param name="field">The field, that the number is represented in.</param>
+	/// <returns>The division rest.</returns>
+	public static IFormExpression<int> Modulo(this IFormExpression<int> target, IFormExpression<int> field) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Calculates the average of the given number list.
+	/// </summary>
+	/// <param name="items">List of numbers.</param>
+	/// <returns>The average of the given numbers.</returns>
+	public static IFormExpression<decimal> Average(this IEnumerable<IFormExpression<decimal>> items) =>
+		throw new NotImplementedException();
+
+	# endregion
+
+	# region date calculations
+
+	/// <summary>
+	/// Moves the <paramref name="target"/> date forward in time by the given <paramref name="timeSpans"/>.
+	/// </summary>
+	/// <param name="target">The original date.</param>
+	/// <param name="timeSpans">The list of time spans that the date is moved by.</param>
+	/// <returns>The moved date.</returns>
+	public static IFormExpression<DateTime> Add(
+		this IFormExpression<DateTime> target,
+		params IEnumerable<IFormExpression<TimeSpan>> timeSpans
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Moves the <paramref name="target"/> date backward in time by the given <paramref name="timeSpans"/>.
+	/// </summary>
+	/// <param name="target">The original date.</param>
+	/// <param name="timeSpans">The list of time spans that the date is moved by.</param>
+	/// <returns>The moved date.</returns>
+	public static IFormExpression<DateTime> Subtract(
+		this IFormExpression<DateTime> target,
+		params IEnumerable<IFormExpression<TimeSpan>> timeSpans
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Calculates the difference between the two dates.
+	/// </summary>
+	/// <param name="start">The start date.</param>
+	/// <param name="end">The end date.</param>
+	/// <returns>The time span between them.</returns>
+	public static IFormExpression<TimeSpan> Difference(
+		this IFormExpression<DateTime> start,
+		IFormExpression<DateTime> end
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Multiplies the <paramref name="target"/> with the given <paramref name="factors"/>.
+	/// </summary>
+	/// <param name="target">The original time span.</param>
+	/// <param name="factors">The list of factors the target is multiplied with.</param>
+	/// <returns>The extended timespan.</returns>
+	public static IFormExpression<TimeSpan> MultiplyBy(
+		this IFormExpression<TimeSpan> target,
+		params IEnumerable<IFormExpression<decimal>> factors
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Divides the <paramref name="target"/> by the given <paramref name="factors"/>.
+	/// </summary>
+	/// <param name="target">The original time span.</param>
+	/// <param name="factors">The list of factors the target is divided by.</param>
+	/// <returns>The shortened timespan.</returns>
+	public static IFormExpression<TimeSpan> DivideBy(
+		this IFormExpression<TimeSpan> target,
+		params IEnumerable<IFormExpression<decimal>> factors
+	) => throw new NotImplementedException();
+
+	# endregion
 }
