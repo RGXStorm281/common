@@ -90,6 +90,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
+	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<bool?> BooleanFieldValue(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -99,6 +100,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The file name of the node, if it is found.</returns>
+	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<string?> FileFieldFileName(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -108,6 +110,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The file bytes of the node, if it is found.</returns>
+	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<byte[]?> FileFieldFileContent(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -117,6 +120,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
+	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<decimal?> NumberFieldValue(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -126,6 +130,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
+	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<string?> TextFieldValue(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -135,6 +140,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
+	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<DateTime?> TimestampFieldValue(string name) => throw new NotImplementedException();
 
 	# endregion
