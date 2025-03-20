@@ -7,7 +7,9 @@ using static RobinEpple.Common.Forms.Expressions.FormExpression;
 [TestClass]
 public class FormExpressions
 {
-	# region static values
+	private IEnumerable<TValue> Enumerate<TValue>(params TValue[] values) => values;
+
+	# region utilities
 
 	[TestMethod]
 	public void StaticValue_ShouldReturnConfiguredValue()
@@ -44,6 +46,22 @@ public class FormExpressions
 			"fallbackText",
 			StaticValue<string?>(null).Coalesce(StaticValue("fallbackText")).EvaluateOn(form)
 		);
+	}
+
+	[TestMethod]
+	public void OnNotFound_ShouldReturnExpressionValueIfNoException()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(StaticValue(true).OnNotFound(StaticValue(false)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void OnNotFound_ShouldReturnFallbackValueIfNodeNotFoundExceptionIsThrown()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(Throw<bool>(_ => new NodeNotFoundException()).OnNotFound(StaticValue(false)).EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -89,11 +107,7 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsTrue(
-			new IFormExpression<bool>[] { StaticValue(true), StaticValue(true), StaticValue(true) }
-				.All()
-				.EvaluateOn(form)
-		);
+		Assert.IsTrue(StaticValue(Enumerate(true, true, true)).All().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -101,29 +115,13 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(
-			new IFormExpression<bool>[] { StaticValue(false), StaticValue(true), StaticValue(true) }
-				.All()
-				.EvaluateOn(form)
-		);
+		Assert.IsFalse(StaticValue(Enumerate(false, true, true)).All().EvaluateOn(form));
 
-		Assert.IsFalse(
-			new IFormExpression<bool>[] { StaticValue(true), StaticValue(false), StaticValue(true) }
-				.All()
-				.EvaluateOn(form)
-		);
+		Assert.IsFalse(StaticValue(Enumerate(true, false, true)).All().EvaluateOn(form));
 
-		Assert.IsFalse(
-			new IFormExpression<bool>[] { StaticValue(true), StaticValue(true), StaticValue(false) }
-				.All()
-				.EvaluateOn(form)
-		);
+		Assert.IsFalse(StaticValue(Enumerate(true, true, false)).All().EvaluateOn(form));
 
-		Assert.IsFalse(
-			new IFormExpression<bool>[] { StaticValue(false), StaticValue(false), StaticValue(false) }
-				.All()
-				.EvaluateOn(form)
-		);
+		Assert.IsFalse(StaticValue(Enumerate(false, false, false)).All().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -149,29 +147,13 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsTrue(
-			new IFormExpression<bool>[] { StaticValue(true), StaticValue(true), StaticValue(true) }
-				.Any()
-				.EvaluateOn(form)
-		);
+		Assert.IsTrue(StaticValue(Enumerate(true, true, true)).Any().EvaluateOn(form));
 
-		Assert.IsTrue(
-			new IFormExpression<bool>[] { StaticValue(true), StaticValue(false), StaticValue(false) }
-				.Any()
-				.EvaluateOn(form)
-		);
+		Assert.IsTrue(StaticValue(Enumerate(true, false, false)).Any().EvaluateOn(form));
 
-		Assert.IsTrue(
-			new IFormExpression<bool>[] { StaticValue(false), StaticValue(true), StaticValue(false) }
-				.Any()
-				.EvaluateOn(form)
-		);
+		Assert.IsTrue(StaticValue(Enumerate(false, true, false)).Any().EvaluateOn(form));
 
-		Assert.IsTrue(
-			new IFormExpression<bool>[] { StaticValue(false), StaticValue(false), StaticValue(true) }
-				.Any()
-				.EvaluateOn(form)
-		);
+		Assert.IsTrue(StaticValue(Enumerate(false, false, true)).Any().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -179,11 +161,7 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(
-			new IFormExpression<bool>[] { StaticValue(false), StaticValue(false), StaticValue(false) }
-				.Any()
-				.EvaluateOn(form)
-		);
+		Assert.IsFalse(StaticValue(Enumerate(false, false, false)).Any().EvaluateOn(form));
 	}
 
 	# endregion
@@ -298,39 +276,39 @@ public class FormExpressions
 		textNode.Value = "testText";
 		timestampNode.Value = DateTime.Today;
 
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => BooleanFieldValue("Boolean").EvaluateOn(collectionNode.Instances.First())
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => FileFieldFileName("File").EvaluateOn(collectionNode.Instances.First())
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => FileFieldFileContent("File").EvaluateOn(collectionNode.Instances.First())
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => NumberFieldValue("Number").EvaluateOn(collectionNode.Instances.First())
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => TextFieldValue("Text").EvaluateOn(collectionNode.Instances.First())
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => TimestampFieldValue("Timestamp").EvaluateOn(collectionNode.Instances.First())
 		);
 
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => BooleanFieldValue("Boolean").EvaluateOn(templateNode.Instance!)
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => FileFieldFileName("File").EvaluateOn(templateNode.Instance!)
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => FileFieldFileContent("File").EvaluateOn(templateNode.Instance!)
 		);
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => NumberFieldValue("Number").EvaluateOn(templateNode.Instance!)
 		);
-		Assert.ThrowsException<FieldNotFoundException>(() => TextFieldValue("Text").EvaluateOn(templateNode.Instance!));
-		Assert.ThrowsException<FieldNotFoundException>(
+		Assert.ThrowsException<NodeNotFoundException>(() => TextFieldValue("Text").EvaluateOn(templateNode.Instance!));
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => TimestampFieldValue("Timestamp").EvaluateOn(templateNode.Instance!)
 		);
 	}
@@ -416,12 +394,12 @@ public class FormExpressions
 		textNode.Value = "testText";
 		timestampNode.Value = DateTime.Today;
 
-		Assert.ThrowsException<FieldNotFoundException>(() => BooleanFieldValue("Boolean").EvaluateOn(form));
-		Assert.ThrowsException<FieldNotFoundException>(() => FileFieldFileName("File").EvaluateOn(form));
-		Assert.ThrowsException<FieldNotFoundException>(() => FileFieldFileContent("File").EvaluateOn(form));
-		Assert.ThrowsException<FieldNotFoundException>(() => NumberFieldValue("Number").EvaluateOn(form));
-		Assert.ThrowsException<FieldNotFoundException>(() => TextFieldValue("Text").EvaluateOn(form));
-		Assert.ThrowsException<FieldNotFoundException>(() => TimestampFieldValue("Timestamp").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => BooleanFieldValue("Boolean").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => FileFieldFileName("File").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => FileFieldFileContent("File").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => NumberFieldValue("Number").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => TextFieldValue("Text").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => TimestampFieldValue("Timestamp").EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -476,6 +454,143 @@ public class FormExpressions
 		Assert.AreEqual(42, NumberFieldValue("Number").EvaluateOn(templateNode));
 		Assert.AreEqual("testText", TextFieldValue("Text").EvaluateOn(templateNode));
 		Assert.AreEqual(DateTime.Today, TimestampFieldValue("Timestamp").EvaluateOn(templateNode));
+	}
+
+	# endregion
+
+	# region change of scope
+
+	[TestMethod]
+	public void ScopeName_ShouldReturnNameOfClosestForm()
+	{
+		var form = new FormBuilder("Test")
+			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
+			.Build();
+		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
+		templateNode.Instantiate(templateNode.Templates.First());
+
+		Assert.AreEqual("Test", ScopeName().EvaluateOn(form));
+		Assert.AreEqual("Test", ScopeName().EvaluateOn(templateNode));
+		Assert.AreEqual("Template", ScopeName().EvaluateOn(templateNode.Instance!));
+	}
+
+	[TestMethod]
+	public void InSection_ShouldSwitchScopeToInstanceInTemplatedSection()
+	{
+		var form = new FormBuilder("Test")
+			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
+			.Build();
+		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
+		templateNode.Instantiate(templateNode.Templates.First());
+
+		Assert.AreEqual("Test", ScopeName().EvaluateOn(form));
+		Assert.AreEqual("Template", InSection("Section", ScopeName()).EvaluateOn(templateNode));
+	}
+
+	[TestMethod]
+	public void InSection_ShouldThrowIfNoInstanceExists()
+	{
+		var form = new FormBuilder("Test")
+			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
+			.Build();
+		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
+
+		Assert.ThrowsException<NodeNotFoundException>(() => InSection("Section", ScopeName()).EvaluateOn(templateNode));
+	}
+
+	[TestMethod]
+	public void ForEachCollectionItem_ShouldReturnEmptyListIfNoItems()
+	{
+		var form = new FormBuilder("Test")
+			.WithCollectionNode(
+				"Collection",
+				(node, _) => node.UseTemplate("Template", template => template.WithBooleanNode("ItemBool"))
+			)
+			.Build();
+		var collectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "Collection");
+
+		Assert.AreEqual(0, ForEachCollectionItem("Collection", BooleanFieldValue("ItemBool")).EvaluateOn(form).Count());
+	}
+
+	[TestMethod]
+	public void ForEachCollectionItem_ShouldExecuteTheExpressionForEachItem()
+	{
+		var form = new FormBuilder("Test")
+			.WithCollectionNode(
+				"Collection",
+				(node, _) => node.UseTemplate("Template", template => template.WithBooleanNode("ItemBool"))
+			)
+			.Build();
+		var collectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "Collection");
+		collectionNode.Instantiate(collectionNode.Templates.First());
+		collectionNode.Instantiate(collectionNode.Templates.First());
+
+		var instance1 = collectionNode.Instances.ElementAt(0);
+		var firstBool = (IBooleanNode)instance1.Nodes.First(node => node.Name == "ItemBool");
+		firstBool.Value = false;
+
+		var instance2 = collectionNode.Instances.ElementAt(1);
+		var secondBool = (IBooleanNode)instance2.Nodes.First(node => node.Name == "ItemBool");
+		secondBool.Value = true;
+
+		var expressionResult = ForEachCollectionItem("Collection", BooleanFieldValue("ItemBool"))
+			.EvaluateOn(form)
+			.ToList();
+
+		Assert.AreEqual(false, expressionResult[0]);
+		Assert.AreEqual(true, expressionResult[1]);
+	}
+
+	[TestMethod]
+	public void InParentScope_ShouldMoveUpTheSpecifiedAmountOfLayers()
+	{
+		var form = new FormBuilder("Test")
+			.WithBooleanNode("Boolean")
+			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
+			.Build();
+
+		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "Boolean");
+		booleanNode.Value = true;
+		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
+		templateNode.Instantiate(templateNode.Templates.First());
+
+		// Instance does not see boolean node in upper scope.
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => BooleanFieldValue("Boolean").EvaluateOn(templateNode.Instance!)
+		);
+
+		// Template Node does see its neighbor.
+		Assert.AreEqual(true, InParentScope(0, BooleanFieldValue("Boolean")).EvaluateOn(templateNode.Instance!));
+
+		// Root form does see its child.
+		Assert.AreEqual(true, InParentScope(1, BooleanFieldValue("Boolean")).EvaluateOn(templateNode.Instance!));
+
+		// There is no parent above the root.
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => InParentScope(2, BooleanFieldValue("Boolean")).EvaluateOn(templateNode.Instance!)
+		);
+	}
+
+	[TestMethod]
+	public void InRootScope_ShouldExecuteOnRootNode()
+	{
+		var form = new FormBuilder("Test")
+			.WithBooleanNode("Boolean")
+			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
+			.Build();
+
+		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "Boolean");
+		booleanNode.Value = true;
+		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
+		templateNode.Instantiate(templateNode.Templates.First());
+
+		// Instance does not see boolean node in upper scope.
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => BooleanFieldValue("Boolean").EvaluateOn(templateNode.Instance!)
+		);
+
+		// Root form does see its child.
+		Assert.AreEqual(true, InRootScope(BooleanFieldValue("Boolean")).EvaluateOn(templateNode.Instance!));
 	}
 
 	# endregion

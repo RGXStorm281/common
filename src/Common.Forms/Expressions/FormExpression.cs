@@ -1,11 +1,13 @@
 namespace RobinEpple.Common.Forms.Expressions;
 
+using RobinEpple.Common.Forms.Nodes;
+
 /// <summary>
 /// This class provides static factory methods to construct expressions on a form tree.
 /// </summary>
 public static class FormExpression
 {
-	# region static values
+	# region utilities
 
 	/// <summary>
 	/// Represents a static value in the form.
@@ -14,11 +16,30 @@ public static class FormExpression
 	public static IFormExpression<TValue> StaticValue<TValue>(TValue value) => throw new NotImplementedException();
 
 	/// <summary>
+	/// Throws the given exception when called.
+	/// </summary>
+	/// <typeparam name="TValue">The value type this represents. Only needed to fit into the expression tree, a value is never produced.</typeparam>
+	/// <param name="exceptionFactory">The exception factory to produce the thrown exception in the context of the evaluating node.</param>
+	/// <returns>Never returns a value.</returns>
+	public static IFormExpression<TValue> Throw<TValue>(Func<IFormNode, Exception> exceptionFactory) =>
+		throw new NotImplementedException();
+
+	/// <summary>
 	/// Provides a <paramref name="fallbackValue"/> in case the <paramref name="source"/> is <see langword="null"/>.
 	/// </summary>
 	/// <param name="source">The source to check.</param>
 	/// <param name="fallbackValue">The fallback value to use if <paramref name="source"/> is <see langword="null"/>.</param>
 	public static IFormExpression<TValue> Coalesce<TValue>(
+		this IFormExpression<TValue?> source,
+		IFormExpression<TValue> fallbackValue
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Provides a <paramref name="fallbackValue"/> in case the <paramref name="source"/> throws a <see cref="NodeNotFoundException"/>.
+	/// </summary>
+	/// <param name="source">The source to check.</param>
+	/// <param name="fallbackValue">The fallback value to use if <paramref name="source"/> throws.</param>
+	public static IFormExpression<TValue> OnNotFound<TValue>(
 		this IFormExpression<TValue?> source,
 		IFormExpression<TValue> fallbackValue
 	) => throw new NotImplementedException();
@@ -41,6 +62,19 @@ public static class FormExpression
 		IFormExpression<TValue> whenFalse
 	) => throw new NotImplementedException();
 
+	/// <summary>
+	/// Iterates over the <paramref name="source"/> and applies the <paramref name="selector"/> to each item.
+	/// </summary>
+	/// <typeparam name="TInput">The input type.</typeparam>
+	/// <typeparam name="TOutput">The output type.</typeparam>
+	/// <param name="source">The source list.</param>
+	/// <param name="selector">The selector function.</param>
+	/// <returns>The converted item list.</returns>
+	public static IFormExpression<TOutput> Select<TInput, TOutput>(
+		this IFormExpression<IEnumerable<TInput>> source,
+		Func<IFormExpression<TInput>, IFormExpression<TOutput>> selector
+	) => throw new NotImplementedException();
+
 	# endregion
 
 	# region logical operators
@@ -59,7 +93,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="operands">The list of boolean operands.</param>
 	/// <returns>The result is <see langword="true"/> if all operands are <see langword="true"/>.</returns>
-	public static IFormExpression<bool> All(this IEnumerable<IFormExpression<bool>> operands) =>
+	public static IFormExpression<bool> All(this IFormExpression<IEnumerable<bool>> operands) =>
 		throw new NotImplementedException();
 
 	/// <summary>
@@ -76,7 +110,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="operands">The list of boolean operands.</param>
 	/// <returns>The result is <see langword="true"/> if at least one of the operands is <see langword="true"/>.</returns>
-	public static IFormExpression<bool> Any(this IEnumerable<IFormExpression<bool>> operands) =>
+	public static IFormExpression<bool> Any(this IFormExpression<IEnumerable<bool>> operands) =>
 		throw new NotImplementedException();
 
 	# endregion
@@ -90,7 +124,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
-	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
+	/// <exception cref="NodeNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<bool?> BooleanFieldValue(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -100,7 +134,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The file name of the node, if it is found.</returns>
-	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
+	/// <exception cref="NodeNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<string?> FileFieldFileName(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -110,7 +144,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The file bytes of the node, if it is found.</returns>
-	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
+	/// <exception cref="NodeNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<byte[]?> FileFieldFileContent(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -120,7 +154,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
-	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
+	/// <exception cref="NodeNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<decimal?> NumberFieldValue(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -130,7 +164,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
-	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
+	/// <exception cref="NodeNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<string?> TextFieldValue(string name) => throw new NotImplementedException();
 
 	/// <summary>
@@ -140,7 +174,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
 	/// <returns>The value of the node, if it is found.</returns>
-	/// <exception cref="FieldNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
+	/// <exception cref="NodeNotFoundException">When the field with the given name does not exist or is not of the desired type.</exception>
 	public static IFormExpression<DateTime?> TimestampFieldValue(string name) => throw new NotImplementedException();
 
 	# endregion
@@ -163,7 +197,8 @@ public static class FormExpression
 	/// <param name="name">The name of the node.</param>
 	/// <param name="expression">The expression that is targeted at the instance.</param>
 	/// <returns>The value of the <paramref name="expression"/>, given that the node is found and has an instance.</returns>
-	public static IFormExpression<TValue?> InSection<TValue>(string name, IFormExpression<TValue> expression) =>
+	/// <exception cref="NodeNotFoundException">When the section does not have an instance.</exception>
+	public static IFormExpression<TValue> InSection<TValue>(string name, IFormExpression<TValue> expression) =>
 		throw new NotImplementedException();
 
 	/// <summary>
@@ -175,10 +210,21 @@ public static class FormExpression
 	/// <param name="name">The name of the node.</param>
 	/// <param name="expression">The expression that is targeted at each instance.</param>
 	/// <returns>The list of values the <paramref name="expression"/> yields on each instance, given that the node is found.</returns>
-	public static IEnumerable<IFormExpression<TValue>> ForEachCollectionItem<TValue>(
+	public static IFormExpression<IEnumerable<TValue>> ForEachCollectionItem<TValue>(
 		string name,
 		IFormExpression<TValue> expression
 	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Executes the specified <paramref name="expression"/> in the scope of the defined parent of this.
+	/// </summary>
+	/// <typeparam name="TValue">The value of the inner expression.</typeparam>
+	/// <param name="layerIndex">The number of layers to go up. The direct parent has layer index 0.</param>
+	/// <param name="expression">The expression that is targeted at the root scope.</param>
+	/// <returns>The value of the <paramref name="expression"/>.</returns>
+	/// <exception cref="NodeNotFoundException">When there are less parents than the given <paramref name="layerIndex"/> suggests.</exception>
+	public static IFormExpression<TValue> InParentScope<TValue>(int layerIndex, IFormExpression<TValue> expression) =>
+		throw new NotImplementedException();
 
 	/// <summary>
 	/// Executes the specified <paramref name="expression"/> in the root scope of the entire form.
@@ -186,7 +232,7 @@ public static class FormExpression
 	/// <typeparam name="TValue">The value of the inner expression.</typeparam>
 	/// <param name="expression">The expression that is targeted at the root scope.</param>
 	/// <returns>The value of the <paramref name="expression"/>.</returns>
-	public static IEnumerable<IFormExpression<TValue>> InRootScope<TValue>(IFormExpression<TValue> expression) =>
+	public static IFormExpression<TValue> InRootScope<TValue>(IFormExpression<TValue> expression) =>
 		throw new NotImplementedException();
 
 	# endregion
@@ -264,7 +310,7 @@ public static class FormExpression
 	/// <param name="items">The list of items.</param>
 	/// <returns>The smallest value or <see langword="null"/> if the sequence is empty.</returns>
 	public static IFormExpression<TComparable?> Min<TComparable>(
-		this IEnumerable<IFormExpression<TComparable>> items
+		this IFormExpression<IEnumerable<TComparable>> items
 	) => throw new NotImplementedException();
 
 	/// <summary>
@@ -273,7 +319,7 @@ public static class FormExpression
 	/// <param name="items">The list of items.</param>
 	/// <returns>The biggest value or <see langword="null"/> if the sequence is empty.</returns>
 	public static IFormExpression<TComparable?> Max<TComparable>(
-		this IEnumerable<IFormExpression<TComparable>> items
+		this IFormExpression<IEnumerable<TComparable>> items
 	) => throw new NotImplementedException();
 
 	/// <summary>
@@ -285,7 +331,7 @@ public static class FormExpression
 	/// <param name="preferBigger">Defines the bias if there is an even number of <paramref name="items"/>.</param>
 	/// <returns>The median or <see langword="null"/> if the sequence is empty.</returns>
 	public static IFormExpression<TComparable?> Median<TComparable>(
-		this IEnumerable<IFormExpression<TComparable>> items,
+		this IFormExpression<IEnumerable<TComparable>> items,
 		bool preferBigger = false
 	) => throw new NotImplementedException();
 
@@ -294,44 +340,42 @@ public static class FormExpression
 	# region number calculations
 
 	/// <summary>
-	/// Adds the <paramref name="summands"/> onto the <paramref name="target"/> and returns the result.
+	/// Adds the <paramref name="right"/> value onto the <paramref name="left"/> and returns the result.
 	/// </summary>
-	/// <param name="target">The base number that is added to.</param>
-	/// <param name="summands">The list of numbers that are added.</param>
-	/// <returns>The sum of all values.</returns>
-	public static IFormExpression<decimal> Add(
-		this IFormExpression<decimal> target,
-		params IEnumerable<IFormExpression<decimal>> summands
-	) => throw new NotImplementedException();
+	/// <param name="left">The base number that is added to.</param>
+	/// <param name="right">The number that is added.</param>
+	/// <returns>The sum both values.</returns>
+	public static IFormExpression<decimal> Add(this IFormExpression<decimal> left, IFormExpression<decimal> right) =>
+		throw new NotImplementedException();
 
 	/// <summary>
 	/// Calculates the sum of all <paramref name="summands"/>.
 	/// </summary>
 	/// <param name="summands">The list of numbers that are added.</param>
 	/// <returns>The sum of all values.</returns>
-	public static IFormExpression<decimal> Sum(params IEnumerable<IFormExpression<decimal>> summands) =>
+	public static IFormExpression<decimal> Sum(IFormExpression<IEnumerable<decimal>> summands) =>
 		throw new NotImplementedException();
 
 	/// <summary>
-	/// Subtracts the <paramref name="summands"/> from the <paramref name="target"/> and returns the result.
+	/// Subtracts the <paramref name="right"/> value from the <paramref name="left"/> and returns the result.
 	/// </summary>
-	/// <param name="target">The base number that is subtracted from.</param>
-	/// <param name="summands">The list of numbers that are subtracted.</param>
+	/// <param name="left">The base number that is subtracted from.</param>
+	/// <param name="right">The number that is subtracted.</param>
 	/// <returns>The remainder.</returns>
 	public static IFormExpression<decimal> Subtract(
-		this IFormExpression<decimal> target,
-		params IEnumerable<IFormExpression<decimal>> summands
+		this IFormExpression<decimal> left,
+		IFormExpression<decimal> right
 	) => throw new NotImplementedException();
 
 	/// <summary>
-	/// Multiplys the <paramref name="target"/> with all <paramref name="factors"/> and returns the result.
+	/// Multiplys the <paramref name="target"/> with the <paramref name="factor"/> and returns the result.
 	/// </summary>
 	/// <param name="target">The base number that is multiplied.</param>
-	/// <param name="factors">The list of factors.</param>
+	/// <param name="factor">The factor.</param>
 	/// <returns>The product of all values.</returns>
 	public static IFormExpression<decimal> MultiplyBy(
 		this IFormExpression<decimal> target,
-		params IEnumerable<IFormExpression<decimal>> factors
+		IFormExpression<decimal> factor
 	) => throw new NotImplementedException();
 
 	/// <summary>
@@ -339,18 +383,18 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="factors">The list of factors.</param>
 	/// <returns>The product of all values.</returns>
-	public static IFormExpression<decimal> Multiply(params IEnumerable<IFormExpression<decimal>> factors) =>
+	public static IFormExpression<decimal> Multiply(IFormExpression<IEnumerable<decimal>> factors) =>
 		throw new NotImplementedException();
 
 	/// <summary>
-	/// Divides the <paramref name="target"/> by all <paramref name="factors"/> and returns the result.
+	/// Divides the <paramref name="target"/> by the <paramref name="factor"/> and returns the result.
 	/// </summary>
 	/// <param name="target">The base number that is divided.</param>
-	/// <param name="factors">The list of factors.</param>
+	/// <param name="factor">The factor.</param>
 	/// <returns>The remainder.</returns>
 	public static IFormExpression<decimal> DivideBy(
 		this IFormExpression<decimal> target,
-		params IEnumerable<IFormExpression<decimal>> factors
+		IFormExpression<decimal> factor
 	) => throw new NotImplementedException();
 
 	/// <summary>
@@ -362,27 +406,11 @@ public static class FormExpression
 		throw new NotImplementedException();
 
 	/// <summary>
-	/// Strips the <paramref name="items"/> of comma values and returns only the integer part.
-	/// </summary>
-	/// <param name="items">The list of numbers that are converted to integers.</param>
-	/// <returns>The integer part of each item.</returns>
-	public static IEnumerable<IFormExpression<int>> CastInt(this IEnumerable<IFormExpression<decimal>> items) =>
-		throw new NotImplementedException();
-
-	/// <summary>
 	/// Converts the integer <paramref name="target"/> into a decimal that can hold comma values.
 	/// </summary>
 	/// <param name="target">The number that is converted to a decimal.</param>
 	/// <returns>The casted number.</returns>
 	public static IFormExpression<decimal> CastDecimal(this IFormExpression<int> target) =>
-		throw new NotImplementedException();
-
-	/// <summary>
-	/// Converts each integer in <paramref name="items"/> into a decimal that can hold comma values.
-	/// </summary>
-	/// <param name="items">The list of numbers that are converted to a decimal.</param>
-	/// <returns>The casted numbers.</returns>
-	public static IEnumerable<IFormExpression<decimal>> CastDecimal(this IEnumerable<IFormExpression<int>> items) =>
 		throw new NotImplementedException();
 
 	/// <summary>
@@ -399,7 +427,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="items">List of numbers.</param>
 	/// <returns>The average of the given numbers.</returns>
-	public static IFormExpression<decimal> Average(this IEnumerable<IFormExpression<decimal>> items) =>
+	public static IFormExpression<decimal> Average(IFormExpression<IEnumerable<decimal>> items) =>
 		throw new NotImplementedException();
 
 	# endregion
@@ -407,25 +435,25 @@ public static class FormExpression
 	# region date calculations
 
 	/// <summary>
-	/// Moves the <paramref name="target"/> date forward in time by the given <paramref name="timeSpans"/>.
+	/// Moves the <paramref name="target"/> date forward in time by the given <paramref name="timeSpan"/>.
 	/// </summary>
 	/// <param name="target">The original date.</param>
-	/// <param name="timeSpans">The list of time spans that the date is moved by.</param>
+	/// <param name="timeSpan">The time span that the date is moved by.</param>
 	/// <returns>The moved date.</returns>
 	public static IFormExpression<DateTime> Add(
 		this IFormExpression<DateTime> target,
-		params IEnumerable<IFormExpression<TimeSpan>> timeSpans
+		IFormExpression<TimeSpan> timeSpan
 	) => throw new NotImplementedException();
 
 	/// <summary>
-	/// Moves the <paramref name="target"/> date backward in time by the given <paramref name="timeSpans"/>.
+	/// Moves the <paramref name="target"/> date backward in time by the given <paramref name="timeSpan"/>.
 	/// </summary>
 	/// <param name="target">The original date.</param>
-	/// <param name="timeSpans">The list of time spans that the date is moved by.</param>
+	/// <param name="timeSpan">The time span that the date is moved by.</param>
 	/// <returns>The moved date.</returns>
 	public static IFormExpression<DateTime> Subtract(
 		this IFormExpression<DateTime> target,
-		params IEnumerable<IFormExpression<TimeSpan>> timeSpans
+		IFormExpression<TimeSpan> timeSpan
 	) => throw new NotImplementedException();
 
 	/// <summary>
@@ -440,25 +468,25 @@ public static class FormExpression
 	) => throw new NotImplementedException();
 
 	/// <summary>
-	/// Multiplies the <paramref name="target"/> with the given <paramref name="factors"/>.
+	/// Multiplies the <paramref name="target"/> with the given <paramref name="factor"/>.
 	/// </summary>
 	/// <param name="target">The original time span.</param>
-	/// <param name="factors">The list of factors the target is multiplied with.</param>
+	/// <param name="factor">The factor the target is multiplied with.</param>
 	/// <returns>The extended timespan.</returns>
 	public static IFormExpression<TimeSpan> MultiplyBy(
 		this IFormExpression<TimeSpan> target,
-		params IEnumerable<IFormExpression<decimal>> factors
+		IFormExpression<decimal> factor
 	) => throw new NotImplementedException();
 
 	/// <summary>
-	/// Divides the <paramref name="target"/> by the given <paramref name="factors"/>.
+	/// Divides the <paramref name="target"/> by the given <paramref name="factor"/>.
 	/// </summary>
 	/// <param name="target">The original time span.</param>
-	/// <param name="factors">The list of factors the target is divided by.</param>
+	/// <param name="factor">The factor the target is divided by.</param>
 	/// <returns>The shortened timespan.</returns>
 	public static IFormExpression<TimeSpan> DivideBy(
 		this IFormExpression<TimeSpan> target,
-		params IEnumerable<IFormExpression<decimal>> factors
+		IFormExpression<decimal> factor
 	) => throw new NotImplementedException();
 
 	# endregion
