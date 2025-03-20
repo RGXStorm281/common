@@ -609,4 +609,111 @@ public class FormExpressions
 	}
 
 	# endregion
+
+	# region comparisons
+
+	[TestMethod]
+	public void SmallerThan_ShouldReturnTrueOnlyIfSmaller()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(StaticValue(0).SmallerThan(StaticValue(1)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(1).SmallerThan(StaticValue(1)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(2).SmallerThan(StaticValue(1)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void SmallerOrEqual_ShouldReturnTrueIfSmallerOrEqual()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(StaticValue(0).SmallerOrEqual(StaticValue(1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(1).SmallerOrEqual(StaticValue(1)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(2).SmallerOrEqual(StaticValue(1)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void EqualTo_ShouldReturnTrueOnlyIfEqual()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(StaticValue(0).EqualTo(StaticValue(1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(1).EqualTo(StaticValue(1)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(2).EqualTo(StaticValue(1)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void BiggerOrEqual_ShouldReturnTrueIfBiggerOrEqual()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(StaticValue(0).BiggerOrEqual(StaticValue(1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(1).BiggerOrEqual(StaticValue(1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(2).BiggerOrEqual(StaticValue(1)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void BiggerThan_ShouldReturnTrueOnlyIfBigger()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(StaticValue(0).BiggerThan(StaticValue(1)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(1).BiggerThan(StaticValue(1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(2).BiggerThan(StaticValue(1)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Min_ShouldReturnSmallestElement()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.Equals(1, StaticValue(Enumerate(1, 2, 1, 3)).Min().EvaluateOn(form));
+		Assert.Equals(2, StaticValue(Enumerate(5, 2, 3)).Min().EvaluateOn(form));
+		Assert.Equals(5, StaticValue(Enumerate(5, 256, 10)).Min().EvaluateOn(form));
+
+		Assert.Equals(
+			DateTime.Today.AddDays(-1),
+			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
+				.Min()
+				.EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void Max_ShouldReturnBiggestElement()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.Equals(3, StaticValue(Enumerate(1, 2, 1, 3)).Max().EvaluateOn(form));
+		Assert.Equals(5, StaticValue(Enumerate(5, 2, 3)).Max().EvaluateOn(form));
+		Assert.Equals(256, StaticValue(Enumerate(5, 256, 10)).Max().EvaluateOn(form));
+
+		Assert.Equals(
+			DateTime.Today.AddDays(1),
+			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
+				.Max()
+				.EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void Median_ShouldReturnMiddleElement()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.Equals(1, StaticValue(Enumerate(1, 2, 1, 3)).Median().EvaluateOn(form));
+		Assert.Equals(2, StaticValue(Enumerate(1, 2, 1, 3)).Median(true).EvaluateOn(form));
+		Assert.Equals(2, StaticValue(Enumerate(5, 2, 3)).Median().EvaluateOn(form));
+		Assert.Equals(2, StaticValue(Enumerate(5, 2, 3)).Median(true).EvaluateOn(form));
+		Assert.Equals(10, StaticValue(Enumerate(5, 256, 10)).Median().EvaluateOn(form));
+
+		Assert.Equals(
+			DateTime.Today,
+			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
+				.Median()
+				.EvaluateOn(form)
+		);
+	}
+
+	# endregion
 }
