@@ -5,26 +5,6 @@ namespace RobinEpple.Common.Forms.Expressions;
 /// </summary>
 public static class FormExpression
 {
-	# region logical operators
-
-	/// <summary>
-	/// Aggregates multiple boolean values with the logical operator "AND".
-	/// </summary>
-	/// <param name="operands">The list of boolean operands.</param>
-	/// <returns>The result is <see langword="true"/> if all operands are <see langword="true"/>.</returns>
-	public static IFormExpression<bool> And(params IEnumerable<IFormExpression<bool>> operands) =>
-		throw new NotImplementedException();
-
-	/// <summary>
-	/// Aggregates multiple boolean values with the logical operator "OR".
-	/// </summary>
-	/// <param name="operands">The list of boolean operands.</param>
-	/// <returns>The result is <see langword="true"/> if at least one of the operands is <see langword="true"/>.</returns>
-	public static IFormExpression<bool> Or(params IEnumerable<IFormExpression<bool>> operands) =>
-		throw new NotImplementedException();
-
-	# endregion
-
 	# region static values
 
 	/// <summary>
@@ -43,6 +23,12 @@ public static class FormExpression
 		IFormExpression<TValue> fallbackValue
 	) => throw new NotImplementedException();
 
+	/// <inheritdoc cref="Coalesce"/>
+	public static IFormExpression<TValue> Coalesce<TValue>(
+		this IFormExpression<TValue?> source,
+		TValue fallbackValue
+	) => source.Coalesce(StaticValue(fallbackValue));
+
 	/// <summary>
 	/// Checks the <paramref name="condition"/> and returns a different value depending on the result.
 	/// </summary>
@@ -54,6 +40,26 @@ public static class FormExpression
 		IFormExpression<TValue> whenTrue,
 		IFormExpression<TValue> whenFalse
 	) => throw new NotImplementedException();
+
+	# endregion
+
+	# region logical operators
+
+	/// <summary>
+	/// Aggregates multiple boolean values with the logical operator "AND".
+	/// </summary>
+	/// <param name="operands">The list of boolean operands.</param>
+	/// <returns>The result is <see langword="true"/> if all operands are <see langword="true"/>.</returns>
+	public static IFormExpression<bool> And(params IEnumerable<IFormExpression<bool>> operands) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Aggregates multiple boolean values with the logical operator "OR".
+	/// </summary>
+	/// <param name="operands">The list of boolean operands.</param>
+	/// <returns>The result is <see langword="true"/> if at least one of the operands is <see langword="true"/>.</returns>
+	public static IFormExpression<bool> Or(params IEnumerable<IFormExpression<bool>> operands) =>
+		throw new NotImplementedException();
 
 	# endregion
 
