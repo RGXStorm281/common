@@ -80,6 +80,21 @@ public class FormExpressions
 		);
 	}
 
+	[TestMethod]
+	public void Select_ShouldTransformEachItem()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		var result = StaticValue(Enumerate<bool?>(true, null, false))
+			.Select(item => item.Coalesce(false))
+			.EvaluateOn(form)
+			.ToList();
+
+		Assert.AreEqual(true, result[0]);
+		Assert.AreEqual(false, result[1]);
+		Assert.AreEqual(false, result[2]);
+	}
+
 	# endregion
 
 	# region logical operators

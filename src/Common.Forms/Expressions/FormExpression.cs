@@ -70,7 +70,7 @@ public static class FormExpression
 	/// <param name="source">The source list.</param>
 	/// <param name="selector">The selector function.</param>
 	/// <returns>The converted item list.</returns>
-	public static IFormExpression<TOutput> Select<TInput, TOutput>(
+	public static IFormExpression<IEnumerable<TOutput>> Select<TInput, TOutput>(
 		this IFormExpression<IEnumerable<TInput>> source,
 		Func<IFormExpression<TInput>, IFormExpression<TOutput>> selector
 	) => throw new NotImplementedException();
