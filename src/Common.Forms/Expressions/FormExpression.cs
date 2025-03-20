@@ -46,11 +46,29 @@ public static class FormExpression
 	# region logical operators
 
 	/// <summary>
+	/// Combines the two values with the logical operator "AND".
+	/// </summary>
+	/// <param name="left">The left operand.</param>
+	/// <param name="right">The right operand.</param>
+	/// <returns>The result is <see langword="true"/> if both operands are <see langword="true"/>.</returns>
+	public static IFormExpression<bool> And(this IFormExpression<bool> left, IFormExpression<bool> right) =>
+		throw new NotImplementedException();
+
+	/// <summary>
 	/// Aggregates multiple boolean values with the logical operator "AND".
 	/// </summary>
 	/// <param name="operands">The list of boolean operands.</param>
 	/// <returns>The result is <see langword="true"/> if all operands are <see langword="true"/>.</returns>
-	public static IFormExpression<bool> And(params IEnumerable<IFormExpression<bool>> operands) =>
+	public static IFormExpression<bool> All(this IEnumerable<IFormExpression<bool>> operands) =>
+		throw new NotImplementedException();
+
+	/// <summary>
+	/// Combines the two values with the logical operator "OR".
+	/// </summary>
+	/// <param name="left">The left operand.</param>
+	/// <param name="right">The right operands.</param>
+	/// <returns>The result is <see langword="true"/> if at least one of the operands is <see langword="true"/>.</returns>
+	public static IFormExpression<bool> Or(this IFormExpression<bool> left, IFormExpression<bool> right) =>
 		throw new NotImplementedException();
 
 	/// <summary>
@@ -58,7 +76,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="operands">The list of boolean operands.</param>
 	/// <returns>The result is <see langword="true"/> if at least one of the operands is <see langword="true"/>.</returns>
-	public static IFormExpression<bool> Or(params IEnumerable<IFormExpression<bool>> operands) =>
+	public static IFormExpression<bool> Any(this IEnumerable<IFormExpression<bool>> operands) =>
 		throw new NotImplementedException();
 
 	# endregion

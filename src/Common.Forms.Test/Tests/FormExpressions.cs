@@ -1,6 +1,7 @@
-using RobinEpple.Common.Forms.Expressions;
-
 namespace RobinEpple.Common.Forms.Test.Tests;
+
+using RobinEpple.Common.Forms.Expressions;
+using static RobinEpple.Common.Forms.Expressions.FormExpression;
 
 [TestClass]
 public class FormExpressions
@@ -12,10 +13,10 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsTrue(FormExpression.StaticValue(true).EvaluateOn(form));
-		Assert.IsFalse(FormExpression.StaticValue(false).EvaluateOn(form));
-		Assert.Equals(null, FormExpression.StaticValue<bool?>(null).EvaluateOn(form));
-		Assert.Equals("testText", FormExpression.StaticValue("testText").EvaluateOn(form));
+		Assert.IsTrue(StaticValue(true).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(false).EvaluateOn(form));
+		Assert.Equals(null, StaticValue<bool?>(null).EvaluateOn(form));
+		Assert.Equals("testText", StaticValue("testText").EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -23,14 +24,11 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsTrue(FormExpression.StaticValue<bool?>(true).Coalesce(false).EvaluateOn(form));
-		Assert.IsFalse(FormExpression.StaticValue<bool?>(false).Coalesce(true).EvaluateOn(form));
+		Assert.IsTrue(StaticValue<bool?>(true).Coalesce(false).EvaluateOn(form));
+		Assert.IsFalse(StaticValue<bool?>(false).Coalesce(true).EvaluateOn(form));
 		Assert.AreEqual(
 			"testText",
-			FormExpression
-				.StaticValue<string?>("testText")
-				.Coalesce(FormExpression.StaticValue("fallbackText"))
-				.EvaluateOn(form)
+			StaticValue<string?>("testText").Coalesce(StaticValue("fallbackText")).EvaluateOn(form)
 		);
 	}
 
@@ -39,14 +37,11 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(FormExpression.StaticValue<bool?>(null).Coalesce(false).EvaluateOn(form));
-		Assert.IsTrue(FormExpression.StaticValue<bool?>(null).Coalesce(true).EvaluateOn(form));
+		Assert.IsFalse(StaticValue<bool?>(null).Coalesce(false).EvaluateOn(form));
+		Assert.IsTrue(StaticValue<bool?>(null).Coalesce(true).EvaluateOn(form));
 		Assert.AreEqual(
 			"fallbackText",
-			FormExpression
-				.StaticValue<string?>(null)
-				.Coalesce(FormExpression.StaticValue("fallbackText"))
-				.EvaluateOn(form)
+			StaticValue<string?>(null).Coalesce(StaticValue("fallbackText")).EvaluateOn(form)
 		);
 	}
 
@@ -57,23 +52,135 @@ public class FormExpressions
 
 		Assert.AreEqual(
 			"trueText",
-			FormExpression
-				.Conditional(
-					FormExpression.StaticValue(true),
-					FormExpression.StaticValue("trueText"),
-					FormExpression.StaticValue("falseText")
-				)
-				.EvaluateOn(form)
+			StaticValue(true).Conditional(StaticValue("trueText"), StaticValue("falseText")).EvaluateOn(form)
 		);
 
 		Assert.AreEqual(
 			"trueText",
-			FormExpression
-				.Conditional(
-					FormExpression.StaticValue(false),
-					FormExpression.StaticValue("trueText"),
-					FormExpression.StaticValue("falseText")
-				)
+			StaticValue(false).Conditional(StaticValue("trueText"), StaticValue("falseText")).EvaluateOn(form)
+		);
+	}
+
+	# endregion
+
+	# region logical operators
+
+	[TestMethod]
+	public void And_ShouldBeTrueIfBothValuesTrue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(StaticValue(true).And(StaticValue(true)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void And_ShouldBeFalseIfAnyValueNotTrue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(StaticValue(true).And(StaticValue(false)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(false).And(StaticValue(true)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(false).And(StaticValue(false)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void All_ShouldBeTrueIfAllValuesTrue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(
+			new IFormExpression<bool>[] { StaticValue(true), StaticValue(true), StaticValue(true) }
+				.All()
+				.EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void All_ShouldBeFalseIfAnyValueNotTrue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(
+			new IFormExpression<bool>[] { StaticValue(false), StaticValue(true), StaticValue(true) }
+				.All()
+				.EvaluateOn(form)
+		);
+
+		Assert.IsFalse(
+			new IFormExpression<bool>[] { StaticValue(true), StaticValue(false), StaticValue(true) }
+				.All()
+				.EvaluateOn(form)
+		);
+
+		Assert.IsFalse(
+			new IFormExpression<bool>[] { StaticValue(true), StaticValue(true), StaticValue(false) }
+				.All()
+				.EvaluateOn(form)
+		);
+
+		Assert.IsFalse(
+			new IFormExpression<bool>[] { StaticValue(false), StaticValue(false), StaticValue(false) }
+				.All()
+				.EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void Or_ShouldBeTrueIfAnyValueTrue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(StaticValue(true).Or(StaticValue(true)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(true).Or(StaticValue(false)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(false).Or(StaticValue(true)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Or_ShouldBeFalseIfBothValueNotTrue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(StaticValue(false).Or(StaticValue(false)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Any_ShouldBeTrueIfAnyValueTrue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(
+			new IFormExpression<bool>[] { StaticValue(true), StaticValue(true), StaticValue(true) }
+				.Any()
+				.EvaluateOn(form)
+		);
+
+		Assert.IsTrue(
+			new IFormExpression<bool>[] { StaticValue(true), StaticValue(false), StaticValue(false) }
+				.Any()
+				.EvaluateOn(form)
+		);
+
+		Assert.IsTrue(
+			new IFormExpression<bool>[] { StaticValue(false), StaticValue(true), StaticValue(false) }
+				.Any()
+				.EvaluateOn(form)
+		);
+
+		Assert.IsTrue(
+			new IFormExpression<bool>[] { StaticValue(false), StaticValue(false), StaticValue(true) }
+				.Any()
+				.EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void Any_ShouldBeFalseIfAllValuesFalse()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(
+			new IFormExpression<bool>[] { StaticValue(false), StaticValue(false), StaticValue(false) }
+				.Any()
 				.EvaluateOn(form)
 		);
 	}
