@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Expressions;
 
+using RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 
 /// <summary>
@@ -13,7 +14,7 @@ public static class FormExpression
 	/// Represents a static value in the form.
 	/// </summary>
 	/// <param name="value">The value.</param>
-	public static IFormExpression<TValue> StaticValue<TValue>(TValue value) => throw new NotImplementedException();
+	public static IFormExpression<TValue> StaticValue<TValue>(TValue value) => new StaticValueExpression<TValue>(value);
 
 	/// <summary>
 	/// Throws the given exception when called.
@@ -22,7 +23,7 @@ public static class FormExpression
 	/// <param name="exceptionFactory">The exception factory to produce the thrown exception in the context of the evaluating node.</param>
 	/// <returns>Never returns a value.</returns>
 	public static IFormExpression<TValue> Throw<TValue>(Func<IFormNode, Exception> exceptionFactory) =>
-		throw new NotImplementedException();
+		new ThrowExpression<TValue>(exceptionFactory);
 
 	/// <summary>
 	/// Provides a <paramref name="fallbackValue"/> in case the <paramref name="source"/> is <see langword="null"/>.
@@ -32,7 +33,13 @@ public static class FormExpression
 	public static IFormExpression<TValue> Coalesce<TValue>(
 		this IFormExpression<TValue?> source,
 		IFormExpression<TValue> fallbackValue
-	) => throw new NotImplementedException();
+	) => new CoalesceExpression<TValue>(source, fallbackValue);
+
+	/// <inheritdoc cref="Coalesce"/>
+	public static IFormExpression<TValue> Coalesce<TValue>(
+		this IFormExpression<TValue?> source,
+		TValue fallbackValue
+	) => source.Coalesce(StaticValue(fallbackValue));
 
 	/// <summary>
 	/// Provides a <paramref name="fallbackValue"/> in case the <paramref name="source"/> throws a <see cref="NodeNotFoundException"/>.
@@ -40,15 +47,9 @@ public static class FormExpression
 	/// <param name="source">The source to check.</param>
 	/// <param name="fallbackValue">The fallback value to use if <paramref name="source"/> throws.</param>
 	public static IFormExpression<TValue> OnNotFound<TValue>(
-		this IFormExpression<TValue?> source,
+		this IFormExpression<TValue> source,
 		IFormExpression<TValue> fallbackValue
-	) => throw new NotImplementedException();
-
-	/// <inheritdoc cref="Coalesce"/>
-	public static IFormExpression<TValue> Coalesce<TValue>(
-		this IFormExpression<TValue?> source,
-		TValue fallbackValue
-	) => source.Coalesce(StaticValue(fallbackValue));
+	) => new OnNotFoundExpression<TValue>(source, fallbackValue);
 
 	/// <summary>
 	/// Checks the <paramref name="condition"/> and returns a different value depending on the result.
@@ -60,7 +61,7 @@ public static class FormExpression
 		this IFormExpression<bool> condition,
 		IFormExpression<TValue> whenTrue,
 		IFormExpression<TValue> whenFalse
-	) => throw new NotImplementedException();
+	) => new ConditionalExpression<TValue>(condition, whenTrue, whenFalse);
 
 	/// <summary>
 	/// Iterates over the <paramref name="source"/> and applies the <paramref name="selector"/> to each item.
@@ -72,8 +73,22 @@ public static class FormExpression
 	/// <returns>The converted item list.</returns>
 	public static IFormExpression<IEnumerable<TOutput>> Select<TInput, TOutput>(
 		this IFormExpression<IEnumerable<TInput>> source,
-		Func<IFormExpression<TInput>, IFormExpression<TOutput>> selector
-	) => throw new NotImplementedException();
+		Func<TInput, TOutput> selector
+	) => new SelectExpression<TInput, TOutput>(source, selector);
+
+	/// <summary>
+	/// Checks whether the given <paramref name="item"/> is in the specified <paramref name="list"/>.
+	/// </summary>
+	/// <typeparam name="TElement">The element type of the list.</typeparam>
+	/// <param name="list">The list of items to look through.</param>
+	/// <param name="item">The item that needs to be matched.</param>
+	/// <param name="equalityComparer">Optional equality comparer to define a match.</param>
+	/// <returns><see langword="true"/>, if the item is contained. Otherwise <see langword="false"/>.</returns>
+	public static IFormExpression<bool> Contains<TElement>(
+		this IFormExpression<IEnumerable<TElement>> list,
+		IFormExpression<TElement> item,
+		IEqualityComparer<TElement>? equalityComparer = null
+	) => new ContainsExpression<TElement>(list, item, equalityComparer);
 
 	# endregion
 

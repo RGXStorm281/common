@@ -75,7 +75,7 @@ public class FormExpressions
 		);
 
 		Assert.AreEqual(
-			"trueText",
+			"falseText",
 			StaticValue(false).Conditional(StaticValue("trueText"), StaticValue("falseText")).EvaluateOn(form)
 		);
 	}
@@ -86,13 +86,40 @@ public class FormExpressions
 		var form = new FormBuilder("Test").Build();
 
 		var result = StaticValue(Enumerate<bool?>(true, null, false))
-			.Select(item => item.Coalesce(false))
+			.Select(item => item ?? false)
 			.EvaluateOn(form)
 			.ToList();
 
 		Assert.AreEqual(true, result[0]);
 		Assert.AreEqual(false, result[1]);
 		Assert.AreEqual(false, result[2]);
+	}
+
+	[TestMethod]
+	public void Contains_ShouldOnlyBeTrueIfItemContained()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(0)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(2)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(3)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(4)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void ContainsEqualityComparer_ShouldTakeEffect()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(
+			StaticValue(Enumerate("Test")).Contains(StaticValue("test"), StringComparer.Ordinal).EvaluateOn(form)
+		);
+		Assert.IsTrue(
+			StaticValue(Enumerate("Test"))
+				.Contains(StaticValue("test"), StringComparer.OrdinalIgnoreCase)
+				.EvaluateOn(form)
+		);
 	}
 
 	# endregion
