@@ -99,7 +99,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="source">The source expression.</param>
 	/// <returns>The inverted value.</returns>
-	public static IFormExpression<bool> Not(IFormExpression<bool> source) => throw new NotImplementedException();
+	public static IFormExpression<bool> Not(IFormExpression<bool> source) => new NotExpression(source);
 
 	/// <summary>
 	/// Combines the two values with the logical operator "AND".
@@ -108,7 +108,7 @@ public static class FormExpression
 	/// <param name="right">The right operand.</param>
 	/// <returns>The result is <see langword="true"/> if both operands are <see langword="true"/>.</returns>
 	public static IFormExpression<bool> And(this IFormExpression<bool> left, IFormExpression<bool> right) =>
-		throw new NotImplementedException();
+		new AndExpression(left, right);
 
 	/// <summary>
 	/// Aggregates multiple boolean values with the logical operator "AND".
@@ -116,7 +116,7 @@ public static class FormExpression
 	/// <param name="operands">The list of boolean operands.</param>
 	/// <returns>The result is <see langword="true"/> if all operands are <see langword="true"/>.</returns>
 	public static IFormExpression<bool> All(this IFormExpression<IEnumerable<bool>> operands) =>
-		throw new NotImplementedException();
+		new AllExpression(operands);
 
 	/// <summary>
 	/// Combines the two values with the logical operator "OR".
@@ -125,7 +125,7 @@ public static class FormExpression
 	/// <param name="right">The right operands.</param>
 	/// <returns>The result is <see langword="true"/> if at least one of the operands is <see langword="true"/>.</returns>
 	public static IFormExpression<bool> Or(this IFormExpression<bool> left, IFormExpression<bool> right) =>
-		throw new NotImplementedException();
+		new OrExpression(left, right);
 
 	/// <summary>
 	/// Aggregates multiple boolean values with the logical operator "OR".
@@ -133,7 +133,7 @@ public static class FormExpression
 	/// <param name="operands">The list of boolean operands.</param>
 	/// <returns>The result is <see langword="true"/> if at least one of the operands is <see langword="true"/>.</returns>
 	public static IFormExpression<bool> Any(this IFormExpression<IEnumerable<bool>> operands) =>
-		throw new NotImplementedException();
+		new AnyExpression(operands);
 
 	# endregion
 
