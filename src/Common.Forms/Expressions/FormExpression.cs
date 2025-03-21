@@ -80,6 +80,13 @@ public static class FormExpression
 	# region logical operators
 
 	/// <summary>
+	/// Inverts the result of the <paramref name="source"/> expression.
+	/// </summary>
+	/// <param name="source">The source expression.</param>
+	/// <returns>The inverted value.</returns>
+	public static IFormExpression<bool> Not(IFormExpression<bool> source) => throw new NotImplementedException();
+
+	/// <summary>
 	/// Combines the two values with the logical operator "AND".
 	/// </summary>
 	/// <param name="left">The left operand.</param>

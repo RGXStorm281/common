@@ -100,6 +100,15 @@ public class FormExpressions
 	# region logical operators
 
 	[TestMethod]
+	public void Not_ShouldInvertResult()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(Not(StaticValue(false)).EvaluateOn(form));
+		Assert.IsFalse(Not(StaticValue(true)).EvaluateOn(form));
+	}
+
+	[TestMethod]
 	public void And_ShouldBeTrueIfBothValuesTrue()
 	{
 		var form = new FormBuilder("Test").Build();
