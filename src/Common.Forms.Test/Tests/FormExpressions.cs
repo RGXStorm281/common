@@ -18,8 +18,8 @@ public class FormExpressions
 
 		Assert.IsTrue(StaticValue(true).EvaluateOn(form));
 		Assert.IsFalse(StaticValue(false).EvaluateOn(form));
-		Assert.Equals(null, StaticValue<bool?>(null).EvaluateOn(form));
-		Assert.Equals("testText", StaticValue("testText").EvaluateOn(form));
+		Assert.AreEqual(null, StaticValue<bool?>(null).EvaluateOn(form));
+		Assert.AreEqual("testText", StaticValue("testText").EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -676,11 +676,11 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.Equals(1, StaticValue(Enumerate(1, 2, 1, 3)).Min().EvaluateOn(form));
-		Assert.Equals(2, StaticValue(Enumerate(5, 2, 3)).Min().EvaluateOn(form));
-		Assert.Equals(5, StaticValue(Enumerate(5, 256, 10)).Min().EvaluateOn(form));
+		Assert.AreEqual(1, StaticValue(Enumerate(1, 2, 1, 3)).Min().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(Enumerate(5, 2, 3)).Min().EvaluateOn(form));
+		Assert.AreEqual(5, StaticValue(Enumerate(5, 256, 10)).Min().EvaluateOn(form));
 
-		Assert.Equals(
+		Assert.AreEqual(
 			DateTime.Today.AddDays(-1),
 			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
 				.Min()
@@ -693,11 +693,11 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.Equals(3, StaticValue(Enumerate(1, 2, 1, 3)).Max().EvaluateOn(form));
-		Assert.Equals(5, StaticValue(Enumerate(5, 2, 3)).Max().EvaluateOn(form));
-		Assert.Equals(256, StaticValue(Enumerate(5, 256, 10)).Max().EvaluateOn(form));
+		Assert.AreEqual(3, StaticValue(Enumerate(1, 2, 1, 3)).Max().EvaluateOn(form));
+		Assert.AreEqual(5, StaticValue(Enumerate(5, 2, 3)).Max().EvaluateOn(form));
+		Assert.AreEqual(256, StaticValue(Enumerate(5, 256, 10)).Max().EvaluateOn(form));
 
-		Assert.Equals(
+		Assert.AreEqual(
 			DateTime.Today.AddDays(1),
 			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
 				.Max()
@@ -710,18 +710,157 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.Equals(1, StaticValue(Enumerate(1, 2, 1, 3)).Median().EvaluateOn(form));
-		Assert.Equals(2, StaticValue(Enumerate(1, 2, 1, 3)).Median(true).EvaluateOn(form));
-		Assert.Equals(2, StaticValue(Enumerate(5, 2, 3)).Median().EvaluateOn(form));
-		Assert.Equals(2, StaticValue(Enumerate(5, 2, 3)).Median(true).EvaluateOn(form));
-		Assert.Equals(10, StaticValue(Enumerate(5, 256, 10)).Median().EvaluateOn(form));
+		Assert.AreEqual(1, StaticValue(Enumerate(1, 2, 1, 3)).Median().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(Enumerate(1, 2, 1, 3)).Median(true).EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(Enumerate(5, 2, 3)).Median().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(Enumerate(5, 2, 3)).Median(true).EvaluateOn(form));
+		Assert.AreEqual(10, StaticValue(Enumerate(5, 256, 10)).Median().EvaluateOn(form));
 
-		Assert.Equals(
+		Assert.AreEqual(
 			DateTime.Today,
 			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
 				.Median()
 				.EvaluateOn(form)
 		);
+	}
+
+	# endregion
+
+	# region number calculations
+
+	[TestMethod]
+	public void Number_Add_ShouldReturnSumOfTwoValues()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(5m, StaticValue(3m).Add(StaticValue(5m)).EvaluateOn(form));
+		Assert.AreEqual(10.275m, StaticValue(3.175m).Add(StaticValue(7.1m)).EvaluateOn(form));
+		Assert.AreEqual(-2m, StaticValue(5m).Add(StaticValue(-7m)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_Sum_ShouldReturnSumOfAllValues()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(8m, StaticValue(Enumerate(1m, 2m, 5m)).Sum().EvaluateOn(form));
+		Assert.AreEqual(-4m, StaticValue(Enumerate(1m, -10m, 5m)).Sum().EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_Subtract_ShouldReturnRemainder()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(-2m, StaticValue(3m).Subtract(StaticValue(5m)).EvaluateOn(form));
+		Assert.AreEqual(-4.075m, StaticValue(3.175m).Subtract(StaticValue(7.1m)).EvaluateOn(form));
+		Assert.AreEqual(12m, StaticValue(5m).Subtract(StaticValue(-7m)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_MultiplyBy_ShouldMultiplyTwoValues()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(4m, StaticValue(2m).MultiplyBy(StaticValue(2m)).EvaluateOn(form));
+		Assert.AreEqual(-5m, StaticValue(5m).MultiplyBy(StaticValue(-1m)).EvaluateOn(form));
+		Assert.AreEqual(1m, StaticValue(2m).MultiplyBy(StaticValue(1m / 2m)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_Multiply_ShouldMultiplyAllValues()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(10m, StaticValue(Enumerate(1m, 2m, 5m)).Multiply().EvaluateOn(form));
+		Assert.AreEqual(-10m, StaticValue(Enumerate(2m, -10m, 1m / 2m)).Multiply().EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_DivideBy_ShouldDivideBySecondValue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(1m, StaticValue(2m).DivideBy(StaticValue(2m)).EvaluateOn(form));
+		Assert.AreEqual(-5m, StaticValue(5m).DivideBy(StaticValue(-1m)).EvaluateOn(form));
+		Assert.AreEqual(4m, StaticValue(2m).DivideBy(StaticValue(1m / 2m)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_CastInt_ShouldStripDigitsAfterComma()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(2, StaticValue(2m).CastInt().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(2.1m).CastInt().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(2.9m).CastInt().EvaluateOn(form));
+		Assert.AreEqual(-3, StaticValue(-3.9m).CastInt().EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_CastDecimal_ShouldReturnDecimalRepresentation()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(StaticValue(2).CastDecimal().EvaluateOn(form).GetType() == typeof(decimal));
+	}
+
+	[TestMethod]
+	public void Number_Ceil_ShouldReturnNextBiggerInt()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(2m, StaticValue(2m).Ceil().EvaluateOn(form));
+		Assert.AreEqual(3m, StaticValue(2.1m).Ceil().EvaluateOn(form));
+		Assert.AreEqual(3m, StaticValue(2.9m).Ceil().EvaluateOn(form));
+		Assert.AreEqual(-3m, StaticValue(-3.9m).Ceil().EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_Floor_ShouldReturnNextSmallerInt()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(2m, StaticValue(2m).Floor().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(2.1m).Floor().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(2.9m).Floor().EvaluateOn(form));
+		Assert.AreEqual(-4m, StaticValue(-3.9m).Floor().EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_Round_ShouldReturnClosestInt()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(2m, StaticValue(2m).Floor().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(2.1m).Floor().EvaluateOn(form));
+		Assert.AreEqual(3m, StaticValue(2.9m).Floor().EvaluateOn(form));
+		Assert.AreEqual(-4m, StaticValue(-3.9m).Floor().EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_Modulo_ShouldTrimToField()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(2, StaticValue(12).Modulo(StaticValue(10)).EvaluateOn(form));
+		Assert.AreEqual(0, StaticValue(12).Modulo(StaticValue(3)).EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(12).Modulo(StaticValue(5)).EvaluateOn(form));
+
+		// The deviation of mod in C# differs from the mathematical definition of allowing only
+		// integer values (positive). It is apparently a "truncation-based remainder operation"
+		// and the expression should stick to the % operator we are used to from programming.
+		Assert.AreEqual(-2m, StaticValue(-12).Modulo(StaticValue(10)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Number_Average_ShouldComputeAverageWithDecimalPrecision()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(2m, StaticValue(Enumerate(1m, 3m)).Average().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(Enumerate(1m, 2m, 3m)).Average().EvaluateOn(form));
+		Assert.AreEqual(1.5m, StaticValue(Enumerate(1m, 2m)).Average().EvaluateOn(form));
 	}
 
 	# endregion

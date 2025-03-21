@@ -17,7 +17,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-5" value="&lt;i&gt;&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;FormExpression&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="350" y="230" width="980" height="1258" as="geometry" />
+          <mxGeometry x="350" y="230" width="980" height="1336" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-8" value="+ StaticValue&amp;lt;TValue&amp;gt;(value: TValue): IFormExpression&amp;lt;TValue&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
           <mxGeometry y="40" width="980" height="26" as="geometry" />
@@ -148,29 +148,38 @@
         <mxCell id="h1JBHb2rfp_QKHuGU6RQ-2" value="+ CastDecimal(target: this IFormExpression&amp;lt;int&amp;gt;): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
           <mxGeometry y="1042" width="980" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-31" value="+ Modulo(target: this IFormExpression&amp;lt;int&amp;gt;, field: IFormExpression&amp;lt;int&amp;gt;): IFormExpression&amp;lt;int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+        <mxCell id="ASr8JDQM1mas-NPUAcYW-12" value="+ Ceil(target: this IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
           <mxGeometry y="1068" width="980" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="ASr8JDQM1mas-NPUAcYW-9" value="+ Average(items: this IFormExpression&amp;lt;decimal[]&amp;gt;): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
+        <mxCell id="ASr8JDQM1mas-NPUAcYW-13" value="+ Floor(target: this IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
           <mxGeometry y="1094" width="980" height="26" as="geometry" />
         </mxCell>
+        <mxCell id="ASr8JDQM1mas-NPUAcYW-14" value="+ Round(target: this IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
+          <mxGeometry y="1120" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-31" value="+ Modulo(target: this IFormExpression&amp;lt;int&amp;gt;, field: IFormExpression&amp;lt;int&amp;gt;): IFormExpression&amp;lt;int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+          <mxGeometry y="1146" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ASr8JDQM1mas-NPUAcYW-9" value="+ Average(items: this IFormExpression&amp;lt;decimal[]&amp;gt;): IFormExpression&amp;lt;decimal&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="2iBS2Hq4_cnO49i6PDha-5">
+          <mxGeometry y="1172" width="980" height="26" as="geometry" />
+        </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-33" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="1120" width="980" height="8" as="geometry" />
+          <mxGeometry y="1198" width="980" height="8" as="geometry" />
         </mxCell>
         <mxCell id="2iBS2Hq4_cnO49i6PDha-34" value="+ Add(target: this IFormExpression&amp;lt;DateTime&amp;gt;, timeSpan: IFormExpression&amp;lt;TimeSpan&amp;gt;): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="1128" width="980" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-35" value="+ Subtract(target: this IFormExpression&amp;lt;DateTime&amp;gt;, timeSpan: IFormExpression&amp;lt;TimeSpan&amp;gt;): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="1154" width="980" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-36" value="+ Difference(start: this IFormExpression&amp;lt;DateTime&amp;gt;, end: IFormExpression&amp;lt;DateTime&amp;gt;): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
-          <mxGeometry y="1180" width="980" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-37" value="+ MultiplyBy(target: this IFormExpression&amp;lt;TimeSpan&amp;gt;, factor: IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
           <mxGeometry y="1206" width="980" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="2iBS2Hq4_cnO49i6PDha-38" value="+ DivideBy(target: this IFormExpression&amp;lt;TimeSpan&amp;gt;, factor: IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-35" value="+ Subtract(target: this IFormExpression&amp;lt;DateTime&amp;gt;, timeSpan: IFormExpression&amp;lt;TimeSpan&amp;gt;): IFormExpression&amp;lt;DateTime&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
           <mxGeometry y="1232" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-36" value="+ Difference(start: this IFormExpression&amp;lt;DateTime&amp;gt;, end: IFormExpression&amp;lt;DateTime&amp;gt;): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+          <mxGeometry y="1258" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-37" value="+ MultiplyBy(target: this IFormExpression&amp;lt;TimeSpan&amp;gt;, factor: IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+          <mxGeometry y="1284" width="980" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iBS2Hq4_cnO49i6PDha-38" value="+ DivideBy(target: this IFormExpression&amp;lt;TimeSpan&amp;gt;, factor: IFormExpression&amp;lt;decimal&amp;gt;): IFormExpression&amp;lt;TimeSpan&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="2iBS2Hq4_cnO49i6PDha-5" vertex="1">
+          <mxGeometry y="1310" width="980" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
