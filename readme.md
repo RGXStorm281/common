@@ -28,10 +28,9 @@ dotnet csharpier .
 
 ## Metrics
 
-For some fun code metrics install [cloc](https://github.com/AlDanial/cloc?tab=readme-ov-file#install-via-package-manager), navigate to the git directory of this project and run the following command:
+For some fun code metrics install [cloc](https://github.com/AlDanial/cloc?tab=readme-ov-file#install-via-package-manager), navigate to the git directory of this project (outside the container) and run the following command:
 
 ```
-cd /workspaces/common
 cloc src --out=lines_of_code.md --md --exclude-dir="bin,obj"
 ```
 

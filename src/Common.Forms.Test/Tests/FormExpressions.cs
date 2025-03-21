@@ -864,4 +864,109 @@ public class FormExpressions
 	}
 
 	# endregion
+
+	# region date calculations
+
+	[TestMethod]
+	public void Date_Add_JumpsByGivenTimespan()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(
+			DateTime.Today.AddDays(1),
+			StaticValue(DateTime.Today).Add(StaticValue(TimeSpan.FromDays(1))).EvaluateOn(form)
+		);
+		Assert.AreEqual(
+			DateTime.Today.AddDays(-1),
+			StaticValue(DateTime.Today).Add(StaticValue(TimeSpan.FromDays(-1))).EvaluateOn(form)
+		);
+		Assert.AreEqual(
+			DateTime.Today.AddHours(1),
+			StaticValue(DateTime.Today).Add(StaticValue(TimeSpan.FromHours(1))).EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void Date_Subtract_JumpsByGivenTimespan()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(
+			DateTime.Today.AddDays(-1),
+			StaticValue(DateTime.Today).Subtract(StaticValue(TimeSpan.FromDays(1))).EvaluateOn(form)
+		);
+		Assert.AreEqual(
+			DateTime.Today.AddDays(1),
+			StaticValue(DateTime.Today).Subtract(StaticValue(TimeSpan.FromDays(-1))).EvaluateOn(form)
+		);
+		Assert.AreEqual(
+			DateTime.Today.AddHours(-1),
+			StaticValue(DateTime.Today).Subtract(StaticValue(TimeSpan.FromHours(1))).EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void Date_Difference_ReturnsTimespanBetween()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(
+			TimeSpan.FromHours(2),
+			StaticValue(DateTime.Today).Difference(StaticValue(DateTime.Today.AddHours(2))).EvaluateOn(form)
+		);
+
+		Assert.AreEqual(
+			TimeSpan.FromHours(-2),
+			StaticValue(DateTime.Today).Difference(StaticValue(DateTime.Today.AddHours(-2))).EvaluateOn(form)
+		);
+
+		Assert.AreEqual(
+			TimeSpan.FromDays(-2),
+			StaticValue(DateTime.Today).Difference(StaticValue(DateTime.Today.AddDays(-2))).EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void TimeSpan_MultiplyBy_IncreasesByFactor()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(
+			TimeSpan.FromHours(5),
+			StaticValue(TimeSpan.FromHours(1)).MultiplyBy(StaticValue(5m)).EvaluateOn(form)
+		);
+
+		Assert.AreEqual(
+			TimeSpan.FromHours(-5),
+			StaticValue(TimeSpan.FromHours(1)).MultiplyBy(StaticValue(-5m)).EvaluateOn(form)
+		);
+
+		Assert.AreEqual(
+			TimeSpan.FromDays(1 / 5d),
+			StaticValue(TimeSpan.FromDays(1)).MultiplyBy(StaticValue(1 / 5m)).EvaluateOn(form)
+		);
+	}
+
+	[TestMethod]
+	public void TimeSpan_DivideBy_DecreasesByFactor()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.AreEqual(
+			TimeSpan.FromHours(1 / 5d),
+			StaticValue(TimeSpan.FromHours(1)).DivideBy(StaticValue(5m)).EvaluateOn(form)
+		);
+
+		Assert.AreEqual(
+			TimeSpan.FromHours(-5),
+			StaticValue(TimeSpan.FromHours(1)).DivideBy(StaticValue(-5m)).EvaluateOn(form)
+		);
+
+		Assert.AreEqual(
+			TimeSpan.FromDays(5),
+			StaticValue(TimeSpan.FromDays(1)).DivideBy(StaticValue(1 / 5m)).EvaluateOn(form)
+		);
+	}
+
+	# endregion
 }
