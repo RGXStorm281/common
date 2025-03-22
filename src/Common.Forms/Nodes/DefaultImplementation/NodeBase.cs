@@ -35,6 +35,22 @@ internal abstract class NodeBase : IFormNode
 	public IForm Root { get; protected set; }
 
 	/// <inheritdoc />
+	public IScopeProvider GetScope()
+	{
+		if (this is IScopeProvider scope)
+		{
+			return scope;
+		}
+
+		if (Parent == null)
+		{
+			throw new InvalidOperationException("The parent stack does not contain a scope provider.");
+		}
+
+		return Parent.GetScope();
+	}
+
+	/// <inheritdoc />
 	public virtual void ChangeParent(IParentNode parent)
 	{
 		Parent = parent;

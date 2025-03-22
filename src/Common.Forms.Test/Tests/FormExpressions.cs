@@ -7,7 +7,7 @@ using static RobinEpple.Common.Forms.Expressions.FormExpression;
 [TestClass]
 public class FormExpressions
 {
-	private IEnumerable<TValue> Enumerate<TValue>(params TValue[] values) => values;
+	private IEnumerable<TValue> _enumerate<TValue>(params TValue[] values) => values;
 
 	# region utilities
 
@@ -94,7 +94,7 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		var result = StaticValue(Enumerate<bool?>(true, null, false))
+		var result = StaticValue(_enumerate<bool?>(true, null, false))
 			.Select(item => item ?? false)
 			.EvaluateOn(form)
 			.ToList();
@@ -109,11 +109,11 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(0)).EvaluateOn(form));
-		Assert.IsTrue(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(1)).EvaluateOn(form));
-		Assert.IsTrue(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(2)).EvaluateOn(form));
-		Assert.IsTrue(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(3)).EvaluateOn(form));
-		Assert.IsFalse(StaticValue(Enumerate(1, 2, 3)).Contains(StaticValue(4)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(_enumerate(1, 2, 3)).Contains(StaticValue(0)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(1, 2, 3)).Contains(StaticValue(1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(1, 2, 3)).Contains(StaticValue(2)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(1, 2, 3)).Contains(StaticValue(3)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(_enumerate(1, 2, 3)).Contains(StaticValue(4)).EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -122,10 +122,10 @@ public class FormExpressions
 		var form = new FormBuilder("Test").Build();
 
 		Assert.IsFalse(
-			StaticValue(Enumerate("Test")).Contains(StaticValue("test"), StringComparer.Ordinal).EvaluateOn(form)
+			StaticValue(_enumerate("Test")).Contains(StaticValue("test"), StringComparer.Ordinal).EvaluateOn(form)
 		);
 		Assert.IsTrue(
-			StaticValue(Enumerate("Test"))
+			StaticValue(_enumerate("Test"))
 				.Contains(StaticValue("test"), StringComparer.OrdinalIgnoreCase)
 				.EvaluateOn(form)
 		);
@@ -167,7 +167,7 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsTrue(StaticValue(Enumerate(true, true, true)).All().EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(true, true, true)).All().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -175,13 +175,13 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(StaticValue(Enumerate(false, true, true)).All().EvaluateOn(form));
+		Assert.IsFalse(StaticValue(_enumerate(false, true, true)).All().EvaluateOn(form));
 
-		Assert.IsFalse(StaticValue(Enumerate(true, false, true)).All().EvaluateOn(form));
+		Assert.IsFalse(StaticValue(_enumerate(true, false, true)).All().EvaluateOn(form));
 
-		Assert.IsFalse(StaticValue(Enumerate(true, true, false)).All().EvaluateOn(form));
+		Assert.IsFalse(StaticValue(_enumerate(true, true, false)).All().EvaluateOn(form));
 
-		Assert.IsFalse(StaticValue(Enumerate(false, false, false)).All().EvaluateOn(form));
+		Assert.IsFalse(StaticValue(_enumerate(false, false, false)).All().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -207,13 +207,13 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsTrue(StaticValue(Enumerate(true, true, true)).Any().EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(true, true, true)).Any().EvaluateOn(form));
 
-		Assert.IsTrue(StaticValue(Enumerate(true, false, false)).Any().EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(true, false, false)).Any().EvaluateOn(form));
 
-		Assert.IsTrue(StaticValue(Enumerate(false, true, false)).Any().EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(false, true, false)).Any().EvaluateOn(form));
 
-		Assert.IsTrue(StaticValue(Enumerate(false, false, true)).Any().EvaluateOn(form));
+		Assert.IsTrue(StaticValue(_enumerate(false, false, true)).Any().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -221,7 +221,7 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(StaticValue(Enumerate(false, false, false)).Any().EvaluateOn(form));
+		Assert.IsFalse(StaticValue(_enumerate(false, false, false)).Any().EvaluateOn(form));
 	}
 
 	# endregion
@@ -556,7 +556,7 @@ public class FormExpressions
 		templateNode.Instantiate(templateNode.Templates.First());
 
 		Assert.AreEqual("Test", ScopeName().EvaluateOn(form));
-		Assert.AreEqual("Template", InSection("Section", ScopeName()).EvaluateOn(templateNode));
+		Assert.AreEqual("Template", InTemplatedSection("Section", ScopeName()).EvaluateOn(templateNode));
 	}
 
 	[TestMethod]
@@ -567,7 +567,9 @@ public class FormExpressions
 			.Build();
 		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
 
-		Assert.ThrowsException<NodeNotFoundException>(() => InSection("Section", ScopeName()).EvaluateOn(templateNode));
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => InTemplatedSection("Section", ScopeName()).EvaluateOn(templateNode)
+		);
 	}
 
 	[TestMethod]
@@ -724,13 +726,13 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(1, StaticValue(Enumerate(1, 2, 1, 3)).Min().EvaluateOn(form));
-		Assert.AreEqual(2, StaticValue(Enumerate(5, 2, 3)).Min().EvaluateOn(form));
-		Assert.AreEqual(5, StaticValue(Enumerate(5, 256, 10)).Min().EvaluateOn(form));
+		Assert.AreEqual(1, StaticValue(_enumerate(1, 2, 1, 3)).Min().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(_enumerate(5, 2, 3)).Min().EvaluateOn(form));
+		Assert.AreEqual(5, StaticValue(_enumerate(5, 256, 10)).Min().EvaluateOn(form));
 
 		Assert.AreEqual(
 			DateTime.Today.AddDays(-1),
-			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
+			StaticValue(_enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
 				.Min()
 				.EvaluateOn(form)
 		);
@@ -741,13 +743,13 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(3, StaticValue(Enumerate(1, 2, 1, 3)).Max().EvaluateOn(form));
-		Assert.AreEqual(5, StaticValue(Enumerate(5, 2, 3)).Max().EvaluateOn(form));
-		Assert.AreEqual(256, StaticValue(Enumerate(5, 256, 10)).Max().EvaluateOn(form));
+		Assert.AreEqual(3, StaticValue(_enumerate(1, 2, 1, 3)).Max().EvaluateOn(form));
+		Assert.AreEqual(5, StaticValue(_enumerate(5, 2, 3)).Max().EvaluateOn(form));
+		Assert.AreEqual(256, StaticValue(_enumerate(5, 256, 10)).Max().EvaluateOn(form));
 
 		Assert.AreEqual(
 			DateTime.Today.AddDays(1),
-			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
+			StaticValue(_enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
 				.Max()
 				.EvaluateOn(form)
 		);
@@ -758,15 +760,15 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(1, StaticValue(Enumerate(1, 2, 1, 3)).Median().EvaluateOn(form));
-		Assert.AreEqual(2, StaticValue(Enumerate(1, 2, 1, 3)).Median(true).EvaluateOn(form));
-		Assert.AreEqual(2, StaticValue(Enumerate(5, 2, 3)).Median().EvaluateOn(form));
-		Assert.AreEqual(2, StaticValue(Enumerate(5, 2, 3)).Median(true).EvaluateOn(form));
-		Assert.AreEqual(10, StaticValue(Enumerate(5, 256, 10)).Median().EvaluateOn(form));
+		Assert.AreEqual(1, StaticValue(_enumerate(1, 2, 1, 3)).Median().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(_enumerate(1, 2, 1, 3)).Median(true).EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(_enumerate(5, 2, 3)).Median().EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(_enumerate(5, 2, 3)).Median(true).EvaluateOn(form));
+		Assert.AreEqual(10, StaticValue(_enumerate(5, 256, 10)).Median().EvaluateOn(form));
 
 		Assert.AreEqual(
 			DateTime.Today,
-			StaticValue(Enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
+			StaticValue(_enumerate(DateTime.Today, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)))
 				.Median()
 				.EvaluateOn(form)
 		);
@@ -791,8 +793,8 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(8m, StaticValue(Enumerate(1m, 2m, 5m)).Sum().EvaluateOn(form));
-		Assert.AreEqual(-4m, StaticValue(Enumerate(1m, -10m, 5m)).Sum().EvaluateOn(form));
+		Assert.AreEqual(8m, StaticValue(_enumerate(1m, 2m, 5m)).Sum().EvaluateOn(form));
+		Assert.AreEqual(-4m, StaticValue(_enumerate(1m, -10m, 5m)).Sum().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -820,8 +822,8 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(10m, StaticValue(Enumerate(1m, 2m, 5m)).Multiply().EvaluateOn(form));
-		Assert.AreEqual(-10m, StaticValue(Enumerate(2m, -10m, 1m / 2m)).Multiply().EvaluateOn(form));
+		Assert.AreEqual(10m, StaticValue(_enumerate(1m, 2m, 5m)).Multiply().EvaluateOn(form));
+		Assert.AreEqual(-10m, StaticValue(_enumerate(2m, -10m, 1m / 2m)).Multiply().EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -906,9 +908,9 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(2m, StaticValue(Enumerate(1m, 3m)).Average().EvaluateOn(form));
-		Assert.AreEqual(2m, StaticValue(Enumerate(1m, 2m, 3m)).Average().EvaluateOn(form));
-		Assert.AreEqual(1.5m, StaticValue(Enumerate(1m, 2m)).Average().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(_enumerate(1m, 3m)).Average().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(_enumerate(1m, 2m, 3m)).Average().EvaluateOn(form));
+		Assert.AreEqual(1.5m, StaticValue(_enumerate(1m, 2m)).Average().EvaluateOn(form));
 	}
 
 	# endregion

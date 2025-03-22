@@ -186,13 +186,6 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public IFormNode? FindNode(string name, StringComparer? comparer = null)
-	{
-		// Never search collections for unique nodes.
-		return null;
-	}
-
-	/// <inheritdoc />
 	public IEnumerable<IFormNode> FindNodes(string name, StringComparer? comparer = null)
 	{
 		// Default comparer is case sensitive.

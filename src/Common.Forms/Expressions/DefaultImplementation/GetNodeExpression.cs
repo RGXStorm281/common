@@ -11,20 +11,13 @@ public class GetNodeExpression<TNode>(string name) : IFormExpression<TNode>
 	/// <inheritdoc />
 	public TNode EvaluateOn(IFormNode node)
 	{
-		var searchTarget = node is IForm form ? form : node.Parent;
+		var scope = node.GetScope();
 
-		if (searchTarget == null)
-		{
-			throw new NodeNotFoundException(
-				"No scope could be identified, since the node is neither a form itself nor has it a parent."
-			);
-		}
-
-		var searchResult = searchTarget.FindNode(_name);
+		var searchResult = scope.FindNode(_name);
 		if (searchResult == null)
 		{
 			throw new NodeNotFoundException(
-				$"A node with the name '{_name}' could not be found in the scope of '{searchTarget.GetId()}'"
+				$"A node with the name '{_name}' could not be found in the scope of '{scope.GetId()}'"
 			);
 		}
 

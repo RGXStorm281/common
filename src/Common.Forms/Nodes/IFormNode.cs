@@ -38,6 +38,13 @@ public interface IFormNode : ICloneable
 	public IForm Root { get; }
 
 	/// <summary>
+	/// Searches through the parents of this node to find the closest scope provider.
+	/// </summary>
+	/// <returns>The scope of this node.</returns>
+	/// <exception cref="InvalidOperationException"> When this node is not contained in a scope</exception>
+	public IScopeProvider GetScope();
+
+	/// <summary>
 	/// Changes the parent of this node to the given container.
 	/// </summary>
 	/// <param name="parent">The new parent.</param>

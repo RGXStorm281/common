@@ -237,7 +237,7 @@ public static class FormExpression
 	/// This can be used to determine what template has been instantiated.
 	/// </summary>
 	/// <returns>The name of the current scope</returns>
-	public static IFormExpression<string> ScopeName() => throw new NotImplementedException();
+	public static IFormExpression<string> ScopeName() => new ScopeNameExpression();
 
 	/// <summary>
 	/// Locates a unique <see cref="RobinEpple.Common.Forms.Nodes.ITemplateNode"/> with the given <paramref name="name"/><br/>
@@ -248,9 +248,9 @@ public static class FormExpression
 	/// <param name="name">The name of the node.</param>
 	/// <param name="expression">The expression that is targeted at the instance.</param>
 	/// <returns>The value of the <paramref name="expression"/>, given that the node is found and has an instance.</returns>
-	/// <exception cref="NodeNotFoundException">When the section does not have an instance.</exception>
-	public static IFormExpression<TValue> InSection<TValue>(string name, IFormExpression<TValue> expression) =>
-		throw new NotImplementedException();
+	/// <exception cref="NodeNotFoundException">When the section does not exist or does not have an instance.</exception>
+	public static IFormExpression<TValue> InTemplatedSection<TValue>(string name, IFormExpression<TValue> expression) =>
+		new InTemplatedSectionExpression<TValue>(name, expression);
 
 	/// <summary>
 	/// Locates a unique <see cref="RobinEpple.Common.Forms.Nodes.ICollectionNode"/> with the given <paramref name="name"/><br/>
@@ -264,7 +264,7 @@ public static class FormExpression
 	public static IFormExpression<IEnumerable<TValue>> ForEachCollectionItem<TValue>(
 		string name,
 		IFormExpression<TValue> expression
-	) => throw new NotImplementedException();
+	) => new ForEachCollectionItemExpression<TValue>(name, expression);
 
 	/// <summary>
 	/// Executes the specified <paramref name="expression"/> in the scope of the defined parent of this.

@@ -93,7 +93,6 @@ public class SearchOperations
 		collection.Instantiate(template);
 
 		// The collection should not search all instances.
-		Assert.AreEqual(null, collection.FindNode("Boolean"));
 		Assert.AreEqual(null, form.FindNode("Boolean"));
 
 		// But if a specific instance is searched the (now unique) node should be found.
@@ -113,7 +112,6 @@ public class SearchOperations
 		section.Instantiate(template);
 
 		Assert.IsTrue(section.Instance!.FindNode("Boolean") == null);
-		Assert.IsTrue(section.FindNode("Boolean") == null);
 		Assert.IsTrue(form!.FindNode("Boolean") is IBooleanNode);
 	}
 
@@ -202,8 +200,6 @@ public class SearchOperations
 
 		Assert.IsTrue(section.Instance!.FindNodes("Boolean").None());
 		Assert.IsTrue(collection.Instances.First().FindNodes("Boolean").None());
-		Assert.IsTrue(section.FindNodes("Boolean").None());
-		Assert.IsTrue(collection.FindNodes("Boolean").None());
 		Assert.IsTrue(form!.FindNodes("Boolean").Count() == 1);
 	}
 }

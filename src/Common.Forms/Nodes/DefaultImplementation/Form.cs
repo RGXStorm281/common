@@ -47,12 +47,19 @@ internal class Form : NodeBase, IForm
 		}
 
 		// Then search all subsections in order.
-		foreach (var subsection in Nodes.OfType<IParentNode>())
+		foreach (var node in Nodes)
 		{
-			if (subsection.FindNode(name, comparer) is { } target)
+			if (node is IScopeProvider subsection && subsection.FindNode(name, comparer) is { } subsectionTarget)
 			{
-				return target;
+				return subsectionTarget;
 			}
+
+			if (node is ITemplateNode template && template.Instance?.FindNode(name, comparer) is { } templateTarget)
+			{
+				return templateTarget;
+			}
+
+			// Never search collections for unique nodes.
 		}
 
 		// If none is found return null.
@@ -74,12 +81,34 @@ internal class Form : NodeBase, IForm
 			}
 		}
 
-		// Then search all subsections subsequently.
-		foreach (var subsection in Nodes.OfType<IParentNode>())
+		// Then search all subsections in order.
+		foreach (var node in Nodes)
 		{
-			foreach (var target in subsection.FindNodes(name, comparer))
+			if (node is IScopeProvider subsection)
 			{
-				yield return target;
+				foreach (var target in subsection.FindNodes(name, comparer))
+				{
+					yield return target;
+				}
+			}
+
+			if (node is ITemplateNode template)
+			{
+				foreach (var target in template.Instance?.FindNodes(name, comparer) ?? [])
+				{
+					yield return target;
+				}
+			}
+
+			if (node is ICollectionNode collection)
+			{
+				foreach (var instance in collection.Instances)
+				{
+					foreach (var target in instance.FindNodes(name, comparer))
+					{
+						yield return target;
+					}
+				}
 			}
 		}
 	}
