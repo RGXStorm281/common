@@ -10,7 +10,7 @@ internal class FileNode : FieldNode, IFileNode
 		_value = new(new());
 	}
 
-	private ResetableProperty<FileValue> _value { get; set; }
+	private ResettableProperty<FileValue> _value { get; set; }
 
 	/// <inheritdoc />
 	public FileValue Value
@@ -39,7 +39,7 @@ internal class FileNode : FieldNode, IFileNode
 	public override object Clone()
 	{
 		var clone = (FileNode)base.Clone();
-		clone._value = (ResetableProperty<FileValue>)_value.Clone();
+		clone._value = (ResettableProperty<FileValue>)_value.Clone();
 		return clone;
 	}
 }

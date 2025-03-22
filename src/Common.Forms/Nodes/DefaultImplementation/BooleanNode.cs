@@ -10,7 +10,7 @@ internal class BooleanNode : FieldNode, IBooleanNode
 		_value = new(null);
 	}
 
-	private ResetableProperty<bool?> _value { get; set; }
+	private ResettableProperty<bool?> _value { get; set; }
 
 	/// <inheritdoc />
 	public bool? Value
@@ -39,7 +39,7 @@ internal class BooleanNode : FieldNode, IBooleanNode
 	public override object Clone()
 	{
 		var clone = (BooleanNode)base.Clone();
-		clone._value = (ResetableProperty<bool?>)_value.Clone();
+		clone._value = (ResettableProperty<bool?>)_value.Clone();
 		return clone;
 	}
 }

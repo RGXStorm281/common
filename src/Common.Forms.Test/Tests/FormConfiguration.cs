@@ -41,7 +41,7 @@ public class FormConfiguration
 	}
 
 	[TestMethod]
-	public void UseDefaultVisilibity_ShouldReplaceDefaultVisibility()
+	public void UseDefaultVisibility_ShouldReplaceDefaultVisibility()
 	{
 		var builder = new FormBuilder("Test").WithTextNode(
 			"Text",

@@ -14,13 +14,13 @@ public class Cloning
 			.WithBooleanNode("Boolean")
 			.WithCollectionNode(
 				"Collection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithFileNode("File")
 			.WithNumberNode("Number")
 			.WithTemplatedSection(
 				"TemplatedSection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithTextNode("Text")
 			.WithTimestampNode("Timestamp")
@@ -79,7 +79,7 @@ public class Cloning
 			.WithCollectionNode(
 				"Collection",
 				(builder, recursiveTemplate) =>
-					builder.UsePreconfiguredTemplate(recursiveTemplate).UseBinding(new MockCollectionBinding())
+					builder.UsePreConfiguredTemplate(recursiveTemplate).UseBinding(new MockCollectionBinding())
 			)
 			.WithNumberNode(
 				"Number",
@@ -88,7 +88,7 @@ public class Cloning
 			.WithTemplatedSection(
 				"TemplatedSection",
 				(builder, recursiveTemplate) =>
-					builder.UsePreconfiguredTemplate(recursiveTemplate).UseBinding(new MockTemplateBinding())
+					builder.UsePreConfiguredTemplate(recursiveTemplate).UseBinding(new MockTemplateBinding())
 			)
 			.UseVisibilityCondition(new FalseMockCondition())
 			.UseValidator(new ValidMockValidator())
@@ -124,13 +124,13 @@ public class Cloning
 			.WithBooleanNode("Boolean")
 			.WithCollectionNode(
 				"Collection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithFileNode("File")
 			.WithNumberNode("Number", fieldBuilder => fieldBuilder.UseFormatter(new TestEuroFormatter()))
 			.WithTemplatedSection(
 				"TemplatedSection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithTextNode("Text")
 			.WithTimestampNode("Timestamp")
@@ -202,13 +202,13 @@ public class Cloning
 			.WithBooleanNode("Boolean")
 			.WithCollectionNode(
 				"Collection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithFileNode("File")
 			.WithNumberNode("Number", fieldBuilder => fieldBuilder.UseFormatter(new TestEuroFormatter()))
 			.WithTemplatedSection(
 				"TemplatedSection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithTextNode("Text")
 			.WithTimestampNode("Timestamp")
@@ -290,11 +290,11 @@ public class Cloning
 		var form = new FormBuilder("Test")
 			.WithCollectionNode(
 				"Collection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithTemplatedSection(
 				"TemplatedSection",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.Build();
 

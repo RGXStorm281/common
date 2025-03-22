@@ -11,7 +11,7 @@ internal class TextNode : FieldNode, ITextNode
 		_value = new(null);
 	}
 
-	private ResetableProperty<string?> _value { get; set; }
+	private ResettableProperty<string?> _value { get; set; }
 
 	/// <inheritdoc />
 	public string? Value
@@ -40,7 +40,7 @@ internal class TextNode : FieldNode, ITextNode
 	public override object Clone()
 	{
 		var clone = (TextNode)base.Clone();
-		clone._value = (ResetableProperty<string?>)_value.Clone();
+		clone._value = (ResettableProperty<string?>)_value.Clone();
 		return clone;
 	}
 }

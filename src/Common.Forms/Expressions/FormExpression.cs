@@ -390,7 +390,7 @@ public static class FormExpression
 	) => throw new NotImplementedException();
 
 	/// <summary>
-	/// Multiplys the <paramref name="target"/> with the <paramref name="factor"/> and returns the result.
+	/// Multiplies the <paramref name="target"/> with the <paramref name="factor"/> and returns the result.
 	/// </summary>
 	/// <param name="target">The base number that is multiplied.</param>
 	/// <param name="factor">The factor.</param>
@@ -401,7 +401,7 @@ public static class FormExpression
 	) => throw new NotImplementedException();
 
 	/// <summary>
-	/// Multiplys the all <paramref name="factors"/> and returns the result.
+	/// Multiplies the all <paramref name="factors"/> and returns the result.
 	/// </summary>
 	/// <param name="factors">The list of factors.</param>
 	/// <returns>The product of all values.</returns>
@@ -521,7 +521,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="target">The original time span.</param>
 	/// <param name="factor">The factor the target is multiplied with.</param>
-	/// <returns>The extended timespan.</returns>
+	/// <returns>The extended time span.</returns>
 	public static IFormExpression<TimeSpan> MultiplyBy(
 		this IFormExpression<TimeSpan> target,
 		IFormExpression<decimal> factor
@@ -532,7 +532,7 @@ public static class FormExpression
 	/// </summary>
 	/// <param name="target">The original time span.</param>
 	/// <param name="factor">The factor the target is divided by.</param>
-	/// <returns>The shortened timespan.</returns>
+	/// <returns>The shortened time span.</returns>
 	public static IFormExpression<TimeSpan> DivideBy(
 		this IFormExpression<TimeSpan> target,
 		IFormExpression<decimal> factor

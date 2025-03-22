@@ -11,7 +11,7 @@ internal class TimestampNode : FieldNode, ITimestampNode
 		_value = new(null);
 	}
 
-	private ResetableProperty<DateTime?> _value { get; set; }
+	private ResettableProperty<DateTime?> _value { get; set; }
 
 	/// <inheritdoc />
 	public DateTime? Value
@@ -40,7 +40,7 @@ internal class TimestampNode : FieldNode, ITimestampNode
 	public override object Clone()
 	{
 		var clone = (TimestampNode)base.Clone();
-		clone._value = (ResetableProperty<DateTime?>)_value.Clone();
+		clone._value = (ResettableProperty<DateTime?>)_value.Clone();
 		return clone;
 	}
 }

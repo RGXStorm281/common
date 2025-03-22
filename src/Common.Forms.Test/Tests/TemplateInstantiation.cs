@@ -140,7 +140,7 @@ public class TemplateInstantiation
 				"TemplatedSection",
 				(builder, recursiveTemplate) =>
 				{
-					builder.UsePreconfiguredTemplate(recursiveTemplate);
+					builder.UsePreConfiguredTemplate(recursiveTemplate);
 				}
 			)
 			.Build();
@@ -304,7 +304,7 @@ public class TemplateInstantiation
 			.WithTextNode("TextNode")
 			.WithCollectionNode(
 				"CollectionNode",
-				(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+				(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.Build();
 

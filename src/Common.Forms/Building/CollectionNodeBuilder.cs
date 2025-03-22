@@ -17,7 +17,7 @@ internal class CollectionNodeBuilder : NodeBuilder<ICollectionNodeBuilder, Colle
 	}
 
 	/// <inheritdoc />
-	public ICollectionNodeBuilder UsePreconfiguredTemplate(IForm template)
+	public ICollectionNodeBuilder UsePreConfiguredTemplate(IForm template)
 	{
 		Node.UseTemplate(template);
 		return CastThis();

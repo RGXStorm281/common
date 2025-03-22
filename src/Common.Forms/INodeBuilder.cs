@@ -10,7 +10,7 @@ public interface INodeBuilder<TSpecificNodeBuilder>
 	/// Configures the node to use a label different to the field name.
 	/// </summary>
 	/// <param name="label">The label of the node.</param>
-	/// <returns>The node builder to add futher configurations.</returns>
+	/// <returns>The node builder to add further configurations.</returns>
 	public TSpecificNodeBuilder UseLabel(string label);
 
 	/// <summary>
@@ -21,7 +21,7 @@ public interface INodeBuilder<TSpecificNodeBuilder>
 	public TSpecificNodeBuilder UseDefaultVisibility(bool isVisible);
 
 	/// <summary>
-	/// Configures the nodes default modifiablility. Default is false.
+	/// Configures the nodes default modifiability. Default is false.
 	/// </summary>
 	/// <param name="isReadonly">Whether the node is readonly.</param>
 	/// <returns>The node builder to add further configurations.</returns>

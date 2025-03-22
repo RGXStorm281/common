@@ -17,7 +17,7 @@ internal class TemplateNodeBuilder : NodeBuilder<ITemplateNodeBuilder, TemplateN
 	}
 
 	/// <inheritdoc />
-	public ITemplateNodeBuilder UsePreconfiguredTemplate(IForm template)
+	public ITemplateNodeBuilder UsePreConfiguredTemplate(IForm template)
 	{
 		Node.UseTemplate(template);
 		return CastThis();

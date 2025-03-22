@@ -118,10 +118,10 @@ public sealed class FormStructure
 			() => builder.WithNumberNode($"Tex{IFormNode.PathSeparator}t")
 		);
 		Assert.ThrowsException<InvalidOperationException>(
-			() => builder.WithNumberNode($"Tex{IFormNode.IndexIdentifer.First()}t")
+			() => builder.WithNumberNode($"Tex{IFormNode.IndexIdentifier.First()}t")
 		);
 		Assert.ThrowsException<InvalidOperationException>(
-			() => builder.WithNumberNode($"Tex{IFormNode.IndexIdentifer.Last()}t")
+			() => builder.WithNumberNode($"Tex{IFormNode.IndexIdentifier.Last()}t")
 		);
 		Assert.ThrowsException<InvalidOperationException>(() => builder.WithNumberNode($"$Text"));
 		Assert.ThrowsException<InvalidOperationException>(() => builder.WithNumberNode($"Text "));
@@ -150,7 +150,7 @@ public sealed class FormStructure
 	{
 		var builder = new FormBuilder("Test").WithTemplatedSection(
 			"TemplatedSection",
-			(builder, recursiveTemplate) => builder.UsePreconfiguredTemplate(recursiveTemplate)
+			(builder, recursiveTemplate) => builder.UsePreConfiguredTemplate(recursiveTemplate)
 		);
 
 		var form = builder.Build();
@@ -168,7 +168,7 @@ public sealed class FormStructure
 			"TemplatedSection",
 			(builder, recursiveTemplate) =>
 			{
-				builder.UsePreconfiguredTemplate(recursiveTemplate);
+				builder.UsePreConfiguredTemplate(recursiveTemplate);
 				Assert.ThrowsException<InvalidOperationException>(() => builder.UseTemplate("Test"));
 			}
 		);

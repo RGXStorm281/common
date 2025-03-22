@@ -11,7 +11,8 @@
 				"patcx.vscode-nuget-gallery",
 				"EditorConfig.EditorConfig",
 				"csharpier.csharpier-vscode",
-				"esbenp.prettier-vscode"
+				"esbenp.prettier-vscode",
+				"streetsidesoftware.code-spell-checker"
 			]
 		}
 	},

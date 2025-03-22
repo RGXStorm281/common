@@ -123,7 +123,7 @@ public class SearchOperations
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection(
 				"Section",
-				(node, recursiveTemplate) => node.UsePreconfiguredTemplate(recursiveTemplate)
+				(node, recursiveTemplate) => node.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithBooleanNode("Boolean")
 			.Build();
@@ -167,11 +167,11 @@ public class SearchOperations
 			.WithBooleanNode("Boolean")
 			.WithCollectionNode(
 				"Collection",
-				(node, recursiveTemplate) => node.UsePreconfiguredTemplate(recursiveTemplate)
+				(node, recursiveTemplate) => node.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.WithTemplatedSection(
 				"Section",
-				(node, recursiveTemplate) => node.UsePreconfiguredTemplate(recursiveTemplate)
+				(node, recursiveTemplate) => node.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.Build();
 

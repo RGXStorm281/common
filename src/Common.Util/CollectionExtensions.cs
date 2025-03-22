@@ -199,7 +199,7 @@ public static class CollectionExtensions
 	/// <summary>
 	/// If a value is already present for the key, it is returned.<br/>
 	/// Otherwise, a new record is created, before returning it.<br/>
-	/// Attention: This imitates the method of the <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}"/>, but is NOT threadsafe!!
+	/// Attention: This imitates the method of the <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}"/>, but is NOT thread safe!!
 	/// </summary>
 	/// <typeparam name="TKey">The key type of the dictionary.</typeparam>
 	/// <typeparam name="TValue">The value type of the dictionary.</typeparam>

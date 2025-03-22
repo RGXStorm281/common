@@ -165,7 +165,7 @@ public static class Comparison
 
 	#endregion
 
-	#region Ambigous Key
+	#region Ambiguous Key
 
 	/// <summary>
 	/// Compares the sets using keys of identical type and returns the left-hand difference.<br />

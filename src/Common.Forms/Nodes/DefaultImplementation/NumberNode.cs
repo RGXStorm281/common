@@ -11,7 +11,7 @@ internal class NumberNode : FieldNode, INumberNode
 		_value = new(null);
 	}
 
-	private ResetableProperty<decimal?> _value { get; set; }
+	private ResettableProperty<decimal?> _value { get; set; }
 
 	/// <inheritdoc />
 	public decimal? Value
@@ -40,7 +40,7 @@ internal class NumberNode : FieldNode, INumberNode
 	public override object Clone()
 	{
 		var clone = (NumberNode)base.Clone();
-		clone._value = (ResetableProperty<decimal?>)_value.Clone();
+		clone._value = (ResettableProperty<decimal?>)_value.Clone();
 		return clone;
 	}
 }

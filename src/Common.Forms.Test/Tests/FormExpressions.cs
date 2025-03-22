@@ -464,7 +464,7 @@ public class FormExpressions
 			.WithTimestampNode("Timestamp")
 			.WithTemplatedSection(
 				"Template",
-				(node, recursiveTemplate) => node.UsePreconfiguredTemplate(recursiveTemplate)
+				(node, recursiveTemplate) => node.UsePreConfiguredTemplate(recursiveTemplate)
 			)
 			.Build();
 
@@ -496,7 +496,7 @@ public class FormExpressions
 		instanceTextNode.Value = "instanceTestText";
 		instanceTimestampNode.Value = DateTime.Today.AddDays(1);
 
-		// Even though evaluated on the template node, the expression should first search its neighbours and return their values.
+		// Even though evaluated on the template node, the expression should first search its neighbors and return their values.
 		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(templateNode));
 		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(templateNode));
 		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(templateNode)![0]);
@@ -895,7 +895,7 @@ public class FormExpressions
 	# region date calculations
 
 	[TestMethod]
-	public void Date_Add_JumpsByGivenTimespan()
+	public void Date_Add_JumpsByGivenTimeSpan()
 	{
 		var form = new FormBuilder("Test").Build();
 
@@ -914,7 +914,7 @@ public class FormExpressions
 	}
 
 	[TestMethod]
-	public void Date_Subtract_JumpsByGivenTimespan()
+	public void Date_Subtract_JumpsByGivenTimeSpan()
 	{
 		var form = new FormBuilder("Test").Build();
 
@@ -933,7 +933,7 @@ public class FormExpressions
 	}
 
 	[TestMethod]
-	public void Date_Difference_ReturnsTimespanBetween()
+	public void Date_Difference_ReturnsTimeSpanBetween()
 	{
 		var form = new FormBuilder("Test").Build();
 

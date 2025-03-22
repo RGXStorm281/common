@@ -19,7 +19,7 @@ public interface IFormNode : ICloneable
 	public string Name { get; }
 
 	public const char PathSeparator = '/';
-	public const string IndexIdentifer = "[{0}]";
+	public const string IndexIdentifier = "[{0}]";
 
 	/// <summary>
 	/// The unique id of this node in the instance tree.<br/>

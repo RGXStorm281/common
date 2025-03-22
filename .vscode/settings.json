@@ -3,5 +3,6 @@
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"[csharp]": {
 		"editor.defaultFormatter": "csharpier.csharpier-vscode"
-	}
+	},
+	"cSpell.words": ["Cloneable", "Enumerables", "Epple", "inhertidoc", "Memberwise", "resetted", "summands"]
 }

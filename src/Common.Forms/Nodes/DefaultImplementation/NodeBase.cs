@@ -41,7 +41,7 @@ internal abstract class NodeBase : IFormNode
 		Root = Parent.Root;
 	}
 
-	private ResetableProperty<string> _label { get; set; }
+	private ResettableProperty<string> _label { get; set; }
 
 	/// <inheritdoc />
 	public string Label
@@ -52,7 +52,7 @@ internal abstract class NodeBase : IFormNode
 
 	internal void ReplaceDefaultLabel(string newDefaultLabel) => _label.ReplaceDefault(newDefaultLabel);
 
-	private ResetableProperty<bool> _visibility { get; set; }
+	private ResettableProperty<bool> _visibility { get; set; }
 
 	/// <inheritdoc />
 	public bool IsVisible
@@ -64,7 +64,7 @@ internal abstract class NodeBase : IFormNode
 	internal void ReplaceDefaultVisibility(bool newDefaultVisibility) =>
 		_visibility.ReplaceDefault(newDefaultVisibility);
 
-	private ResetableProperty<bool> _readonly { get; set; }
+	private ResettableProperty<bool> _readonly { get; set; }
 
 	/// <inheritdoc />
 	public bool IsReadonly
@@ -82,7 +82,7 @@ internal abstract class NodeBase : IFormNode
 
 	private Dictionary<string, string> _validationErrorsById { get; set; }
 
-	private ResetableProperty<bool> _valid { get; set; }
+	private ResettableProperty<bool> _valid { get; set; }
 
 	/// <inheritdoc />
 	public bool IsValid
@@ -118,10 +118,10 @@ internal abstract class NodeBase : IFormNode
 		clone.Name = Name;
 		clone.Parent = Parent;
 		clone.Root = Root;
-		clone._label = (ResetableProperty<string>)_label.Clone();
-		clone._visibility = (ResetableProperty<bool>)_visibility.Clone();
-		clone._readonly = (ResetableProperty<bool>)_readonly.Clone();
-		clone._valid = (ResetableProperty<bool>)_valid.Clone();
+		clone._label = (ResettableProperty<string>)_label.Clone();
+		clone._visibility = (ResettableProperty<bool>)_visibility.Clone();
+		clone._readonly = (ResettableProperty<bool>)_readonly.Clone();
+		clone._valid = (ResettableProperty<bool>)_valid.Clone();
 		clone._validationErrorsById = _validationErrorsById.ToDictionary(error => error.Key, error => error.Value);
 
 		// Do not clone stateless decorators.
@@ -163,7 +163,7 @@ internal abstract class NodeBase : IFormNode
 		if (Parent != null && !Parent.IsVisible)
 		{
 			// If the parent of this node is not visible, this node is also not visible.
-			// That manual changes get lost is an accepted behaviour.
+			// That manual changes get lost is an accepted behavior.
 			IsVisible = false;
 		}
 		else if (VisibilityCondition != null)
@@ -198,7 +198,7 @@ internal abstract class NodeBase : IFormNode
 		if (Parent != null && !Parent.IsVisible)
 		{
 			// If the parent of this node is not visible, this node is also not visible.
-			// That manual changes get lost is an accepted behaviour.
+			// That manual changes get lost is an accepted behavior.
 			IsVisible = false;
 		}
 		else if (VisibilityCondition != null)
