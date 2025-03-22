@@ -27,13 +27,11 @@
 	//		}
 	// }
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": {
-		"initializeWorkloads": "sudo dotnet workload update",
-		"restoreTools": "dotnet tool restore",
-		"mountLocalNuget": "dotnet nuget add source /local-nuget -n local",
-		"restoreDotNet": "dotnet restore /workspaces/common/src",
-		"allowBuildingLocalNuget": "chmod +rwx /workspaces/common/buildLocalNuget.sh"
+	// Use 'onCreateCommand' to run commands after the container is initialized.
+	"onCreateCommand": {
+		"allowPostCreateScript": "chmod +x /workspaces/common/post-create.sh",
+		"allowBuildNugetScript": "chmod +x /workspaces/common/buildLocalNuget.sh",
+		"initializeWorkloads": "/bin/bash ./post-create.sh"
 	},
 
 	// Mount host volumes.
