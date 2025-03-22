@@ -81,7 +81,16 @@ public class FormExpressions
 	}
 
 	[TestMethod]
-	public void Select_ShouldTransformEachItem()
+	public void Single_Select_ShouldApplyToSourceValue()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsTrue(StaticValue<bool?>(true).Select(item => item ?? false).EvaluateOn(form));
+		Assert.IsFalse(StaticValue<bool?>(null).Select(item => item ?? false).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void Multi_Select_ShouldTransformEachItem()
 	{
 		var form = new FormBuilder("Test").Build();
 
@@ -242,6 +251,7 @@ public class FormExpressions
 		textNode.Value = "testText";
 		timestampNode.Value = DateTime.Today;
 
+		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(form));
 		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(form));
 		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(form));
 		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(form)![0]);
@@ -279,6 +289,7 @@ public class FormExpressions
 		textNode.Value = "testText";
 		timestampNode.Value = DateTime.Today;
 
+		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(collectionNode));
 		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(collectionNode));
 		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(collectionNode));
 		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(collectionNode)![0]);
@@ -288,6 +299,7 @@ public class FormExpressions
 		Assert.AreEqual("testText", TextFieldValue("Text").EvaluateOn(collectionNode));
 		Assert.AreEqual(DateTime.Today, TimestampFieldValue("Timestamp").EvaluateOn(collectionNode));
 
+		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(templateNode));
 		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(templateNode));
 		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(templateNode));
 		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(templateNode)![0]);
@@ -328,6 +340,9 @@ public class FormExpressions
 		timestampNode.Value = DateTime.Today;
 
 		Assert.ThrowsException<NodeNotFoundException>(
+			() => GetNode<IBooleanNode>("Boolean").EvaluateOn(collectionNode.Instances.First())
+		);
+		Assert.ThrowsException<NodeNotFoundException>(
 			() => BooleanFieldValue("Boolean").EvaluateOn(collectionNode.Instances.First())
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
@@ -346,6 +361,9 @@ public class FormExpressions
 			() => TimestampFieldValue("Timestamp").EvaluateOn(collectionNode.Instances.First())
 		);
 
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => GetNode<IBooleanNode>("Boolean").EvaluateOn(templateNode.Instance!)
+		);
 		Assert.ThrowsException<NodeNotFoundException>(
 			() => BooleanFieldValue("Boolean").EvaluateOn(templateNode.Instance!)
 		);
@@ -399,6 +417,7 @@ public class FormExpressions
 		textNode.Value = "testText";
 		timestampNode.Value = DateTime.Today;
 
+		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(form));
 		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(form));
 		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(form));
 		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(form)![0]);
@@ -445,6 +464,7 @@ public class FormExpressions
 		textNode.Value = "testText";
 		timestampNode.Value = DateTime.Today;
 
+		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<IBooleanNode>("Boolean").EvaluateOn(form));
 		Assert.ThrowsException<NodeNotFoundException>(() => BooleanFieldValue("Boolean").EvaluateOn(form));
 		Assert.ThrowsException<NodeNotFoundException>(() => FileFieldFileName("File").EvaluateOn(form));
 		Assert.ThrowsException<NodeNotFoundException>(() => FileFieldFileContent("File").EvaluateOn(form));
@@ -497,6 +517,7 @@ public class FormExpressions
 		instanceTimestampNode.Value = DateTime.Today.AddDays(1);
 
 		// Even though evaluated on the template node, the expression should first search its neighbors and return their values.
+		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(templateNode));
 		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(templateNode));
 		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(templateNode));
 		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(templateNode)![0]);
