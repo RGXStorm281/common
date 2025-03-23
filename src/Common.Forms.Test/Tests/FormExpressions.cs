@@ -616,32 +616,61 @@ public class FormExpressions
 	}
 
 	[TestMethod]
-	public void InParentScope_ShouldMoveUpTheSpecifiedAmountOfLayers()
+	public void Elevate_ShouldMoveUpTheSpecifiedAmountOfScopes()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
-			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
+			.WithTemplatedSection(
+				"Section",
+				(node, _) =>
+					node.UseTemplate(
+						"Template",
+						template => template.WithTextNode("Text").WithTemplatedSection("InnerTemplate")
+					)
+			)
 			.Build();
 
 		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "Boolean");
 		booleanNode.Value = true;
 		var templateNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
 		templateNode.Instantiate(templateNode.Templates.First());
+		var textNode = (ITextNode)templateNode.Instance!.Nodes.First(node => node.Name == "Text");
+		textNode.Value = "TestText";
+		var innerTemplateNode = (ITemplateNode)templateNode.Instance!.Nodes.First(node => node.Name == "InnerTemplate");
+		innerTemplateNode.Instantiate(innerTemplateNode.Templates.First());
 
-		// Instance does not see boolean node in upper scope.
+		// Instance does see neither boolean nor text node in upper scopes.
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => BooleanFieldValue("Boolean").EvaluateOn(templateNode.Instance!)
+			() => BooleanFieldValue("Boolean").EvaluateOn(innerTemplateNode.Instance!)
+		);
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => TextFieldValue("Text").EvaluateOn(innerTemplateNode.Instance!)
 		);
 
-		// Template Node does see its neighbor.
-		Assert.AreEqual(true, InParentScope(0, BooleanFieldValue("Boolean")).EvaluateOn(templateNode.Instance!));
+		// Elevate should reject integers smaller than 1.
+		Assert.ThrowsException<InvalidOperationException>(
+			() => Elevate(0, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
+		);
+		Assert.ThrowsException<InvalidOperationException>(
+			() => Elevate(0, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
+		);
 
-		// Root form does see its child.
-		Assert.AreEqual(true, InParentScope(1, BooleanFieldValue("Boolean")).EvaluateOn(templateNode.Instance!));
+		// One scope up still no boolean node, but text node is visible.
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => Elevate(1, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
+		);
+		Assert.AreEqual("TestText", Elevate(1, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!));
+
+		// Two scopes up both are visible.
+		Assert.AreEqual(true, Elevate(2, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!));
+		Assert.AreEqual("TestText", Elevate(2, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!));
 
 		// There is no parent above the root.
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => InParentScope(2, BooleanFieldValue("Boolean")).EvaluateOn(templateNode.Instance!)
+			() => Elevate(3, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
+		);
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => Elevate(3, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
 		);
 	}
 

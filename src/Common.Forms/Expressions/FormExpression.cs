@@ -267,14 +267,14 @@ public static class FormExpression
 	) => new ForEachCollectionItemExpression<TValue>(name, expression);
 
 	/// <summary>
-	/// Executes the specified <paramref name="expression"/> in the scope of the defined parent of this.
+	/// Executes the specified <paramref name="expression"/> in an elevated scope.
 	/// </summary>
 	/// <typeparam name="TValue">The value of the inner expression.</typeparam>
-	/// <param name="layerIndex">The number of layers to go up. The direct parent has layer index 0.</param>
-	/// <param name="expression">The expression that is targeted at the root scope.</param>
+	/// <param name="numberOfScopes">The number of scopes to go up. Index starts from 1.</param>
+	/// <param name="expression">The expression that is targeted at the elevated scope.</param>
 	/// <returns>The value of the <paramref name="expression"/>.</returns>
-	/// <exception cref="NodeNotFoundException">When there are less parents than the given <paramref name="layerIndex"/> suggests.</exception>
-	public static IFormExpression<TValue> InParentScope<TValue>(int layerIndex, IFormExpression<TValue> expression) =>
+	/// <exception cref="NodeNotFoundException">When there are less parent scopes than the given <paramref name="numberOfScopes"/> suggests.</exception>
+	public static IFormExpression<TValue> Elevate<TValue>(int numberOfScopes, IFormExpression<TValue> expression) =>
 		throw new NotImplementedException();
 
 	/// <summary>
