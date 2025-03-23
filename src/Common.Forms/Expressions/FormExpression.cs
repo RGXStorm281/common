@@ -420,7 +420,7 @@ public static class FormExpression
 	/// <param name="right">The number that is added.</param>
 	/// <returns>The sum both values.</returns>
 	public static IFormExpression<decimal> Add(this IFormExpression<decimal> left, IFormExpression<decimal> right) =>
-		throw new NotImplementedException();
+		new NumberAddExpression(left, right);
 
 	/// <summary>
 	/// Calculates the sum of all <paramref name="summands"/>.
@@ -428,7 +428,7 @@ public static class FormExpression
 	/// <param name="summands">The list of numbers that are added.</param>
 	/// <returns>The sum of all values.</returns>
 	public static IFormExpression<decimal> Sum(this IFormExpression<IEnumerable<decimal>> summands) =>
-		throw new NotImplementedException();
+		new NumberSumExpression(summands);
 
 	/// <summary>
 	/// Subtracts the <paramref name="right"/> value from the <paramref name="left"/> and returns the result.
@@ -439,7 +439,7 @@ public static class FormExpression
 	public static IFormExpression<decimal> Subtract(
 		this IFormExpression<decimal> left,
 		IFormExpression<decimal> right
-	) => throw new NotImplementedException();
+	) => new NumberSubtractExpression(left, right);
 
 	/// <summary>
 	/// Multiplies the <paramref name="target"/> with the <paramref name="factor"/> and returns the result.
@@ -450,7 +450,7 @@ public static class FormExpression
 	public static IFormExpression<decimal> MultiplyBy(
 		this IFormExpression<decimal> target,
 		IFormExpression<decimal> factor
-	) => throw new NotImplementedException();
+	) => new NumberMultiplyByExpression(target, factor);
 
 	/// <summary>
 	/// Multiplies the all <paramref name="factors"/> and returns the result.
@@ -458,7 +458,7 @@ public static class FormExpression
 	/// <param name="factors">The list of factors.</param>
 	/// <returns>The product of all values.</returns>
 	public static IFormExpression<decimal> Multiply(this IFormExpression<IEnumerable<decimal>> factors) =>
-		throw new NotImplementedException();
+		new NumberMultiplyExpression(factors);
 
 	/// <summary>
 	/// Divides the <paramref name="target"/> by the <paramref name="factor"/> and returns the result.
@@ -469,7 +469,7 @@ public static class FormExpression
 	public static IFormExpression<decimal> DivideBy(
 		this IFormExpression<decimal> target,
 		IFormExpression<decimal> factor
-	) => throw new NotImplementedException();
+	) => new NumberDivideByExpression(target, factor);
 
 	/// <summary>
 	/// Strips the <paramref name="target"/> of comma values and returns only the integer part.
@@ -477,7 +477,7 @@ public static class FormExpression
 	/// <param name="target">The number that is converted to an integer.</param>
 	/// <returns>The integer part of the target.</returns>
 	public static IFormExpression<int> CastInt(this IFormExpression<decimal> target) =>
-		throw new NotImplementedException();
+		new NumberCastIntExpression(target);
 
 	/// <summary>
 	/// Converts the integer <paramref name="target"/> into a decimal that can hold comma values.
@@ -485,7 +485,7 @@ public static class FormExpression
 	/// <param name="target">The number that is converted to a decimal.</param>
 	/// <returns>The casted number.</returns>
 	public static IFormExpression<decimal> CastDecimal(this IFormExpression<int> target) =>
-		throw new NotImplementedException();
+		new NumberCastDecimalExpression(target);
 
 	/// <summary>
 	/// Returns the closest int bigger than the <paramref name="target"/>.<br/>
@@ -494,7 +494,7 @@ public static class FormExpression
 	/// <param name="target">The number that is rounded up.</param>
 	/// <returns>The integer ceiling.</returns>
 	public static IFormExpression<decimal> Ceil(this IFormExpression<decimal> target) =>
-		throw new NotImplementedException();
+		new NumberCeilExpression(target);
 
 	/// <summary>
 	/// Returns the closest int smaller than the <paramref name="target"/>.<br/>
@@ -503,7 +503,7 @@ public static class FormExpression
 	/// <param name="target">The number that is rounded down.</param>
 	/// <returns>The integer floor.</returns>
 	public static IFormExpression<decimal> Floor(this IFormExpression<decimal> target) =>
-		throw new NotImplementedException();
+		new NumberFloorExpression(target);
 
 	/// <summary>
 	/// Returns the closest int to the <paramref name="target"/>.<br/>
@@ -512,7 +512,7 @@ public static class FormExpression
 	/// <param name="target">The number that is rounded.</param>
 	/// <returns>The rounded value.</returns>
 	public static IFormExpression<decimal> Round(this IFormExpression<decimal> target) =>
-		throw new NotImplementedException();
+		new NumberRoundExpression(target);
 
 	/// <summary>
 	/// Divides the <paramref name="target"/> by the <paramref name="field"/> and returns the rest.
@@ -521,7 +521,7 @@ public static class FormExpression
 	/// <param name="field">The field, that the number is represented in.</param>
 	/// <returns>The division rest.</returns>
 	public static IFormExpression<int> Modulo(this IFormExpression<int> target, IFormExpression<int> field) =>
-		throw new NotImplementedException();
+		new NumberModuloExpression(target, field);
 
 	/// <summary>
 	/// Calculates the average of the given number list.
@@ -529,7 +529,7 @@ public static class FormExpression
 	/// <param name="items">List of numbers.</param>
 	/// <returns>The average of the given numbers.</returns>
 	public static IFormExpression<decimal> Average(this IFormExpression<IEnumerable<decimal>> items) =>
-		throw new NotImplementedException();
+		new NumberAverageExpression(items);
 
 	# endregion
 

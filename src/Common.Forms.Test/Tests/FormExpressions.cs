@@ -815,7 +815,7 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(5m, StaticValue(3m).Add(StaticValue(5m)).EvaluateOn(form));
+		Assert.AreEqual(8m, StaticValue(3m).Add(StaticValue(5m)).EvaluateOn(form));
 		Assert.AreEqual(10.275m, StaticValue(3.175m).Add(StaticValue(7.1m)).EvaluateOn(form));
 		Assert.AreEqual(-2m, StaticValue(5m).Add(StaticValue(-7m)).EvaluateOn(form));
 	}
@@ -835,7 +835,7 @@ public class FormExpressions
 		var form = new FormBuilder("Test").Build();
 
 		Assert.AreEqual(-2m, StaticValue(3m).Subtract(StaticValue(5m)).EvaluateOn(form));
-		Assert.AreEqual(-4.075m, StaticValue(3.175m).Subtract(StaticValue(7.1m)).EvaluateOn(form));
+		Assert.AreEqual(-3.925m, StaticValue(3.175m).Subtract(StaticValue(7.1m)).EvaluateOn(form));
 		Assert.AreEqual(12m, StaticValue(5m).Subtract(StaticValue(-7m)).EvaluateOn(form));
 	}
 
@@ -914,10 +914,10 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(2m, StaticValue(2m).Floor().EvaluateOn(form));
-		Assert.AreEqual(2m, StaticValue(2.1m).Floor().EvaluateOn(form));
-		Assert.AreEqual(3m, StaticValue(2.9m).Floor().EvaluateOn(form));
-		Assert.AreEqual(-4m, StaticValue(-3.9m).Floor().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(2m).Round().EvaluateOn(form));
+		Assert.AreEqual(2m, StaticValue(2.1m).Round().EvaluateOn(form));
+		Assert.AreEqual(3m, StaticValue(2.9m).Round().EvaluateOn(form));
+		Assert.AreEqual(-4m, StaticValue(-3.9m).Round().EvaluateOn(form));
 	}
 
 	[TestMethod]
