@@ -625,7 +625,10 @@ public class FormExpressions
 				(node, _) =>
 					node.UseTemplate(
 						"Template",
-						template => template.WithTextNode("Text").WithTemplatedSection("InnerTemplate")
+						template =>
+							template
+								.WithTextNode("Text")
+								.WithTemplatedSection("InnerSection", (node, _) => node.UseTemplate("InnerTemplate"))
 					)
 			)
 			.Build();
@@ -636,7 +639,7 @@ public class FormExpressions
 		templateNode.Instantiate(templateNode.Templates.First());
 		var textNode = (ITextNode)templateNode.Instance!.Nodes.First(node => node.Name == "Text");
 		textNode.Value = "TestText";
-		var innerTemplateNode = (ITemplateNode)templateNode.Instance!.Nodes.First(node => node.Name == "InnerTemplate");
+		var innerTemplateNode = (ITemplateNode)templateNode.Instance!.Nodes.First(node => node.Name == "InnerSection");
 		innerTemplateNode.Instantiate(innerTemplateNode.Templates.First());
 
 		// Instance does see neither boolean nor text node in upper scopes.

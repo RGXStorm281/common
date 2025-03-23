@@ -41,7 +41,7 @@ public interface IFormNode : ICloneable
 	/// Searches through the parents of this node to find the closest scope provider.
 	/// </summary>
 	/// <returns>The scope of this node.</returns>
-	/// <exception cref="InvalidOperationException"> When this node is not contained in a scope</exception>
+	/// <exception cref="InvalidOperationException">When this node is not contained in a scope</exception>
 	public IScopeProvider GetScope();
 
 	/// <summary>

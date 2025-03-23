@@ -275,7 +275,7 @@ public static class FormExpression
 	/// <returns>The value of the <paramref name="expression"/>.</returns>
 	/// <exception cref="NodeNotFoundException">When there are less parent scopes than the given <paramref name="numberOfScopes"/> suggests.</exception>
 	public static IFormExpression<TValue> Elevate<TValue>(int numberOfScopes, IFormExpression<TValue> expression) =>
-		throw new NotImplementedException();
+		new ElevateExpression<TValue>(numberOfScopes, expression);
 
 	/// <summary>
 	/// Executes the specified <paramref name="expression"/> in the root scope of the entire form.
