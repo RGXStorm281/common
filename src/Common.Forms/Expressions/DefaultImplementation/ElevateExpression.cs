@@ -6,15 +6,11 @@ using RobinEpple.Common.Forms.Nodes;
 
 public class ElevateExpression<TValue> : IFormExpression<TValue>
 {
-	private readonly int _numberOfScopes;
+	private readonly IFormExpression<int> _numberOfScopes;
 	private readonly IFormExpression<TValue> _expression;
 
-	public ElevateExpression(int numberOfScopes, IFormExpression<TValue> expression)
+	public ElevateExpression(IFormExpression<int> numberOfScopes, IFormExpression<TValue> expression)
 	{
-		if (numberOfScopes < 1)
-		{
-			throw new InvalidOperationException($"The expression can only elevate a positive amount of scopes.");
-		}
 		_numberOfScopes = numberOfScopes;
 		_expression = expression;
 	}
@@ -22,8 +18,14 @@ public class ElevateExpression<TValue> : IFormExpression<TValue>
 	/// <inheritdoc />
 	public TValue EvaluateOn(IFormNode node)
 	{
+		var numberOfScopesValue = _numberOfScopes.EvaluateOn(node);
+		if (numberOfScopesValue < 1)
+		{
+			throw new InvalidOperationException($"The expression can only elevate a positive amount of scopes.");
+		}
+
 		var targetScope = node.GetScope();
-		for (int i = 0; i < _numberOfScopes; i++)
+		for (int i = 0; i < numberOfScopesValue; i++)
 		{
 			if (targetScope.Parent == null)
 			{
@@ -45,8 +47,14 @@ public class ElevateExpression<TValue> : IFormExpression<TValue>
 	/// <inheritdoc />
 	public async Task<TValue> EvaluateOnAsync(IFormNode node)
 	{
+		var numberOfScopesValue = await _numberOfScopes.EvaluateOnAsync(node);
+		if (numberOfScopesValue < 1)
+		{
+			throw new InvalidOperationException($"The expression can only elevate a positive amount of scopes.");
+		}
+
 		var targetScope = node.GetScope();
-		for (int i = 0; i < _numberOfScopes; i++)
+		for (int i = 0; i < numberOfScopesValue; i++)
 		{
 			if (targetScope.Parent == null)
 			{
@@ -54,7 +62,7 @@ public class ElevateExpression<TValue> : IFormExpression<TValue>
 			}
 			try
 			{
-				targetScope.Parent.GetScope();
+				targetScope = targetScope.Parent.GetScope();
 			}
 			catch (InvalidOperationException)
 			{

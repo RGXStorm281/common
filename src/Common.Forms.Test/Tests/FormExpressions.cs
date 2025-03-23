@@ -652,28 +652,37 @@ public class FormExpressions
 
 		// Elevate should reject integers smaller than 1.
 		Assert.ThrowsException<InvalidOperationException>(
-			() => Elevate(0, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
+			() => Elevate(StaticValue(0), BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
 		);
 		Assert.ThrowsException<InvalidOperationException>(
-			() => Elevate(0, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
+			() => Elevate(StaticValue(0), TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
 		);
 
 		// One scope up still no boolean node, but text node is visible.
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => Elevate(1, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
+			() => Elevate(StaticValue(1), BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
 		);
-		Assert.AreEqual("TestText", Elevate(1, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!));
+		Assert.AreEqual(
+			"TestText",
+			Elevate(StaticValue(1), TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
+		);
 
 		// Two scopes up both are visible.
-		Assert.AreEqual(true, Elevate(2, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!));
-		Assert.AreEqual("TestText", Elevate(2, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!));
+		Assert.AreEqual(
+			true,
+			Elevate(StaticValue(2), BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
+		);
+		Assert.AreEqual(
+			"TestText",
+			Elevate(StaticValue(2), TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
+		);
 
 		// There is no parent above the root.
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => Elevate(3, BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
+			() => Elevate(StaticValue(3), BooleanFieldValue("Boolean")).EvaluateOn(innerTemplateNode.Instance!)
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => Elevate(3, TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
+			() => Elevate(StaticValue(3), TextFieldValue("Text")).EvaluateOn(innerTemplateNode.Instance!)
 		);
 	}
 
