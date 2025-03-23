@@ -284,7 +284,7 @@ public static class FormExpression
 	/// <param name="expression">The expression that is targeted at the root scope.</param>
 	/// <returns>The value of the <paramref name="expression"/>.</returns>
 	public static IFormExpression<TValue> InRootScope<TValue>(IFormExpression<TValue> expression) =>
-		throw new NotImplementedException();
+		new InRootScopeExpression<TValue>(expression);
 
 	# endregion
 
