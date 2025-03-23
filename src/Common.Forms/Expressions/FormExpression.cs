@@ -546,7 +546,7 @@ public static class FormExpression
 	public static IFormExpression<DateTime> Add(
 		this IFormExpression<DateTime> target,
 		IFormExpression<TimeSpan> timeSpan
-	) => throw new NotImplementedException();
+	) => new DateAddExpression(target, timeSpan);
 
 	/// <summary>
 	/// Moves the <paramref name="target"/> date backward in time by the given <paramref name="timeSpan"/>.
@@ -557,7 +557,7 @@ public static class FormExpression
 	public static IFormExpression<DateTime> Subtract(
 		this IFormExpression<DateTime> target,
 		IFormExpression<TimeSpan> timeSpan
-	) => throw new NotImplementedException();
+	) => new DateSubtractExpression(target, timeSpan);
 
 	/// <summary>
 	/// Calculates the difference between the two dates.
@@ -568,7 +568,7 @@ public static class FormExpression
 	public static IFormExpression<TimeSpan> Difference(
 		this IFormExpression<DateTime> start,
 		IFormExpression<DateTime> end
-	) => throw new NotImplementedException();
+	) => new DateDifferenceExpression(start, end);
 
 	/// <summary>
 	/// Multiplies the <paramref name="target"/> with the given <paramref name="factor"/>.
@@ -579,7 +579,7 @@ public static class FormExpression
 	public static IFormExpression<TimeSpan> MultiplyBy(
 		this IFormExpression<TimeSpan> target,
 		IFormExpression<decimal> factor
-	) => throw new NotImplementedException();
+	) => new TimeSpanMultiplyByExpression(target, factor);
 
 	/// <summary>
 	/// Divides the <paramref name="target"/> by the given <paramref name="factor"/>.
@@ -590,7 +590,7 @@ public static class FormExpression
 	public static IFormExpression<TimeSpan> DivideBy(
 		this IFormExpression<TimeSpan> target,
 		IFormExpression<decimal> factor
-	) => throw new NotImplementedException();
+	) => new TimeSpanDivideByExpression(target, factor);
 
 	# endregion
 }

@@ -1049,7 +1049,7 @@ public class FormExpressions
 		);
 
 		Assert.AreEqual(
-			TimeSpan.FromHours(-5),
+			TimeSpan.FromHours(-1 / 5d),
 			StaticValue(TimeSpan.FromHours(1)).DivideBy(StaticValue(-5m)).EvaluateOn(form)
 		);
 
