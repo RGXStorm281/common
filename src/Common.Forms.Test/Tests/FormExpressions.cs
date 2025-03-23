@@ -792,10 +792,10 @@ public class FormExpressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.AreEqual(1, StaticValue(_enumerate(1, 2, 1, 3)).Median().EvaluateOn(form));
-		Assert.AreEqual(2, StaticValue(_enumerate(1, 2, 1, 3)).Median(true).EvaluateOn(form));
-		Assert.AreEqual(2, StaticValue(_enumerate(5, 2, 3)).Median().EvaluateOn(form));
-		Assert.AreEqual(2, StaticValue(_enumerate(5, 2, 3)).Median(true).EvaluateOn(form));
+		Assert.AreEqual(2, StaticValue(_enumerate(1, 2, 1, 3)).Median().EvaluateOn(form));
+		Assert.AreEqual(1, StaticValue(_enumerate(1, 2, 1, 3)).Median(true).EvaluateOn(form));
+		Assert.AreEqual(3, StaticValue(_enumerate(5, 2, 3)).Median().EvaluateOn(form));
+		Assert.AreEqual(3, StaticValue(_enumerate(5, 2, 3)).Median(true).EvaluateOn(form));
 		Assert.AreEqual(10, StaticValue(_enumerate(5, 256, 10)).Median().EvaluateOn(form));
 
 		Assert.AreEqual(

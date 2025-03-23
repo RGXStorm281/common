@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Expressions;
 
+using System.Diagnostics;
 using RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 
@@ -296,12 +297,15 @@ public static class FormExpression
 	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
 	/// <param name="source">The source value that is supposed to be smaller.</param>
 	/// <param name="exclusiveUpperBound">The exclusive upper bound for the source.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns><see langword="true"/> if it is smaller, <see langword="false"/> otherwise.</returns>
 	public static IFormExpression<bool> SmallerThan<TComparable>(
 		this IFormExpression<TComparable> source,
-		IFormExpression<TComparable> exclusiveUpperBound
+		IFormExpression<TComparable> exclusiveUpperBound,
+		IComparer<TComparable>? comparer = null
 	)
-		where TComparable : IComparable => throw new NotImplementedException();
+		where TComparable : IComparable =>
+		new SmallerThanExpression<TComparable>(source, exclusiveUpperBound, comparer);
 
 	/// <summary>
 	/// Checks whether the <paramref name="source"/> is smaller or equal to the <paramref name="inclusiveUpperBound"/>.
@@ -309,12 +313,15 @@ public static class FormExpression
 	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
 	/// <param name="source">The source value that is supposed to be smaller or equal.</param>
 	/// <param name="inclusiveUpperBound">The inclusive upper bound for the source.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns><see langword="true"/> if it is smaller or equal, <see langword="false"/> otherwise.</returns>
 	public static IFormExpression<bool> SmallerOrEqual<TComparable>(
 		this IFormExpression<TComparable> source,
-		IFormExpression<TComparable> inclusiveUpperBound
+		IFormExpression<TComparable> inclusiveUpperBound,
+		IComparer<TComparable>? comparer = null
 	)
-		where TComparable : IComparable => throw new NotImplementedException();
+		where TComparable : IComparable =>
+		new SmallerOrEqualExpression<TComparable>(source, inclusiveUpperBound, comparer);
 
 	/// <summary>
 	/// Checks whether the <paramref name="source"/> is equal to the <paramref name="target"/>.
@@ -322,12 +329,14 @@ public static class FormExpression
 	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
 	/// <param name="source">The source value that is supposed to be equal.</param>
 	/// <param name="target">The target value, the source is supposed to match.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns><see langword="true"/> if the two values are equal, <see langword="false"/> otherwise.</returns>
 	public static IFormExpression<bool> EqualTo<TComparable>(
 		this IFormExpression<TComparable> source,
-		IFormExpression<TComparable> target
+		IFormExpression<TComparable> target,
+		IComparer<TComparable>? comparer = null
 	)
-		where TComparable : IComparable => throw new NotImplementedException();
+		where TComparable : IComparable => new EqualToExpression<TComparable>(source, target, comparer);
 
 	/// <summary>
 	/// Checks whether the <paramref name="source"/> is bigger or equal to the <paramref name="inclusiveLowerBound"/>.
@@ -335,12 +344,15 @@ public static class FormExpression
 	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
 	/// <param name="source">The source value that is supposed to be bigger or equal.</param>
 	/// <param name="inclusiveLowerBound">The inclusive lower bound for the source.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns><see langword="true"/> if the source is bigger or equal, <see langword="false"/> otherwise.</returns>
 	public static IFormExpression<bool> BiggerOrEqual<TComparable>(
 		this IFormExpression<TComparable> source,
-		IFormExpression<TComparable> inclusiveLowerBound
+		IFormExpression<TComparable> inclusiveLowerBound,
+		IComparer<TComparable>? comparer = null
 	)
-		where TComparable : IComparable => throw new NotImplementedException();
+		where TComparable : IComparable =>
+		new BiggerOrEqualExpression<TComparable>(source, inclusiveLowerBound, comparer);
 
 	/// <summary>
 	/// Checks whether the <paramref name="source"/> is bigger than the <paramref name="exclusiveLowerBound"/>.
@@ -348,43 +360,54 @@ public static class FormExpression
 	/// <typeparam name="TComparable">The type of the two values, that are compared.</typeparam>
 	/// <param name="source">The source value that is supposed to be bigger.</param>
 	/// <param name="exclusiveLowerBound">The exclusive lower bound for the source.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns><see langword="true"/> if the source is bigger, <see langword="false"/> otherwise.</returns>
 	public static IFormExpression<bool> BiggerThan<TComparable>(
 		this IFormExpression<TComparable> source,
-		IFormExpression<TComparable> exclusiveLowerBound
+		IFormExpression<TComparable> exclusiveLowerBound,
+		IComparer<TComparable>? comparer = null
 	)
-		where TComparable : IComparable => throw new NotImplementedException();
+		where TComparable : IComparable => new BiggerThanExpression<TComparable>(source, exclusiveLowerBound, comparer);
 
 	/// <summary>
 	/// Finds the smallest value in the list.
 	/// </summary>
 	/// <param name="items">The list of items.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns>The smallest value or <see langword="null"/> if the sequence is empty.</returns>
 	public static IFormExpression<TComparable?> Min<TComparable>(
-		this IFormExpression<IEnumerable<TComparable>> items
-	) => throw new NotImplementedException();
+		this IFormExpression<IEnumerable<TComparable>> items,
+		IComparer<TComparable>? comparer = null
+	)
+		where TComparable : IComparable => new MinExpression<TComparable>(items, comparer);
 
 	/// <summary>
 	/// Finds the biggest value in the list.
 	/// </summary>
 	/// <param name="items">The list of items.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns>The biggest value or <see langword="null"/> if the sequence is empty.</returns>
 	public static IFormExpression<TComparable?> Max<TComparable>(
-		this IFormExpression<IEnumerable<TComparable>> items
-	) => throw new NotImplementedException();
+		this IFormExpression<IEnumerable<TComparable>> items,
+		IComparer<TComparable>? comparer = null
+	)
+		where TComparable : IComparable => new MaxExpression<TComparable>(items, comparer);
 
 	/// <summary>
 	/// Finds the value that sits in the middle of an ordered list.<br/>
 	/// If the list has an even number of items, the default bias will pick the smaller item, <br/>
-	/// but that can be overwritten with <paramref name="preferBigger"/>.
+	/// but that can be overwritten with <paramref name="preferLowerIndex"/>.
 	/// </summary>
 	/// <param name="items">The list of items.</param>
-	/// <param name="preferBigger">Defines the bias if there is an even number of <paramref name="items"/>.</param>
+	/// <param name="preferLowerIndex">Defines the bias if there is an even number of <paramref name="items"/>. By default the bigger of the two center indices is picked.</param>
+	/// <param name="comparer">An optional comparer to replace the default comparer.</param>
 	/// <returns>The median or <see langword="null"/> if the sequence is empty.</returns>
 	public static IFormExpression<TComparable?> Median<TComparable>(
 		this IFormExpression<IEnumerable<TComparable>> items,
-		bool preferBigger = false
-	) => throw new NotImplementedException();
+		bool preferLowerIndex = false,
+		IComparer<TComparable>? comparer = null
+	)
+		where TComparable : IComparable => new MedianExpression<TComparable>(items, preferLowerIndex, comparer);
 
 	# endregion
 
