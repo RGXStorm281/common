@@ -1,2 +1,2 @@
-[core]
-    autocrlf = false
+## Use unix line endings in this repository.
+* text eol=lf
