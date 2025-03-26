@@ -24,6 +24,3 @@ dotnet tool restore --tool-manifest=/workspaces/common/src/.config/dotnet-tools.
 
 echo "Mounting local nuget folder..."
 dotnet nuget add source /local-nuget -n local
-
-echo "Restoring solution..."
-dotnet restore /workspaces/common/src
