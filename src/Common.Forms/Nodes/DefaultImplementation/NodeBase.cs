@@ -190,12 +190,6 @@ internal abstract class NodeBase : IFormNode
 			IsVisible = VisibilityCondition.EvaluateOn(this);
 		}
 
-		// Run all validators.
-		foreach (var validator in _validators)
-		{
-			validator.Validate(this);
-		}
-
 		if (!IsVisible)
 		{
 			// Invisible Nodes are always valid.
@@ -203,6 +197,11 @@ internal abstract class NodeBase : IFormNode
 		}
 		else
 		{
+			// Run all validators.
+			foreach (var validator in _validators)
+			{
+				validator.Validate(this);
+			}
 			// Visible Nodes are valid if they have no validation errors.
 			IsValid = !ValidationErrors.Any();
 		}
