@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Test.Tests;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 using static RobinEpple.Common.Forms.Expressions.FormExpression;
+using static RobinEpple.Common.Forms.Expressions.FormExpressionExtensions;
 
 [TestClass]
 public class FormExpressions
@@ -229,7 +230,7 @@ public class FormExpressions
 	# region field access
 
 	[TestMethod]
-	public void FieldValues_ShouldAccessFieldsInForm()
+	public void GetNode_ShouldAccessFieldsInForm()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -252,18 +253,14 @@ public class FormExpressions
 		timestampNode.Value = DateTime.Today;
 
 		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(form));
-		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(form));
-		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(form));
-		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(form)![0]);
-		Assert.AreEqual(2, FileFieldFileContent("File").EvaluateOn(form)![1]);
-		Assert.AreEqual(3, FileFieldFileContent("File").EvaluateOn(form)![2]);
-		Assert.AreEqual(42, NumberFieldValue("Number").EvaluateOn(form));
-		Assert.AreEqual("testText", TextFieldValue("Text").EvaluateOn(form));
-		Assert.AreEqual(DateTime.Today, TimestampFieldValue("Timestamp").EvaluateOn(form));
+		Assert.AreEqual(fileNode, GetNode<IFileNode>("File").EvaluateOn(form));
+		Assert.AreEqual(numberNode, GetNode<INumberNode>("Number").EvaluateOn(form));
+		Assert.AreEqual(textNode, GetNode<ITextNode>("Text").EvaluateOn(form));
+		Assert.AreEqual(timestampNode, GetNode<ITimestampNode>("Timestamp").EvaluateOn(form));
 	}
 
 	[TestMethod]
-	public void FieldValues_ShouldAccessNeighboringFields()
+	public void GetNode_ShouldAccessNeighboringFields()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -290,28 +287,20 @@ public class FormExpressions
 		timestampNode.Value = DateTime.Today;
 
 		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(collectionNode));
-		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(collectionNode));
-		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(collectionNode));
-		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(collectionNode)![0]);
-		Assert.AreEqual(2, FileFieldFileContent("File").EvaluateOn(collectionNode)![1]);
-		Assert.AreEqual(3, FileFieldFileContent("File").EvaluateOn(collectionNode)![2]);
-		Assert.AreEqual(42, NumberFieldValue("Number").EvaluateOn(collectionNode));
-		Assert.AreEqual("testText", TextFieldValue("Text").EvaluateOn(collectionNode));
-		Assert.AreEqual(DateTime.Today, TimestampFieldValue("Timestamp").EvaluateOn(collectionNode));
+		Assert.AreEqual(fileNode, GetNode<IFileNode>("File").EvaluateOn(collectionNode));
+		Assert.AreEqual(numberNode, GetNode<INumberNode>("Number").EvaluateOn(collectionNode));
+		Assert.AreEqual(textNode, GetNode<ITextNode>("Text").EvaluateOn(collectionNode));
+		Assert.AreEqual(timestampNode, GetNode<ITimestampNode>("Timestamp").EvaluateOn(collectionNode));
 
 		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(templateNode));
-		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(templateNode));
-		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(templateNode));
-		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(templateNode)![0]);
-		Assert.AreEqual(2, FileFieldFileContent("File").EvaluateOn(templateNode)![1]);
-		Assert.AreEqual(3, FileFieldFileContent("File").EvaluateOn(templateNode)![2]);
-		Assert.AreEqual(42, NumberFieldValue("Number").EvaluateOn(templateNode));
-		Assert.AreEqual("testText", TextFieldValue("Text").EvaluateOn(templateNode));
-		Assert.AreEqual(DateTime.Today, TimestampFieldValue("Timestamp").EvaluateOn(templateNode));
+		Assert.AreEqual(fileNode, GetNode<IFileNode>("File").EvaluateOn(templateNode));
+		Assert.AreEqual(numberNode, GetNode<INumberNode>("Number").EvaluateOn(templateNode));
+		Assert.AreEqual(textNode, GetNode<ITextNode>("Text").EvaluateOn(templateNode));
+		Assert.AreEqual(timestampNode, GetNode<ITimestampNode>("Timestamp").EvaluateOn(templateNode));
 	}
 
 	[TestMethod]
-	public void FieldValues_ShouldNotAccessUpperScopes()
+	public void GetNode_ShouldNotAccessUpperScopes()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -343,47 +332,37 @@ public class FormExpressions
 			() => GetNode<IBooleanNode>("Boolean").EvaluateOn(collectionNode.Instances.First())
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => BooleanFieldValue("Boolean").EvaluateOn(collectionNode.Instances.First())
+			() => GetNode<IFileNode>("File").EvaluateOn(collectionNode.Instances.First())
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => FileFieldFileName("File").EvaluateOn(collectionNode.Instances.First())
+			() => GetNode<INumberNode>("Number").EvaluateOn(collectionNode.Instances.First())
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => FileFieldFileContent("File").EvaluateOn(collectionNode.Instances.First())
+			() => GetNode<ITextNode>("Text").EvaluateOn(collectionNode.Instances.First())
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => NumberFieldValue("Number").EvaluateOn(collectionNode.Instances.First())
-		);
-		Assert.ThrowsException<NodeNotFoundException>(
-			() => TextFieldValue("Text").EvaluateOn(collectionNode.Instances.First())
-		);
-		Assert.ThrowsException<NodeNotFoundException>(
-			() => TimestampFieldValue("Timestamp").EvaluateOn(collectionNode.Instances.First())
+			() => GetNode<ITimestampNode>("Timestamp").EvaluateOn(collectionNode.Instances.First())
 		);
 
 		Assert.ThrowsException<NodeNotFoundException>(
 			() => GetNode<IBooleanNode>("Boolean").EvaluateOn(templateNode.Instance!)
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => BooleanFieldValue("Boolean").EvaluateOn(templateNode.Instance!)
-		);
-		Assert.ThrowsException<NodeNotFoundException>(
-			() => FileFieldFileName("File").EvaluateOn(templateNode.Instance!)
-		);
-		Assert.ThrowsException<NodeNotFoundException>(
-			() => FileFieldFileContent("File").EvaluateOn(templateNode.Instance!)
+			() => GetNode<IFileNode>("File").EvaluateOn(templateNode.Instance!)
 		);
 		Assert.ThrowsException<NodeNotFoundException>(
 			() => NumberFieldValue("Number").EvaluateOn(templateNode.Instance!)
 		);
-		Assert.ThrowsException<NodeNotFoundException>(() => TextFieldValue("Text").EvaluateOn(templateNode.Instance!));
 		Assert.ThrowsException<NodeNotFoundException>(
-			() => TimestampFieldValue("Timestamp").EvaluateOn(templateNode.Instance!)
+			() => GetNode<ITextNode>("Text").EvaluateOn(templateNode.Instance!)
+		);
+		Assert.ThrowsException<NodeNotFoundException>(
+			() => GetNode<ITimestampNode>("Timestamp").EvaluateOn(templateNode.Instance!)
 		);
 	}
 
 	[TestMethod]
-	public void FieldValues_ShouldAccessTemplatedSections()
+	public void GetNode_ShouldAccessTemplatedSections()
 	{
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection(
@@ -418,18 +397,14 @@ public class FormExpressions
 		timestampNode.Value = DateTime.Today;
 
 		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(form));
-		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(form));
-		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(form));
-		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(form)![0]);
-		Assert.AreEqual(2, FileFieldFileContent("File").EvaluateOn(form)![1]);
-		Assert.AreEqual(3, FileFieldFileContent("File").EvaluateOn(form)![2]);
-		Assert.AreEqual(42, NumberFieldValue("Number").EvaluateOn(form));
-		Assert.AreEqual("testText", TextFieldValue("Text").EvaluateOn(form));
-		Assert.AreEqual(DateTime.Today, TimestampFieldValue("Timestamp").EvaluateOn(form));
+		Assert.AreEqual(fileNode, GetNode<IFileNode>("File").EvaluateOn(form));
+		Assert.AreEqual(numberNode, GetNode<INumberNode>("Number").EvaluateOn(form));
+		Assert.AreEqual(textNode, GetNode<ITextNode>("Text").EvaluateOn(form));
+		Assert.AreEqual(timestampNode, GetNode<ITimestampNode>("Timestamp").EvaluateOn(form));
 	}
 
 	[TestMethod]
-	public void FieldValues_ShouldNotAccessCollections()
+	public void GetNode_ShouldNotAccessCollections()
 	{
 		var form = new FormBuilder("Test")
 			.WithCollectionNode(
@@ -465,16 +440,14 @@ public class FormExpressions
 		timestampNode.Value = DateTime.Today;
 
 		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<IBooleanNode>("Boolean").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => BooleanFieldValue("Boolean").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => FileFieldFileName("File").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => FileFieldFileContent("File").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => NumberFieldValue("Number").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => TextFieldValue("Text").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => TimestampFieldValue("Timestamp").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<IFileNode>("File").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<INumberNode>("Number").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<ITextNode>("Text").EvaluateOn(form));
+		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<ITimestampNode>("Timestamp").EvaluateOn(form));
 	}
 
 	[TestMethod]
-	public void FieldValues_ShouldPrioritizeHigherLayers()
+	public void GetNode_ShouldPrioritizeHigherLayers()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -518,14 +491,10 @@ public class FormExpressions
 
 		// Even though evaluated on the template node, the expression should first search its neighbors and return their values.
 		Assert.AreEqual(booleanNode, GetNode<IBooleanNode>("Boolean").EvaluateOn(templateNode));
-		Assert.AreEqual(true, BooleanFieldValue("Boolean").EvaluateOn(templateNode));
-		Assert.AreEqual("test", FileFieldFileName("File").EvaluateOn(templateNode));
-		Assert.AreEqual(1, FileFieldFileContent("File").EvaluateOn(templateNode)![0]);
-		Assert.AreEqual(2, FileFieldFileContent("File").EvaluateOn(templateNode)![1]);
-		Assert.AreEqual(3, FileFieldFileContent("File").EvaluateOn(templateNode)![2]);
-		Assert.AreEqual(42, NumberFieldValue("Number").EvaluateOn(templateNode));
-		Assert.AreEqual("testText", TextFieldValue("Text").EvaluateOn(templateNode));
-		Assert.AreEqual(DateTime.Today, TimestampFieldValue("Timestamp").EvaluateOn(templateNode));
+		Assert.AreEqual(fileNode, GetNode<IFileNode>("File").EvaluateOn(templateNode));
+		Assert.AreEqual(numberNode, GetNode<INumberNode>("Number").EvaluateOn(templateNode));
+		Assert.AreEqual(textNode, GetNode<ITextNode>("Text").EvaluateOn(templateNode));
+		Assert.AreEqual(timestampNode, GetNode<ITimestampNode>("Timestamp").EvaluateOn(templateNode));
 	}
 
 	# endregion
