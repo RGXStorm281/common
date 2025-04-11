@@ -101,7 +101,9 @@ public interface IFormNode : ICloneable
 	public IEnumerable<INodeValidator> NodeValidators { get; }
 
 	/// <summary>
-	/// Adds or replaces a validation error on this node.
+	/// Adds or replaces a validation error on this node.<br/>
+	/// Note that this ONLY takes effect when called from a validator or in an extension after <br/>
+	/// validation has taken place, since the error list is reset on every <see cref="Update"/> call.
 	/// </summary>
 	/// <param name="id">
 	/// The id of this error. <br/>

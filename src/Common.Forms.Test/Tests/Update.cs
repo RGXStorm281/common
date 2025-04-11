@@ -176,9 +176,7 @@ public class Update
 	[TestMethod]
 	public void Update_ShouldSetValidIfInvisible()
 	{
-		var form = new FormBuilder("Test").UseDefaultVisibility(false).Build();
-
-		form.SetValidationError("Test", "Error");
+		var form = new FormBuilder("Test").UseDefaultVisibility(false).UseValidator(new InvalidMockValidator()).Build();
 
 		form.Update();
 		Assert.IsTrue(form.IsValid);
@@ -195,8 +193,7 @@ public class Update
 	[TestMethod]
 	public void Update_ShouldSetInvalidIfErrors()
 	{
-		var form = new FormBuilder("Test").Build();
-		form.SetValidationError("error", "message");
+		var form = new FormBuilder("Test").UseValidator(new InvalidMockValidator()).Build();
 		form.Update();
 		Assert.IsFalse(form.IsValid);
 	}
@@ -207,11 +204,28 @@ public class Update
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection(
 				"Template",
-				(node, _) => node.UseTemplate("SectionTemplate", template => template.WithTextNode("SectionText"))
+				(node, _) =>
+					node.UseTemplate(
+						"SectionTemplate",
+						template =>
+						{
+							template.WithTextNode("SectionText", node => node.UseValidator(new InvalidMockValidator()));
+						}
+					)
 			)
 			.WithCollectionNode(
 				"Collection",
-				(node, _) => node.UseTemplate("CollectionTemplate", template => template.WithTextNode("CollectionText"))
+				(node, _) =>
+					node.UseTemplate(
+						"CollectionTemplate",
+						template =>
+						{
+							template.WithTextNode(
+								"CollectionText",
+								node => node.UseValidator(new InvalidMockValidator())
+							);
+						}
+					)
 			)
 			.Build();
 

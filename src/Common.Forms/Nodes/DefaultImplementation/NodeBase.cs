@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
@@ -188,35 +189,23 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public virtual void Update()
 	{
-		if (Parent != null && !Parent.IsVisible)
-		{
-			// If the parent of this node is not visible, this node is also not visible.
-			// That manual changes get lost is an accepted behavior.
-			IsVisible = false;
-		}
-		else if (VisibilityCondition != null)
-		{
-			// If the node does not have a parent or the parent is visible
-			// visibility is determined by the visibility condition (if set)
-			// or stays at the value defined externally.
-			IsVisible = VisibilityCondition.EvaluateOn(this);
-		}
+		CallExtensionEvent(extension => extension.OnBeforeReadonlyStateEvaluation(this));
+		UpdateReadonlyState();
+		CallExtensionEvent(extension => extension.OnAfterReadonlyStateEvaluation(this));
+
+		CallExtensionEvent(extension => extension.OnBeforeVisibilityEvaluation(this));
+		UpdateVisibility();
+		CallExtensionEvent(extension => extension.OnAfterVisibilityEvaluation(this));
 
 		if (!IsVisible)
 		{
-			// Invisible Nodes are always valid.
 			IsValid = true;
+			return;
 		}
-		else
-		{
-			// Run all validators.
-			foreach (var validator in _validators)
-			{
-				validator.Validate(this);
-			}
-			// Visible Nodes are valid if they have no validation errors.
-			IsValid = !ValidationErrors.Any();
-		}
+
+		CallExtensionEvent(extension => extension.OnBeforeValidation(this));
+		Validate();
+		CallExtensionEvent(extension => extension.OnAfterValidation(this));
 	}
 
 	/// <inheritdoc />
@@ -251,6 +240,148 @@ internal abstract class NodeBase : IFormNode
 		{
 			// Visible Nodes are valid if they have no validation errors.
 			IsValid = !ValidationErrors.Any();
+		}
+	}
+
+	private void CallExtensionEvent(Action<IFormNodeExtension> callEvent)
+	{
+		foreach (var extension in Extensions)
+		{
+			callEvent(extension);
+		}
+	}
+
+	private async Task CallExtensionEventAsync(Func<IFormNodeExtension, Task> callEventAsync)
+	{
+		foreach (var extension in Extensions)
+		{
+			await callEventAsync(extension);
+		}
+	}
+
+	private void UpdateReadonlyState()
+	{
+		// Reset to default.
+		_readonly.Reset();
+
+		// If the parent of this node is readonly, this node is also readonly.
+		if (Parent != null && Parent.IsReadonly)
+		{
+			IsReadonly = true;
+			// Parent visibility overrules visibility condition.
+			return;
+		}
+
+		// If the node does not have a parent or the parent is not readonly
+		// this nodes state is determined by the readonly condition (if set)
+		// or stays at the default value.
+		if (ReadonlyCondition != null)
+		{
+			IsReadonly = ReadonlyCondition.EvaluateOn(this);
+		}
+	}
+
+	private async Task UpdateReadonlyStateAsync()
+	{
+		// Reset to default.
+		_readonly.Reset();
+
+		// If the parent of this node is readonly, this node is also readonly.
+		if (Parent != null && Parent.IsReadonly)
+		{
+			IsReadonly = true;
+			// Parent visibility overrules visibility condition.
+			return;
+		}
+
+		// If the node does not have a parent or the parent is not readonly
+		// this nodes state is determined by the readonly condition (if set)
+		// or stays at the default value.
+		if (ReadonlyCondition != null)
+		{
+			IsReadonly = await ReadonlyCondition.EvaluateOnAsync(this);
+		}
+	}
+
+	private void UpdateVisibility()
+	{
+		// Reset to default.
+		_visibility.Reset();
+
+		// If the parent of this node is not visible, this node is also not visible.
+		if (Parent != null && !Parent.IsVisible)
+		{
+			IsVisible = false;
+			// Parent visibility overrules visibility condition.
+			return;
+		}
+
+		// If the node does not have a parent or the parent is visible
+		// visibility is determined by the visibility condition (if set)
+		// or stays at the default value.
+		if (VisibilityCondition != null)
+		{
+			IsVisible = VisibilityCondition.EvaluateOn(this);
+		}
+	}
+
+	private async Task UpdateVisibilityAsync()
+	{
+		// Reset to default.
+		_visibility.Reset();
+
+		// If the parent of this node is not visible, this node is also not visible.
+		if (Parent != null && !Parent.IsVisible)
+		{
+			IsVisible = false;
+			// Parent visibility overrules visibility condition.
+			return;
+		}
+
+		// If the node does not have a parent or the parent is visible
+		// visibility is determined by the visibility condition (if set)
+		// or stays at the default value.
+		if (VisibilityCondition != null)
+		{
+			IsVisible = await VisibilityCondition.EvaluateOnAsync(this);
+		}
+	}
+
+	private void Validate()
+	{
+		// Reset validation to true.
+		_valid.Reset();
+		_validationErrorsById.Clear();
+
+		// Validate and collect validation errors.
+		foreach (var validator in NodeValidators)
+		{
+			validator.Validate(this);
+		}
+
+		// If there are validation errors the node is not valid.
+		if (_validationErrorsById.Count > 0)
+		{
+			IsValid = false;
+		}
+	}
+
+	private async Task ValidateAsync()
+	{
+		// Reset validation to true.
+		_valid.Reset();
+		_validationErrorsById.Clear();
+
+		// Validate and collect validation errors.
+		foreach (var validator in NodeValidators)
+		{
+			await validator.ValidateAsync(this);
+		}
+
+		// If there are validation errors the node is not valid.
+		if (_validationErrorsById.Count > 0)
+		{
+			IsValid = false;
 		}
 	}
 }
