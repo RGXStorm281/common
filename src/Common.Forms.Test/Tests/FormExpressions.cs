@@ -132,6 +132,28 @@ public class FormExpressions
 		);
 	}
 
+	[TestMethod]
+	public void Equals_ShouldOnlyBeTrueIfBothItemsEqual()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(AreEqual(StaticValue("Test"), StaticValue("test")).EvaluateOn(form));
+		Assert.IsTrue(AreEqual(StaticValue("Test"), StaticValue("Test")).EvaluateOn(form));
+		Assert.IsFalse(AreEqual(StaticValue(1), StaticValue(-1)).EvaluateOn(form));
+		Assert.IsTrue(AreEqual(StaticValue(1), StaticValue(1)).EvaluateOn(form));
+	}
+
+	[TestMethod]
+	public void EqualsEqualityComparer_ShouldTakeEffect()
+	{
+		var form = new FormBuilder("Test").Build();
+
+		Assert.IsFalse(AreEqual(StaticValue("Test"), StaticValue("test"), StringComparer.Ordinal).EvaluateOn(form));
+		Assert.IsTrue(
+			AreEqual(StaticValue("Test"), StaticValue("test"), StringComparer.OrdinalIgnoreCase).EvaluateOn(form)
+		);
+	}
+
 	# endregion
 
 	# region logical operators

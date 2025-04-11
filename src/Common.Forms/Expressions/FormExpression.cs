@@ -104,6 +104,20 @@ public static class FormExpression
 		IEqualityComparer<TElement>? equalityComparer = null
 	) => new ContainsExpression<TElement>(list, item, equalityComparer);
 
+	/// <summary>
+	/// Checks whether the <paramref name="left"/> and <paramref name="right"/> values are equal.
+	/// </summary>
+	/// <typeparam name="TValue">The value type to compare.</typeparam>
+	/// <param name="left">The left value.</param>
+	/// <param name="right">The right value.</param>
+	/// <param name="equalityComparer">Optional equality comparer.</param>
+	/// <returns><see langword="true"/>, if both items equal.</returns>
+	public static IFormExpression<bool> AreEqual<TValue>(
+		IFormExpression<TValue> left,
+		IFormExpression<TValue> right,
+		IEqualityComparer<TValue>? equalityComparer = null
+	) => new EqualsExpression<TValue>(left, right, equalityComparer);
+
 	# endregion
 
 	# region logical operators
