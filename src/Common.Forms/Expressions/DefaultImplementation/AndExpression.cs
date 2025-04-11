@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class AndExpression(IFormExpression<bool> left, IFormExpression<bool> right) : IFormExpression<bool>
+internal class AndExpression(IFormExpression<bool> left, IFormExpression<bool> right) : IFormExpression<bool>
 {
 	private readonly IFormExpression<bool> _left = left;
 	private readonly IFormExpression<bool> _right = right;

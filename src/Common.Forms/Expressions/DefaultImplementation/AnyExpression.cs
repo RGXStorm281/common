@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class AnyExpression(IFormExpression<IEnumerable<bool>> operands) : IFormExpression<bool>
+internal class AnyExpression(IFormExpression<IEnumerable<bool>> operands) : IFormExpression<bool>
 {
 	private readonly IFormExpression<IEnumerable<bool>> _operands = operands;
 

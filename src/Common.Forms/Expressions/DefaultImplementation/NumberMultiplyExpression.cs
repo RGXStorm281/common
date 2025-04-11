@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NumberMultiplyExpression(IFormExpression<IEnumerable<decimal>> factors) : IFormExpression<decimal>
+internal class NumberMultiplyExpression(IFormExpression<IEnumerable<decimal>> factors) : IFormExpression<decimal>
 {
 	private readonly IFormExpression<IEnumerable<decimal>> _factors = factors;
 

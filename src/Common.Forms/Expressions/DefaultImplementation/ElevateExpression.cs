@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 
-public class ElevateExpression<TValue> : IFormExpression<TValue>
+internal class ElevateExpression<TValue> : IFormExpression<TValue>
 {
 	private readonly IFormExpression<int> _numberOfScopes;
 	private readonly IFormExpression<TValue> _expression;

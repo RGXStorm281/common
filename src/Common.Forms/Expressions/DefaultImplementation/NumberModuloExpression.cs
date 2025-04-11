@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NumberModuloExpression(IFormExpression<int> target, IFormExpression<int> field) : IFormExpression<int>
+internal class NumberModuloExpression(IFormExpression<int> target, IFormExpression<int> field) : IFormExpression<int>
 {
 	private readonly IFormExpression<int> _target = target;
 	private readonly IFormExpression<int> _field = field;

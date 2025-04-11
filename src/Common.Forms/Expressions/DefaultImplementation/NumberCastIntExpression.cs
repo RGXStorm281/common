@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NumberCastIntExpression(IFormExpression<decimal> target) : IFormExpression<int>
+internal class NumberCastIntExpression(IFormExpression<decimal> target) : IFormExpression<int>
 {
 	private readonly IFormExpression<decimal> _target = target;
 

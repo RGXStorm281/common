@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NumberSubtractExpression(IFormExpression<decimal> left, IFormExpression<decimal> right)
+internal class NumberSubtractExpression(IFormExpression<decimal> left, IFormExpression<decimal> right)
 	: IFormExpression<decimal>
 {
 	private readonly IFormExpression<decimal> _left = left;

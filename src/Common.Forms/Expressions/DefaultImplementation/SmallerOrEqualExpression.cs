@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class SmallerOrEqualExpression<TComparable>(
+internal class SmallerOrEqualExpression<TComparable>(
 	IFormExpression<TComparable> source,
 	IFormExpression<TComparable> inclusiveUpperBound,
 	IComparer<TComparable>? comparer = null

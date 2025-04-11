@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class ContainsExpression<TElement>(
+internal class ContainsExpression<TElement>(
 	IFormExpression<IEnumerable<TElement>> list,
 	IFormExpression<TElement> item,
 	IEqualityComparer<TElement>? equalityComparer = null

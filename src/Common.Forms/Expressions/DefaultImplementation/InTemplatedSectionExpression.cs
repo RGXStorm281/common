@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class InTemplatedSectionExpression<TValue>(string name, IFormExpression<TValue> expression)
+internal class InTemplatedSectionExpression<TValue>(string name, IFormExpression<TValue> expression)
 	: IFormExpression<TValue>
 {
 	private readonly string _name = name;

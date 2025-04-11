@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class EqualsExpression<TValue>(
+internal class EqualsExpression<TValue>(
 	IFormExpression<TValue> left,
 	IFormExpression<TValue> right,
 	IEqualityComparer<TValue>? equalityComparer

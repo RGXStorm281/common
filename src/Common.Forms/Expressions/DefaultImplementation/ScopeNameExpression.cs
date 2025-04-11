@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class ScopeNameExpression : IFormExpression<string>
+internal class ScopeNameExpression : IFormExpression<string>
 {
 	/// <inheritdoc />
 	public string EvaluateOn(IFormNode node)

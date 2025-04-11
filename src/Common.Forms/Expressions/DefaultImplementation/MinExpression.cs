@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class MinExpression<TComparable>(
+internal class MinExpression<TComparable>(
 	IFormExpression<IEnumerable<TComparable>> items,
 	IComparer<TComparable>? comparer = null
 ) : IFormExpression<TComparable?>

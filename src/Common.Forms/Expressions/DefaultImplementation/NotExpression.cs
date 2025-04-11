@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NotExpression(IFormExpression<bool> source) : IFormExpression<bool>
+internal class NotExpression(IFormExpression<bool> source) : IFormExpression<bool>
 {
 	private readonly IFormExpression<bool> _source = source;
 

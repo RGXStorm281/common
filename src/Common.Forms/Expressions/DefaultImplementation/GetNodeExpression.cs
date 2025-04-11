@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class GetNodeExpression<TNode>(string name) : IFormExpression<TNode>
+internal class GetNodeExpression<TNode>(string name) : IFormExpression<TNode>
 	where TNode : IFormNode
 {
 	private readonly string _name = name;

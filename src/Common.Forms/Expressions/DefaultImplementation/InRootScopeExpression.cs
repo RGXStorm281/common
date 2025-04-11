@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class InRootScopeExpression<TValue>(IFormExpression<TValue> expression) : IFormExpression<TValue>
+internal class InRootScopeExpression<TValue>(IFormExpression<TValue> expression) : IFormExpression<TValue>
 {
 	private readonly IFormExpression<TValue> _expression = expression;
 

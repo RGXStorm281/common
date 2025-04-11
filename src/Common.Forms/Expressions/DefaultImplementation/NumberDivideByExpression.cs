@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NumberDivideByExpression(IFormExpression<decimal> target, IFormExpression<decimal> factor)
+internal class NumberDivideByExpression(IFormExpression<decimal> target, IFormExpression<decimal> factor)
 	: IFormExpression<decimal>
 {
 	private readonly IFormExpression<decimal> _target = target;

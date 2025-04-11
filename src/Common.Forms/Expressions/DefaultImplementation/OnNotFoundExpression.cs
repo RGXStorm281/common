@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class OnNotFoundExpression<TValue>(IFormExpression<TValue> source, IFormExpression<TValue> fallbackValue)
+internal class OnNotFoundExpression<TValue>(IFormExpression<TValue> source, IFormExpression<TValue> fallbackValue)
 	: IFormExpression<TValue>
 {
 	private readonly IFormExpression<TValue> _source = source;

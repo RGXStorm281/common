@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class SelectExpression<TInput, TOutput>(
+internal class SelectExpression<TInput, TOutput>(
 	IFormExpression<IEnumerable<TInput>> source,
 	Func<TInput, TOutput> selector
 ) : IFormExpression<IEnumerable<TOutput>>

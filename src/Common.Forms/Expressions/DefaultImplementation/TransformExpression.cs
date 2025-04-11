@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class TransformExpression<TInput, TOutput>(IFormExpression<TInput> source, Func<TInput, TOutput> selector)
+internal class TransformExpression<TInput, TOutput>(IFormExpression<TInput> source, Func<TInput, TOutput> selector)
 	: IFormExpression<TOutput>
 {
 	private readonly IFormExpression<TInput> _source = source;

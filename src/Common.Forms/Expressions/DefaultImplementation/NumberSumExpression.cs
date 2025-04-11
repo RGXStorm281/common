@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NumberSumExpression(IFormExpression<IEnumerable<decimal>> summands) : IFormExpression<decimal>
+internal class NumberSumExpression(IFormExpression<IEnumerable<decimal>> summands) : IFormExpression<decimal>
 {
 	private readonly IFormExpression<IEnumerable<decimal>> _summands = summands;
 

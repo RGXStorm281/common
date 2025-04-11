@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class EqualToExpression<TComparable>(
+internal class EqualToExpression<TComparable>(
 	IFormExpression<TComparable> source,
 	IFormExpression<TComparable> target,
 	IComparer<TComparable>? comparer = null

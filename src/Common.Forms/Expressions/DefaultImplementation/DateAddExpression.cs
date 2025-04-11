@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class DateAddExpression(IFormExpression<DateTime> target, IFormExpression<TimeSpan> timeSpan)
+internal class DateAddExpression(IFormExpression<DateTime> target, IFormExpression<TimeSpan> timeSpan)
 	: IFormExpression<DateTime>
 {
 	private readonly IFormExpression<DateTime> _target = target;

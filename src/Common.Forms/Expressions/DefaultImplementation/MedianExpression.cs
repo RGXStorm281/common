@@ -1,10 +1,9 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.ComponentModel;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class MedianExpression<TComparable>(
+internal class MedianExpression<TComparable>(
 	IFormExpression<IEnumerable<TComparable>> items,
 	bool preferLowerIndex = false,
 	IComparer<TComparable>? comparer = null

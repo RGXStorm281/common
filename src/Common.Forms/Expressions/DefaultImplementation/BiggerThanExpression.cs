@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
 using RobinEpple.Common.Forms.Nodes;
 
-public class BiggerThanExpression<TComparable>(
+internal class BiggerThanExpression<TComparable>(
 	IFormExpression<TComparable> source,
 	IFormExpression<TComparable> exclusiveLowerBound,
 	IComparer<TComparable>? comparer = null

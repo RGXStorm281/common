@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class TimeSpanDivideByExpression(IFormExpression<TimeSpan> target, IFormExpression<decimal> factor)
+internal class TimeSpanDivideByExpression(IFormExpression<TimeSpan> target, IFormExpression<decimal> factor)
 	: IFormExpression<TimeSpan>
 {
 	private readonly IFormExpression<TimeSpan> _target = target;

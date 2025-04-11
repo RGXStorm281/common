@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class NumberAverageExpression(IFormExpression<IEnumerable<decimal>> items) : IFormExpression<decimal>
+internal class NumberAverageExpression(IFormExpression<IEnumerable<decimal>> items) : IFormExpression<decimal>
 {
 	private readonly IFormExpression<IEnumerable<decimal>> _items = items;
 

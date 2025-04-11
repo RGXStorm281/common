@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class ForEachCollectionItemExpression<TValue>(string name, IFormExpression<TValue> expression)
+internal class ForEachCollectionItemExpression<TValue>(string name, IFormExpression<TValue> expression)
 	: IFormExpression<IEnumerable<TValue>>
 {
 	private readonly string _name = name;

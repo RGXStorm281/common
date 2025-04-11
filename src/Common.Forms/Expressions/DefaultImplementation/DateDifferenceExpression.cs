@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class DateDifferenceExpression(IFormExpression<DateTime> start, IFormExpression<DateTime> end)
+internal class DateDifferenceExpression(IFormExpression<DateTime> start, IFormExpression<DateTime> end)
 	: IFormExpression<TimeSpan>
 {
 	private readonly IFormExpression<DateTime> _start = start;

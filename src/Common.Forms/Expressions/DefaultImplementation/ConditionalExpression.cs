@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-public class ConditionalExpression<TValue>(
+internal class ConditionalExpression<TValue>(
 	IFormExpression<bool> condition,
 	IFormExpression<TValue> whenTrue,
 	IFormExpression<TValue> whenFalse
