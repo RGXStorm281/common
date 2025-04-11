@@ -9,6 +9,12 @@ using RobinEpple.Common.Forms.Nodes;
 public abstract class FormNodeExtensionBase : IFormNodeExtension
 {
 	/// <inheritdoc />
+	public virtual void OnBeforeReadonlyStateEvaluation(IFormNode node) { }
+
+	/// <inheritdoc />
+	public virtual void OnAfterReadonlyStateEvaluation(IFormNode node) { }
+
+	/// <inheritdoc />
 	public virtual void OnAfterValidation(IFormNode node) { }
 
 	/// <inheritdoc />

@@ -122,12 +122,9 @@ public class TemplateInstantiation
 		var instance = templateNode.Instance!;
 		var instanceTextNode = (ITextNode)instance.Nodes.First();
 
-		instanceTextNode.IsReadonly = true;
 		instanceTextNode.Value = "Test";
 
-		Assert.IsTrue(instanceTextNode.IsReadonly == true);
 		Assert.IsTrue(instanceTextNode.Value == "Test");
-		Assert.IsTrue(templateTextNode.IsReadonly == false);
 		Assert.IsTrue(templateTextNode.Value == null);
 	}
 

@@ -24,14 +24,14 @@ public class FormBuilder : IFormBuilder
 	/// <param name="defaultFormatCulture">The culture to use for default formatting. If <see langword="null"/>, "de-DE" is used.</param>
 	public FormBuilder(string name, CultureInfo? defaultFormatCulture = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		_form = new Form(name, null);
 		_defaultFormatCulture = defaultFormatCulture ?? new CultureInfo("de-DE");
 	}
 
 	private static Regex? _invalidCharRegex;
 
-	private void ValidateName(string name)
+	private void _validateName(string name)
 	{
 		_invalidCharRegex ??= new Regex($"[^{IFormBuilder.ValidNameCharacters}]", RegexOptions.Compiled);
 		if (_invalidCharRegex.IsMatch(name))
@@ -43,7 +43,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithBooleanNode(string name, IFormBuilder.BooleanFieldBuilder? configure = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		var node = new BooleanNode(name, _form);
 		var builder = new BooleanNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -54,7 +54,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithCollectionNode(string name, IFormBuilder.CollectionBuilder? configure = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		var node = new CollectionNode(name, _form);
 		var builder = new CollectionNodeBuilder(node);
 		configure?.Invoke(builder, _form);
@@ -65,7 +65,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithFileNode(string name, IFormBuilder.FileFieldBuilder? configure = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		var node = new FileNode(name, _form);
 		var builder = new FileNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -76,7 +76,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithNumberNode(string name, IFormBuilder.NumberFieldBuilder? configure = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		var node = new NumberNode(name, _form, _defaultFormatCulture);
 		var builder = new NumberNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -87,7 +87,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithTemplatedSection(string name, IFormBuilder.TemplatedSectionBuilder? configure = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		var node = new TemplateNode(name, _form);
 		var builder = new TemplateNodeBuilder(node);
 		configure?.Invoke(builder, _form);
@@ -98,7 +98,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithTextNode(string name, IFormBuilder.TextFieldBuilder? configure = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		var node = new TextNode(name, _form);
 		var builder = new TextNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -109,7 +109,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithTimestampNode(string name, IFormBuilder.TimestampFieldBuilder? configure = null)
 	{
-		ValidateName(name);
+		_validateName(name);
 		var node = new TimestampNode(name, _form, _defaultFormatCulture);
 		var builder = new TimestampNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -123,7 +123,6 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder UseDefaultReadonly(bool isReadonly)
 	{
-		_form.IsReadonly = isReadonly;
 		_form.ReplaceDefaultReadonly(isReadonly);
 		return this;
 	}
@@ -131,8 +130,21 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder UseDefaultVisibility(bool isVisible)
 	{
-		_form.IsVisible = isVisible;
 		_form.ReplaceDefaultVisibility(isVisible);
+		return this;
+	}
+
+	/// <inheritdoc/>
+	public IFormBuilder UseVisibilityCondition(IFormExpression<bool> condition)
+	{
+		_form.UseVisibilityCondition(condition);
+		return this;
+	}
+
+	/// <inheritdoc/>
+	public IFormBuilder UseReadonlyCondition(IFormExpression<bool> condition)
+	{
+		_form.UseReadonlyCondition(condition);
 		return this;
 	}
 
@@ -155,13 +167,6 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder UseValidator(INodeValidator validator)
 	{
 		_form.UseValidator(validator);
-		return this;
-	}
-
-	/// <inheritdoc/>
-	public IFormBuilder UseVisibilityCondition(IFormExpression<bool> condition)
-	{
-		_form.UseVisibilityCondition(condition);
 		return this;
 	}
 }

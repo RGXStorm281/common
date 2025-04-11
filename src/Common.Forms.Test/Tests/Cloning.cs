@@ -135,9 +135,10 @@ public class Cloning
 			.WithTextNode("Text")
 			.WithTimestampNode("Timestamp")
 			.UseLabel("TestLabel")
-			.UseDefaultVisibility(false)
+			.UseDefaultVisibility(true)
 			.UseDefaultReadonly(true)
 			.UseVisibilityCondition(new FalseMockCondition())
+			.UseReadonlyCondition(new FalseMockCondition())
 			.UseValidator(new ValidMockValidator())
 			.UseExtension(new MockExtension())
 			.Build();
@@ -152,8 +153,6 @@ public class Cloning
 		var timestampNode = (ITimestampNode)form.Nodes.First(node => node.Name == "Timestamp");
 
 		// Modify state.
-		form.IsVisible = false;
-		form.IsReadonly = true;
 		form.SetValidationError("test", "error");
 		booleanNode.HasUserInteraction = true;
 		booleanNode.Value = false;
@@ -213,9 +212,10 @@ public class Cloning
 			.WithTextNode("Text")
 			.WithTimestampNode("Timestamp")
 			.UseLabel("TestLabel")
-			.UseDefaultVisibility(false)
+			.UseDefaultVisibility(true)
 			.UseDefaultReadonly(true)
 			.UseVisibilityCondition(new FalseMockCondition())
+			.UseReadonlyCondition(new FalseMockCondition())
 			.UseValidator(new ValidMockValidator())
 			.UseExtension(new MockExtension())
 			.Build();
@@ -230,8 +230,6 @@ public class Cloning
 		var timestampNode = (ITimestampNode)form.Nodes.First(node => node.Name == "Timestamp");
 
 		// Modify state.
-		form.IsVisible = false;
-		form.IsReadonly = true;
 		form.SetValidationError("test", "error");
 		booleanNode.HasUserInteraction = true;
 		booleanNode.Value = false;
@@ -254,8 +252,6 @@ public class Cloning
 		var clonedTimestampNode = (ITimestampNode)clone.Nodes.First(node => node.Name == "Timestamp");
 
 		// Modify Clone state.
-		clone.IsVisible = true;
-		clone.IsReadonly = false;
 		clone.SetValidationError("test", "error 2");
 		clonedBooleanNode.HasUserInteraction = false;
 		clonedBooleanNode.Value = true;
@@ -267,7 +263,7 @@ public class Cloning
 		clonedTimestampNode.Value = DateTime.Today;
 
 		// Ensure original didn't change.
-		Assert.AreEqual(false, form.IsVisible);
+		Assert.AreEqual(true, form.IsVisible);
 		Assert.AreEqual(true, form.IsReadonly);
 		Assert.AreEqual("error", form.ValidationErrors.First());
 		Assert.AreEqual(true, booleanNode.HasUserInteraction);

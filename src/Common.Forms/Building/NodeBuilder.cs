@@ -24,7 +24,6 @@ internal abstract class NodeBuilder<TSpecificNodeBuilder, TNode> : INodeBuilder<
 	/// <inheritdoc/>
 	public TSpecificNodeBuilder UseDefaultReadonly(bool isReadonly)
 	{
-		Node.IsReadonly = isReadonly;
 		Node.ReplaceDefaultReadonly(isReadonly);
 		return CastThis();
 	}
@@ -32,8 +31,21 @@ internal abstract class NodeBuilder<TSpecificNodeBuilder, TNode> : INodeBuilder<
 	/// <inheritdoc/>
 	public TSpecificNodeBuilder UseDefaultVisibility(bool isVisible)
 	{
-		Node.IsVisible = isVisible;
 		Node.ReplaceDefaultVisibility(isVisible);
+		return CastThis();
+	}
+
+	/// <inheritdoc/>
+	public TSpecificNodeBuilder UseVisibilityCondition(IFormExpression<bool> condition)
+	{
+		Node.UseVisibilityCondition(condition);
+		return CastThis();
+	}
+
+	/// <inheritdoc/>
+	public TSpecificNodeBuilder UseReadonlyCondition(IFormExpression<bool> condition)
+	{
+		Node.UseReadonlyCondition(condition);
 		return CastThis();
 	}
 
@@ -56,13 +68,6 @@ internal abstract class NodeBuilder<TSpecificNodeBuilder, TNode> : INodeBuilder<
 	public TSpecificNodeBuilder UseValidator(INodeValidator validator)
 	{
 		Node.UseValidator(validator);
-		return CastThis();
-	}
-
-	/// <inheritdoc/>
-	public TSpecificNodeBuilder UseVisibilityCondition(IFormExpression<bool> condition)
-	{
-		Node.UseVisibilityCondition(condition);
 		return CastThis();
 	}
 }

@@ -21,6 +21,14 @@ public interface INodeBuilder<TSpecificNodeBuilder>
 	public TSpecificNodeBuilder UseDefaultVisibility(bool isVisible);
 
 	/// <summary>
+	/// Configures the node to use a visibility condition.<br/>
+	/// Only one of them can be used on one node.
+	/// </summary>
+	/// <param name="condition">The condition. The field is visible, when this evaluates to true.</param>
+	/// <returns>The node builder to add further configurations.</returns>
+	public TSpecificNodeBuilder UseVisibilityCondition(IFormExpression<bool> condition);
+
+	/// <summary>
 	/// Configures the nodes default modifiability. Default is false.
 	/// </summary>
 	/// <param name="isReadonly">Whether the node is readonly.</param>
@@ -28,12 +36,12 @@ public interface INodeBuilder<TSpecificNodeBuilder>
 	public TSpecificNodeBuilder UseDefaultReadonly(bool isReadonly);
 
 	/// <summary>
-	/// Configures the node to use a visibility condition.<br/>
+	/// Configures the node to use a readonly condition.<br/>
 	/// Only one of them can be used on one node.
 	/// </summary>
-	/// <param name="condition">The condition. The field is visible, when this evaluates to true.</param>
+	/// <param name="condition">The condition. The field is readonly, when this evaluates to true.</param>
 	/// <returns>The node builder to add further configurations.</returns>
-	public TSpecificNodeBuilder UseVisibilityCondition(IFormExpression<bool> condition);
+	public TSpecificNodeBuilder UseReadonlyCondition(IFormExpression<bool> condition);
 
 	/// <summary>
 	/// Configures the node to use a validator.<br/>

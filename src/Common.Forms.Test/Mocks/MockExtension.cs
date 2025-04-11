@@ -5,10 +5,24 @@ using RobinEpple.Common.Forms.Nodes;
 
 public class MockExtension : FormNodeExtensionBase
 {
+	public bool OnBeforeReadonlyStateEvaluationHasBeenCalled { get; private set; } = false;
+	public bool OnAfterReadonlyStateEvaluationHasBeenCalled { get; private set; } = false;
 	public bool OnBeforeVisibilityEvaluationHasBeenCalled { get; private set; } = false;
 	public bool OnAfterVisibilityEvaluationHasBeenCalled { get; private set; } = false;
 	public bool OnBeforeValidationHasBeenCalled { get; private set; } = false;
 	public bool OnAfterValidationHasBeenCalled { get; private set; } = false;
+
+	/// <inheritdoc />
+	public override void OnBeforeReadonlyStateEvaluation(IFormNode node)
+	{
+		OnBeforeReadonlyStateEvaluationHasBeenCalled = true;
+	}
+
+	/// <inheritdoc />
+	public override void OnAfterReadonlyStateEvaluation(IFormNode node)
+	{
+		OnAfterReadonlyStateEvaluationHasBeenCalled = true;
+	}
 
 	/// <inheritdoc />
 	public override void OnBeforeVisibilityEvaluation(IFormNode node)

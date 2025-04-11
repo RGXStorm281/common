@@ -74,11 +74,19 @@ internal abstract class NodeBase : IFormNode
 	public bool IsVisible
 	{
 		get => _visibility.CurrentValue;
-		set => _visibility.CurrentValue = value;
+		private set => _visibility.CurrentValue = value;
 	}
 
-	internal void ReplaceDefaultVisibility(bool newDefaultVisibility) =>
+	internal void ReplaceDefaultVisibility(bool newDefaultVisibility)
+	{
 		_visibility.ReplaceDefault(newDefaultVisibility);
+		IsVisible = newDefaultVisibility;
+	}
+
+	/// <inheritdoc />
+	public IFormExpression<bool>? VisibilityCondition { get; private set; }
+
+	internal void UseVisibilityCondition(IFormExpression<bool> condition) => VisibilityCondition = condition;
 
 	private ResettableProperty<bool> _readonly { get; set; }
 
@@ -86,15 +94,19 @@ internal abstract class NodeBase : IFormNode
 	public bool IsReadonly
 	{
 		get => _readonly.CurrentValue;
-		set => _readonly.CurrentValue = value;
+		private set => _readonly.CurrentValue = value;
 	}
 
-	internal void ReplaceDefaultReadonly(bool newDefaultReadonly) => _readonly.ReplaceDefault(newDefaultReadonly);
+	internal void ReplaceDefaultReadonly(bool newDefaultReadonly)
+	{
+		_readonly.ReplaceDefault(newDefaultReadonly);
+		IsReadonly = newDefaultReadonly;
+	}
 
 	/// <inheritdoc />
-	public IFormExpression<bool>? VisibilityCondition { get; private set; }
+	public IFormExpression<bool>? ReadonlyCondition { get; private set; }
 
-	internal void UseVisibilityCondition(IFormExpression<bool> condition) => VisibilityCondition = condition;
+	internal void UseReadonlyCondition(IFormExpression<bool> condition) => ReadonlyCondition = condition;
 
 	private Dictionary<string, string> _validationErrorsById { get; set; }
 

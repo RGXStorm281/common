@@ -64,17 +64,22 @@ public interface IFormNode : ICloneable
 	/// Manual changes might be overwritten by the <see cref="VisibilityCondition"/><br/>
 	/// or get lost once the parents turns invisible.
 	/// </summary>
-	public bool IsVisible { get; set; }
-
-	/// <summary>
-	/// Whether this node and all subordinate fields should be readonly.
-	/// </summary>
-	public bool IsReadonly { get; set; }
+	public bool IsVisible { get; }
 
 	/// <summary>
 	/// An optional condition to specify when the field is visible and when not.
 	/// </summary>
 	public IFormExpression<bool>? VisibilityCondition { get; }
+
+	/// <summary>
+	/// Whether this node and all subordinate fields are readonly.
+	/// </summary>
+	public bool IsReadonly { get; }
+
+	/// <summary>
+	/// An optional condition to specify when the field is readonly and when not.
+	/// </summary>
+	public IFormExpression<bool>? ReadonlyCondition { get; }
 
 	#endregion
 
