@@ -60,11 +60,11 @@ public class TemplateInstantiation
 
 		var templateNode = (ITemplateNode)form.Nodes.First();
 		var template1 = templateNode.Templates.First(template => template.Name == "Template1");
-		var Template2 = templateNode.Templates.First(template => template.Name == "Template2");
+		var template2 = templateNode.Templates.First(template => template.Name == "Template2");
 
 		Assert.IsTrue(templateNode.Instance == null);
 		templateNode.Instantiate(template1);
-		templateNode.Instantiate(Template2);
+		templateNode.Instantiate(template2);
 		var instance = templateNode.Instance;
 		Assert.IsTrue(instance != null);
 		Assert.IsTrue(instance.Nodes.First() is INumberNode { Name: "TemplateNumber" });
