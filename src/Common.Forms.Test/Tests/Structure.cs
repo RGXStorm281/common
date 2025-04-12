@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
 
 [TestClass]
-public sealed class FormStructure
+public sealed class Structure
 {
 	[TestMethod]
 	public void EmptyForm_ShouldNotThrow()

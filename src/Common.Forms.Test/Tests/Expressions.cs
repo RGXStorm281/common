@@ -6,7 +6,7 @@ using static RobinEpple.Common.Forms.Expressions.FormExpression;
 using static RobinEpple.Common.Forms.Expressions.FormExpressionExtensions;
 
 [TestClass]
-public class FormExpressions
+public class Expressions
 {
 	private IEnumerable<TValue> _enumerate<TValue>(params TValue[] values) => values;
 

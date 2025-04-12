@@ -5,7 +5,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Test.Mocks;
 
 [TestClass]
-public class FormConfiguration
+public class Configuration
 {
 	[TestMethod]
 	public void DefaultLabel_ShouldBeName()

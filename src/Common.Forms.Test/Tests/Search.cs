@@ -5,7 +5,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
 
 [TestClass]
-public class SearchOperations
+public class Search
 {
 	[TestMethod]
 	public void FindNode_ShouldFindChildInForm()

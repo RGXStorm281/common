@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
 
 [TestClass]
-public class TemplateInstantiation
+public class Instantiation
 {
 	[TestMethod]
 	public void TemplateNodeInstantiate_ShouldInstantiateTemplate()
