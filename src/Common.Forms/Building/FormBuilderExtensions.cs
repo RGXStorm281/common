@@ -69,4 +69,16 @@ public static class FormBuilderExtensions
 		this ITemplateNodeBuilder builder,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new TemplateRequiredValidator(errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> file contents.<br/>
+	/// Checks the size of the provided file against a maximum file size.
+	/// </summary>
+	/// <param name="maxFileSize">The maximum size a file is allowed to be.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the file size.</param>
+	public static IFileNodeBuilder UseMaxFileSizeValidator(
+		this IFileNodeBuilder builder,
+		long maxFileSize,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new MaxFileSizeValidator(maxFileSize, errorMessageTemplate));
 }

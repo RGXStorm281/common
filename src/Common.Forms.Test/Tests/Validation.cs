@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Test.Tests;
 
+using Microsoft.VisualBasic;
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Building;
 using RobinEpple.Common.Forms.Nodes;
@@ -284,5 +285,58 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TemplateNode")));
+	}
+
+	[TestMethod]
+	public void MaxFileSizeValidator_NonFileField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new MaxFileSizeValidator(2)).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void MaxFileSizeValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseMaxFileSizeValidator(2)).Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue { FileContents = null, FileName = "Empty" };
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2B"))
+		);
+	}
+
+	[TestMethod]
+	public void MaxFileSizeValidator_ContentsTooBig_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseMaxFileSizeValidator(2)).Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue { FileContents = [1, 2, 3], FileName = "Too big" };
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2B"))
+		);
+	}
+
+	[TestMethod]
+	public void MaxFileSizeValidator_ContentsValidSize_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseMaxFileSizeValidator(2)).Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue { FileContents = [1, 2], FileName = "Empty" };
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2B"))
+		);
 	}
 }

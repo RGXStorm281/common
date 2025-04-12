@@ -46,4 +46,9 @@ public class Resources
 	/// Looks up a localized string similar to The field '{0}' requires an input..
 	/// </summary>
 	public static string TheField_RequiresAnInput => ResourceManager.GetString("TheField_RequiresAnInput", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The file input '{0}' has a maximum file size of {1}..
+	/// </summary>
+	public static string TheFileInput_HasAMaximumFileSizeOf_ => ResourceManager.GetString("TheFileInput_HasAMaximumFileSizeOf_", Culture);
 }

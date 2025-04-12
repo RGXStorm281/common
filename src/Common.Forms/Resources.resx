@@ -19,4 +19,7 @@
     <data name="TheField_RequiresAnInput" xml:space="preserve">
         <value>The field '{0}' requires an input.</value>
     </data>
+    <data name="TheFileInput_HasAMaximumFileSizeOf_" xml:space="preserve">
+        <value>The file input '{0}' has a maximum file size of {1}.</value>
+    </data>
 </root>
