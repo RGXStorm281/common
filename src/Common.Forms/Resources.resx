@@ -22,4 +22,7 @@
     <data name="TheFileInput_HasAMaximumFileSizeOf_" xml:space="preserve">
         <value>The file input '{0}' has a maximum file size of {1}.</value>
     </data>
+    <data name="TheFollowingCharactersAreNotAllowedInAFileName_" xml:space="preserve">
+        <value>The following characters are not allowed in a file name: {0}</value>
+    </data>
 </root>

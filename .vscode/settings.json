@@ -7,7 +7,20 @@
 	"[xml]": {
 		"editor.defaultFormatter": "DotJoshJohnson.xml"
 	},
-	"cSpell.words": ["Cloneable", "Enumerables", "Epple", "inhertidoc", "Memberwise", "resetted", "summands"],
+	"cSpell.words": [
+		"aabbcc",
+		"abcdabc",
+		"Cloneable",
+		"Enumerables",
+		"Epple",
+		"inhertidoc",
+		"Memberwise",
+		"resetted",
+		"resheader",
+		"resmimetype",
+		"resx",
+		"summands"
+	],
 	"files.eol": "\n",
 	"xmlTools.enableXmlTreeView": false,
 	"xmlTools.enableXmlTreeViewMetadata": false,

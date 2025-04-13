@@ -51,4 +51,9 @@ public class Resources
 	/// Looks up a localized string similar to The file input '{0}' has a maximum file size of {1}..
 	/// </summary>
 	public static string TheFileInput_HasAMaximumFileSizeOf_ => ResourceManager.GetString("TheFileInput_HasAMaximumFileSizeOf_", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The following characters are not allowed in a file name: {0}.
+	/// </summary>
+	public static string TheFollowingCharactersAreNotAllowedInAFileName_ => ResourceManager.GetString("TheFollowingCharactersAreNotAllowedInAFileName_", Culture);
 }

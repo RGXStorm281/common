@@ -1,6 +1,5 @@
 namespace RobinEpple.Common.Forms.Test.Tests;
 
-using Microsoft.VisualBasic;
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Building;
 using RobinEpple.Common.Forms.Nodes;
@@ -337,6 +336,65 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2B"))
+		);
+	}
+
+	[TestMethod]
+	public void AllowedFileNameSymbolValidator_NonFileField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new AllowedFileNameSymbolValidator("abc")).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void AllowedFileNameSymbolValidator_NameNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc"))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue { FileContents = [1, 2, 3], FileName = null };
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheFollowingCharactersAreNotAllowedInAFileName_.Format("d"))
+		);
+	}
+
+	[TestMethod]
+	public void AllowedFileNameSymbolValidator_NameContainsInvalidChars_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc"))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue { FileContents = null, FileName = "abcdabc" };
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheFollowingCharactersAreNotAllowedInAFileName_.Format("d"))
+		);
+	}
+
+	[TestMethod]
+	public void AllowedFileNameSymbolValidator_ValidName_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc"))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue { FileContents = null, FileName = "aabbcc" };
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheFollowingCharactersAreNotAllowedInAFileName_.Format("d"))
 		);
 	}
 }

@@ -74,6 +74,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> file contents.<br/>
 	/// Checks the size of the provided file against a maximum file size.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="maxFileSize">The maximum size a file is allowed to be.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the file size.</param>
 	public static IFileNodeBuilder UseMaxFileSizeValidator(
@@ -81,4 +82,17 @@ public static class FormBuilderExtensions
 		long maxFileSize,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new MaxFileSizeValidator(maxFileSize, errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> file names.<br/>
+	/// Checks the provided file name against a whitelist of file name symbols.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="characterWhitelist">The whitelist of symbols that are allowed to occur in a filename.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
+	public static IFileNodeBuilder UseAllowedFileNameSymbolValidator(
+		this IFileNodeBuilder builder,
+		string characterWhitelist,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new AllowedFileNameSymbolValidator(characterWhitelist, errorMessageTemplate));
 }
