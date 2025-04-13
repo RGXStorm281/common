@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-		<AssemblyName>RobinEpple.Common.Forms.Test</AssemblyName>
-		<RootNamespace>RobinEpple.Common.Forms.Test</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>RobinEpple.Common.Forms.Test</AssemblyName>
+        <RootNamespace>RobinEpple.Common.Forms.Test</RootNamespace>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="MSTest" Version="3.6.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="MSTest" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../Common.Forms/Common.Forms.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="../Common.Forms/Common.Forms.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-  </ItemGroup>
+    <ItemGroup>
+        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+    </ItemGroup>
 
 </Project>

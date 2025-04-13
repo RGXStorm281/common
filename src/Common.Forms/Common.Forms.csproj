@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <AssemblyName>RobinEpple.Common.Forms</AssemblyName>
-	  <PackageId>RobinEpple.Common.Forms</PackageId>
-	  <RootNamespace>RobinEpple.Common.Forms</RootNamespace>
-	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	  <Title>Private Form Engine</Title>
-	  <Version>1.0.0.0</Version>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>RobinEpple.Common.Forms</AssemblyName>
+        <PackageId>RobinEpple.Common.Forms</PackageId>
+        <RootNamespace>RobinEpple.Common.Forms</RootNamespace>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>Private Form Engine</Title>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="RobinEpple.Common.Util" Version="1.0.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="RobinEpple.Common.Util" />
+    </ItemGroup>
 
 </Project>

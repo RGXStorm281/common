@@ -4,14 +4,13 @@
 	"[csharp]": {
 		"editor.defaultFormatter": "csharpier.csharpier-vscode"
 	},
-	"cSpell.words": [
-		"Cloneable",
-		"Enumerables",
-		"Epple",
-		"inhertidoc",
-		"Memberwise",
-		"resetted",
-		"summands"
-	],
-	"files.eol": "\n"
+	"[xml]": {
+		"editor.defaultFormatter": "DotJoshJohnson.xml"
+	},
+	"cSpell.words": ["Cloneable", "Enumerables", "Epple", "inhertidoc", "Memberwise", "resetted", "summands"],
+	"files.eol": "\n",
+	"xmlTools.enableXmlTreeView": false,
+	"xmlTools.enableXmlTreeViewMetadata": false,
+	"xmlTools.enforcePrettySelfClosingTagOnFormat": true,
+	"xmlTools.removeCommentsOnMinify": true
 }
