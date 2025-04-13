@@ -397,4 +397,73 @@ public class Validation
 			node.ValidationErrors.Contains(Resources.TheFollowingCharactersAreNotAllowedInAFileName_.Format("d"))
 		);
 	}
+
+	[TestMethod]
+	public void FileExtensionValidator_NonFileField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new FileExtensionValidator(["jpg"])).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void FileExtensionValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseFileExtensionValidator(["jpg"]))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue { FileContents = null, FileName = "Empty" };
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_.Format("FileNode", ".jpg")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void FileExtensionValidator_InvalidFileExtension_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseFileExtensionValidator(["png"]))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue
+		{
+			FileContents = File.ReadAllBytes("/workspaces/common/src/Common.Forms.Test/TestImage.jpg"),
+			FileName = "Text file",
+		};
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", ".png"))
+		);
+	}
+
+	[TestMethod]
+	public void FileExtensionValidator_ValidFileExtension_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseFileExtensionValidator(["jpg"]))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new FileValue
+		{
+			FileContents = File.ReadAllBytes("/workspaces/common/src/Common.Forms.Test/TestImage.jpg"),
+			FileName = "Text file",
+		};
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", ".jpg"))
+		);
+	}
 }

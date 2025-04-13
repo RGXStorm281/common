@@ -95,4 +95,16 @@ public static class FormBuilderExtensions
 		string characterWhitelist,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new AllowedFileNameSymbolValidator(characterWhitelist, errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> file contents.<br/>
+	/// Estimates the mime type of a given byte string and checks it against a list of valid extensions.
+	/// </summary>
+	/// <param name="allowedExtensions">The list of allowed file extensions.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the list of allowed extensions.</param>
+	public static IFileNodeBuilder UseFileExtensionValidator(
+		this IFileNodeBuilder builder,
+		string[] allowedExtensions,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new FileExtensionValidator(allowedExtensions, errorMessageTemplate));
 }
