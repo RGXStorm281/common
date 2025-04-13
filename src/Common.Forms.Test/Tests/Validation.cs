@@ -606,4 +606,139 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void TextSelectListValidator_NonTextField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test")
+			.UseValidator(new TextSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"])))
+			.Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void TextSelectListValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithTextNode(
+				"TextNode",
+				node => node.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
+			)
+			.Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
+					string.Empty,
+					"TextNode"
+				)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TextSelectListValidator_SelectionOutOfRange_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTextNode(
+				"TextNode",
+				node => node.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
+			)
+			.Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "4";
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("4", "TextNode")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TextSelectListValidator_SelectionInList_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTextNode(
+				"TextNode",
+				node => node.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
+			)
+			.Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "3";
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextNode")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TextSelectListValidator_ParentDependency_ShouldBeEvaluated()
+	{
+		var dependentListSource = new DependentSelectListMock<bool, string>(
+			new Dictionary<bool, ISelectListSource<string>>()
+			{
+				{ false, ISelectListSource<string>.ForValues(["1", "2"]) },
+				{ true, ISelectListSource<string>.ForValues(["2", "3"]) },
+			}
+		);
+
+		var form = new FormBuilder("Test")
+			.WithBooleanNode("BooleanNode")
+			.WithTextNode(
+				"TextNode",
+				node =>
+					node.UseSelectListValidator(
+						dependentListSource,
+						new Dictionary<string, IFormExpression<object?>>()
+						{
+							{
+								DependentSelectListMock<bool, decimal>.ParentValueKey,
+								BooleanFieldValue("BooleanNode").Select(value => (object?)value)
+							},
+						}
+					)
+			)
+			.Build();
+
+		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
+		var numberNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		numberNode.Value = "3";
+
+		// For boolean node false should be invalid.
+		booleanNode.Value = false;
+
+		form.Update();
+		Assert.IsFalse(numberNode.IsValid);
+		Assert.IsTrue(
+			numberNode.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextNode")
+			)
+		);
+
+		// For boolean node true should be valid.
+		booleanNode.Value = true;
+
+		form.Update();
+		Assert.IsTrue(numberNode.IsValid);
+		Assert.IsFalse(
+			numberNode.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextNode")
+			)
+		);
+	}
 }

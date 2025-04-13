@@ -113,7 +113,7 @@ public static class FormBuilderExtensions
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
-	/// Checks the provided value against the available items in the select list.
+	/// Checks the field value against the available items in the select list.
 	/// </summary>
 	/// <param name="selectListSource">The source to load the select list from.</param>
 	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
@@ -124,4 +124,18 @@ public static class FormBuilderExtensions
 		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new NumberSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against the available items in the select list.
+	/// </summary>
+	/// <param name="selectListSource">The source to load the select list from.</param>
+	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
+	public static ITextNodeBuilder UseSelectListValidator(
+		this ITextNodeBuilder builder,
+		ISelectListSource<string> selectListSource,
+		IDictionary<string, IFormExpression<object?>>? dependencies = null,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new TextSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
 }
