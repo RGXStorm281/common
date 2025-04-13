@@ -9,7 +9,7 @@ using RobinEpple.Common.Forms.Nodes;
 /// Checks the field value against defined minimum value.
 /// </summary>
 /// <param name="minValue">The expression defining the (inclusive) lower bound the field accepts.</param>
-/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the minimum value.</param>
 public class NumberMinValueValidator(IFormExpression<decimal?> minValue, string? errorMessageTemplate = null)
 	: INodeValidator
 {

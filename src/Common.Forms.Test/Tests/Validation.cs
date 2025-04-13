@@ -1125,4 +1125,252 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void TimestampMinValueValidator_NonTimestampField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test")
+			.UseValidator(new TimestampMinValueValidator(StaticValue<DateTime?>(DateTime.Today)))
+			.Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void TimestampMinValueValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(DateTime.Today))
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMinValueValidator_ValueTooSmall_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(DateTime.Today))
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = DateTime.Today.AddDays(-1);
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMinValueValidator_ValueEqualsLowerBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(DateTime.Today))
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = DateTime.Today;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMinValueValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("LowerBound")
+			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(TimestampFieldValue("LowerBound")))
+			.Build();
+
+		var lowerBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "LowerBound");
+		lowerBoundNode.Value = null;
+		var dependentNode = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		dependentNode.Value = DateTime.Today;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMinValueValidator_ExpressionValue_ShouldUpdateLowerBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("LowerBound")
+			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(TimestampFieldValue("LowerBound")))
+			.Build();
+
+		var lowerBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "LowerBound");
+		var dependentNode = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		dependentNode.Value = DateTime.Today;
+
+		// Lower bound too big renders node invalid.
+		lowerBoundNode.Value = DateTime.Today.AddDays(1);
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(1))
+			)
+		);
+
+		// Decreasing the lower bound makes dependent node valid.
+		lowerBoundNode.Value = DateTime.Today.AddDays(-1);
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMaxValueValidator_NonTimestampField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test")
+			.UseValidator(new TimestampMaxValueValidator(StaticValue<DateTime?>(DateTime.Today)))
+			.Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void TimestampMaxValueValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(DateTime.Today))
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMaxValueValidator_ValueTooBig_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(DateTime.Today))
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = DateTime.Today.AddDays(1);
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMaxValueValidator_ValueEqualsUpperBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(DateTime.Today))
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = DateTime.Today;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMaxValueValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("UpperBound")
+			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(TimestampFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "UpperBound");
+		upperBoundNode.Value = null;
+		var dependentNode = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		dependentNode.Value = DateTime.Today;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampMaxValueValidator_ExpressionValue_ShouldUpdateUpperBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode("UpperBound")
+			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(TimestampFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "UpperBound");
+		var dependentNode = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		dependentNode.Value = DateTime.Today;
+
+		// Upper bound too small renders node invalid.
+		upperBoundNode.Value = DateTime.Today.AddDays(-1);
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+			)
+		);
+
+		// Increasing the upper bound makes dependent node valid.
+		upperBoundNode.Value = DateTime.Today.AddDays(1);
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(1))
+			)
+		);
+	}
 }
