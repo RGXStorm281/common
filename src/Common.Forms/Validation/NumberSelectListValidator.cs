@@ -11,7 +11,7 @@ using RobinEpple.Common.Forms.SelectLists;
 /// </summary>
 /// <param name="selectListSource">The source to load the select list from.</param>
 /// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
-/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
+/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 public class NumberSelectListValidator(
 	ISelectListSource<decimal> selectListSource,
 	IDictionary<string, IFormExpression<object?>>? dependencies = null,

@@ -741,4 +741,172 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void TimestampSelectListValidator_NonTimestampField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test")
+			.UseValidator(
+				new TimestampSelectListValidator(
+					ISelectListSource<DateTime>.ForValues(
+						[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+					)
+				)
+			)
+			.Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void TimestampSelectListValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode(
+				"TimestampNode",
+				node =>
+					node.UseSelectListValidator(
+						ISelectListSource<DateTime>.ForValues(
+							[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+						)
+					)
+			)
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
+					string.Empty,
+					"TimestampNode"
+				)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampSelectListValidator_SelectionOutOfRange_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode(
+				"TimestampNode",
+				node =>
+					node.UseSelectListValidator(
+						ISelectListSource<DateTime>.ForValues(
+							[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+						)
+					)
+			)
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = DateTime.Today.AddDays(2);
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
+					DateTime.Today.AddDays(2),
+					"TimestampNode"
+				)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampSelectListValidator_SelectionInList_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTimestampNode(
+				"TimestampNode",
+				node =>
+					node.UseSelectListValidator(
+						ISelectListSource<DateTime>.ForValues(
+							[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+						)
+					)
+			)
+			.Build();
+
+		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		node.Value = DateTime.Today.AddDays(1);
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
+					DateTime.Today.AddDays(1),
+					"TimestampNode"
+				)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void TimestampSelectListValidator_ParentDependency_ShouldBeEvaluated()
+	{
+		var dependentListSource = new DependentSelectListMock<bool, DateTime>(
+			new Dictionary<bool, ISelectListSource<DateTime>>()
+			{
+				{ false, ISelectListSource<DateTime>.ForValues([DateTime.Today.AddDays(-1), DateTime.Today]) },
+				{ true, ISelectListSource<DateTime>.ForValues([DateTime.Today, DateTime.Today.AddDays(1)]) },
+			}
+		);
+
+		var form = new FormBuilder("Test")
+			.WithBooleanNode("BooleanNode")
+			.WithTimestampNode(
+				"TimestampNode",
+				node =>
+					node.UseSelectListValidator(
+						dependentListSource,
+						new Dictionary<string, IFormExpression<object?>>()
+						{
+							{
+								DependentSelectListMock<bool, decimal>.ParentValueKey,
+								BooleanFieldValue("BooleanNode").Select(value => (object?)value)
+							},
+						}
+					)
+			)
+			.Build();
+
+		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
+		var numberNode = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
+		numberNode.Value = DateTime.Today.AddDays(1);
+
+		// For boolean node false should be invalid.
+		booleanNode.Value = false;
+
+		form.Update();
+		Assert.IsFalse(numberNode.IsValid);
+		Assert.IsTrue(
+			numberNode.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
+					DateTime.Today.AddDays(1),
+					"TimestampNode"
+				)
+			)
+		);
+
+		// For boolean node true should be valid.
+		booleanNode.Value = true;
+
+		form.Update();
+		Assert.IsTrue(numberNode.IsValid);
+		Assert.IsFalse(
+			numberNode.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
+					DateTime.Today.AddDays(1),
+					"TimestampNode"
+				)
+			)
+		);
+	}
 }
