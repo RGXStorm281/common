@@ -159,9 +159,9 @@ public static class FormBuilderExtensions
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
-	/// Checks the field value against defined minimal value.
+	/// Checks the field value against defined minimum value.
 	/// </summary>
-	/// <param name="minValue">The expression defining the minimal value the field accepts.</param>
+	/// <param name="minValue">The expression defining the (inclusive) lower bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static INumberNodeBuilder UseMinValueValidator(
 		this INumberNodeBuilder builder,
@@ -175,4 +175,23 @@ public static class FormBuilderExtensions
 		decimal minValue,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new NumberMinValueValidator(StaticValue<decimal?>(minValue), errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against defined minimum value.
+	/// </summary>
+	/// <param name="minValue">The expression defining the (inclusive) upper bound the field accepts.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	public static INumberNodeBuilder UseMaxValueValidator(
+		this INumberNodeBuilder builder,
+		IFormExpression<decimal?> maxValue,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new NumberMaxValueValidator(maxValue, errorMessageTemplate));
+
+	/// <inheritdoc cref="UseMinValueValidator(INumberNodeBuilder, IFormExpression{decimal}, string?)"/>
+	public static INumberNodeBuilder UseMaxValueValidator(
+		this INumberNodeBuilder builder,
+		decimal maxValue,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new NumberMaxValueValidator(StaticValue<decimal?>(maxValue), errorMessageTemplate));
 }

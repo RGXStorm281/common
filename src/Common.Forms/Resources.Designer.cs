@@ -71,4 +71,9 @@ public class Resources
 	/// Looks up a localized string similar to The field '{0}' requires a minimum value of '{1}'..
 	/// </summary>
 	public static string TheField_RequiresAMinimumValueOf_ => ResourceManager.GetString("TheField_RequiresAMinimumValueOf_", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' only allows a maximum value of '{1}'..
+	/// </summary>
+	public static string TheField_OnlyAllowsAMaximumValueOf_ => ResourceManager.GetString("TheField_OnlyAllowsAMaximumValueOf_", Culture);
 }

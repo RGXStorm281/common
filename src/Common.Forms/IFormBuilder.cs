@@ -7,7 +7,7 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <summary>
 	/// The list of characters a node name is allowed to consist of.
 	/// </summary>
-	public const string ValidNameCharacters = "ABCDEFGHIKLMNOPQRSTUVXYZabcdefghiklmnopqrstuvxyz0123456789_";
+	public const string ValidNameCharacters = "ABCDEFGHIKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz0123456789_";
 
 	/// <summary>
 	/// A delegate to configure an added form field.

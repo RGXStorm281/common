@@ -34,4 +34,7 @@
     <data name="TheField_RequiresAMinimumValueOf_" xml:space="preserve">
         <value>The field '{0}' requires a minimum value of '{1}'.</value>
     </data>
+    <data name="TheField_OnlyAllowsAMaximumValueOf_" xml:space="preserve">
+        <value>The field '{0}' only allows a maximum value of '{1}'.</value>
+    </data>
 </root>

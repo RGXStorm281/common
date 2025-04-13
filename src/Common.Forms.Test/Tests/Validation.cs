@@ -1015,4 +1015,114 @@ public class Validation
 			dependentNode.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 0))
 		);
 	}
+
+	[TestMethod]
+	public void NumberMaxValueValidator_NonNumberField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new NumberMaxValueValidator(StaticValue<decimal?>(5))).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void NumberMaxValueValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMaxValueValidator(5)).Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void NumberMaxValueValidator_ValueTooBig_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMaxValueValidator(5)).Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = 6;
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void NumberMaxValueValidator_ValueEqualsUpperBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMaxValueValidator(5)).Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = 5;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void NumberMaxValueValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("UpperBound")
+			.WithNumberNode("NumberNode", node => node.UseMaxValueValidator(NumberFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
+		upperBoundNode.Value = null;
+		var dependentNode = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		dependentNode.Value = 3;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void NumberMaxValueValidator_ExpressionValue_ShouldUpdateUpperBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("UpperBound")
+			.WithNumberNode("NumberNode", node => node.UseMaxValueValidator(NumberFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
+		var dependentNode = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		dependentNode.Value = 3;
+
+		// Upper bound too small renders node invalid.
+		upperBoundNode.Value = 2;
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 2)
+			)
+		);
+
+		// Increasing the upper bound makes dependent node valid.
+		upperBoundNode.Value = 6;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 6)
+			)
+		);
+	}
 }
