@@ -1,5 +1,8 @@
 namespace RobinEpple.Common.Forms.Building;
 
+using System.Numerics;
+using RobinEpple.Common.Forms.Expressions;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.Forms.Validation;
 
 /// <summary>
@@ -107,4 +110,18 @@ public static class FormBuilderExtensions
 		string[] allowedExtensions,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new FileExtensionValidator(allowedExtensions, errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the provided value against the available items in the select list.
+	/// </summary>
+	/// <param name="selectListSource">The source to load the select list from.</param>
+	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
+	public static INumberNodeBuilder UseSelectListValidator(
+		this INumberNodeBuilder builder,
+		ISelectListSource<decimal> selectListSource,
+		IDictionary<string, IFormExpression<object?>>? dependencies = null,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new NumberSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
 }

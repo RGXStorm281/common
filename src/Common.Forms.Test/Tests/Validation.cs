@@ -2,9 +2,14 @@ namespace RobinEpple.Common.Forms.Test.Tests;
 
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Building;
+using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Forms.SelectLists;
+using RobinEpple.Common.Forms.Test.Mocks;
 using RobinEpple.Common.Forms.Validation;
 using RobinEpple.Common.Util;
+using static RobinEpple.Common.Forms.Expressions.FormExpression;
+using static RobinEpple.Common.Forms.Expressions.FormExpressionExtensions;
 
 [TestClass]
 public class Validation
@@ -464,6 +469,141 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", ".jpg"))
+		);
+	}
+
+	[TestMethod]
+	public void NumberSelectListValidator_NonNumberField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test")
+			.UseValidator(new NumberSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3])))
+			.Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void NumberSelectListValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode(
+				"NumberNode",
+				node => node.UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+			)
+			.Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
+					string.Empty,
+					"NumberNode"
+				)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void NumberSelectListValidator_SelectionOutOfRange_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode(
+				"NumberNode",
+				node => node.UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+			)
+			.Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = 4;
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(4, "NumberNode")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void NumberSelectListValidator_SelectionInList_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode(
+				"NumberNode",
+				node => node.UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+			)
+			.Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = 3;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberNode")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void NumberSelectListValidator_ParentDependency_ShouldBeEvaluated()
+	{
+		var dependentListSource = new DependentSelectListMock<bool, decimal>(
+			new Dictionary<bool, ISelectListSource<decimal>>()
+			{
+				{ false, ISelectListSource<decimal>.ForValues([1, 2]) },
+				{ true, ISelectListSource<decimal>.ForValues([2, 3]) },
+			}
+		);
+
+		var form = new FormBuilder("Test")
+			.WithBooleanNode("BooleanNode")
+			.WithNumberNode(
+				"NumberNode",
+				node =>
+					node.UseSelectListValidator(
+						dependentListSource,
+						new Dictionary<string, IFormExpression<object?>>()
+						{
+							{
+								DependentSelectListMock<bool, decimal>.ParentValueKey,
+								BooleanFieldValue("BooleanNode").Select(value => (object?)value)
+							},
+						}
+					)
+			)
+			.Build();
+
+		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
+		var numberNode = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		numberNode.Value = 3;
+
+		// For boolean node false should be invalid.
+		booleanNode.Value = false;
+
+		form.Update();
+		Assert.IsFalse(numberNode.IsValid);
+		Assert.IsTrue(
+			numberNode.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberNode")
+			)
+		);
+
+		// For boolean node true should be valid.
+		booleanNode.Value = true;
+
+		form.Update();
+		Assert.IsTrue(numberNode.IsValid);
+		Assert.IsFalse(
+			numberNode.ValidationErrors.Contains(
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberNode")
+			)
 		);
 	}
 }
