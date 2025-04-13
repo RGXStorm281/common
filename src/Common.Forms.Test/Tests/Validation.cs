@@ -909,4 +909,110 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void NumberMinValueValidator_NonNumberField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new NumberMinValueValidator(StaticValue<decimal?>(5))).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void NumberMinValueValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMinValueValidator(5)).Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void NumberMinValueValidator_ValueTooSmall_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMinValueValidator(5)).Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = 3;
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void NumberMinValueValidator_ValueEqualsLowerBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMinValueValidator(5)).Build();
+
+		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		node.Value = 5;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void NumberMinValueValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("LowerBound")
+			.WithNumberNode("NumberNode", node => node.UseMinValueValidator(NumberFieldValue("LowerBound")))
+			.Build();
+
+		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
+		lowerBoundNode.Value = null;
+		var dependentNode = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		dependentNode.Value = 3;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void NumberMinValueValidator_ExpressionValue_ShouldUpdateLowerBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("LowerBound")
+			.WithNumberNode("NumberNode", node => node.UseMinValueValidator(NumberFieldValue("LowerBound")))
+			.Build();
+
+		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
+		var dependentNode = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
+		dependentNode.Value = 3;
+
+		// Lower bound too big renders node invalid.
+		lowerBoundNode.Value = 5;
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+		);
+
+		// Decreasing the lower bound makes dependent node valid.
+		lowerBoundNode.Value = 0;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 0))
+		);
+	}
 }

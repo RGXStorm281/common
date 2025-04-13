@@ -23,12 +23,15 @@
         <value>The file input '{0}' has a maximum file size of {1}.</value>
     </data>
     <data name="TheFollowingCharactersAreNotAllowedInAFileName_" xml:space="preserve">
-        <value>The following characters are not allowed in a file name: {0}</value>
+        <value>The following characters are not allowed in a file name: {0}.</value>
     </data>
     <data name="TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_" xml:space="preserve">
-        <value>The file input '{0}' only allows files of the following types: {1}</value>
+        <value>The file input '{0}' only allows files of the following types: {1}.</value>
     </data>
     <data name="TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions" xml:space="preserve">
         <value>The value '{0}' in the field '{1}' is not allowed. Please select one of the provided options.</value>
+    </data>
+    <data name="TheField_RequiresAMinimumValueOf_" xml:space="preserve">
+        <value>The field '{0}' requires a minimum value of '{1}'.</value>
     </data>
 </root>

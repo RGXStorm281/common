@@ -1,9 +1,9 @@
 namespace RobinEpple.Common.Forms.Building;
 
-using System.Numerics;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.Forms.Validation;
+using static RobinEpple.Common.Forms.Expressions.FormExpression;
 
 /// <summary>
 /// This static class provides additional shortcut methods for common form building use cases.<br/>
@@ -156,4 +156,23 @@ public static class FormBuilderExtensions
 		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new TimestampSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against defined minimal value.
+	/// </summary>
+	/// <param name="minValue">The expression defining the minimal value the field accepts.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	public static INumberNodeBuilder UseMinValueValidator(
+		this INumberNodeBuilder builder,
+		IFormExpression<decimal?> minValue,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new NumberMinValueValidator(minValue, errorMessageTemplate));
+
+	/// <inheritdoc cref="UseMinValueValidator(INumberNodeBuilder, IFormExpression{decimal}, string?)"/>
+	public static INumberNodeBuilder UseMinValueValidator(
+		this INumberNodeBuilder builder,
+		decimal minValue,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new NumberMinValueValidator(StaticValue<decimal?>(minValue), errorMessageTemplate));
 }

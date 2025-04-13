@@ -53,12 +53,12 @@ public class Resources
 	public static string TheFileInput_HasAMaximumFileSizeOf_ => ResourceManager.GetString("TheFileInput_HasAMaximumFileSizeOf_", Culture);
 	
 	/// <summary>
-	/// Looks up a localized string similar to The following characters are not allowed in a file name: {0}.
+	/// Looks up a localized string similar to The following characters are not allowed in a file name: {0}..
 	/// </summary>
 	public static string TheFollowingCharactersAreNotAllowedInAFileName_ => ResourceManager.GetString("TheFollowingCharactersAreNotAllowedInAFileName_", Culture);
 	
 	/// <summary>
-	/// Looks up a localized string similar to The file input '{0}' only allows files of the following types: {1}.
+	/// Looks up a localized string similar to The file input '{0}' only allows files of the following types: {1}..
 	/// </summary>
 	public static string TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_ => ResourceManager.GetString("TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_", Culture);
 	
@@ -66,4 +66,9 @@ public class Resources
 	/// Looks up a localized string similar to The value '{0}' in the field '{1}' is not allowed. Please select one of the provided options..
 	/// </summary>
 	public static string TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions => ResourceManager.GetString("TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' requires a minimum value of '{1}'..
+	/// </summary>
+	public static string TheField_RequiresAMinimumValueOf_ => ResourceManager.GetString("TheField_RequiresAMinimumValueOf_", Culture);
 }
