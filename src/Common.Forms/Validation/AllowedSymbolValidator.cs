@@ -11,7 +11,7 @@ using RobinEpple.Common.Forms.Nodes;
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the invalid characters.</param>
 public class AllowedSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null) : INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(AllowedSymbolValidator);
 	private readonly string _characterWhitelist = characterWhitelist;
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheField_DoesNotAllowTheFollowingCharacters_;

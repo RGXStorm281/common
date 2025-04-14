@@ -12,7 +12,7 @@ using RobinEpple.Common.Forms.Nodes;
 public class AllowedFileNameSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null)
 	: INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(AllowedFileNameSymbolValidator);
 	private readonly string _characterWhitelist = characterWhitelist;
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheFollowingCharactersAreNotAllowedInAFileName_;

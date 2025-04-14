@@ -10,7 +10,7 @@ using RobinEpple.Common.Forms.Nodes;
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
 public class EmailValidator(string? errorMessageTemplate = null) : INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(EmailValidator);
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat;
 

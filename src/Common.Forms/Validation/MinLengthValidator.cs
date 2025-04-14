@@ -13,7 +13,7 @@ using RobinEpple.Common.Forms.Nodes;
 public class MinLengthValidator(IFormExpression<decimal?> minLength, string? errorMessageTemplate = null)
 	: INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(MinLengthValidator);
 	private readonly IFormExpression<decimal?> _minLength = minLength;
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheField_RequiresAMinimumContentLengthOf_;

@@ -13,7 +13,7 @@ using RobinEpple.Common.Forms.Nodes;
 public class TimestampMaxValueValidator(IFormExpression<DateTime?> maxValue, string? errorMessageTemplate = null)
 	: INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(TimestampMaxValueValidator);
 	private readonly IFormExpression<DateTime?> _maxValue = maxValue;
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_AllowsAMaximumValueOf_;
 

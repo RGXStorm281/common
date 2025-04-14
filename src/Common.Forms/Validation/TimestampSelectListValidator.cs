@@ -18,7 +18,7 @@ public class TimestampSelectListValidator(
 	string? errorMessageTemplate = null
 ) : INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(TimestampSelectListValidator);
 	private readonly ISelectListSource<DateTime> _selectListSource = selectListSource;
 	private readonly IDictionary<string, IFormExpression<object?>>? _dependencies = dependencies;
 	private readonly string _errorMessageTemplate =

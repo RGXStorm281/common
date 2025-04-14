@@ -13,7 +13,7 @@ using RobinEpple.Common.Forms.Nodes;
 public class TimestampMinValueValidator(IFormExpression<DateTime?> minValue, string? errorMessageTemplate = null)
 	: INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(TimestampMinValueValidator);
 	private readonly IFormExpression<DateTime?> _minValue = minValue;
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresAMinimumValueOf_;
 

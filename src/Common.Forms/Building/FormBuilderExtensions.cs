@@ -322,4 +322,23 @@ public static class FormBuilderExtensions
 		this ITextNodeBuilder builder,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new IbanValidator(errorMessageTemplate));
+
+	/// <summary>
+	/// Checks the collection for having a minimum of <paramref name="minCount"/> instances.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="minCount">The expression determining the (inclusive) lower bound for the instance count.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for field name and {1} for the minimum count.</param>
+	public static ICollectionNodeBuilder UseMinCountValidator(
+		this ICollectionNodeBuilder builder,
+		IFormExpression<decimal?> minCount,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new MinCountValidator(minCount, errorMessageTemplate));
+
+	/// <inheritdoc cref="UseMinCountValidator(ICollectionNodeBuilder, IFormExpression{decimal?}, string?)"/>
+	public static ICollectionNodeBuilder UseMinCountValidator(
+		this ICollectionNodeBuilder builder,
+		int minCount,
+		string? errorMessageTemplate = null
+	) => builder.UseMinCountValidator(StaticValue<decimal?>(minCount), errorMessageTemplate);
 }

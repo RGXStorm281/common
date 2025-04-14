@@ -13,7 +13,7 @@ using RobinEpple.Common.Forms.Nodes;
 public class NumberMaxValueValidator(IFormExpression<decimal?> maxValue, string? errorMessageTemplate = null)
 	: INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(NumberMaxValueValidator);
 	private readonly IFormExpression<decimal?> _maxValue = maxValue;
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_AllowsAMaximumValueOf_;
 

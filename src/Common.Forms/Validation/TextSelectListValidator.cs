@@ -18,7 +18,7 @@ public class TextSelectListValidator(
 	string? errorMessageTemplate = null
 ) : INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(TextSelectListValidator);
 	private readonly ISelectListSource<string> _selectListSource = selectListSource;
 	private readonly IDictionary<string, IFormExpression<object?>>? _dependencies = dependencies;
 	private readonly string _errorMessageTemplate =

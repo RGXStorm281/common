@@ -106,4 +106,9 @@ public class Resources
 	/// Looks up a localized string similar to The value '{0}' could not be recognized as a valid IBAN..
 	/// </summary>
 	public static string TheValue_CouldNotBeRecognizedAsAValidIban => ResourceManager.GetString("TheValue_CouldNotBeRecognizedAsAValidIban", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' requires at least the following number of instances: {1}.
+	/// </summary>
+	public static string TheField_RequiresAtLeastTheFollowingNumberOfInstances_ => ResourceManager.GetString("TheField_RequiresAtLeastTheFollowingNumberOfInstances_", Culture);
 }

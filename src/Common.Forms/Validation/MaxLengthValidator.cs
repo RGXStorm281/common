@@ -13,7 +13,7 @@ using RobinEpple.Common.Forms.Nodes;
 public class MaxLengthValidator(IFormExpression<decimal?> maxLength, string? errorMessageTemplate = null)
 	: INodeValidator
 {
-	public const string ErrorKey = nameof(FileRequiredValidator);
+	public const string ErrorKey = nameof(MaxLengthValidator);
 	private readonly IFormExpression<decimal?> _maxLength = maxLength;
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheField_AllowsAMaximumContentLengthOf_;
