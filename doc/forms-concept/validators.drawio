@@ -115,7 +115,7 @@
         <mxCell id="Abist77MTKF4w1KIIUhs-43" value="Any node" style="swimlane;whiteSpace=wrap;html=1;" parent="Abist77MTKF4w1KIIUhs-34" vertex="1">
           <mxGeometry x="20" y="170" width="270" height="690" as="geometry" />
         </mxCell>
-        <mxCell id="Abist77MTKF4w1KIIUhs-44" value="ExpressionValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-43" vertex="1">
+        <mxCell id="Abist77MTKF4w1KIIUhs-44" value="ExpressionValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="Abist77MTKF4w1KIIUhs-43" vertex="1">
           <mxGeometry x="10" y="30" width="250" height="60" as="geometry" />
         </mxCell>
       </root>

@@ -2235,4 +2235,38 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void ExpressionValidator_ExpressionValue_ShouldDecideValidationState()
+	{
+		var form = new FormBuilder("Test")
+			.WithBooleanNode("DeciderNode")
+			.WithTextNode(
+				"TextNode",
+				node =>
+					node.UseExpressionValidator(
+						BooleanFieldValue("DeciderNode").Coalesce(true),
+						"Field DeciderNode is true."
+					)
+			)
+			.Build();
+
+		var deciderNode = (IBooleanNode)form.Nodes.First(node => node.Name == "DeciderNode");
+		var dependentNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		dependentNode.Value = "test";
+
+		// Decider node true renders node invalid.
+		deciderNode.Value = true;
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(dependentNode.ValidationErrors.Contains("Field DeciderNode is true"));
+
+		// Decider node false makes dependent node valid.
+		deciderNode.Value = false;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(dependentNode.ValidationErrors.Contains("Field DeciderNode is true"));
+	}
 }

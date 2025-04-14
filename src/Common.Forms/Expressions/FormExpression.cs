@@ -34,13 +34,23 @@ public static class FormExpression
 	public static IFormExpression<TValue> Coalesce<TValue>(
 		this IFormExpression<TValue?> source,
 		IFormExpression<TValue> fallbackValue
-	) => new CoalesceExpression<TValue>(source, fallbackValue);
+	)
+		where TValue : class => new ClassCoalesceExpression<TValue>(source, fallbackValue);
+
+	/// <inheritdoc cref="Coalesce"/>
+	public static IFormExpression<TValue> Coalesce<TValue>(this IFormExpression<TValue?> source, TValue fallbackValue)
+		where TValue : class => source.Coalesce(StaticValue(fallbackValue));
 
 	/// <inheritdoc cref="Coalesce"/>
 	public static IFormExpression<TValue> Coalesce<TValue>(
 		this IFormExpression<TValue?> source,
-		TValue fallbackValue
-	) => source.Coalesce(StaticValue(fallbackValue));
+		IFormExpression<TValue> fallbackValue
+	)
+		where TValue : struct => new StructCoalesceExpression<TValue>(source, fallbackValue);
+
+	/// <inheritdoc cref="Coalesce"/>
+	public static IFormExpression<TValue> Coalesce<TValue>(this IFormExpression<TValue?> source, TValue fallbackValue)
+		where TValue : struct => source.Coalesce(StaticValue(fallbackValue));
 
 	/// <summary>
 	/// Provides a <paramref name="fallbackValue"/> in case the <paramref name="source"/> throws a <see cref="NodeNotFoundException"/>.
