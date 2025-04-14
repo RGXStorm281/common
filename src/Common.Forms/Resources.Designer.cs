@@ -73,7 +73,17 @@ public class Resources
 	public static string TheField_RequiresAMinimumValueOf_ => ResourceManager.GetString("TheField_RequiresAMinimumValueOf_", Culture);
 	
 	/// <summary>
-	/// Looks up a localized string similar to The field '{0}' only allows a maximum value of '{1}'..
+	/// Looks up a localized string similar to The field '{0}' allows a maximum value of '{1}'..
 	/// </summary>
-	public static string TheField_OnlyAllowsAMaximumValueOf_ => ResourceManager.GetString("TheField_OnlyAllowsAMaximumValueOf_", Culture);
+	public static string TheField_AllowsAMaximumValueOf_ => ResourceManager.GetString("TheField_AllowsAMaximumValueOf_", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' requires a minimum content length of '{1}'..
+	/// </summary>
+	public static string TheField_RequiresAMinimumContentLengthOf_ => ResourceManager.GetString("TheField_RequiresAMinimumContentLengthOf_", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' allows a maximum content length of '{1}'..
+	/// </summary>
+	public static string TheField_AllowsAMaximumContentLengthOf_ => ResourceManager.GetString("TheField_AllowsAMaximumContentLengthOf_", Culture);
 }

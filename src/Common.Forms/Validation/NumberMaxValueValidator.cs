@@ -15,7 +15,7 @@ public class NumberMaxValueValidator(IFormExpression<decimal?> maxValue, string?
 {
 	public const string ErrorKey = nameof(FileRequiredValidator);
 	private readonly IFormExpression<decimal?> _maxValue = maxValue;
-	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresAMinimumValueOf_;
+	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_AllowsAMaximumValueOf_;
 
 	/// <inheritdoc />
 	public void Validate(IFormNode node)

@@ -1035,7 +1035,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 5))
 		);
 	}
 
@@ -1050,7 +1050,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 5))
 		);
 	}
 
@@ -1065,7 +1065,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 5))
 		);
 	}
 
@@ -1086,7 +1086,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", string.Empty)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", string.Empty)
 			)
 		);
 	}
@@ -1109,9 +1109,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
-			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 2)
-			)
+			dependentNode.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 2))
 		);
 
 		// Increasing the upper bound makes dependent node valid.
@@ -1120,9 +1118,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
-			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("NumberNode", 6)
-			)
+			dependentNode.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 6))
 		);
 	}
 
@@ -1274,7 +1270,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
 			)
 		);
 	}
@@ -1293,7 +1289,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
 			)
 		);
 	}
@@ -1312,7 +1308,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
 			)
 		);
 	}
@@ -1334,7 +1330,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", string.Empty)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", string.Empty)
 			)
 		);
 	}
@@ -1358,7 +1354,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
 			)
 		);
 
@@ -1369,7 +1365,227 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_OnlyAllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(1))
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(1))
+			)
+		);
+	}
+
+	[TestMethod]
+	public void MinLengthValidator_NonTextField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new MinLengthValidator(StaticValue<decimal?>(5))).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void MinLengthValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMinLengthValidator(5)).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MinLengthValidator_ValueTooSmall_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMinLengthValidator(5)).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "abc";
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MinLengthValidator_ValueEqualsLowerBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMinLengthValidator(5)).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "abcde";
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MinLengthValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("LowerBound")
+			.WithTextNode("TextNode", node => node.UseMinLengthValidator(NumberFieldValue("LowerBound")))
+			.Build();
+
+		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
+		lowerBoundNode.Value = null;
+		var dependentNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		dependentNode.Value = "abc";
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void MinLengthValidator_ExpressionValue_ShouldUpdateLowerBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("LowerBound")
+			.WithTextNode("TextNode", node => node.UseMinLengthValidator(NumberFieldValue("LowerBound")))
+			.Build();
+
+		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
+		var dependentNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		dependentNode.Value = "abc";
+
+		// Lower bound too big renders node invalid.
+		lowerBoundNode.Value = 5;
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5)
+			)
+		);
+
+		// Decreasing the lower bound makes dependent node valid.
+		lowerBoundNode.Value = 0;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 0)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void MaxLengthValidator_NonTextField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new MaxLengthValidator(StaticValue<decimal?>(5))).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void MaxLengthValidator_ContentsNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMaxLengthValidator(5)).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MaxLengthValidator_ValueTooBig_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMaxLengthValidator(5)).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "abcdef";
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MaxLengthValidator_ValueEqualsUpperBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMaxLengthValidator(5)).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "abcde";
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MaxLengthValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("UpperBound")
+			.WithTextNode("TextNode", node => node.UseMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
+		upperBoundNode.Value = null;
+		var dependentNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		dependentNode.Value = "abc";
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void MaxLengthValidator_ExpressionValue_ShouldUpdateUpperBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("UpperBound")
+			.WithTextNode("TextNode", node => node.UseMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
+		var dependentNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		dependentNode.Value = "abc";
+
+		// Upper bound too small renders node invalid.
+		upperBoundNode.Value = 2;
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 2)
+			)
+		);
+
+		// Increasing the upper bound makes dependent node valid.
+		upperBoundNode.Value = 6;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 6)
 			)
 		);
 	}

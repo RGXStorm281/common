@@ -15,7 +15,7 @@ public class TimestampMaxValueValidator(IFormExpression<DateTime?> maxValue, str
 {
 	public const string ErrorKey = nameof(FileRequiredValidator);
 	private readonly IFormExpression<DateTime?> _maxValue = maxValue;
-	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresAMinimumValueOf_;
+	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_AllowsAMaximumValueOf_;
 
 	/// <inheritdoc />
 	public void Validate(IFormNode node)

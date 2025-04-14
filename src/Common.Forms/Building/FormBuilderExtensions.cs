@@ -232,4 +232,42 @@ public static class FormBuilderExtensions
 		DateTime maxValue,
 		string? errorMessageTemplate = null
 	) => builder.UseMaxValueValidator(StaticValue<DateTime?>(maxValue), errorMessageTemplate);
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against defined minimum length.
+	/// </summary>
+	/// <param name="minLength">The expression defining the (inclusive) lower bound for the content length.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the minimum value.</param>
+	public static ITextNodeBuilder UseMinLengthValidator(
+		this ITextNodeBuilder builder,
+		IFormExpression<decimal?> minLength,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new MinLengthValidator(minLength, errorMessageTemplate));
+
+	/// <inheritdoc cref="UseMinLengthValidator(ITextNodeBuilder, IFormExpression{decimal?}, string?)"/>
+	public static ITextNodeBuilder UseMinLengthValidator(
+		this ITextNodeBuilder builder,
+		int minLength,
+		string? errorMessageTemplate = null
+	) => builder.UseMinLengthValidator(StaticValue<decimal?>(minLength), errorMessageTemplate);
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against defined minimum length.
+	/// </summary>
+	/// <param name="maxLength">The expression defining the (inclusive) lower bound for the content length.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the minimum value.</param>
+	public static ITextNodeBuilder UseMaxLengthValidator(
+		this ITextNodeBuilder builder,
+		IFormExpression<decimal?> maxLength,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new MaxLengthValidator(maxLength, errorMessageTemplate));
+
+	/// <inheritdoc cref="UseMaxLengthValidator(ITextNodeBuilder, IFormExpression{decimal?}, string?)"/>
+	public static ITextNodeBuilder UseMaxLengthValidator(
+		this ITextNodeBuilder builder,
+		int maxLength,
+		string? errorMessageTemplate = null
+	) => builder.UseMaxLengthValidator(StaticValue<decimal?>(maxLength), errorMessageTemplate);
 }
