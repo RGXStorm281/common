@@ -2117,4 +2117,122 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void FileNameMaxLengthValidator_NonTextField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test")
+			.UseValidator(new FileNameMaxLengthValidator(StaticValue<decimal?>(5)))
+			.Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void FileNameMaxLengthValidator_FileNameNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(5))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new() { FileContents = [1, 2, 3], FileName = null };
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void FileNameMaxLengthValidator_FileNameTooBig_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(5))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new() { FileContents = [1, 2, 3], FileName = "abcdef" };
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void FileNameMaxLengthValidator_FileNameLengthEqualsUpperBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(5))
+			.Build();
+
+		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		node.Value = new() { FileContents = [1, 2, 3], FileName = "abcde" };
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void FileNameMaxLengthValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("UpperBound")
+			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
+		upperBoundNode.Value = null;
+		var dependentNode = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		dependentNode.Value = new() { FileContents = [1, 2, 3], FileName = "abc" };
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void FileNameMaxLengthValidator_ExpressionValue_ShouldUpdateUpperBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("UpperBound")
+			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.Build();
+
+		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
+		var dependentNode = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
+		dependentNode.Value = new() { FileContents = [1, 2, 3], FileName = "abc" };
+
+		// Upper bound too small renders node invalid.
+		upperBoundNode.Value = 2;
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 2)
+			)
+		);
+
+		// Increasing the upper bound makes dependent node valid.
+		upperBoundNode.Value = 6;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 6)
+			)
+		);
+	}
 }

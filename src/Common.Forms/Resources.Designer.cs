@@ -116,4 +116,9 @@ public class Resources
 	/// Looks up a localized string similar to The field '{0}' allows a maximum of {1} instances..
 	/// </summary>
 	public static string TheField_AllowsAMaximumOf_Instances => ResourceManager.GetString("TheField_AllowsAMaximumOf_Instances", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' allows a maximum file name length of '{1}'..
+	/// </summary>
+	public static string TheField_AllowsAMaximumFileNameLengthOf_ => ResourceManager.GetString("TheField_AllowsAMaximumFileNameLengthOf_", Culture);
 }

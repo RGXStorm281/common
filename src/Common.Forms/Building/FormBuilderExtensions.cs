@@ -360,4 +360,24 @@ public static class FormBuilderExtensions
 		int minCount,
 		string? errorMessageTemplate = null
 	) => builder.UseMinCountValidator(StaticValue<decimal?>(minCount), errorMessageTemplate);
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> file names.<br/>
+	/// Checks the file name against the defined maximum length.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="maxLength">The expression defining the (inclusive) upper bound for the file name length.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the maximum length.</param>
+	public static IFileNodeBuilder UseFileNameMaxLengthValidator(
+		this IFileNodeBuilder builder,
+		IFormExpression<decimal?> maxLength,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new FileNameMaxLengthValidator(maxLength, errorMessageTemplate));
+
+	/// <inheritdoc cref="UseFileNameMaxLengthValidator(IFileNodeBuilder, IFormExpression{decimal?}, string?)"/>
+	public static IFileNodeBuilder UseFileNameMaxLengthValidator(
+		this IFileNodeBuilder builder,
+		int maxLength,
+		string? errorMessageTemplate = null
+	) => builder.UseFileNameMaxLengthValidator(StaticValue<decimal?>(maxLength), errorMessageTemplate);
 }

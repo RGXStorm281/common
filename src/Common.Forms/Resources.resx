@@ -61,4 +61,7 @@
     <data name="TheField_AllowsAMaximumOf_Instances" xml:space="preserve">
         <value>The field '{0}' allows a maximum of {1} instances.</value>
     </data>
+    <data name="TheField_AllowsAMaximumFileNameLengthOf_" xml:space="preserve">
+        <value>The field '{0}' allows a maximum file name length of '{1}'.</value>
+    </data>
 </root>
