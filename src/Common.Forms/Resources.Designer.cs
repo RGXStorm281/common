@@ -93,7 +93,12 @@ public class Resources
 	public static string TheField_DoesNotAllowTheFollowingCharacters_ => ResourceManager.GetString("TheField_DoesNotAllowTheFollowingCharacters_", Culture);
 	
 	/// <summary>
-	/// Looks up a localized string similar to The value '{0}' could not be recognized as a valid email format. Please check your input for invalid characters..
+	/// Looks up a localized string similar to The value '{0}' could not be recognized as a valid email format..
 	/// </summary>
 	public static string TheValue_CouldNotBeRecognizedAsAValidEmailFormat => ResourceManager.GetString("TheValue_CouldNotBeRecognizedAsAValidEmailFormat", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The value '{0}' could not be recognized as a valid phone number format..
+	/// </summary>
+	public static string TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat => ResourceManager.GetString("TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat", Culture);
 }

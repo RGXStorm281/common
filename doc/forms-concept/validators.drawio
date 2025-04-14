@@ -64,7 +64,7 @@
         <mxCell id="Abist77MTKF4w1KIIUhs-22" value="EMailValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
           <mxGeometry x="10" y="380" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Abist77MTKF4w1KIIUhs-24" value="TelephoneValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
+        <mxCell id="Abist77MTKF4w1KIIUhs-24" value="PhoneNumberValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
           <mxGeometry x="10" y="450" width="250" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Abist77MTKF4w1KIIUhs-25" value="IbanValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">

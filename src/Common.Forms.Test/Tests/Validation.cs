@@ -1669,7 +1669,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat.Format("please send letter")
+				Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat.Format(string.Empty)
 			)
 		);
 	}
@@ -1704,6 +1704,92 @@ public class Validation
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
 				Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat.Format("test@mail.de")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void PhoneNumberValidator_NonFileField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new PhoneNumberValidator()).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void PhoneNumberValidator_ValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UsePhoneNumberValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format(string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void PhoneNumberValidator_RandomText_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UsePhoneNumberValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "please send letter";
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("please send letter")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void PhoneNumberValidator_EmailAddress_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UsePhoneNumberValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+
+		node.Value = "+4915712345678";
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+4915712345678")
+			)
+		);
+
+		node.Value = "+49 157 12345678";
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+49 157 12345678")
+			)
+		);
+
+		node.Value = "+49157123456";
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+49157123456")
+			)
+		);
+
+		node.Value = "+49 157 123456";
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+49 157 123456")
 			)
 		);
 	}

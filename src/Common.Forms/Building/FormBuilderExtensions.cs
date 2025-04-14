@@ -161,6 +161,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against defined minimum value.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="minValue">The expression defining the (inclusive) lower bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static INumberNodeBuilder UseMinValueValidator(
@@ -180,6 +181,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against defined maximum value.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="minValue">The expression defining the (inclusive) upper bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static INumberNodeBuilder UseMaxValueValidator(
@@ -199,6 +201,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against defined minimum value.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="minValue">The expression defining the (inclusive) lower bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITimestampNodeBuilder UseMinValueValidator(
@@ -218,6 +221,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against defined maximum value.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="minValue">The expression defining the (inclusive) upper bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITimestampNodeBuilder UseMaxValueValidator(
@@ -237,6 +241,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against defined minimum length.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="minLength">The expression defining the (inclusive) lower bound for the content length.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the minimum value.</param>
 	public static ITextNodeBuilder UseMinLengthValidator(
@@ -256,6 +261,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against defined minimum length.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="maxLength">The expression defining the (inclusive) lower bound for the content length.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the minimum value.</param>
 	public static ITextNodeBuilder UseMaxLengthValidator(
@@ -275,6 +281,7 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the provided value against a whitelist of file name symbols.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="characterWhitelist">The whitelist of symbols that are allowed to occur in the value.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the invalid characters.</param>
 	public static ITextNodeBuilder UseAllowedSymbolValidator(
@@ -287,9 +294,21 @@ public static class FormBuilderExtensions
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Requires the field value to be a valid email format.
 	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
 	public static ITextNodeBuilder UseEmailValidator(
 		this ITextNodeBuilder builder,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new EmailValidator(errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Requires the field value to be a valid phone number format.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
+	public static ITextNodeBuilder UsePhoneNumberValidator(
+		this ITextNodeBuilder builder,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new PhoneNumberValidator(errorMessageTemplate));
 }
