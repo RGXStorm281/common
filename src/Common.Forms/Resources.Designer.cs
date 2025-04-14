@@ -86,4 +86,9 @@ public class Resources
 	/// Looks up a localized string similar to The field '{0}' allows a maximum content length of '{1}'..
 	/// </summary>
 	public static string TheField_AllowsAMaximumContentLengthOf_ => ResourceManager.GetString("TheField_AllowsAMaximumContentLengthOf_", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' does not allow the following characters: {1}..
+	/// </summary>
+	public static string TheField_DoesNotAllowTheFollowingCharacters_ => ResourceManager.GetString("TheField_DoesNotAllowTheFollowingCharacters_", Culture);
 }

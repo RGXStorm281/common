@@ -58,20 +58,17 @@
         <mxCell id="Abist77MTKF4w1KIIUhs-16" value="MaxLengthValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
           <mxGeometry x="10" y="240" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Abist77MTKF4w1KIIUhs-20" value="AllowedSymbolValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
+        <mxCell id="Abist77MTKF4w1KIIUhs-20" value="AllowedSymbolValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
           <mxGeometry x="10" y="310" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Abist77MTKF4w1KIIUhs-21" value="PasswordRequirementsValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
+        <mxCell id="Abist77MTKF4w1KIIUhs-22" value="EMailValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
           <mxGeometry x="10" y="380" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Abist77MTKF4w1KIIUhs-22" value="EMailValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
+        <mxCell id="Abist77MTKF4w1KIIUhs-24" value="TelephoneValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
           <mxGeometry x="10" y="450" width="250" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Abist77MTKF4w1KIIUhs-24" value="TelephoneValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
-          <mxGeometry x="10" y="520" width="250" height="60" as="geometry" />
-        </mxCell>
         <mxCell id="Abist77MTKF4w1KIIUhs-25" value="IbanValidator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
-          <mxGeometry x="10" y="590" width="250" height="60" as="geometry" />
+          <mxGeometry x="10" y="520" width="250" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Abist77MTKF4w1KIIUhs-32" value="Text&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;SelectListValidator&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="Abist77MTKF4w1KIIUhs-8" vertex="1">
           <mxGeometry x="10" y="100" width="250" height="60" as="geometry" />

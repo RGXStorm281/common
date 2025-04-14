@@ -43,4 +43,7 @@
     <data name="TheField_AllowsAMaximumContentLengthOf_" xml:space="preserve">
         <value>The field '{0}' allows a maximum content length of '{1}'.</value>
     </data>
+    <data name="TheField_DoesNotAllowTheFollowingCharacters_" xml:space="preserve">
+        <value>The field '{0}' does not allow the following characters: {1}.</value>
+    </data>
 </root>

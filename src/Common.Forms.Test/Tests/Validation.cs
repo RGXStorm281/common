@@ -387,7 +387,7 @@ public class Validation
 	}
 
 	[TestMethod]
-	public void AllowedFileNameSymbolValidator_ValidName_ShouldBeValid()
+	public void AllowedFileNameSymbolValidator_OnlyListedCharacters_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
 			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc"))
@@ -1587,6 +1587,65 @@ public class Validation
 			dependentNode.ValidationErrors.Contains(
 				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 6)
 			)
+		);
+	}
+
+	[TestMethod]
+	public void AllowedSymbolValidator_NonFileField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new AllowedSymbolValidator("abc")).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void AllowedSymbolValidator_ValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseAllowedSymbolValidator("abc"))
+			.Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("d"))
+		);
+	}
+
+	[TestMethod]
+	public void AllowedSymbolValidator_ValueContainsInvalidChars_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseAllowedSymbolValidator("abc"))
+			.Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "abcdabc";
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("d"))
+		);
+	}
+
+	[TestMethod]
+	public void AllowedSymbolValidator_OnlyListedCharacters_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseAllowedSymbolValidator("abc"))
+			.Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "aabbcc";
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("d"))
 		);
 	}
 }

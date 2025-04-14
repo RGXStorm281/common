@@ -8,7 +8,7 @@ using RobinEpple.Common.Forms.Nodes;
 /// Checks the provided file name against a whitelist of file name symbols.
 /// </summary>
 /// <param name="characterWhitelist">The whitelist of symbols that are allowed to occur in a filename.</param>
-/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
+/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid characters.</param>
 public class AllowedFileNameSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null)
 	: INodeValidator
 {

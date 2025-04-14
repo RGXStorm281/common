@@ -270,4 +270,16 @@ public static class FormBuilderExtensions
 		int maxLength,
 		string? errorMessageTemplate = null
 	) => builder.UseMaxLengthValidator(StaticValue<decimal?>(maxLength), errorMessageTemplate);
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the provided value against a whitelist of file name symbols.
+	/// </summary>
+	/// <param name="characterWhitelist">The whitelist of symbols that are allowed to occur in the value.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the invalid characters.</param>
+	public static ITextNodeBuilder UseAllowedSymbolValidator(
+		this ITextNodeBuilder builder,
+		string characterWhitelist,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new AllowedSymbolValidator(characterWhitelist, errorMessageTemplate));
 }

@@ -6,7 +6,7 @@ using RobinEpple.Common.Forms.Nodes;
 /// <summary>
 /// Can only be applied to <see cref="ITextNode">.<br/>
 /// Only active on non-<see langword="null"/> values.<br/>
-/// Checks the field value against defined minimum length.
+/// Checks the field value against defined maximum length.
 /// </summary>
 /// <param name="maxLength">The expression defining the (inclusive) lower bound for the content length.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the minimum value.</param>
