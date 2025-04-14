@@ -56,6 +56,9 @@
         <value>The value '{0}' could not be recognized as a valid IBAN.</value>
     </data>
     <data name="TheField_RequiresAtLeastTheFollowingNumberOfInstances_" xml:space="preserve">
-        <value>The field '{0}' requires at least the following number of instances: {1}</value>
+        <value>The field '{0}' requires at least the following number of instances: {1}.</value>
+    </data>
+    <data name="TheField_AllowsAMaximumOf_Instances" xml:space="preserve">
+        <value>The field '{0}' allows a maximum of {1} instances.</value>
     </data>
 </root>

@@ -108,7 +108,12 @@ public class Resources
 	public static string TheValue_CouldNotBeRecognizedAsAValidIban => ResourceManager.GetString("TheValue_CouldNotBeRecognizedAsAValidIban", Culture);
 	
 	/// <summary>
-	/// Looks up a localized string similar to The field '{0}' requires at least the following number of instances: {1}.
+	/// Looks up a localized string similar to The field '{0}' requires at least the following number of instances: {1}..
 	/// </summary>
 	public static string TheField_RequiresAtLeastTheFollowingNumberOfInstances_ => ResourceManager.GetString("TheField_RequiresAtLeastTheFollowingNumberOfInstances_", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The field '{0}' allows a maximum of {1} instances..
+	/// </summary>
+	public static string TheField_AllowsAMaximumOf_Instances => ResourceManager.GetString("TheField_AllowsAMaximumOf_Instances", Culture);
 }

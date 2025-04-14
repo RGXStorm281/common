@@ -341,4 +341,23 @@ public static class FormBuilderExtensions
 		int minCount,
 		string? errorMessageTemplate = null
 	) => builder.UseMinCountValidator(StaticValue<decimal?>(minCount), errorMessageTemplate);
+
+	/// <summary>
+	/// Checks the collection for having a maximum of <paramref name="maxCount"/> instances.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="maxCount">The expression determining the (inclusive) upper bound for the instance count.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for field name and {1} for the maximum count.</param>
+	public static ICollectionNodeBuilder UseMaxCountValidator(
+		this ICollectionNodeBuilder builder,
+		IFormExpression<decimal?> maxCount,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new MaxCountValidator(maxCount, errorMessageTemplate));
+
+	/// <inheritdoc cref="UseMaxCountValidator(ICollectionNodeBuilder, IFormExpression{decimal?}, string?)"/>
+	public static ICollectionNodeBuilder UseMaxCountValidator(
+		this ICollectionNodeBuilder builder,
+		int minCount,
+		string? errorMessageTemplate = null
+	) => builder.UseMinCountValidator(StaticValue<decimal?>(minCount), errorMessageTemplate);
 }

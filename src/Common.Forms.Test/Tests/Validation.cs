@@ -1983,4 +1983,138 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void MaxCountValidator_NonCollectionNode_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new MaxCountValidator(StaticValue<decimal?>(5))).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void MaxCountValidator_NoInstance_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMaxCountValidator(5))
+			.Build();
+
+		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MaxCountValidator_TooManyInstances_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test")
+			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMaxCountValidator(5))
+			.Build();
+
+		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MaxCountValidator_InstanceCountEqualsUpperBound_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test")
+			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMaxCountValidator(5))
+			.Build();
+
+		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+		node.Instantiate(node.Templates.First());
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 5))
+		);
+	}
+
+	[TestMethod]
+	public void MaxCountValidator_ExpressionValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("LowerBound")
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseTemplate("Template").UseMaxCountValidator(NumberFieldValue("LowerBound"))
+			)
+			.Build();
+
+		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
+		lowerBoundNode.Value = null;
+		var dependentNode = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
+		dependentNode.Instantiate(dependentNode.Templates.First());
+		dependentNode.Instantiate(dependentNode.Templates.First());
+		dependentNode.Instantiate(dependentNode.Templates.First());
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", string.Empty)
+			)
+		);
+	}
+
+	[TestMethod]
+	public void MaxCountValidator_ExpressionValue_ShouldUpdateLowerBound()
+	{
+		var form = new FormBuilder("Test")
+			.WithNumberNode("LowerBound")
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseTemplate("Template").UseMaxCountValidator(NumberFieldValue("LowerBound"))
+			)
+			.Build();
+
+		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
+		var dependentNode = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
+		dependentNode.Instantiate(dependentNode.Templates.First());
+		dependentNode.Instantiate(dependentNode.Templates.First());
+		dependentNode.Instantiate(dependentNode.Templates.First());
+
+		// Upper bound too small renders node invalid.
+		lowerBoundNode.Value = 2;
+
+		form.Update();
+		Assert.IsFalse(dependentNode.IsValid);
+		Assert.IsTrue(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 2)
+			)
+		);
+
+		// Decreasing the lower bound makes dependent node valid.
+		lowerBoundNode.Value = 3;
+
+		form.Update();
+		Assert.IsTrue(dependentNode.IsValid);
+		Assert.IsFalse(
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 3)
+			)
+		);
+	}
 }
