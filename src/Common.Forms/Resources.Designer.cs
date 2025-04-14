@@ -91,4 +91,9 @@ public class Resources
 	/// Looks up a localized string similar to The field '{0}' does not allow the following characters: {1}..
 	/// </summary>
 	public static string TheField_DoesNotAllowTheFollowingCharacters_ => ResourceManager.GetString("TheField_DoesNotAllowTheFollowingCharacters_", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The value '{0}' could not be recognized as a valid email format. Please check your input for invalid characters..
+	/// </summary>
+	public static string TheValue_CouldNotBeRecognizedAsAValidEmailFormat => ResourceManager.GetString("TheValue_CouldNotBeRecognizedAsAValidEmailFormat", Culture);
 }

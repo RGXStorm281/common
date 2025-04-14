@@ -1648,4 +1648,63 @@ public class Validation
 			node.ValidationErrors.Contains(Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("d"))
 		);
 	}
+
+	[TestMethod]
+	public void EmailValidator_NonFileField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new EmailValidator()).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void EmailValidator_ValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseEmailValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat.Format("please send letter")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void EmailValidator_RandomText_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseEmailValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "please send letter";
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat.Format("please send letter")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void EmailValidator_EmailAddress_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseEmailValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "test@mail.de";
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat.Format("test@mail.de")
+			)
+		);
+	}
 }

@@ -282,4 +282,14 @@ public static class FormBuilderExtensions
 		string characterWhitelist,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new AllowedSymbolValidator(characterWhitelist, errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Requires the field value to be a valid email format.
+	/// </summary>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
+	public static ITextNodeBuilder UseEmailValidator(
+		this ITextNodeBuilder builder,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new EmailValidator(errorMessageTemplate));
 }

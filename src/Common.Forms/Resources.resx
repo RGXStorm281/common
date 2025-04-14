@@ -46,4 +46,7 @@
     <data name="TheField_DoesNotAllowTheFollowingCharacters_" xml:space="preserve">
         <value>The field '{0}' does not allow the following characters: {1}.</value>
     </data>
+    <data name="TheValue_CouldNotBeRecognizedAsAValidEmailFormat" xml:space="preserve">
+        <value>The value '{0}' could not be recognized as a valid email format. Please check your input for invalid characters.</value>
+    </data>
 </root>
