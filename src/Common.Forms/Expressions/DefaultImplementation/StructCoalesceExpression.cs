@@ -3,8 +3,9 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
 
-internal class CoalesceExpression<TValue>(IFormExpression<TValue?> source, IFormExpression<TValue> fallbackValue)
+internal class StructCoalesceExpression<TValue>(IFormExpression<TValue?> source, IFormExpression<TValue> fallbackValue)
 	: IFormExpression<TValue>
+	where TValue : struct
 {
 	private readonly IFormExpression<TValue?> _source = source;
 	private readonly IFormExpression<TValue> _fallbackValue = fallbackValue;
@@ -19,7 +20,7 @@ internal class CoalesceExpression<TValue>(IFormExpression<TValue?> source, IForm
 		}
 		else
 		{
-			return sourceValue;
+			return sourceValue.Value;
 		}
 	}
 
@@ -33,7 +34,7 @@ internal class CoalesceExpression<TValue>(IFormExpression<TValue?> source, IForm
 		}
 		else
 		{
-			return sourceValue;
+			return sourceValue.Value;
 		}
 	}
 }
