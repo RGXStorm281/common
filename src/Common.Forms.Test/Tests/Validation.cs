@@ -1793,4 +1793,61 @@ public class Validation
 			)
 		);
 	}
+
+	[TestMethod]
+	public void IbanValidator_NonFileField_ShouldThrowInvalidOperationException()
+	{
+		var form = new FormBuilder("Test").UseValidator(new IbanValidator()).Build();
+
+		Assert.ThrowsException<InvalidOperationException>(form.Update);
+	}
+
+	[TestMethod]
+	public void IbanValidator_ValueNull_ShouldNotValidate()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseIbanValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = null;
+
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(Resources.TheValue_CouldNotBeRecognizedAsAValidIban.Format(string.Empty))
+		);
+	}
+
+	[TestMethod]
+	public void IbanValidator_RandomText_ShouldBeInvalid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseIbanValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+		node.Value = "I'll pay by check";
+
+		form.Update();
+		Assert.IsFalse(node.IsValid);
+		Assert.IsTrue(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidIban.Format("I'll pay by check")
+			)
+		);
+	}
+
+	[TestMethod]
+	public void IbanValidator_Iban_ShouldBeValid()
+	{
+		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseIbanValidator()).Build();
+
+		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
+
+		node.Value = "DE07500105172438863988";
+		form.Update();
+		Assert.IsTrue(node.IsValid);
+		Assert.IsFalse(
+			node.ValidationErrors.Contains(
+				Resources.TheValue_CouldNotBeRecognizedAsAValidIban.Format("DE07500105172438863988")
+			)
+		);
+	}
 }

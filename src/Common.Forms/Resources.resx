@@ -52,4 +52,7 @@
     <data name="TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat" xml:space="preserve">
         <value>The value '{0}' could not be recognized as a valid phone number format.</value>
     </data>
+    <data name="TheValue_CouldNotBeRecognizedAsAValidIban" xml:space="preserve">
+        <value>The value '{0}' could not be recognized as a valid IBAN.</value>
+    </data>
 </root>

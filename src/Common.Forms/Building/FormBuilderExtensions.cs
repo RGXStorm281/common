@@ -311,4 +311,15 @@ public static class FormBuilderExtensions
 		this ITextNodeBuilder builder,
 		string? errorMessageTemplate = null
 	) => builder.UseValidator(new PhoneNumberValidator(errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Requires the field value to be a valid IBAN.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
+	public static ITextNodeBuilder UseIbanValidator(
+		this ITextNodeBuilder builder,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new IbanValidator(errorMessageTemplate));
 }

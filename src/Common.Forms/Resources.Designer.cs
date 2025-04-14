@@ -101,4 +101,9 @@ public class Resources
 	/// Looks up a localized string similar to The value '{0}' could not be recognized as a valid phone number format..
 	/// </summary>
 	public static string TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat => ResourceManager.GetString("TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat", Culture);
+	
+	/// <summary>
+	/// Looks up a localized string similar to The value '{0}' could not be recognized as a valid IBAN..
+	/// </summary>
+	public static string TheValue_CouldNotBeRecognizedAsAValidIban => ResourceManager.GetString("TheValue_CouldNotBeRecognizedAsAValidIban", Culture);
 }
