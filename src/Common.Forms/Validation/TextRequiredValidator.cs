@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ITextNode">.<br/>
@@ -17,12 +18,41 @@ public class TextRequiredValidator(string? errorMessageTemplate = null, bool acc
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITextNode textNode)
+		{
+			throw new InvalidOperationException($"A {nameof(TextRequiredValidator)} can only be used on text nodes.");
+		}
+
+		if (textNode.Value == null)
+		{
+			// Invalid.
+			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Name));
+			return;
+		}
+
+		// There is at least some text content.
+
+		if (_acceptWhitespace)
+		{
+			// Every content is valid.
+			return;
+		}
+
+		// Whitespace is not accepted.
+
+		if (textNode.Value.IsNullOrWhiteSpace())
+		{
+			// Invalid.
+			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Name));
+		}
+
+		// Some non-whitespace text => valid.
 	}
 
 	/// <inheritdoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		Validate(node);
+		return Task.CompletedTask;
 	}
 }

@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="INumberNode">.<br/>
@@ -15,12 +16,27 @@ public class NumberRequiredValidator(string? errorMessageTemplate = null) : INod
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not INumberNode numberNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(NumberRequiredValidator)} can only be used on number nodes."
+			);
+		}
+
+		if (numberNode.Value != null)
+		{
+			// Valid.
+			return;
+		}
+
+		// Invalid.
+		numberNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(numberNode.Name));
 	}
 
 	/// <inheritdoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		Validate(node);
+		return Task.CompletedTask;
 	}
 }

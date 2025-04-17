@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ITemplateNode">.<br/>
@@ -15,12 +16,27 @@ public class TemplateRequiredValidator(string? errorMessageTemplate = null) : IN
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITemplateNode templatedSection)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(TemplateRequiredValidator)} can only be used on templated sections."
+			);
+		}
+
+		if (templatedSection.Instance != null)
+		{
+			// Valid.
+			return;
+		}
+
+		// Invalid.
+		templatedSection.SetValidationError(ErrorKey, _errorMessageTemplate.Format(templatedSection.Name));
 	}
 
 	/// <inheritdoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		Validate(node);
+		return Task.CompletedTask;
 	}
 }

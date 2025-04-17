@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Remove cached files to make sure the container is initialized in a clean state
-echo "Cleaning repository"
-find /workspaces/common/src -type d \( -name "bin" -o -name "obj" \) -path "*" -exec rm -rf {} +
+./clean-repository.sh
 
 # Wait until 'dotnet' command is available
 echo "Waiting for .NET installation..."

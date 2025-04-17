@@ -34,8 +34,9 @@
 
 	// Use 'onCreateCommand' to run commands after the container is initialized.
 	"onCreateCommand": {
+		"allowCleanScript": "sudo chmod +x /workspaces/common/clean-repository.sh",
 		"allowPostCreateScript": "sudo chmod +x /workspaces/common/post-create.sh",
-		"allowBuildNugetScript": "sudo chmod +x /workspaces/common/buildLocalNuget.sh",
+		"allowBuildNugetScript": "sudo chmod +x /workspaces/common/build-local-nuget.sh",
 		"initializeWorkloads": "/bin/bash ./post-create.sh"
 	},
 

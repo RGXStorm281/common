@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="IBooleanNode">.<br/>
@@ -16,12 +17,27 @@ public class RequireTrueValidator(string? errorMessageTemplate = null) : INodeVa
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not IBooleanNode booleanNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(RequireTrueValidator)} can only be used on boolean fields."
+			);
+		}
+
+		if (booleanNode.Value == true)
+		{
+			// Valid.
+			return;
+		}
+
+		// Invalid.
+		booleanNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(booleanNode.Name));
 	}
 
 	/// <inheritdoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		Validate(node);
+		return Task.CompletedTask;
 	}
 }

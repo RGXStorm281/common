@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ITextNode">.<br/>
@@ -15,12 +16,27 @@ public class TimestampRequiredValidator(string? errorMessageTemplate = null) : I
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITimestampNode timestampNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(TimestampRequiredValidator)} can only be used on timestamp nodes."
+			);
+		}
+
+		if (timestampNode.Value != null)
+		{
+			// Valid.
+			return;
+		}
+
+		// Invalid.
+		timestampNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(timestampNode.Name));
 	}
 
 	/// <inheritdoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		Validate(node);
+		return Task.CompletedTask;
 	}
 }

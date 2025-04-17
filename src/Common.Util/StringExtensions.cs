@@ -20,4 +20,10 @@ public static class StringExtensions
 
 	/// <inheritdoc cref="string.Format(string,object[])"/>
 	public static string Format(this string format, params object?[] args) => string.Format(format, args);
+
+	/// <inheritdoc cref="string.IsNullOrEmpty(string?)"/>
+	public static bool IsNullOrEmpty(this string? str) => string.IsNullOrEmpty(str);
+
+	/// <inheritdoc cref="string.IsNullOrWhiteSpace(string?)"/>
+	public static bool IsNullOrWhiteSpace(this string? str) => string.IsNullOrWhiteSpace(str);
 }
