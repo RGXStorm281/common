@@ -19,7 +19,7 @@ public class NumberRequiredValidator(string? errorMessageTemplate = null) : INod
 		if (node is not INumberNode numberNode)
 		{
 			throw new InvalidOperationException(
-				$"A {nameof(NumberRequiredValidator)} can only be used on number nodes."
+				$"A {nameof(NumberRequiredValidator)} can only be used on number nodes and not on '{node.GetType().FullName}'."
 			);
 		}
 

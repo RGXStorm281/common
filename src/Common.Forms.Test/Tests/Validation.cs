@@ -310,7 +310,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2B"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2 B"))
 		);
 	}
 
@@ -325,7 +325,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2B"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2 B"))
 		);
 	}
 
@@ -340,7 +340,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2B"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2 B"))
 		);
 	}
 
@@ -377,7 +377,7 @@ public class Validation
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
-		node.Value = new FileValue { FileContents = null, FileName = "abcdabc" };
+		node.Value = new FileValue { FileContents = null, FileName = "abcdabcd" };
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
@@ -390,11 +390,11 @@ public class Validation
 	public void AllowedFileNameSymbolValidator_OnlyListedCharacters_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc"))
+			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc[]."))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
-		node.Value = new FileValue { FileContents = null, FileName = "aabbcc" };
+		node.Value = new FileValue { FileContents = null, FileName = "aabbcc[]." };
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);

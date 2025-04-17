@@ -18,7 +18,9 @@ public class FileRequiredValidator(string? errorMessageTemplate = null) : INodeV
 	{
 		if (node is not IFileNode fileNode)
 		{
-			throw new InvalidOperationException($"A {nameof(FileRequiredValidator)} can only be used on file nodes.");
+			throw new InvalidOperationException(
+				$"A {nameof(FileRequiredValidator)} can only be used on file nodes and not on '{node.GetType().FullName}'."
+			);
 		}
 
 		if (!fileNode.Value.FileName.IsNullOrWhiteSpace() && fileNode.Value.FileContents != null)

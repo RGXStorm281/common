@@ -19,7 +19,7 @@ public class TimestampRequiredValidator(string? errorMessageTemplate = null) : I
 		if (node is not ITimestampNode timestampNode)
 		{
 			throw new InvalidOperationException(
-				$"A {nameof(TimestampRequiredValidator)} can only be used on timestamp nodes."
+				$"A {nameof(TimestampRequiredValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
 			);
 		}
 

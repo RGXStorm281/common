@@ -20,7 +20,9 @@ public class TextRequiredValidator(string? errorMessageTemplate = null, bool acc
 	{
 		if (node is not ITextNode textNode)
 		{
-			throw new InvalidOperationException($"A {nameof(TextRequiredValidator)} can only be used on text nodes.");
+			throw new InvalidOperationException(
+				$"A {nameof(TextRequiredValidator)} can only be used on text nodes and not on '{node.GetType().FullName}'."
+			);
 		}
 
 		if (textNode.Value == null)

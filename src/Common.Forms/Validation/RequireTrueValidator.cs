@@ -20,7 +20,7 @@ public class RequireTrueValidator(string? errorMessageTemplate = null) : INodeVa
 		if (node is not IBooleanNode booleanNode)
 		{
 			throw new InvalidOperationException(
-				$"A {nameof(RequireTrueValidator)} can only be used on boolean fields."
+				$"A {nameof(RequireTrueValidator)} can only be used on boolean fields and not on '{node.GetType().FullName}'."
 			);
 		}
 

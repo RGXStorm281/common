@@ -19,7 +19,7 @@ public class TemplateRequiredValidator(string? errorMessageTemplate = null) : IN
 		if (node is not ITemplateNode templatedSection)
 		{
 			throw new InvalidOperationException(
-				$"A {nameof(TemplateRequiredValidator)} can only be used on templated sections."
+				$"A {nameof(TemplateRequiredValidator)} can only be used on templated sections and not on '{node.GetType().FullName}'."
 			);
 		}
 
