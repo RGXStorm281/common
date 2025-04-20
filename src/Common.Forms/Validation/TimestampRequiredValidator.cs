@@ -30,7 +30,7 @@ public class TimestampRequiredValidator(string? errorMessageTemplate = null) : I
 		}
 
 		// Invalid.
-		timestampNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(timestampNode.Name));
+		timestampNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(timestampNode.Label));
 	}
 
 	/// <inheritdoc />

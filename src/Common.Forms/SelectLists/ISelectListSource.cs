@@ -12,10 +12,10 @@ public interface ISelectListSource<TValue>
 	/// </summary>
 	/// <param name="dependencies">The dependency list.</param>
 	/// <returns>The list of available selection options.</returns>
-	public IEnumerable<ISelectListItem<TValue>> LoadItems(IDictionary<string, object>? dependencies = null);
+	public IEnumerable<ISelectListItem<TValue>> LoadItems(IDictionary<string, object?>? dependencies = null);
 
 	/// <inheritdoc cref="LoadItems"/>
-	public Task<IEnumerable<ISelectListItem<TValue>>> LoadItemsAsync(IDictionary<string, object>? dependencies = null);
+	public Task<IEnumerable<ISelectListItem<TValue>>> LoadItemsAsync(IDictionary<string, object?>? dependencies = null);
 
 	/// <summary>
 	/// Creates a source for a static list of values.

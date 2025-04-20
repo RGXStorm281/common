@@ -30,7 +30,7 @@ public class TemplateRequiredValidator(string? errorMessageTemplate = null) : IN
 		}
 
 		// Invalid.
-		templatedSection.SetValidationError(ErrorKey, _errorMessageTemplate.Format(templatedSection.Name));
+		templatedSection.SetValidationError(ErrorKey, _errorMessageTemplate.Format(templatedSection.Label));
 	}
 
 	/// <inheritdoc />

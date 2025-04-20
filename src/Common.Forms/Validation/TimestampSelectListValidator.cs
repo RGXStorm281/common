@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Validation;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.SelectLists;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ITimestampNode">.<br/>
@@ -20,19 +21,89 @@ public class TimestampSelectListValidator(
 {
 	public const string ErrorKey = nameof(TimestampSelectListValidator);
 	private readonly ISelectListSource<DateTime> _selectListSource = selectListSource;
-	private readonly IDictionary<string, IFormExpression<object?>>? _dependencies = dependencies;
+	private readonly IDictionary<string, IFormExpression<object?>> _dependencies =
+		dependencies ?? new Dictionary<string, IFormExpression<object?>>();
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions;
 
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITimestampNode timestampNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(TimestampSelectListValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (timestampNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		// Evaluate dependencies on the current state of the form.
+		var currentDependencyValues = _dependencies.Select(dependency =>
+			(Key: dependency.Key, DependencyValue: dependency.Value.EvaluateOn(timestampNode))
+		);
+
+		// Load the select list with the current dependencies.
+		var currentSelectOptions = _selectListSource.LoadItems(
+			currentDependencyValues.ToDictionary(tuple => tuple.Key, tuple => tuple.DependencyValue)
+		);
+
+		// Validate that the current value is in the list.
+		if (currentSelectOptions.Any(option => option.Value == timestampNode.Value))
+		{
+			// Valid.
+			return;
+		}
+
+		// Invalid.
+		timestampNode.SetValidationError(
+			ErrorKey,
+			_errorMessageTemplate.Format(timestampNode.Value, timestampNode.Label)
+		);
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITimestampNode timestampNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(TextSelectListValidator)} can only be used on text nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (timestampNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		// Evaluate dependencies on the current state of the form.
+		var currentDependencyValueTasks = _dependencies.Select(async dependency =>
+			(Key: dependency.Key, DependencyValue: await dependency.Value.EvaluateOnAsync(timestampNode))
+		);
+		var currentDependencyValues = await Task.WhenAll(currentDependencyValueTasks);
+
+		// Load the select list with the current dependencies.
+		var currentSelectOptions = _selectListSource.LoadItems(
+			currentDependencyValues.ToDictionary(tuple => tuple.Key, tuple => tuple.DependencyValue)
+		);
+
+		// Validate that the current value is in the list.
+		if (currentSelectOptions.Any(option => option.Value == timestampNode.Value))
+		{
+			// Valid.
+			return;
+		}
+
+		// Invalid.
+		timestampNode.SetValidationError(
+			ErrorKey,
+			_errorMessageTemplate.Format(timestampNode.Value, timestampNode.Label)
+		);
 	}
 }

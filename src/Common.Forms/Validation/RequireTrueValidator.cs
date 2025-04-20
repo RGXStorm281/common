@@ -31,7 +31,7 @@ public class RequireTrueValidator(string? errorMessageTemplate = null) : INodeVa
 		}
 
 		// Invalid.
-		booleanNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(booleanNode.Name));
+		booleanNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(booleanNode.Label));
 	}
 
 	/// <inheritdoc />

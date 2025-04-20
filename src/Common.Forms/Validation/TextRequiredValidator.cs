@@ -28,7 +28,7 @@ public class TextRequiredValidator(string? errorMessageTemplate = null, bool acc
 		if (textNode.Value == null)
 		{
 			// Invalid.
-			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Name));
+			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Label));
 			return;
 		}
 
@@ -45,7 +45,7 @@ public class TextRequiredValidator(string? errorMessageTemplate = null, bool acc
 		if (textNode.Value.IsNullOrWhiteSpace())
 		{
 			// Invalid.
-			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Name));
+			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Label));
 		}
 
 		// Some non-whitespace text => valid.

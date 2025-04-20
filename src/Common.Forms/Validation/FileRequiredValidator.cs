@@ -30,7 +30,7 @@ public class FileRequiredValidator(string? errorMessageTemplate = null) : INodeV
 		}
 
 		// Invalid.
-		fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Name));
+		fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Label));
 	}
 
 	/// <inheritdoc />

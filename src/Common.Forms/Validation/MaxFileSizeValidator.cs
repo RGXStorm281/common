@@ -40,7 +40,7 @@ public class MaxFileSizeValidator(long maxFileSizeInByte, string? errorMessageTe
 		}
 
 		// Too big.
-		fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Name, GetMaxSizeText()));
+		fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Label, GetMaxSizeText()));
 	}
 
 	/// <inheritdoc />

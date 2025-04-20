@@ -30,7 +30,7 @@ public class NumberRequiredValidator(string? errorMessageTemplate = null) : INod
 		}
 
 		// Invalid.
-		numberNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(numberNode.Name));
+		numberNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(numberNode.Label));
 	}
 
 	/// <inheritdoc />
