@@ -26,7 +26,7 @@ public class Validation
 	public void RequireTrueValidator_ValueNull_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithBooleanNode("BooleanNode", node => node.UseRequireTrueValidator())
+			.WithBooleanNode("BooleanNode", node => node.UseLabel("BooleanLabel").UseRequireTrueValidator())
 			.Build();
 
 		var node = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
@@ -34,14 +34,14 @@ public class Validation
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresTheValueTrue.Format("BooleanNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresTheValueTrue.Format("BooleanLabel")));
 	}
 
 	[TestMethod]
 	public void RequireTrueValidator_ValueFalse_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithBooleanNode("BooleanNode", node => node.UseRequireTrueValidator())
+			.WithBooleanNode("BooleanNode", node => node.UseLabel("BooleanLabel").UseRequireTrueValidator())
 			.Build();
 
 		var node = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
@@ -49,14 +49,14 @@ public class Validation
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresTheValueTrue.Format("BooleanNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresTheValueTrue.Format("BooleanLabel")));
 	}
 
 	[TestMethod]
 	public void RequireTrueValidator_ValueTrue_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithBooleanNode("BooleanNode", node => node.UseRequireTrueValidator())
+			.WithBooleanNode("BooleanNode", node => node.UseLabel("BooleanLabel").UseRequireTrueValidator())
 			.Build();
 
 		var node = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
@@ -64,7 +64,7 @@ public class Validation
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresTheValueTrue.Format("BooleanNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresTheValueTrue.Format("BooleanLabel")));
 	}
 
 	[TestMethod]
@@ -78,40 +78,46 @@ public class Validation
 	[TestMethod]
 	public void FileRequiredValidator_ContentsNull_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseRequiredValidator())
+			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue { FileContents = null, FileName = "Any" };
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("FileNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("FileLabel")));
 	}
 
 	[TestMethod]
 	public void FileRequiredValidator_NameNull_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseRequiredValidator())
+			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue { FileContents = [1, 2, 3], FileName = null };
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("FileNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("FileLabel")));
 	}
 
 	[TestMethod]
 	public void FileRequiredValidator_HasValue_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseRequiredValidator())
+			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue { FileContents = [1, 2, 3], FileName = "Any" };
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("FileNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("FileLabel")));
 	}
 
 	[TestMethod]
@@ -125,27 +131,31 @@ public class Validation
 	[TestMethod]
 	public void NumberRequiredValidator_ValueNull_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseRequiredValidator())
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = null;
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("NumberNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("NumberLabel")));
 	}
 
 	[TestMethod]
 	public void NumberRequiredValidator_HasValue_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseRequiredValidator())
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = 42;
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("NumberNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("NumberLabel")));
 	}
 
 	[TestMethod]
@@ -159,35 +169,39 @@ public class Validation
 	[TestMethod]
 	public void TextRequiredValidator_ValueNull_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseRequiredValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = null;
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextLabel")));
 	}
 
 	[TestMethod]
 	public void TextRequiredValidator_ValueEmpty_ShouldBeInvalidExceptIfConfigured()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseRequiredValidator())
+			.Build();
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 
 		// Should not accept by default.
 		node.Value = string.Empty;
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextLabel")));
 
 		node.Value = "  ";
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextLabel")));
 
 		form = new FormBuilder("Test")
-			.WithTextNode("TextNode", node => node.UseRequiredValidator(acceptWhitespace: true))
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseRequiredValidator(acceptWhitespace: true))
 			.Build();
 		node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 
@@ -195,25 +209,27 @@ public class Validation
 		node.Value = string.Empty;
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextLabel")));
 
 		node.Value = "  ";
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextLabel")));
 	}
 
 	[TestMethod]
 	public void TextRequiredValidator_HasValue_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseRequiredValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseRequiredValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "Test text";
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TextLabel")));
 	}
 
 	[TestMethod]
@@ -228,7 +244,7 @@ public class Validation
 	public void TimestampRequiredValidator_ValueNull_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseRequiredValidator())
+			.WithTimestampNode("TimestampNode", node => node.UseLabel("TimestampLabel").UseRequiredValidator())
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -236,14 +252,14 @@ public class Validation
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TimestampNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TimestampLabel")));
 	}
 
 	[TestMethod]
 	public void TimestampRequiredValidator_HasValue_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseRequiredValidator())
+			.WithTimestampNode("TimestampNode", node => node.UseLabel("TimestampLabel").UseRequiredValidator())
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -251,7 +267,7 @@ public class Validation
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TimestampNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TimestampLabel")));
 	}
 
 	[TestMethod]
@@ -266,21 +282,24 @@ public class Validation
 	public void TemplateRequiredValidator_NoInstance_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTemplatedSection("TemplateNode", (node, _) => node.UseRequiredValidator())
+			.WithTemplatedSection("TemplateNode", (node, _) => node.UseLabel("TemplateLabel").UseRequiredValidator())
 			.Build();
 
 		var node = (ITemplateNode)form.Nodes.First(node => node.Name == "TemplateNode");
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TemplateNode")));
+		Assert.IsTrue(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TemplateLabel")));
 	}
 
 	[TestMethod]
 	public void TemplateRequiredValidator_HasInstance_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTemplatedSection("TemplateNode", (node, _) => node.UseTemplate("Template").UseRequiredValidator())
+			.WithTemplatedSection(
+				"TemplateNode",
+				(node, _) => node.UseLabel("TemplateLabel").UseTemplate("Template").UseRequiredValidator()
+			)
 			.Build();
 
 		var node = (ITemplateNode)form.Nodes.First(node => node.Name == "TemplateNode");
@@ -288,7 +307,7 @@ public class Validation
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TemplateNode")));
+		Assert.IsFalse(node.ValidationErrors.Contains(Resources.TheField_RequiresAnInput.Format("TemplateLabel")));
 	}
 
 	[TestMethod]
@@ -302,7 +321,9 @@ public class Validation
 	[TestMethod]
 	public void MaxFileSizeValidator_ContentsNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseMaxFileSizeValidator(2)).Build();
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseMaxFileSizeValidator(2))
+			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue { FileContents = null, FileName = "Empty" };
@@ -310,14 +331,16 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2 B"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileLabel", "2 B"))
 		);
 	}
 
 	[TestMethod]
 	public void MaxFileSizeValidator_ContentsTooBig_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseMaxFileSizeValidator(2)).Build();
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseMaxFileSizeValidator(2))
+			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue { FileContents = [1, 2, 3], FileName = "Too big" };
@@ -325,14 +348,16 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2 B"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileLabel", "2 B"))
 		);
 	}
 
 	[TestMethod]
 	public void MaxFileSizeValidator_ContentsValidSize_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithFileNode("FileNode", node => node.UseMaxFileSizeValidator(2)).Build();
+		var form = new FormBuilder("Test")
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseMaxFileSizeValidator(2))
+			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue { FileContents = [1, 2], FileName = "Empty" };
@@ -340,7 +365,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", "2 B"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileLabel", "2 B"))
 		);
 	}
 
@@ -356,7 +381,7 @@ public class Validation
 	public void AllowedFileNameSymbolValidator_NameNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc"))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseAllowedFileNameSymbolValidator("abc"))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -373,7 +398,7 @@ public class Validation
 	public void AllowedFileNameSymbolValidator_NameContainsInvalidChars_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc"))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseAllowedFileNameSymbolValidator("abc"))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -390,7 +415,7 @@ public class Validation
 	public void AllowedFileNameSymbolValidator_OnlyListedCharacters_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseAllowedFileNameSymbolValidator("abc[]."))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseAllowedFileNameSymbolValidator("abc[]."))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -415,7 +440,7 @@ public class Validation
 	public void FileExtensionValidator_ContentsNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseFileExtensionValidator(["jpg"]))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileExtensionValidator(["jpg"]))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -425,7 +450,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_.Format("FileNode", ".jpg")
+				Resources.TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_.Format("FileLabel", ".jpg")
 			)
 		);
 	}
@@ -434,7 +459,7 @@ public class Validation
 	public void FileExtensionValidator_InvalidFileExtension_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseFileExtensionValidator(["png"]))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileExtensionValidator(["png"]))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -447,7 +472,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", ".png"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileLabel", ".png"))
 		);
 	}
 
@@ -455,7 +480,7 @@ public class Validation
 	public void FileExtensionValidator_ValidFileExtension_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseFileExtensionValidator(["jpg"]))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileExtensionValidator(["jpg"]))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -468,7 +493,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileNode", ".jpg"))
+			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileLabel", ".jpg"))
 		);
 	}
 
@@ -488,7 +513,8 @@ public class Validation
 		var form = new FormBuilder("Test")
 			.WithNumberNode(
 				"NumberNode",
-				node => node.UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+				node =>
+					node.UseLabel("NumberLabel").UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
 			)
 			.Build();
 
@@ -501,7 +527,7 @@ public class Validation
 			node.ValidationErrors.Contains(
 				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 					string.Empty,
-					"NumberNode"
+					"NumberLabel"
 				)
 			)
 		);
@@ -513,7 +539,8 @@ public class Validation
 		var form = new FormBuilder("Test")
 			.WithNumberNode(
 				"NumberNode",
-				node => node.UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+				node =>
+					node.UseLabel("NumberLabel").UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
 			)
 			.Build();
 
@@ -524,7 +551,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(4, "NumberNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(4, "NumberLabel")
 			)
 		);
 	}
@@ -535,7 +562,8 @@ public class Validation
 		var form = new FormBuilder("Test")
 			.WithNumberNode(
 				"NumberNode",
-				node => node.UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+				node =>
+					node.UseLabel("NumberLabel").UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
 			)
 			.Build();
 
@@ -546,7 +574,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberLabel")
 			)
 		);
 	}
@@ -567,16 +595,17 @@ public class Validation
 			.WithNumberNode(
 				"NumberNode",
 				node =>
-					node.UseSelectListValidator(
-						dependentListSource,
-						new Dictionary<string, IFormExpression<object?>>()
-						{
+					node.UseLabel("NumberLabel")
+						.UseSelectListValidator(
+							dependentListSource,
+							new Dictionary<string, IFormExpression<object?>>()
 							{
-								DependentSelectListMock<bool, decimal>.ParentValueKey,
-								BooleanFieldValue("BooleanNode").Select(value => (object?)value)
-							},
-						}
-					)
+								{
+									DependentSelectListMock<bool, decimal>.ParentValueKey,
+									BooleanFieldValue("BooleanNode").Select(value => (object?)value)
+								},
+							}
+						)
 			)
 			.Build();
 
@@ -591,7 +620,7 @@ public class Validation
 		Assert.IsFalse(numberNode.IsValid);
 		Assert.IsTrue(
 			numberNode.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberLabel")
 			)
 		);
 
@@ -602,7 +631,7 @@ public class Validation
 		Assert.IsTrue(numberNode.IsValid);
 		Assert.IsFalse(
 			numberNode.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(3, "NumberLabel")
 			)
 		);
 	}
@@ -623,7 +652,9 @@ public class Validation
 		var form = new FormBuilder("Test")
 			.WithTextNode(
 				"TextNode",
-				node => node.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
+				node =>
+					node.UseLabel("TextLabel")
+						.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
 			)
 			.Build();
 
@@ -636,7 +667,7 @@ public class Validation
 			node.ValidationErrors.Contains(
 				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 					string.Empty,
-					"TextNode"
+					"TextLabel"
 				)
 			)
 		);
@@ -648,7 +679,9 @@ public class Validation
 		var form = new FormBuilder("Test")
 			.WithTextNode(
 				"TextNode",
-				node => node.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
+				node =>
+					node.UseLabel("TextLabel")
+						.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
 			)
 			.Build();
 
@@ -659,7 +692,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("4", "TextNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("4", "TextLabel")
 			)
 		);
 	}
@@ -670,7 +703,9 @@ public class Validation
 		var form = new FormBuilder("Test")
 			.WithTextNode(
 				"TextNode",
-				node => node.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
+				node =>
+					node.UseLabel("TextLabel")
+						.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
 			)
 			.Build();
 
@@ -681,7 +716,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextLabel")
 			)
 		);
 	}
@@ -702,16 +737,17 @@ public class Validation
 			.WithTextNode(
 				"TextNode",
 				node =>
-					node.UseSelectListValidator(
-						dependentListSource,
-						new Dictionary<string, IFormExpression<object?>>()
-						{
+					node.UseLabel("TextLabel")
+						.UseSelectListValidator(
+							dependentListSource,
+							new Dictionary<string, IFormExpression<object?>>()
 							{
-								DependentSelectListMock<bool, decimal>.ParentValueKey,
-								BooleanFieldValue("BooleanNode").Select(value => (object?)value)
-							},
-						}
-					)
+								{
+									DependentSelectListMock<bool, decimal>.ParentValueKey,
+									BooleanFieldValue("BooleanNode").Select(value => (object?)value)
+								},
+							}
+						)
 			)
 			.Build();
 
@@ -726,7 +762,7 @@ public class Validation
 		Assert.IsFalse(numberNode.IsValid);
 		Assert.IsTrue(
 			numberNode.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextLabel")
 			)
 		);
 
@@ -737,7 +773,7 @@ public class Validation
 		Assert.IsTrue(numberNode.IsValid);
 		Assert.IsFalse(
 			numberNode.ValidationErrors.Contains(
-				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextNode")
+				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format("3", "TextLabel")
 			)
 		);
 	}
@@ -765,11 +801,12 @@ public class Validation
 			.WithTimestampNode(
 				"TimestampNode",
 				node =>
-					node.UseSelectListValidator(
-						ISelectListSource<DateTime>.ForValues(
-							[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+					node.UseLabel("TimestampLabel")
+						.UseSelectListValidator(
+							ISelectListSource<DateTime>.ForValues(
+								[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+							)
 						)
-					)
 			)
 			.Build();
 
@@ -782,7 +819,7 @@ public class Validation
 			node.ValidationErrors.Contains(
 				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 					string.Empty,
-					"TimestampNode"
+					"TimestampLabel"
 				)
 			)
 		);
@@ -795,11 +832,12 @@ public class Validation
 			.WithTimestampNode(
 				"TimestampNode",
 				node =>
-					node.UseSelectListValidator(
-						ISelectListSource<DateTime>.ForValues(
-							[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+					node.UseLabel("TimestampLabel")
+						.UseSelectListValidator(
+							ISelectListSource<DateTime>.ForValues(
+								[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+							)
 						)
-					)
 			)
 			.Build();
 
@@ -812,7 +850,7 @@ public class Validation
 			node.ValidationErrors.Contains(
 				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 					DateTime.Today.AddDays(2),
-					"TimestampNode"
+					"TimestampLabel"
 				)
 			)
 		);
@@ -825,11 +863,12 @@ public class Validation
 			.WithTimestampNode(
 				"TimestampNode",
 				node =>
-					node.UseSelectListValidator(
-						ISelectListSource<DateTime>.ForValues(
-							[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+					node.UseLabel("TimestampLabel")
+						.UseSelectListValidator(
+							ISelectListSource<DateTime>.ForValues(
+								[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
+							)
 						)
-					)
 			)
 			.Build();
 
@@ -842,7 +881,7 @@ public class Validation
 			node.ValidationErrors.Contains(
 				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 					DateTime.Today.AddDays(1),
-					"TimestampNode"
+					"TimestampLabel"
 				)
 			)
 		);
@@ -864,16 +903,17 @@ public class Validation
 			.WithTimestampNode(
 				"TimestampNode",
 				node =>
-					node.UseSelectListValidator(
-						dependentListSource,
-						new Dictionary<string, IFormExpression<object?>>()
-						{
+					node.UseLabel("TimestampLabel")
+						.UseSelectListValidator(
+							dependentListSource,
+							new Dictionary<string, IFormExpression<object?>>()
 							{
-								DependentSelectListMock<bool, decimal>.ParentValueKey,
-								BooleanFieldValue("BooleanNode").Select(value => (object?)value)
-							},
-						}
-					)
+								{
+									DependentSelectListMock<bool, decimal>.ParentValueKey,
+									BooleanFieldValue("BooleanNode").Select(value => (object?)value)
+								},
+							}
+						)
 			)
 			.Build();
 
@@ -890,7 +930,7 @@ public class Validation
 			numberNode.ValidationErrors.Contains(
 				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 					DateTime.Today.AddDays(1),
-					"TimestampNode"
+					"TimestampLabel"
 				)
 			)
 		);
@@ -904,7 +944,7 @@ public class Validation
 			numberNode.ValidationErrors.Contains(
 				Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 					DateTime.Today.AddDays(1),
-					"TimestampNode"
+					"TimestampLabel"
 				)
 			)
 		);
@@ -921,7 +961,9 @@ public class Validation
 	[TestMethod]
 	public void NumberMinValueValidator_ContentsNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMinValueValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseMinValueValidator(5))
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = null;
@@ -929,14 +971,16 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void NumberMinValueValidator_ValueTooSmall_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMinValueValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseMinValueValidator(5))
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = 3;
@@ -944,14 +988,16 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void NumberMinValueValidator_ValueEqualsLowerBound_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMinValueValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseMinValueValidator(5))
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = 5;
@@ -959,7 +1005,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberLabel", 5))
 		);
 	}
 
@@ -968,7 +1014,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("LowerBound")
-			.WithNumberNode("NumberNode", node => node.UseMinValueValidator(NumberFieldValue("LowerBound")))
+			.WithNumberNode(
+				"NumberNode",
+				node => node.UseLabel("NumberLabel").UseMinValueValidator(NumberFieldValue("LowerBound"))
+			)
 			.Build();
 
 		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
@@ -980,7 +1029,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", string.Empty)
+				Resources.TheField_RequiresAMinimumValueOf_.Format("NumberLabel", string.Empty)
 			)
 		);
 	}
@@ -990,7 +1039,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("LowerBound")
-			.WithNumberNode("NumberNode", node => node.UseMinValueValidator(NumberFieldValue("LowerBound")))
+			.WithNumberNode(
+				"NumberNode",
+				node => node.UseLabel("NumberLabel").UseMinValueValidator(NumberFieldValue("LowerBound"))
+			)
 			.Build();
 
 		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
@@ -1003,7 +1055,9 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
-			dependentNode.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 5))
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("NumberLabel", 5)
+			)
 		);
 
 		// Decreasing the lower bound makes dependent node valid.
@@ -1012,7 +1066,9 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
-			dependentNode.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumValueOf_.Format("NumberNode", 0))
+			dependentNode.ValidationErrors.Contains(
+				Resources.TheField_RequiresAMinimumValueOf_.Format("NumberLabel", 0)
+			)
 		);
 	}
 
@@ -1027,7 +1083,9 @@ public class Validation
 	[TestMethod]
 	public void NumberMaxValueValidator_ContentsNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMaxValueValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseMaxValueValidator(5))
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = null;
@@ -1035,14 +1093,16 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void NumberMaxValueValidator_ValueTooBig_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMaxValueValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseMaxValueValidator(5))
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = 6;
@@ -1050,14 +1110,16 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void NumberMaxValueValidator_ValueEqualsUpperBound_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithNumberNode("NumberNode", node => node.UseMaxValueValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseMaxValueValidator(5))
+			.Build();
 
 		var node = (INumberNode)form.Nodes.First(node => node.Name == "NumberNode");
 		node.Value = 5;
@@ -1065,7 +1127,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberLabel", 5))
 		);
 	}
 
@@ -1074,7 +1136,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("UpperBound")
-			.WithNumberNode("NumberNode", node => node.UseMaxValueValidator(NumberFieldValue("UpperBound")))
+			.WithNumberNode(
+				"NumberNode",
+				node => node.UseLabel("NumberLabel").UseMaxValueValidator(NumberFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -1086,7 +1151,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", string.Empty)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("NumberLabel", string.Empty)
 			)
 		);
 	}
@@ -1096,7 +1161,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("UpperBound")
-			.WithNumberNode("NumberNode", node => node.UseMaxValueValidator(NumberFieldValue("UpperBound")))
+			.WithNumberNode(
+				"NumberNode",
+				node => node.UseLabel("NumberLabel").UseMaxValueValidator(NumberFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -1109,7 +1177,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
-			dependentNode.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 2))
+			dependentNode.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberLabel", 2))
 		);
 
 		// Increasing the upper bound makes dependent node valid.
@@ -1118,7 +1186,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
-			dependentNode.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberNode", 6))
+			dependentNode.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumValueOf_.Format("NumberLabel", 6))
 		);
 	}
 
@@ -1136,7 +1204,10 @@ public class Validation
 	public void TimestampMinValueValidator_ContentsNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(DateTime.Today))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMinValueValidator(DateTime.Today)
+			)
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -1146,7 +1217,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today)
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampLabel", DateTime.Today)
 			)
 		);
 	}
@@ -1155,7 +1226,10 @@ public class Validation
 	public void TimestampMinValueValidator_ValueTooSmall_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(DateTime.Today))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMinValueValidator(DateTime.Today)
+			)
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -1165,7 +1239,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today)
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampLabel", DateTime.Today)
 			)
 		);
 	}
@@ -1174,7 +1248,10 @@ public class Validation
 	public void TimestampMinValueValidator_ValueEqualsLowerBound_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(DateTime.Today))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMinValueValidator(DateTime.Today)
+			)
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -1184,7 +1261,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today)
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampLabel", DateTime.Today)
 			)
 		);
 	}
@@ -1194,7 +1271,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithTimestampNode("LowerBound")
-			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(TimestampFieldValue("LowerBound")))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMinValueValidator(TimestampFieldValue("LowerBound"))
+			)
 			.Build();
 
 		var lowerBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "LowerBound");
@@ -1206,7 +1286,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", string.Empty)
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampLabel", string.Empty)
 			)
 		);
 	}
@@ -1216,7 +1296,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithTimestampNode("LowerBound")
-			.WithTimestampNode("TimestampNode", node => node.UseMinValueValidator(TimestampFieldValue("LowerBound")))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMinValueValidator(TimestampFieldValue("LowerBound"))
+			)
 			.Build();
 
 		var lowerBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "LowerBound");
@@ -1230,7 +1313,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(1))
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampLabel", DateTime.Today.AddDays(1))
 			)
 		);
 
@@ -1241,7 +1324,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+				Resources.TheField_RequiresAMinimumValueOf_.Format("TimestampLabel", DateTime.Today.AddDays(-1))
 			)
 		);
 	}
@@ -1260,7 +1343,10 @@ public class Validation
 	public void TimestampMaxValueValidator_ContentsNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(DateTime.Today))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMaxValueValidator(DateTime.Today)
+			)
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -1270,7 +1356,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", DateTime.Today)
 			)
 		);
 	}
@@ -1279,7 +1365,10 @@ public class Validation
 	public void TimestampMaxValueValidator_ValueTooBig_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(DateTime.Today))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMaxValueValidator(DateTime.Today)
+			)
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -1289,7 +1378,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", DateTime.Today.AddDays(-1))
 			)
 		);
 	}
@@ -1298,7 +1387,10 @@ public class Validation
 	public void TimestampMaxValueValidator_ValueEqualsUpperBound_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(DateTime.Today))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMaxValueValidator(DateTime.Today)
+			)
 			.Build();
 
 		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
@@ -1308,7 +1400,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", DateTime.Today)
 			)
 		);
 	}
@@ -1318,7 +1410,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithTimestampNode("UpperBound")
-			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(TimestampFieldValue("UpperBound")))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMaxValueValidator(TimestampFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -1330,7 +1425,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", string.Empty)
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", string.Empty)
 			)
 		);
 	}
@@ -1340,7 +1435,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithTimestampNode("UpperBound")
-			.WithTimestampNode("TimestampNode", node => node.UseMaxValueValidator(TimestampFieldValue("UpperBound")))
+			.WithTimestampNode(
+				"TimestampNode",
+				node => node.UseLabel("TimestampLabel").UseMaxValueValidator(TimestampFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (ITimestampNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -1354,7 +1452,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(-1))
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", DateTime.Today.AddDays(-1))
 			)
 		);
 
@@ -1365,7 +1463,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampNode", DateTime.Today.AddDays(1))
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", DateTime.Today.AddDays(1))
 			)
 		);
 	}
@@ -1381,7 +1479,9 @@ public class Validation
 	[TestMethod]
 	public void MinLengthValidator_ContentsNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMinLengthValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseMinLengthValidator(5))
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = null;
@@ -1389,14 +1489,16 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void MinLengthValidator_ValueTooSmall_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMinLengthValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseMinLengthValidator(5))
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "abc";
@@ -1404,14 +1506,16 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void MinLengthValidator_ValueEqualsLowerBound_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMinLengthValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseMinLengthValidator(5))
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "abcde";
@@ -1419,7 +1523,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextLabel", 5))
 		);
 	}
 
@@ -1428,7 +1532,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("LowerBound")
-			.WithTextNode("TextNode", node => node.UseMinLengthValidator(NumberFieldValue("LowerBound")))
+			.WithTextNode(
+				"TextNode",
+				node => node.UseLabel("TextLabel").UseMinLengthValidator(NumberFieldValue("LowerBound"))
+			)
 			.Build();
 
 		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
@@ -1440,7 +1547,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", string.Empty)
+				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextLabel", string.Empty)
 			)
 		);
 	}
@@ -1450,7 +1557,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("LowerBound")
-			.WithTextNode("TextNode", node => node.UseMinLengthValidator(NumberFieldValue("LowerBound")))
+			.WithTextNode(
+				"TextNode",
+				node => node.UseLabel("TextLabel").UseMinLengthValidator(NumberFieldValue("LowerBound"))
+			)
 			.Build();
 
 		var lowerBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "LowerBound");
@@ -1464,7 +1574,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 5)
+				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextLabel", 5)
 			)
 		);
 
@@ -1475,7 +1585,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextNode", 0)
+				Resources.TheField_RequiresAMinimumContentLengthOf_.Format("TextLabel", 0)
 			)
 		);
 	}
@@ -1491,7 +1601,9 @@ public class Validation
 	[TestMethod]
 	public void MaxLengthValidator_ContentsNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMaxLengthValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseMaxLengthValidator(5))
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = null;
@@ -1499,14 +1611,16 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void MaxLengthValidator_ValueTooBig_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMaxLengthValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseMaxLengthValidator(5))
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "abcdef";
@@ -1514,14 +1628,16 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextLabel", 5))
 		);
 	}
 
 	[TestMethod]
 	public void MaxLengthValidator_ValueEqualsUpperBound_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseMaxLengthValidator(5)).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseMaxLengthValidator(5))
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "abcde";
@@ -1529,7 +1645,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextLabel", 5))
 		);
 	}
 
@@ -1538,7 +1654,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("UpperBound")
-			.WithTextNode("TextNode", node => node.UseMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.WithTextNode(
+				"TextNode",
+				node => node.UseLabel("TextLabel").UseMaxLengthValidator(NumberFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -1550,7 +1669,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", string.Empty)
+				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextLabel", string.Empty)
 			)
 		);
 	}
@@ -1560,7 +1679,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("UpperBound")
-			.WithTextNode("TextNode", node => node.UseMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.WithTextNode(
+				"TextNode",
+				node => node.UseLabel("TextLabel").UseMaxLengthValidator(NumberFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -1574,7 +1696,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 2)
+				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextLabel", 2)
 			)
 		);
 
@@ -1585,7 +1707,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextNode", 6)
+				Resources.TheField_AllowsAMaximumContentLengthOf_.Format("TextLabel", 6)
 			)
 		);
 	}
@@ -1602,7 +1724,7 @@ public class Validation
 	public void AllowedSymbolValidator_ValueNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
-			.WithTextNode("TextNode", node => node.UseAllowedSymbolValidator("abc"))
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseAllowedSymbolValidator("abc"))
 			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
@@ -1619,7 +1741,7 @@ public class Validation
 	public void AllowedSymbolValidator_ValueContainsInvalidChars_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTextNode("TextNode", node => node.UseAllowedSymbolValidator("abc"))
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseAllowedSymbolValidator("abc"))
 			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
@@ -1636,7 +1758,7 @@ public class Validation
 	public void AllowedSymbolValidator_OnlyListedCharacters_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithTextNode("TextNode", node => node.UseAllowedSymbolValidator("abc"))
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseAllowedSymbolValidator("abc"))
 			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
@@ -1660,7 +1782,9 @@ public class Validation
 	[TestMethod]
 	public void EmailValidator_ValueNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseEmailValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseEmailValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = null;
@@ -1677,7 +1801,9 @@ public class Validation
 	[TestMethod]
 	public void EmailValidator_RandomText_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseEmailValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseEmailValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "please send letter";
@@ -1694,7 +1820,9 @@ public class Validation
 	[TestMethod]
 	public void EmailValidator_EmailAddress_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseEmailValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseEmailValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "test@mail.de";
@@ -1719,7 +1847,9 @@ public class Validation
 	[TestMethod]
 	public void PhoneNumberValidator_ValueNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UsePhoneNumberValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UsePhoneNumberValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = null;
@@ -1736,7 +1866,9 @@ public class Validation
 	[TestMethod]
 	public void PhoneNumberValidator_RandomText_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UsePhoneNumberValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UsePhoneNumberValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "please send letter";
@@ -1753,7 +1885,9 @@ public class Validation
 	[TestMethod]
 	public void PhoneNumberValidator_EmailAddress_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UsePhoneNumberValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UsePhoneNumberValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 
@@ -1805,7 +1939,9 @@ public class Validation
 	[TestMethod]
 	public void IbanValidator_ValueNull_ShouldNotValidate()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseIbanValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseIbanValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = null;
@@ -1820,7 +1956,9 @@ public class Validation
 	[TestMethod]
 	public void IbanValidator_RandomText_ShouldBeInvalid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseIbanValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseIbanValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		node.Value = "I'll pay by check";
@@ -1837,7 +1975,9 @@ public class Validation
 	[TestMethod]
 	public void IbanValidator_Iban_ShouldBeValid()
 	{
-		var form = new FormBuilder("Test").WithTextNode("TextNode", node => node.UseIbanValidator()).Build();
+		var form = new FormBuilder("Test")
+			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UseIbanValidator())
+			.Build();
 
 		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 
@@ -1863,7 +2003,10 @@ public class Validation
 	public void MinCountValidator_NoInstance_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMinCountValidator(5))
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseLabel("CollectionLabel").UseTemplate("Template").UseMinCountValidator(5)
+			)
 			.Build();
 
 		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
@@ -1872,7 +2015,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionNode", 5)
+				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionLabel", 5)
 			)
 		);
 	}
@@ -1881,7 +2024,10 @@ public class Validation
 	public void MinCountValidator_TooLittleInstances_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMinCountValidator(5))
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseLabel("CollectionLabel").UseTemplate("Template").UseMinCountValidator(5)
+			)
 			.Build();
 
 		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
@@ -1893,7 +2039,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionNode", 5)
+				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionLabel", 5)
 			)
 		);
 	}
@@ -1902,7 +2048,10 @@ public class Validation
 	public void MinCountValidator_InstanceCountEqualsLowerBound_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMinCountValidator(5))
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseLabel("CollectionLabel").UseTemplate("Template").UseMinCountValidator(5)
+			)
 			.Build();
 
 		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
@@ -1916,7 +2065,7 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionNode", 5)
+				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionLabel", 5)
 			)
 		);
 	}
@@ -1928,7 +2077,10 @@ public class Validation
 			.WithNumberNode("LowerBound")
 			.WithCollectionNode(
 				"CollectionNode",
-				(node, _) => node.UseTemplate("Template").UseMinCountValidator(NumberFieldValue("LowerBound"))
+				(node, _) =>
+					node.UseLabel("CollectionLabel")
+						.UseTemplate("Template")
+						.UseMinCountValidator(NumberFieldValue("LowerBound"))
 			)
 			.Build();
 
@@ -1940,7 +2092,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionNode", string.Empty)
+				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionLabel", string.Empty)
 			)
 		);
 	}
@@ -1952,7 +2104,10 @@ public class Validation
 			.WithNumberNode("LowerBound")
 			.WithCollectionNode(
 				"CollectionNode",
-				(node, _) => node.UseTemplate("Template").UseMinCountValidator(NumberFieldValue("LowerBound"))
+				(node, _) =>
+					node.UseLabel("CollectionLabel")
+						.UseTemplate("Template")
+						.UseMinCountValidator(NumberFieldValue("LowerBound"))
 			)
 			.Build();
 
@@ -1968,7 +2123,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionNode", 5)
+				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionLabel", 5)
 			)
 		);
 
@@ -1979,7 +2134,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionNode", 0)
+				Resources.TheField_RequiresAtLeastTheFollowingNumberOfInstances_.Format("CollectionLabel", 0)
 			)
 		);
 	}
@@ -1996,7 +2151,10 @@ public class Validation
 	public void MaxCountValidator_NoInstance_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMaxCountValidator(5))
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseLabel("CollectionLabel").UseTemplate("Template").UseMaxCountValidator(5)
+			)
 			.Build();
 
 		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
@@ -2004,7 +2162,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionLabel", 5))
 		);
 	}
 
@@ -2012,7 +2170,10 @@ public class Validation
 	public void MaxCountValidator_TooManyInstances_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMaxCountValidator(5))
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseLabel("CollectionLabel").UseTemplate("Template").UseMaxCountValidator(5)
+			)
 			.Build();
 
 		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
@@ -2026,7 +2187,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionLabel", 5))
 		);
 	}
 
@@ -2034,7 +2195,10 @@ public class Validation
 	public void MaxCountValidator_InstanceCountEqualsUpperBound_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithCollectionNode("CollectionNode", (node, _) => node.UseTemplate("Template").UseMaxCountValidator(5))
+			.WithCollectionNode(
+				"CollectionNode",
+				(node, _) => node.UseLabel("CollectionLabel").UseTemplate("Template").UseMaxCountValidator(5)
+			)
 			.Build();
 
 		var node = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
@@ -2047,7 +2211,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionLabel", 5))
 		);
 	}
 
@@ -2058,7 +2222,10 @@ public class Validation
 			.WithNumberNode("LowerBound")
 			.WithCollectionNode(
 				"CollectionNode",
-				(node, _) => node.UseTemplate("Template").UseMaxCountValidator(NumberFieldValue("LowerBound"))
+				(node, _) =>
+					node.UseLabel("CollectionLabel")
+						.UseTemplate("Template")
+						.UseMaxCountValidator(NumberFieldValue("LowerBound"))
 			)
 			.Build();
 
@@ -2073,7 +2240,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", string.Empty)
+				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionLabel", string.Empty)
 			)
 		);
 	}
@@ -2085,7 +2252,10 @@ public class Validation
 			.WithNumberNode("LowerBound")
 			.WithCollectionNode(
 				"CollectionNode",
-				(node, _) => node.UseTemplate("Template").UseMaxCountValidator(NumberFieldValue("LowerBound"))
+				(node, _) =>
+					node.UseLabel("CollectionLabel")
+						.UseTemplate("Template")
+						.UseMaxCountValidator(NumberFieldValue("LowerBound"))
 			)
 			.Build();
 
@@ -2102,7 +2272,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 2)
+				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionLabel", 2)
 			)
 		);
 
@@ -2113,7 +2283,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionNode", 3)
+				Resources.TheField_AllowsAMaximumOf_Instances.Format("CollectionLabel", 3)
 			)
 		);
 	}
@@ -2132,7 +2302,7 @@ public class Validation
 	public void FileNameMaxLengthValidator_FileNameNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(5))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileNameMaxLengthValidator(5))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -2141,7 +2311,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileLabel", 5))
 		);
 	}
 
@@ -2149,7 +2319,7 @@ public class Validation
 	public void FileNameMaxLengthValidator_FileNameTooBig_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(5))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileNameMaxLengthValidator(5))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -2158,7 +2328,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileLabel", 5))
 		);
 	}
 
@@ -2166,7 +2336,7 @@ public class Validation
 	public void FileNameMaxLengthValidator_FileNameLengthEqualsUpperBound_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(5))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileNameMaxLengthValidator(5))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -2175,7 +2345,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 5))
+			node.ValidationErrors.Contains(Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileLabel", 5))
 		);
 	}
 
@@ -2184,7 +2354,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("UpperBound")
-			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.WithFileNode(
+				"FileNode",
+				node => node.UseLabel("FileLabel").UseFileNameMaxLengthValidator(NumberFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -2196,7 +2369,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", string.Empty)
+				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileLabel", string.Empty)
 			)
 		);
 	}
@@ -2206,7 +2379,10 @@ public class Validation
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode("UpperBound")
-			.WithFileNode("FileNode", node => node.UseFileNameMaxLengthValidator(NumberFieldValue("UpperBound")))
+			.WithFileNode(
+				"FileNode",
+				node => node.UseLabel("FileLabel").UseFileNameMaxLengthValidator(NumberFieldValue("UpperBound"))
+			)
 			.Build();
 
 		var upperBoundNode = (INumberNode)form.Nodes.First(node => node.Name == "UpperBound");
@@ -2220,7 +2396,7 @@ public class Validation
 		Assert.IsFalse(dependentNode.IsValid);
 		Assert.IsTrue(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 2)
+				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileLabel", 2)
 			)
 		);
 
@@ -2231,7 +2407,7 @@ public class Validation
 		Assert.IsTrue(dependentNode.IsValid);
 		Assert.IsFalse(
 			dependentNode.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileNode", 6)
+				Resources.TheField_AllowsAMaximumFileNameLengthOf_.Format("FileLabel", 6)
 			)
 		);
 	}
@@ -2240,14 +2416,15 @@ public class Validation
 	public void ExpressionValidator_ExpressionValue_ShouldDecideValidationState()
 	{
 		var form = new FormBuilder("Test")
-			.WithBooleanNode("DeciderNode")
+			.WithBooleanNode("DeciderNode", node => node.UseLabel("DeciderLabel"))
 			.WithTextNode(
 				"TextNode",
 				node =>
-					node.UseExpressionValidator(
-						BooleanFieldValue("DeciderNode").Coalesce(true),
-						"Field DeciderNode is true."
-					)
+					node.UseLabel("TextLabel")
+						.UseExpressionValidator(
+							BooleanFieldValue("DeciderNode").Coalesce(true),
+							"Field DeciderNode is true."
+						)
 			)
 			.Build();
 
@@ -2260,13 +2437,13 @@ public class Validation
 
 		form.Update();
 		Assert.IsFalse(dependentNode.IsValid);
-		Assert.IsTrue(dependentNode.ValidationErrors.Contains("Field DeciderNode is true"));
+		Assert.IsTrue(dependentNode.ValidationErrors.Contains("Field DeciderLabel is true"));
 
 		// Decider node false makes dependent node valid.
 		deciderNode.Value = false;
 
 		form.Update();
 		Assert.IsTrue(dependentNode.IsValid);
-		Assert.IsFalse(dependentNode.ValidationErrors.Contains("Field DeciderNode is true"));
+		Assert.IsFalse(dependentNode.ValidationErrors.Contains("Field DeciderLabel is true"));
 	}
 }
