@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ICollectionNode">.<br/>
@@ -19,12 +20,36 @@ public class MinCountValidator(IFormExpression<decimal?> minCount, string? error
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ICollectionNode collectionNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(MinCountValidator)} can only be used on collection nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		var minCount = _minCount.EvaluateOn(collectionNode);
+		if (collectionNode.Instances.Count() < minCount)
+		{
+			// Invalid.
+			collectionNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(collectionNode.Label, minCount));
+		}
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ICollectionNode collectionNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(MinCountValidator)} can only be used on collection nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		var minCount = await _minCount.EvaluateOnAsync(collectionNode);
+		if (collectionNode.Instances.Count() < minCount)
+		{
+			// Invalid.
+			collectionNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(collectionNode.Label, minCount));
+		}
 	}
 }

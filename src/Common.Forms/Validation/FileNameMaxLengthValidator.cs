@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="IFileNode">.<br/>
@@ -21,12 +22,48 @@ public class FileNameMaxLengthValidator(IFormExpression<decimal?> maxLength, str
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not IFileNode fileNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(FileNameMaxLengthValidator)} can only be used on file nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (fileNode.Value.FileName == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var maxLength = _maxLength.EvaluateOn(fileNode);
+		if (fileNode.Value.FileName.Length > maxLength)
+		{
+			// Invalid.
+			fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Label, maxLength));
+		}
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not IFileNode fileNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(FileNameMaxLengthValidator)} can only be used on file nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (fileNode.Value.FileName == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var maxLength = await _maxLength.EvaluateOnAsync(fileNode);
+		if (fileNode.Value.FileName.Length > maxLength)
+		{
+			// Invalid.
+			fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Label, maxLength));
+		}
 	}
 }

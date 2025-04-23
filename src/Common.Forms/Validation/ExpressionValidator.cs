@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can be applied to any node.<br/>
@@ -19,12 +20,24 @@ public class ExpressionValidator(IFormExpression<bool> checkInvalid, string erro
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		// This does not require any specific node type or value state.
+		// Every condition needs to be encoded in the condition.
+		var invalid = _checkInvalid.EvaluateOn(node);
+		if (invalid)
+		{
+			node.SetValidationError(ErrorKey, _errorMessageTemplate.Format(node.Label));
+		}
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		// This does not require any specific node type or value state.
+		// Every condition needs to be encoded in the condition.
+		var invalid = await _checkInvalid.EvaluateOnAsync(node);
+		if (invalid)
+		{
+			node.SetValidationError(ErrorKey, _errorMessageTemplate.Format(node.Label));
+		}
 	}
 }

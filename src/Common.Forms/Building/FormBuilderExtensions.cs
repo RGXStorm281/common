@@ -357,9 +357,9 @@ public static class FormBuilderExtensions
 	/// <inheritdoc cref="UseMaxCountValidator(ICollectionNodeBuilder, IFormExpression{decimal?}, string?)"/>
 	public static ICollectionNodeBuilder UseMaxCountValidator(
 		this ICollectionNodeBuilder builder,
-		int minCount,
+		int maxCount,
 		string? errorMessageTemplate = null
-	) => builder.UseMinCountValidator(StaticValue<decimal?>(minCount), errorMessageTemplate);
+	) => builder.UseMaxCountValidator(StaticValue<decimal?>(maxCount), errorMessageTemplate);
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> file names.<br/>

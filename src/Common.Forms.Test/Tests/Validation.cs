@@ -2429,7 +2429,7 @@ public class Validation
 					node.UseLabel("TextLabel")
 						.UseExpressionValidator(
 							BooleanFieldValue("DeciderNode").Coalesce(true),
-							"Field DeciderNode is true."
+							"Field DeciderLabel is true."
 						)
 			)
 			.Build();
@@ -2443,13 +2443,13 @@ public class Validation
 
 		form.Update();
 		Assert.IsFalse(dependentNode.IsValid);
-		Assert.IsTrue(dependentNode.ValidationErrors.Contains("Field DeciderLabel is true"));
+		Assert.IsTrue(dependentNode.ValidationErrors.Contains("Field DeciderLabel is true."));
 
 		// Decider node false makes dependent node valid.
 		deciderNode.Value = false;
 
 		form.Update();
 		Assert.IsTrue(dependentNode.IsValid);
-		Assert.IsFalse(dependentNode.ValidationErrors.Contains("Field DeciderLabel is true"));
+		Assert.IsFalse(dependentNode.ValidationErrors.Contains("Field DeciderLabel is true."));
 	}
 }

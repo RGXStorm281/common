@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ICollectionNode">.<br/>
@@ -19,12 +20,36 @@ public class MaxCountValidator(IFormExpression<decimal?> maxCount, string? error
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ICollectionNode collectionNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(MaxCountValidator)} can only be used on collection nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		var maxCount = _maxCount.EvaluateOn(collectionNode);
+		if (collectionNode.Instances.Count() > maxCount)
+		{
+			// Invalid.
+			collectionNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(collectionNode.Label, maxCount));
+		}
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ICollectionNode collectionNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(MaxCountValidator)} can only be used on collection nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		var maxCount = await _maxCount.EvaluateOnAsync(collectionNode);
+		if (collectionNode.Instances.Count() > maxCount)
+		{
+			// Invalid.
+			collectionNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(collectionNode.Label, maxCount));
+		}
 	}
 }
