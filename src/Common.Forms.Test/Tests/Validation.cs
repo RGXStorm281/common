@@ -1378,7 +1378,7 @@ public class Validation
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
 			node.ValidationErrors.Contains(
-				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", DateTime.Today.AddDays(-1))
+				Resources.TheField_AllowsAMaximumValueOf_.Format("TimestampLabel", DateTime.Today)
 			)
 		);
 	}

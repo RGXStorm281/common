@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="INumberNode">.<br/>
@@ -20,12 +21,48 @@ public class NumberMinValueValidator(IFormExpression<decimal?> minValue, string?
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not INumberNode numberNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(NumberMinValueValidator)} can only be used on number nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (numberNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var minValue = _minValue.EvaluateOn(numberNode);
+		if (numberNode.Value < minValue)
+		{
+			// Invalid.
+			numberNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(numberNode.Label, minValue));
+		}
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not INumberNode numberNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(NumberMinValueValidator)} can only be used on number nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (numberNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var minValue = await _minValue.EvaluateOnAsync(numberNode);
+		if (numberNode.Value < minValue)
+		{
+			// Invalid.
+			numberNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(numberNode.Label, minValue));
+		}
 	}
 }

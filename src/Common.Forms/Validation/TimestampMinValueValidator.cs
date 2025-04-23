@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ITimestampNode">.<br/>
@@ -20,12 +21,48 @@ public class TimestampMinValueValidator(IFormExpression<DateTime?> minValue, str
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITimestampNode timestampNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(TimestampMinValueValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (timestampNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var minValue = _minValue.EvaluateOn(timestampNode);
+		if (timestampNode.Value < minValue)
+		{
+			// Invalid.
+			timestampNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(timestampNode.Label, minValue));
+		}
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITimestampNode timestampNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(TimestampMinValueValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (timestampNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var minValue = await _minValue.EvaluateOnAsync(timestampNode);
+		if (timestampNode.Value < minValue)
+		{
+			// Invalid.
+			timestampNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(timestampNode.Label, minValue));
+		}
 	}
 }
