@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="IbanNet" />
         <PackageReference Include="libphonenumber-csharp" />
         <PackageReference Include="RobinEpple.Common.Util" />
     </ItemGroup>

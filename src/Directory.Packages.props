@@ -4,6 +4,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="IbanNet" Version="5.18.0" />
     <PackageVersion Include="libphonenumber-csharp" Version="3.7.1.306" />
     <PackageVersion Include="RobinEpple.Common.Util" Version="1.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
