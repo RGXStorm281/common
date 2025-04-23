@@ -17,6 +17,12 @@ public class EmailValidator(string? errorMessageTemplate = null) : INodeValidato
 	public const string ErrorKey = nameof(EmailValidator);
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheValue_CouldNotBeRecognizedAsAValidEmailFormat;
+	private static Regex _emailFormatRegex = new Regex(
+		@"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+		RegexOptions.IgnoreCase | RegexOptions.Compiled,
+		TimeSpan.FromMilliseconds(250)
+	);
+	private static Regex _domainRegex = new Regex(@"(@)(.+)$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(200));
 
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
@@ -47,14 +53,6 @@ public class EmailValidator(string? errorMessageTemplate = null) : INodeValidato
 		Validate(node);
 		return Task.CompletedTask;
 	}
-
-	private static Regex _emailFormatRegex = new Regex(
-		@"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-		RegexOptions.IgnoreCase | RegexOptions.Compiled,
-		TimeSpan.FromMilliseconds(250)
-	);
-
-	private static Regex _domainRegex = new Regex(@"(@)(.+)$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(200));
 
 	/// <summary>
 	/// Validates Email via regex pattern and domain check as in Reference:<br/>

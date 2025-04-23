@@ -1889,7 +1889,7 @@ public class Validation
 	}
 
 	[TestMethod]
-	public void PhoneNumberValidator_EmailAddress_ShouldBeValid()
+	public void PhoneNumberValidator_PhoneNumber_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
 			.WithTextNode("TextNode", node => node.UseLabel("TextLabel").UsePhoneNumberValidator())
@@ -1915,21 +1915,21 @@ public class Validation
 			)
 		);
 
-		node.Value = "+49157123456";
+		node.Value = "07127 123456";
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+49157123456")
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+497127123456")
 			)
 		);
 
-		node.Value = "+49 157 123456";
+		node.Value = "+49 7127 123456";
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+49 157 123456")
+				Resources.TheValue_CouldNotBeRecognizedAsAValidPhoneNumberFormat.Format("+49 7127 123456")
 			)
 		);
 	}
