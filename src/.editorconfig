@@ -205,8 +205,12 @@ dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
 dotnet_naming_rule.private_members_should_begin_with_underscore.severity = warning
-dotnet_naming_rule.private_members_should_begin_with_underscore.symbols = private_members
+dotnet_naming_rule.private_members_should_begin_with_underscore.symbols = private_members_except_methods
 dotnet_naming_rule.private_members_should_begin_with_underscore.style = begins_with_underscore
+
+dotnet_naming_rule.private_methods_should_be_pascal_case.severity = warning
+dotnet_naming_rule.private_methods_should_be_pascal_case.symbols = private_methods
+dotnet_naming_rule.private_methods_should_be_pascal_case.style = pascal_case
 
 dotnet_naming_rule.non_private_members_should_be_pascal_case.severity = warning
 dotnet_naming_rule.non_private_members_should_be_pascal_case.symbols = non_private_members
@@ -241,8 +245,11 @@ dotnet_naming_symbols.types.applicable_accessibilities = public, internal, priva
 dotnet_naming_symbols.non_private_members.applicable_kinds = property, event, method, field
 dotnet_naming_symbols.non_private_members.applicable_accessibilities = public, internal, protected, protected_internal
 
-dotnet_naming_symbols.private_members.applicable_kinds = property, event, method, field
-dotnet_naming_symbols.private_members.applicable_accessibilities = private, private_protected
+dotnet_naming_symbols.private_members_except_methods.applicable_kinds = property, event, field
+dotnet_naming_symbols.private_members_except_methods.applicable_accessibilities = private, private_protected
+
+dotnet_naming_symbols.private_methods.applicable_kinds = method
+dotnet_naming_symbols.private_methods.applicable_accessibilities = private, private_protected
 
 dotnet_naming_symbols.parameters.applicable_kinds = parameter
 
