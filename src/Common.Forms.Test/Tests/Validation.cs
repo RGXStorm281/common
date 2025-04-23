@@ -1733,7 +1733,9 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("d"))
+			node.ValidationErrors.Contains(
+				Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("TextLabel", "d")
+			)
 		);
 	}
 
@@ -1750,7 +1752,9 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("d"))
+			node.ValidationErrors.Contains(
+				Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("TextLabel", "d")
+			)
 		);
 	}
 
@@ -1767,7 +1771,9 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("d"))
+			node.ValidationErrors.Contains(
+				Resources.TheField_DoesNotAllowTheFollowingCharacters_.Format("TextLabel", "d")
+			)
 		);
 	}
 

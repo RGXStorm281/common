@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ITextNode">.<br/>
@@ -21,12 +22,48 @@ public class MinLengthValidator(IFormExpression<decimal?> minLength, string? err
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITextNode textNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(MinLengthValidator)} can only be used on text nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (textNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var minLength = _minLength.EvaluateOn(textNode);
+		if (textNode.Value.Length < minLength)
+		{
+			// Invalid.
+			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Label, minLength));
+		}
 	}
 
 	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
+	public async Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITextNode textNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(MinLengthValidator)} can only be used on text nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (textNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		var minLength = await _minLength.EvaluateOnAsync(textNode);
+		if (textNode.Value.Length < minLength)
+		{
+			// Invalid.
+			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Label, minLength));
+		}
 	}
 }

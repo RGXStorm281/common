@@ -1,6 +1,8 @@
 namespace RobinEpple.Common.Forms.Validation;
 
+using System.Text.RegularExpressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 /// <summary>
 /// Can only be applied to <see cref="ITextNode">.<br/>
@@ -12,19 +14,42 @@ using RobinEpple.Common.Forms.Nodes;
 public class AllowedSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null) : INodeValidator
 {
 	public const string ErrorKey = nameof(AllowedSymbolValidator);
-	private readonly string _characterWhitelist = characterWhitelist;
+	private readonly Regex _invalidCharacterRegex = new Regex($"[^{characterWhitelist}]", RegexOptions.Compiled);
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheField_DoesNotAllowTheFollowingCharacters_;
 
 	/// <inheritdoc />
 	public void Validate(IFormNode node)
 	{
-		throw new NotImplementedException();
+		if (node is not ITextNode textNode)
+		{
+			throw new InvalidOperationException(
+				$"A {nameof(AllowedSymbolValidator)} can only be used on text nodes and not on '{node.GetType().FullName}'."
+			);
+		}
+
+		if (textNode.Value == null)
+		{
+			// Do not validate empty, this is the task of the required validation.
+			return;
+		}
+
+		// Find invalid characters.
+		var result = _invalidCharacterRegex.Matches(textNode.Value);
+		var invalidCharacterList = result.Select(match => match.ToString()).Distinct().ToList();
+
+		// If there are invalid characters, add the error.
+		if (invalidCharacterList.Count > 0)
+		{
+			var invalidCharacters = string.Join(string.Empty, invalidCharacterList);
+			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Label, invalidCharacters));
+		}
 	}
 
 	/// <inheritdoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		Validate(node);
+		return Task.CompletedTask;
 	}
 }

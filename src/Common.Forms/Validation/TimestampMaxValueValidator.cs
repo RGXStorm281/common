@@ -24,7 +24,7 @@ public class TimestampMaxValueValidator(IFormExpression<DateTime?> maxValue, str
 		if (node is not ITimestampNode timestampNode)
 		{
 			throw new InvalidOperationException(
-				$"A {nameof(TimestampMinValueValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
+				$"A {nameof(TimestampMaxValueValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
 			);
 		}
 
@@ -48,7 +48,7 @@ public class TimestampMaxValueValidator(IFormExpression<DateTime?> maxValue, str
 		if (node is not ITimestampNode timestampNode)
 		{
 			throw new InvalidOperationException(
-				$"A {nameof(TimestampMinValueValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
+				$"A {nameof(TimestampMaxValueValidator)} can only be used on timestamp nodes and not on '{node.GetType().FullName}'."
 			);
 		}
 
