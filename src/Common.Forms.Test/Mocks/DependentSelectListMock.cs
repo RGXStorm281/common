@@ -11,7 +11,7 @@ public class DependentSelectListMock<TParentValue, TValue>(
 	public static string ParentValueKey = "parent";
 	private readonly IDictionary<TParentValue, ISelectListSource<TValue>> _listByParentValue = listByParentValue;
 
-	public IEnumerable<ISelectListItem<TValue>> LoadItems(IDictionary<string, object>? dependencies = null)
+	public IEnumerable<ISelectListItem<TValue>> LoadItems(IDictionary<string, object?>? dependencies = null)
 	{
 		if (
 			dependencies == null
@@ -31,7 +31,7 @@ public class DependentSelectListMock<TParentValue, TValue>(
 	}
 
 	public async Task<IEnumerable<ISelectListItem<TValue>>> LoadItemsAsync(
-		IDictionary<string, object>? dependencies = null
+		IDictionary<string, object?>? dependencies = null
 	)
 	{
 		if (
