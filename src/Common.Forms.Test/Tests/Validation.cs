@@ -431,7 +431,7 @@ public class Validation
 	[TestMethod]
 	public void FileExtensionValidator_NonFileField_ShouldThrowInvalidOperationException()
 	{
-		var form = new FormBuilder("Test").UseValidator(new FileExtensionValidator(["jpg"])).Build();
+		var form = new FormBuilder("Test").UseValidator(new FileExtensionValidator(["jpg", "jpeg"])).Build();
 
 		Assert.ThrowsException<InvalidOperationException>(form.Update);
 	}
@@ -440,7 +440,7 @@ public class Validation
 	public void FileExtensionValidator_ContentsNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileExtensionValidator(["jpg"]))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileExtensionValidator(["jpg", "jpeg"]))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
@@ -450,7 +450,11 @@ public class Validation
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
 			node.ValidationErrors.Contains(
-				Resources.TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_.Format("FileLabel", ".jpg")
+				Resources.TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_.Format(
+					"FileLabel",
+					string.Empty,
+					".jpg, .jpeg"
+				)
 			)
 		);
 	}
@@ -465,14 +469,20 @@ public class Validation
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue
 		{
-			FileContents = File.ReadAllBytes("/workspaces/common/src/Common.Forms.Test/TestImage.jpg"),
+			FileContents = File.ReadAllBytes("/workspaces/common/src/Common.Forms.Test/TestImage.jpeg"),
 			FileName = "Text file",
 		};
 
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileLabel", ".png"))
+			node.ValidationErrors.Contains(
+				Resources.TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_.Format(
+					"FileLabel",
+					".jpeg",
+					".png"
+				)
+			)
 		);
 	}
 
@@ -480,20 +490,26 @@ public class Validation
 	public void FileExtensionValidator_ValidFileExtension_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
-			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileExtensionValidator(["jpg"]))
+			.WithFileNode("FileNode", node => node.UseLabel("FileLabel").UseFileExtensionValidator(["jpg", "jpeg"]))
 			.Build();
 
 		var node = (IFileNode)form.Nodes.First(node => node.Name == "FileNode");
 		node.Value = new FileValue
 		{
-			FileContents = File.ReadAllBytes("/workspaces/common/src/Common.Forms.Test/TestImage.jpg"),
+			FileContents = File.ReadAllBytes("/workspaces/common/src/Common.Forms.Test/TestImage.jpeg"),
 			FileName = "Text file",
 		};
 
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrors.Contains(Resources.TheFileInput_HasAMaximumFileSizeOf_.Format("FileLabel", ".jpg"))
+			node.ValidationErrors.Contains(
+				Resources.TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_.Format(
+					"FileLabel",
+					".jpeg",
+					".jpg, .jpeg"
+				)
+			)
 		);
 	}
 

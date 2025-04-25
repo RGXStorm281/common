@@ -58,9 +58,9 @@ public class Resources
 	public static string TheFollowingCharactersAreNotAllowedInAFileName_ => ResourceManager.GetString("TheFollowingCharactersAreNotAllowedInAFileName_", Culture);
 	
 	/// <summary>
-	/// Looks up a localized string similar to The file input '{0}' only allows files of the following types: {1}..
+	/// Looks up a localized string similar to The file input '{0}' does not allow files of type {1}. It only allows files of the following types: {2}..
 	/// </summary>
-	public static string TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_ => ResourceManager.GetString("TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_", Culture);
+	public static string TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_ => ResourceManager.GetString("TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_", Culture);
 	
 	/// <summary>
 	/// Looks up a localized string similar to The value '{0}' in the field '{1}' is not allowed. Please select one of the provided options..

@@ -25,8 +25,8 @@
     <data name="TheFollowingCharactersAreNotAllowedInAFileName_" xml:space="preserve">
         <value>The following characters are not allowed in a file name: {0}.</value>
     </data>
-    <data name="TheFileInput_OnlyAllowsFilesOfTheFollowingTypes_" xml:space="preserve">
-        <value>The file input '{0}' only allows files of the following types: {1}.</value>
+    <data name="TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_" xml:space="preserve">
+        <value>The file input '{0}' does not allow files of type {1}. It only allows files of the following types: {2}.</value>
     </data>
     <data name="TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions" xml:space="preserve">
         <value>The value '{0}' in the field '{1}' is not allowed. Please select one of the provided options.</value>

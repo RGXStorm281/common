@@ -105,7 +105,7 @@ public static class FormBuilderExtensions
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="allowedExtensions">The list of allowed file extensions.</param>
-	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the list of allowed extensions.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name, {1} for the invalid extension and {2} for the list of allowed extensions.</param>
 	public static IFileNodeBuilder UseFileExtensionValidator(
 		this IFileNodeBuilder builder,
 		string[] allowedExtensions,

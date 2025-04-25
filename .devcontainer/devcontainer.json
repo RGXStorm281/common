@@ -37,7 +37,7 @@
 		"allowCleanScript": "sudo chmod +x /workspaces/common/clean-repository.sh",
 		"allowPostCreateScript": "sudo chmod +x /workspaces/common/post-create.sh",
 		"allowBuildNugetScript": "sudo chmod +x /workspaces/common/build-local-nuget.sh",
-		"initializeWorkloads": "/bin/bash ./post-create.sh"
+		"initialize": "/bin/bash ./post-create.sh"
 	},
 
 	// Mount host volumes.
