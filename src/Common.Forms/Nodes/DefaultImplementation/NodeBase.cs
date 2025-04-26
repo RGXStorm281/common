@@ -1,7 +1,6 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
@@ -21,6 +20,7 @@ internal abstract class NodeBase : IFormNode
 		_validationErrorsByKey = [];
 		_validators = [];
 		_extensions = [];
+		_tags = [];
 	}
 
 	/// <inheritdoc />
@@ -135,6 +135,11 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public IEnumerable<IFormNodeExtension> Extensions => _extensions;
 
+	private Dictionary<string, object?> _tags;
+
+	/// <inheritdoc />
+	public IReadOnlyDictionary<string, object?> Tags => _tags;
+
 	internal void UseExtension(IFormNodeExtension extension) => _extensions.Add(extension);
 
 	/// <inheritdoc />
@@ -152,6 +157,7 @@ internal abstract class NodeBase : IFormNode
 		clone._readonly = (ResettableProperty<bool>)_readonly.Clone();
 		clone._valid = (ResettableProperty<bool>)_valid.Clone();
 		clone._validationErrorsByKey = _validationErrorsByKey.ToDictionary(error => error.Key, error => error.Value);
+		clone._tags = _tags.ToDictionary(tag => tag.Key, tag => tag.Value);
 
 		// Do not clone stateless decorators.
 		clone.VisibilityCondition = VisibilityCondition;
@@ -382,6 +388,18 @@ internal abstract class NodeBase : IFormNode
 		if (_validationErrorsByKey.Count > 0)
 		{
 			IsValid = false;
+		}
+	}
+
+	/// <inheritdoc />
+	public void SetTag(string tag, object? value = null) => _tags[tag] = value;
+
+	/// <inheritdoc />
+	public void RemoveTag(string tag)
+	{
+		if (_tags.ContainsKey(tag))
+		{
+			_tags.Remove(tag);
 		}
 	}
 }

@@ -121,6 +121,28 @@ public interface IFormNode : ICloneable
 
 	#endregion
 
+	#region tags
+
+	/// <summary>
+	/// The list of tags attached to this node.
+	/// </summary>
+	public IReadOnlyDictionary<string, object?> Tags { get; }
+
+	/// <summary>
+	/// Adds a tag to this node.
+	/// </summary>
+	/// <param name="tag">The name of the tag.</param>
+	/// <param name="value">Optional tag value.</param>
+	public void SetTag(string tag, object? value = null);
+
+	/// <summary>
+	/// Removes a tag from this node.
+	/// </summary>
+	/// <param name="tag">The name of the tag.</param>
+	public void RemoveTag(string tag);
+
+	#endregion
+
 	#region state engine
 
 	/// <summary>

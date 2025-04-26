@@ -304,4 +304,15 @@ public class Update
 		Assert.IsTrue(mockExtension.OnBeforeValidationHasBeenCalled);
 		Assert.IsFalse(mockExtension.OnAfterValidationIsValidValue);
 	}
+
+	[TestMethod]
+	public void Update_ShouldNotTouchTags()
+	{
+		var form = new FormBuilder("Test").Build();
+		form.SetTag("test", 42);
+
+		form.Update();
+
+		Assert.IsTrue(form.Tags["test"]?.Equals(42) ?? false);
+	}
 }

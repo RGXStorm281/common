@@ -154,6 +154,7 @@ public class Cloning
 
 		// Modify state.
 		form.SetValidationError("test", "error");
+		form.SetTag("test", 42);
 		booleanNode.HasUserInteraction = true;
 		booleanNode.Value = false;
 		collectionNode.Instantiate(form);
@@ -178,6 +179,9 @@ public class Cloning
 		Assert.AreEqual(form.IsReadonly, clone.IsReadonly);
 		Assert.AreEqual(form.IsValid, clone.IsValid);
 		Assert.AreEqual(form.ValidationErrorsByKey.First(), clone.ValidationErrorsByKey.First());
+		Assert.IsFalse(ReferenceEquals(form.ValidationErrorsByKey, clone.ValidationErrorsByKey));
+		Assert.AreEqual(form.Tags.First(), clone.Tags.First());
+		Assert.IsFalse(ReferenceEquals(form.Tags, clone.Tags));
 		Assert.AreEqual(booleanNode.HasUserInteraction, clonedBooleanNode.HasUserInteraction);
 		Assert.AreEqual(booleanNode.Value, clonedBooleanNode.Value);
 		Assert.AreEqual(collectionNode.Instances.Count(), clonedCollectionNode.Instances.Count());
@@ -231,6 +235,7 @@ public class Cloning
 
 		// Modify state.
 		form.SetValidationError("test", "error");
+		form.SetTag("test", 42);
 		booleanNode.HasUserInteraction = true;
 		booleanNode.Value = false;
 		collectionNode.Instantiate(form);
@@ -253,6 +258,7 @@ public class Cloning
 
 		// Modify Clone state.
 		clone.SetValidationError("test", "error 2");
+		clone.SetTag("test", 43);
 		clonedBooleanNode.HasUserInteraction = false;
 		clonedBooleanNode.Value = true;
 		clonedCollectionNode.Clear();
@@ -266,6 +272,7 @@ public class Cloning
 		Assert.AreEqual(true, form.IsVisible);
 		Assert.AreEqual(true, form.IsReadonly);
 		Assert.IsTrue(form.ValidationErrorsByKey.TryGetValue("test", out var message) && message == "error");
+		Assert.IsTrue(form.Tags.TryGetValue("test", out var tag) && (tag?.Equals(42) ?? false));
 		Assert.AreEqual(true, booleanNode.HasUserInteraction);
 		Assert.AreEqual(false, booleanNode.Value);
 		Assert.AreEqual(1, collectionNode.Instances.Count());
