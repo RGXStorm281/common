@@ -177,7 +177,7 @@ public class Cloning
 		Assert.AreEqual(form.IsVisible, clone.IsVisible);
 		Assert.AreEqual(form.IsReadonly, clone.IsReadonly);
 		Assert.AreEqual(form.IsValid, clone.IsValid);
-		Assert.AreEqual(form.ValidationErrors.First(), clone.ValidationErrors.First());
+		Assert.AreEqual(form.ValidationErrorsByKey.First(), clone.ValidationErrorsByKey.First());
 		Assert.AreEqual(booleanNode.HasUserInteraction, clonedBooleanNode.HasUserInteraction);
 		Assert.AreEqual(booleanNode.Value, clonedBooleanNode.Value);
 		Assert.AreEqual(collectionNode.Instances.Count(), clonedCollectionNode.Instances.Count());
@@ -265,7 +265,7 @@ public class Cloning
 		// Ensure original didn't change.
 		Assert.AreEqual(true, form.IsVisible);
 		Assert.AreEqual(true, form.IsReadonly);
-		Assert.AreEqual("error", form.ValidationErrors.First());
+		Assert.IsTrue(form.ValidationErrorsByKey.TryGetValue("test", out var message) && message == "error");
 		Assert.AreEqual(true, booleanNode.HasUserInteraction);
 		Assert.AreEqual(false, booleanNode.Value);
 		Assert.AreEqual(1, collectionNode.Instances.Count());

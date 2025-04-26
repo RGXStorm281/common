@@ -93,7 +93,7 @@ public interface IFormNode : ICloneable
 	/// <summary>
 	/// The list of validation errors attached to this node.
 	/// </summary>
-	public IEnumerable<string> ValidationErrors { get; }
+	public IReadOnlyDictionary<string, string> ValidationErrorsByKey { get; }
 
 	/// <summary>
 	/// The list of validators active on this node.

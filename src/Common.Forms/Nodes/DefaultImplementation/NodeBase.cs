@@ -18,7 +18,7 @@ internal abstract class NodeBase : IFormNode
 		_visibility = new(true);
 		_readonly = new(false);
 		_valid = new(true);
-		_validationErrorsById = [];
+		_validationErrorsByKey = [];
 		_validators = [];
 		_extensions = [];
 	}
@@ -109,7 +109,7 @@ internal abstract class NodeBase : IFormNode
 
 	internal void UseReadonlyCondition(IFormExpression<bool> condition) => ReadonlyCondition = condition;
 
-	private Dictionary<string, string> _validationErrorsById { get; set; }
+	private Dictionary<string, string> _validationErrorsByKey { get; set; }
 
 	private ResettableProperty<bool> _valid { get; set; }
 
@@ -121,7 +121,7 @@ internal abstract class NodeBase : IFormNode
 	}
 
 	/// <inheritdoc />
-	public IEnumerable<string> ValidationErrors => _validationErrorsById.Values;
+	public IReadOnlyDictionary<string, string> ValidationErrorsByKey => _validationErrorsByKey;
 
 	private List<INodeValidator> _validators { get; set; }
 
@@ -138,7 +138,7 @@ internal abstract class NodeBase : IFormNode
 	internal void UseExtension(IFormNodeExtension extension) => _extensions.Add(extension);
 
 	/// <inheritdoc />
-	public void SetValidationError(string id, string error) => _validationErrorsById[id] = error;
+	public void SetValidationError(string id, string error) => _validationErrorsByKey[id] = error;
 
 	/// <inheritdoc />
 	public virtual object Clone()
@@ -151,7 +151,7 @@ internal abstract class NodeBase : IFormNode
 		clone._visibility = (ResettableProperty<bool>)_visibility.Clone();
 		clone._readonly = (ResettableProperty<bool>)_readonly.Clone();
 		clone._valid = (ResettableProperty<bool>)_valid.Clone();
-		clone._validationErrorsById = _validationErrorsById.ToDictionary(error => error.Key, error => error.Value);
+		clone._validationErrorsByKey = _validationErrorsByKey.ToDictionary(error => error.Key, error => error.Value);
 
 		// Do not clone stateless decorators.
 		clone.VisibilityCondition = VisibilityCondition;
@@ -163,9 +163,9 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public void RemoveValidationError(string id)
 	{
-		if (_validationErrorsById.ContainsKey(id))
+		if (_validationErrorsByKey.ContainsKey(id))
 		{
-			_validationErrorsById.Remove(id);
+			_validationErrorsByKey.Remove(id);
 		}
 	}
 
@@ -176,7 +176,7 @@ internal abstract class NodeBase : IFormNode
 		_visibility.Reset();
 		_readonly.Reset();
 		_valid.Reset();
-		_validationErrorsById.Clear();
+		_validationErrorsByKey.Clear();
 	}
 
 	/// <inheritdoc />
@@ -239,7 +239,7 @@ internal abstract class NodeBase : IFormNode
 		else
 		{
 			// Visible Nodes are valid if they have no validation errors.
-			IsValid = !ValidationErrors.Any();
+			IsValid = ValidationErrorsByKey.Count == 0;
 		}
 	}
 
@@ -351,7 +351,7 @@ internal abstract class NodeBase : IFormNode
 	{
 		// Reset validation to true.
 		_valid.Reset();
-		_validationErrorsById.Clear();
+		_validationErrorsByKey.Clear();
 
 		// Validate and collect validation errors.
 		foreach (var validator in NodeValidators)
@@ -360,7 +360,7 @@ internal abstract class NodeBase : IFormNode
 		}
 
 		// If there are validation errors the node is not valid.
-		if (_validationErrorsById.Count > 0)
+		if (_validationErrorsByKey.Count > 0)
 		{
 			IsValid = false;
 		}
@@ -370,7 +370,7 @@ internal abstract class NodeBase : IFormNode
 	{
 		// Reset validation to true.
 		_valid.Reset();
-		_validationErrorsById.Clear();
+		_validationErrorsByKey.Clear();
 
 		// Validate and collect validation errors.
 		foreach (var validator in NodeValidators)
@@ -379,7 +379,7 @@ internal abstract class NodeBase : IFormNode
 		}
 
 		// If there are validation errors the node is not valid.
-		if (_validationErrorsById.Count > 0)
+		if (_validationErrorsByKey.Count > 0)
 		{
 			IsValid = false;
 		}
