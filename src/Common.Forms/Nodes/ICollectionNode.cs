@@ -1,7 +1,5 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
-using RobinEpple.Common.Forms.Binding;
-
 /// <summary>
 /// This interface represents a collection of subsections in the form.<br/>
 /// Subsections may be polymorphic by providing multiple templates.
@@ -17,11 +15,6 @@ public interface ICollectionNode : IParentNode
 	/// The list of instances in this collection.
 	/// </summary>
 	public IEnumerable<IForm> Instances { get; }
-
-	/// <summary>
-	/// Optional binding to load the state from and save changes to.
-	/// </summary>
-	public ICollectionNodeBinding? Binding { get; }
 
 	/// <summary>
 	/// Creates a new instance of the given template.

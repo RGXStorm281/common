@@ -79,16 +79,16 @@ public class Cloning
 			.WithCollectionNode(
 				"Collection",
 				(builder, recursiveTemplate) =>
-					builder.UsePreConfiguredTemplate(recursiveTemplate).UseBinding(new MockCollectionBinding())
+					builder.UsePreConfiguredTemplate(recursiveTemplate).UseBinding(new MockBinding())
 			)
 			.WithNumberNode(
 				"Number",
-				fieldBuilder => fieldBuilder.UseFormatter(new TestEuroFormatter()).UseBinding(new MockFieldBinding())
+				fieldBuilder => fieldBuilder.UseFormatter(new TestEuroFormatter()).UseBinding(new MockBinding())
 			)
 			.WithTemplatedSection(
 				"TemplatedSection",
 				(builder, recursiveTemplate) =>
-					builder.UsePreConfiguredTemplate(recursiveTemplate).UseBinding(new MockTemplateBinding())
+					builder.UsePreConfiguredTemplate(recursiveTemplate).UseBinding(new MockBinding())
 			)
 			.UseVisibilityCondition(new FalseMockCondition())
 			.UseValidator(new ValidMockValidator())

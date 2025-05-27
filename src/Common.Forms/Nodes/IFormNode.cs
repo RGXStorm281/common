@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
@@ -140,6 +141,25 @@ public interface IFormNode : ICloneable
 	/// </summary>
 	/// <param name="tag">The name of the tag.</param>
 	public void RemoveTag(string tag);
+
+	#endregion
+
+	#region binding
+
+	/// <summary>
+	/// Optional binding to load the state from and save changes to.
+	/// </summary>
+	public IFormNodeBinding? Binding { get; }
+
+	/// <summary>
+	/// Recursively loads the values from all bindings in this part of the form into the nodes.
+	/// </summary>
+	public void LoadFromBinding();
+
+	/// <summary>
+	/// Recursively writes all node values in this part of the form back to the model binding.
+	/// </summary>
+	public void WriteToBinding();
 
 	#endregion
 

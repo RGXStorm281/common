@@ -1,6 +1,5 @@
 namespace RobinEpple.Common.Forms.Building;
 
-using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
@@ -8,13 +7,6 @@ internal class CollectionNodeBuilder : NodeBuilder<ICollectionNodeBuilder, Colle
 {
 	public CollectionNodeBuilder(CollectionNode node)
 		: base(node) { }
-
-	/// <inheritdoc />
-	public ICollectionNodeBuilder UseBinding(ICollectionNodeBinding binding)
-	{
-		Node.UseBinding(binding);
-		return CastThis();
-	}
 
 	/// <inheritdoc />
 	public ICollectionNodeBuilder UsePreConfiguredTemplate(IForm template)

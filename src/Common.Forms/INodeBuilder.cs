@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms;
 
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
@@ -60,4 +61,12 @@ public interface INodeBuilder<TSpecificNodeBuilder>
 	/// <param name="extension">The extension.</param>
 	/// <returns>The node builder to add further configurations.</returns>
 	public TSpecificNodeBuilder UseExtension(IFormNodeExtension extension);
+
+	/// <summary>
+	/// Configures the node to bind to a model.<br/>
+	/// Only one can be used per node.
+	/// </summary>
+	/// <param name="binding">The binding to pull and push changes from and to some model.</param>
+	/// <returns>The builder to add further configurations.</returns>
+	public TSpecificNodeBuilder UseBinding(IFormNodeBinding binding);
 }

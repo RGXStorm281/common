@@ -81,9 +81,12 @@
 
 ## Binding
 
--   should map values 1:1 to a property
--   should do auto cast (e.g. decimal to double) implicit conversion operators and constructor conversion
--   should be able to create items for list entries
+-   should do auto cast (e.g. decimal to double), implicit conversion operators and constructor conversion
+-   should map between field values and static properties
+-   should map between collections and basic type lists (e.g. List<string>)
+-   should map between templated sections and collections and object (lists)
+    -   discriminator for loading existing objects
+    -   factory for each template
 
 ## Web Input Loader
 
@@ -92,7 +95,7 @@
 ## Field Renderers
 
 -   as little dependencies as necessary
--   css/js only for layouting and functinality
+-   css/js only for layouting and functionality
 -   styling is task of the wrapping page
 -   should support selection lists
 
@@ -102,7 +105,7 @@
 -   tabs
 -   split panels
 -   collapsable sections
--   css/js only for layouting and functinality
+-   css/js only for layouting and functionality
 -   styling is task of the wrapping page
 
 ## Web Responsive Panels
@@ -113,7 +116,7 @@
 -   all the processing happens on the server
 -   the current state is then rendered into html
 -   signal button presses and form input changes to the server
--   recieve updated html
+-   receive updated html
 -   sync to existing html in java script:
     -   remove/add nodes
     -   remove/add attributes

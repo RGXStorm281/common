@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
@@ -140,6 +141,11 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public IReadOnlyDictionary<string, object?> Tags => _tags;
 
+	/// <inheritdoc />
+	public IFormNodeBinding? Binding { get; private set; }
+
+	internal void UseBinding(IFormNodeBinding binding) => Binding = binding;
+
 	internal void UseExtension(IFormNodeExtension extension) => _extensions.Add(extension);
 
 	/// <inheritdoc />
@@ -160,6 +166,7 @@ internal abstract class NodeBase : IFormNode
 		clone._tags = _tags.ToDictionary(tag => tag.Key, tag => tag.Value);
 
 		// Do not clone stateless decorators.
+		clone.Binding = Binding;
 		clone.VisibilityCondition = VisibilityCondition;
 		clone._validators = _validators.ToList();
 		clone._extensions = _extensions.ToList();
@@ -402,4 +409,8 @@ internal abstract class NodeBase : IFormNode
 			_tags.Remove(tag);
 		}
 	}
+
+	public void LoadFromBinding() => throw new NotImplementedException();
+
+	public void WriteToBinding() => throw new NotImplementedException();
 }

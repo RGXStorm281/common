@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms;
 
 using System.Globalization;
 using System.Text.RegularExpressions;
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Building;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
@@ -24,14 +25,14 @@ public class FormBuilder : IFormBuilder
 	/// <param name="defaultFormatCulture">The culture to use for default formatting. If <see langword="null"/>, "de-DE" is used.</param>
 	public FormBuilder(string name, CultureInfo? defaultFormatCulture = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		_form = new Form(name, null);
 		_defaultFormatCulture = defaultFormatCulture ?? new CultureInfo("de-DE");
 	}
 
 	private static Regex? _invalidCharRegex;
 
-	private void _validateName(string name)
+	private void ValidateName(string name)
 	{
 		_invalidCharRegex ??= new Regex($"[^{IFormBuilder.ValidNameCharacters}]", RegexOptions.Compiled);
 		if (_invalidCharRegex.IsMatch(name))
@@ -43,7 +44,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithBooleanNode(string name, IFormBuilder.BooleanFieldBuilder? configure = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		var node = new BooleanNode(name, _form);
 		var builder = new BooleanNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -54,7 +55,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithCollectionNode(string name, IFormBuilder.CollectionBuilder? configure = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		var node = new CollectionNode(name, _form);
 		var builder = new CollectionNodeBuilder(node);
 		configure?.Invoke(builder, _form);
@@ -65,7 +66,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithFileNode(string name, IFormBuilder.FileFieldBuilder? configure = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		var node = new FileNode(name, _form);
 		var builder = new FileNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -76,7 +77,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithNumberNode(string name, IFormBuilder.NumberFieldBuilder? configure = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		var node = new NumberNode(name, _form, _defaultFormatCulture);
 		var builder = new NumberNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -87,7 +88,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithTemplatedSection(string name, IFormBuilder.TemplatedSectionBuilder? configure = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		var node = new TemplateNode(name, _form);
 		var builder = new TemplateNodeBuilder(node);
 		configure?.Invoke(builder, _form);
@@ -98,7 +99,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithTextNode(string name, IFormBuilder.TextFieldBuilder? configure = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		var node = new TextNode(name, _form);
 		var builder = new TextNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -109,7 +110,7 @@ public class FormBuilder : IFormBuilder
 	/// <inheritdoc/>
 	public IFormBuilder WithTimestampNode(string name, IFormBuilder.TimestampFieldBuilder? configure = null)
 	{
-		_validateName(name);
+		ValidateName(name);
 		var node = new TimestampNode(name, _form, _defaultFormatCulture);
 		var builder = new TimestampNodeBuilder(node);
 		configure?.Invoke(builder);
@@ -167,6 +168,13 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder UseValidator(INodeValidator validator)
 	{
 		_form.UseValidator(validator);
+		return this;
+	}
+
+	/// <inheritdoc/>
+	public IFormBuilder UseBinding(IFormNodeBinding binding)
+	{
+		_form.UseBinding(binding);
 		return this;
 	}
 }

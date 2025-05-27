@@ -1,7 +1,5 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
-using RobinEpple.Common.Forms.Binding;
-
 /// <summary>
 /// This interface represents an (optional) subsection in the form.<br/>
 /// The subsection may be polymorphic by providing multiple templates.
@@ -17,11 +15,6 @@ public interface ITemplateNode : IParentNode
 	/// The current instance, if it exists.
 	/// </summary>
 	public IForm? Instance { get; }
-
-	/// <summary>
-	/// Optional binding to load the state from and save changes to.
-	/// </summary>
-	public ITemplateNodeBinding? Binding { get; }
 
 	/// <summary>
 	/// Creates a new instance of the given template.

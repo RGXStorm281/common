@@ -94,11 +94,6 @@ internal class TemplateNode : NodeBase, ITemplateNode
 	public IForm? Instance { get; private set; }
 
 	/// <inheritdoc />
-	public ITemplateNodeBinding? Binding { get; private set; }
-
-	internal void UseBinding(ITemplateNodeBinding binding) => Binding = binding;
-
-	/// <inheritdoc />
 	public void Clear()
 	{
 		Instance = null;
@@ -130,8 +125,6 @@ internal class TemplateNode : NodeBase, ITemplateNode
 		clone.Instance = (IForm?)Instance?.Clone();
 		clone.Instance?.ChangeParent(clone);
 
-		// Do not clone stateless decorators.
-		clone.Binding = Binding;
 		return clone;
 	}
 

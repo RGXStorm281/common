@@ -15,11 +15,6 @@ internal class FieldNode : NodeBase, IFieldNode
 	public bool HasUserInteraction { get; set; }
 
 	/// <inheritdoc />
-	public IFieldNodeBinding? Binding { get; private set; }
-
-	internal void UseBinding(IFieldNodeBinding binding) => Binding = binding;
-
-	/// <inheritdoc />
 	public IValueFormatter Formatter { get; private set; }
 
 	internal void UseFormatter(IValueFormatter formatter) => Formatter = formatter;
@@ -45,7 +40,6 @@ internal class FieldNode : NodeBase, IFieldNode
 		clone.HasUserInteraction = HasUserInteraction;
 
 		// Do not clone stateless decorators.
-		clone.Binding = Binding;
 		clone.Formatter = Formatter;
 		return clone;
 	}

@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Building;
 
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
@@ -68,6 +69,13 @@ internal abstract class NodeBuilder<TSpecificNodeBuilder, TNode> : INodeBuilder<
 	public TSpecificNodeBuilder UseValidator(INodeValidator validator)
 	{
 		Node.UseValidator(validator);
+		return CastThis();
+	}
+
+	/// <inheritdoc />
+	public TSpecificNodeBuilder UseBinding(IFormNodeBinding binding)
+	{
+		Node.UseBinding(binding);
 		return CastThis();
 	}
 }

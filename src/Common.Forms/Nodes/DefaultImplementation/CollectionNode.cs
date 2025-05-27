@@ -100,11 +100,6 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	public IEnumerable<IForm> Instances => _instances;
 
 	/// <inheritdoc />
-	public ICollectionNodeBinding? Binding { get; private set; }
-
-	internal void UseBinding(ICollectionNodeBinding binding) => Binding = binding;
-
-	/// <inheritdoc />
 	public string GetChildId(IFormNode child)
 	{
 		if (child is not IForm instance)
@@ -223,8 +218,6 @@ internal class CollectionNode : NodeBase, ICollectionNode
 			clonedChild.ChangeParent(clone);
 		}
 
-		// Do not clone stateless decorators.
-		clone.Binding = Binding;
 		return clone;
 	}
 
