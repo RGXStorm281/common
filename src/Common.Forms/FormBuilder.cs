@@ -15,7 +15,7 @@ using RobinEpple.Common.Forms.Validation;
 /// </summary>
 public class FormBuilder : IFormBuilder
 {
-	private Form _form;
+	internal Form Form { get; }
 	private readonly CultureInfo _defaultFormatCulture;
 
 	/// <summary>
@@ -26,7 +26,20 @@ public class FormBuilder : IFormBuilder
 	public FormBuilder(string name, CultureInfo? defaultFormatCulture = null)
 	{
 		ValidateName(name);
-		_form = new Form(name, null);
+		Form = new Form(name, null);
+		_defaultFormatCulture = defaultFormatCulture ?? new CultureInfo("de-DE");
+	}
+
+	/// <summary>
+	/// Instantiates a new form builder.
+	/// </summary>
+	/// <param name="name">The name of the root form.</param>
+	/// <param name="parent">The parent node for the built form.</param>
+	/// <param name="defaultFormatCulture">The culture to use for default formatting. If <see langword="null"/>, "de-DE" is used.</param>
+	internal FormBuilder(string name, IParentNode parent, CultureInfo? defaultFormatCulture = null)
+	{
+		ValidateName(name);
+		Form = new Form(name, parent);
 		_defaultFormatCulture = defaultFormatCulture ?? new CultureInfo("de-DE");
 	}
 
@@ -45,10 +58,10 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder WithBooleanNode(string name, IFormBuilder.BooleanFieldBuilder? configure = null)
 	{
 		ValidateName(name);
-		var node = new BooleanNode(name, _form);
+		var node = new BooleanNode(name, Form);
 		var builder = new BooleanNodeBuilder(node);
 		configure?.Invoke(builder);
-		_form.AddNode(node);
+		Form.AddNode(node);
 		return this;
 	}
 
@@ -56,10 +69,10 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder WithCollectionNode(string name, IFormBuilder.CollectionBuilder? configure = null)
 	{
 		ValidateName(name);
-		var node = new CollectionNode(name, _form);
+		var node = new CollectionNode(name, Form);
 		var builder = new CollectionNodeBuilder(node);
-		configure?.Invoke(builder, _form);
-		_form.AddNode(node);
+		configure?.Invoke(builder, Form);
+		Form.AddNode(node);
 		return this;
 	}
 
@@ -67,10 +80,10 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder WithFileNode(string name, IFormBuilder.FileFieldBuilder? configure = null)
 	{
 		ValidateName(name);
-		var node = new FileNode(name, _form);
+		var node = new FileNode(name, Form);
 		var builder = new FileNodeBuilder(node);
 		configure?.Invoke(builder);
-		_form.AddNode(node);
+		Form.AddNode(node);
 		return this;
 	}
 
@@ -78,10 +91,10 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder WithNumberNode(string name, IFormBuilder.NumberFieldBuilder? configure = null)
 	{
 		ValidateName(name);
-		var node = new NumberNode(name, _form, _defaultFormatCulture);
+		var node = new NumberNode(name, Form, _defaultFormatCulture);
 		var builder = new NumberNodeBuilder(node);
 		configure?.Invoke(builder);
-		_form.AddNode(node);
+		Form.AddNode(node);
 		return this;
 	}
 
@@ -89,10 +102,10 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder WithTemplatedSection(string name, IFormBuilder.TemplatedSectionBuilder? configure = null)
 	{
 		ValidateName(name);
-		var node = new TemplateNode(name, _form);
+		var node = new TemplateNode(name, Form);
 		var builder = new TemplateNodeBuilder(node);
-		configure?.Invoke(builder, _form);
-		_form.AddNode(node);
+		configure?.Invoke(builder, Form);
+		Form.AddNode(node);
 		return this;
 	}
 
@@ -100,10 +113,10 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder WithTextNode(string name, IFormBuilder.TextFieldBuilder? configure = null)
 	{
 		ValidateName(name);
-		var node = new TextNode(name, _form);
+		var node = new TextNode(name, Form);
 		var builder = new TextNodeBuilder(node);
 		configure?.Invoke(builder);
-		_form.AddNode(node);
+		Form.AddNode(node);
 		return this;
 	}
 
@@ -111,70 +124,93 @@ public class FormBuilder : IFormBuilder
 	public IFormBuilder WithTimestampNode(string name, IFormBuilder.TimestampFieldBuilder? configure = null)
 	{
 		ValidateName(name);
-		var node = new TimestampNode(name, _form, _defaultFormatCulture);
+		var node = new TimestampNode(name, Form, _defaultFormatCulture);
 		var builder = new TimestampNodeBuilder(node);
 		configure?.Invoke(builder);
-		_form.AddNode(node);
+		Form.AddNode(node);
 		return this;
 	}
 
 	/// <inheritdoc/>
-	public IForm Build() => _form;
+	public IForm Build() => Form;
 
 	/// <inheritdoc/>
 	public IFormBuilder UseDefaultReadonly(bool isReadonly)
 	{
-		_form.ReplaceDefaultReadonly(isReadonly);
+		Form.ReplaceDefaultReadonly(isReadonly);
 		return this;
 	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseDefaultVisibility(bool isVisible)
 	{
-		_form.ReplaceDefaultVisibility(isVisible);
+		Form.ReplaceDefaultVisibility(isVisible);
 		return this;
 	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseVisibilityCondition(IFormExpression<bool> condition)
 	{
-		_form.UseVisibilityCondition(condition);
+		Form.UseVisibilityCondition(condition);
 		return this;
 	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseReadonlyCondition(IFormExpression<bool> condition)
 	{
-		_form.UseReadonlyCondition(condition);
+		Form.UseReadonlyCondition(condition);
 		return this;
 	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseExtension(IFormNodeExtension extension)
 	{
-		_form.UseExtension(extension);
+		Form.UseExtension(extension);
 		return this;
 	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseLabel(string label)
 	{
-		_form.Label = label;
-		_form.ReplaceDefaultLabel(label);
+		Form.Label = label;
+		Form.ReplaceDefaultLabel(label);
 		return this;
 	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseValidator(INodeValidator validator)
 	{
-		_form.UseValidator(validator);
+		Form.UseValidator(validator);
 		return this;
 	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseBinding(IFormNodeBinding binding)
 	{
-		_form.UseBinding(binding);
+		Form.UseBinding(binding);
+		return this;
+	}
+
+	/// <inheritdoc/>
+	public IFormBuilder WithNode(IFormNode node)
+	{
+		Form.AddNode(node);
+		return this;
+	}
+
+	/// <inheritdoc/>
+	public IFormBuilder WithSubForm(string name, IFormBuilder.SubFormBuilder? configure = null)
+	{
+		var builder = new FormBuilder(name, Form);
+		configure?.Invoke(builder, Form);
+		Form.AddNode(builder.Form);
+		return this;
+	}
+
+	/// <inheritdoc/>
+	public IFormBuilder WithPreConfiguredSubForm(IFormNode subForm)
+	{
+		Form.AddNode(subForm);
 		return this;
 	}
 }

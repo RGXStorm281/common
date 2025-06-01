@@ -21,9 +21,9 @@ internal class TemplateNodeBuilder : NodeBuilder<ITemplateNodeBuilder, TemplateN
 		ITemplatedNodeBuilder<ITemplateNodeBuilder>.TemplateBuilder? configure = null
 	)
 	{
-		var builder = new FormBuilder(name);
+		var builder = new FormBuilder(name, Node);
 		configure?.Invoke(builder);
-		Node.UseTemplate(builder.Build());
+		Node.UseTemplate(builder.Form);
 		return CastThis();
 	}
 

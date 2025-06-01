@@ -21,9 +21,9 @@ internal class CollectionNodeBuilder : NodeBuilder<ICollectionNodeBuilder, Colle
 		ITemplatedNodeBuilder<ICollectionNodeBuilder>.TemplateBuilder? configure = null
 	)
 	{
-		var builder = new FormBuilder(name);
+		var builder = new FormBuilder(name, Node);
 		configure?.Invoke(builder);
-		Node.UseTemplate(builder.Build());
+		Node.UseTemplate(builder.Form);
 		return CastThis();
 	}
 
