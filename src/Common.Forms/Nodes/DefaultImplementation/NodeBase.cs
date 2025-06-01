@@ -6,6 +6,7 @@ using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
+using RobinEpple.Common.Forms.Visitors;
 
 internal abstract class NodeBase : IFormNode
 {
@@ -224,36 +225,23 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public virtual async Task UpdateAsync()
 	{
-		if (Parent != null && !Parent.IsVisible)
-		{
-			// If the parent of this node is not visible, this node is also not visible.
-			// That manual changes get lost is an accepted behavior.
-			IsVisible = false;
-		}
-		else if (VisibilityCondition != null)
-		{
-			// If the node does not have a parent or the parent is visible
-			// visibility is determined by the visibility condition (if set)
-			// or stays at the value defined externally.
-			IsVisible = await VisibilityCondition.EvaluateOnAsync(this);
-		}
+		CallExtensionEvent(extension => extension.OnBeforeReadonlyStateEvaluation(this));
+		await UpdateReadonlyStateAsync();
+		CallExtensionEvent(extension => extension.OnAfterReadonlyStateEvaluation(this));
 
-		// Run all validators.
-		foreach (var validator in _validators)
-		{
-			await validator.ValidateAsync(this);
-		}
+		CallExtensionEvent(extension => extension.OnBeforeVisibilityEvaluation(this));
+		await UpdateVisibilityAsync();
+		CallExtensionEvent(extension => extension.OnAfterVisibilityEvaluation(this));
 
 		if (!IsVisible)
 		{
-			// Invisible Nodes are always valid.
 			IsValid = true;
+			return;
 		}
-		else
-		{
-			// Visible Nodes are valid if they have no validation errors.
-			IsValid = ValidationErrorsByKey.Count == 0;
-		}
+
+		CallExtensionEvent(extension => extension.OnBeforeValidation(this));
+		await ValidateAsync();
+		CallExtensionEvent(extension => extension.OnAfterValidation(this));
 	}
 
 	private void CallExtensionEvent(Action<IFormNodeExtension> callEvent)
@@ -410,7 +398,17 @@ internal abstract class NodeBase : IFormNode
 		}
 	}
 
-	public void LoadFromBinding() => throw new NotImplementedException();
+	/// <inheritdoc />
+	public void LoadFromBinding()
+	{
+		var loader = new BindingLoader();
+		loader.Visit(this);
+	}
 
-	public void WriteToBinding() => throw new NotImplementedException();
+	/// <inheritdoc />
+	public void WriteToBinding()
+	{
+		var writer = new BindingWriter();
+		writer.Visit(this);
+	}
 }
