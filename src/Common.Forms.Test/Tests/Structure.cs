@@ -222,7 +222,7 @@ public sealed class Structure
 									.WithBooleanNode("Boolean", node => node.UseExtension(new MockExtension()))
 						)
 			)
-			.WithSubForm(
+			.WithSection(
 				"SubForm",
 				(builder, _) =>
 					builder

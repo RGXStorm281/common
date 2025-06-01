@@ -5,7 +5,7 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="ehLcireyNiJCKMFaZYGp-1" value="IFormNodeBinding" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="279" y="140" width="270" height="104" as="geometry" />
+          <mxGeometry x="279" y="117" width="270" height="104" as="geometry" />
         </mxCell>
         <mxCell id="ehLcireyNiJCKMFaZYGp-2" value="+ LoadFromModel(node: IFormNode)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="ehLcireyNiJCKMFaZYGp-1" vertex="1">
           <mxGeometry y="26" width="270" height="26" as="geometry" />
@@ -68,13 +68,13 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="ehLcireyNiJCKMFaZYGp-75" value="InstanceModelExtension&amp;lt;TInstanceModel&amp;gt;" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="1" vertex="1">
-          <mxGeometry x="650" y="205" width="300" height="52" as="geometry" />
+          <mxGeometry x="670" y="127" width="300" height="52" as="geometry" />
         </mxCell>
         <mxCell id="ehLcireyNiJCKMFaZYGp-76" value="+ OnInitialize(IFormNode node)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="ehLcireyNiJCKMFaZYGp-75" vertex="1">
           <mxGeometry y="26" width="300" height="26" as="geometry" />
         </mxCell>
         <mxCell id="ehLcireyNiJCKMFaZYGp-80" value="An extension takes care of instantiating and registering an instance model on creation of a node (e.g instantiating a template node)." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;spacing=0;size=18;align=left;verticalAlign=top;spacingLeft=11;spacingTop=5;spacingBottom=5;spacingRight=20;" parent="1" vertex="1">
-          <mxGeometry x="960" y="188" width="190" height="86" as="geometry" />
+          <mxGeometry x="1000" y="110" width="190" height="86" as="geometry" />
         </mxCell>
         <mxCell id="ehLcireyNiJCKMFaZYGp-85" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=block;endFill=0;" parent="1" source="ehLcireyNiJCKMFaZYGp-81" target="ehLcireyNiJCKMFaZYGp-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -223,10 +223,13 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="fD40m8cDAdjx-aawhKQK-61" value="IFormBuilder" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-2010" y="100" width="510" height="80" as="geometry" />
+          <mxGeometry x="-2010" y="100" width="510" height="110" as="geometry" />
         </mxCell>
         <mxCell id="fD40m8cDAdjx-aawhKQK-62" value="+ UseInstanceModel&amp;lt;TModel&amp;gt;(&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Func&amp;lt;TModel&amp;gt; instanceFactory,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;out InstanceBindingFactory&amp;lt;TModel&amp;gt; bindingFactory): IFormBuilder&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="fD40m8cDAdjx-aawhKQK-61" vertex="1">
           <mxGeometry y="26" width="510" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="O8Xhf626DZxDdKNhFOY2-8" value="+ UseSingleFieldModel&amp;lt;TModel&amp;gt;(fieldName: string&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;): IFormBuilder&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="fD40m8cDAdjx-aawhKQK-61">
+          <mxGeometry y="80" width="510" height="30" as="geometry" />
         </mxCell>
         <mxCell id="fD40m8cDAdjx-aawhKQK-65" value="InstanceBindingFactory&amp;lt;TModel&amp;gt;" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="1" vertex="1">
           <mxGeometry x="-10" y="640" width="550" height="844" as="geometry" />
@@ -296,6 +299,24 @@
         </mxCell>
         <mxCell id="fD40m8cDAdjx-aawhKQK-88" value="Searches up the form tree for the node with the given name, that contains a transient model as a tag and accesses executes the getter/setter on that model." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;spacing=0;size=18;align=left;verticalAlign=top;spacingLeft=11;spacingTop=5;spacingBottom=5;spacingRight=20;" parent="1" vertex="1">
           <mxGeometry x="1110" y="725" width="170" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="O8Xhf626DZxDdKNhFOY2-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="O8Xhf626DZxDdKNhFOY2-2" target="ehLcireyNiJCKMFaZYGp-72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O8Xhf626DZxDdKNhFOY2-2" value="SingleFieldModelExtension&amp;lt;TInstanceModel&amp;gt;" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" vertex="1" parent="1">
+          <mxGeometry x="670" y="234" width="300" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="O8Xhf626DZxDdKNhFOY2-3" value="+ OnAfterLoadFromModel(IFormNode node)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" vertex="1" parent="O8Xhf626DZxDdKNhFOY2-2">
+          <mxGeometry y="26" width="300" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O8Xhf626DZxDdKNhFOY2-5" value="+ OnBeforeWriteToModel(IFormNode node)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" vertex="1" parent="O8Xhf626DZxDdKNhFOY2-2">
+          <mxGeometry y="52" width="300" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O8Xhf626DZxDdKNhFOY2-6" value="+ OnBeforeUpdate(IFormNode node)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" vertex="1" parent="O8Xhf626DZxDdKNhFOY2-2">
+          <mxGeometry y="78" width="300" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="O8Xhf626DZxDdKNhFOY2-7" value="This extension basically mirrors the model value to a single field in the template. This e.g. allows for an easy representation of a string list as a list of string inputs" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;spacing=0;size=18;align=left;verticalAlign=top;spacingLeft=11;spacingTop=5;spacingBottom=5;spacingRight=20;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="243" width="190" height="86" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

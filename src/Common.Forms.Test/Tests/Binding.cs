@@ -588,4 +588,56 @@ public class Binding
 		Assert.AreEqual(model.CollectionProperty.First(), 4);
 		Assert.AreEqual(model.SectionProperty, 5);
 	}
+
+	[TestMethod]
+	public void SingleFieldModel_ShouldSyncToTheFieldValue()
+	{
+		var model = new BindingModel();
+
+		// initialize properties.
+		model.CollectionProperty = [1, 2];
+		model.SectionProperty = 3;
+
+		var form = new FormBuilder("Test")
+			.WithCollectionNode(
+				"Collection",
+				(node, _) =>
+					node.UsePropertyBinding(() => model.CollectionProperty)
+						.UseTemplate(
+							"Template",
+							template => template.UseSingleFieldModel<int?>("IntField").WithNumberNode("IntField")
+						)
+			)
+			.WithTemplatedSection(
+				"Section",
+				(node, _) =>
+					node.UsePropertyBinding(() => model.CollectionProperty)
+						.UseTemplate(
+							"Template",
+							template => template.UseSingleFieldModel<int?>("IntField").WithNumberNode("IntField")
+						)
+			)
+			.Build();
+
+		var collectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "Collection");
+		var sectionNode = (ITemplateNode)form.Nodes.First(node => node.Name == "Section");
+
+		// Load the state from the model.
+		form.LoadFromBinding();
+		var collectionField1 = (INumberNode)collectionNode.Instances.First().FindNode("IntField")!;
+		var collectionField2 = (INumberNode)collectionNode.Instances.Skip(1).First().FindNode("IntField")!;
+		var sectionField = (INumberNode)sectionNode.Instance!.FindNode("IntField")!;
+		Assert.AreEqual(collectionField1.Value, 1);
+		Assert.AreEqual(collectionField2.Value, 2);
+		Assert.AreEqual(sectionField.Value, 3);
+
+		// Alter the state in the form and write back.
+		collectionField1.Value = 42;
+		collectionField2.Value = 42;
+		sectionField.Value = 42;
+		form.WriteToBinding();
+		Assert.AreEqual(model.CollectionProperty.First(), 42);
+		Assert.AreEqual(model.CollectionProperty.Skip(1).First(), 42);
+		Assert.AreEqual(model.SectionProperty, 42);
+	}
 }

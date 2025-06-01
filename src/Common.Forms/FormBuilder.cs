@@ -205,7 +205,7 @@ public class FormBuilder : IFormBuilder
 	}
 
 	/// <inheritdoc/>
-	public IFormBuilder WithSubForm(string name, IFormBuilder.SubFormBuilder? configure = null)
+	public IFormBuilder WithSection(string name, IFormBuilder.SubFormBuilder? configure = null)
 	{
 		var builder = new FormBuilder(name, Form);
 		configure?.Invoke(builder, Form);

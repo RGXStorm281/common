@@ -488,6 +488,16 @@ public static class FormBuilderExtensions
 	) => throw new NotImplementedException();
 
 	/// <summary>
+	/// Defines, that the model for this form is represented in a single field value.
+	/// </summary>
+	/// <typeparam name="TModel">The type of the model (and field value).</typeparam>
+	/// <param name="builder">The node builder to configure with the instance model.</param>
+	/// <param name="fieldName">The name of the inner field that holds the value.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public static IFormBuilder UseSingleFieldModel<TModel>(this IFormBuilder builder, string fieldName) =>
+		throw new NotImplementedException();
+
+	/// <summary>
 	/// Creates a model binding from the custom getter and setter functions.
 	/// </summary>
 	/// <param name="builder">The node builder to append the binding to.</param>

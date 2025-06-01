@@ -27,7 +27,7 @@ public class Visitors
 				(builder, _) =>
 					builder.UseTemplate("SectionTemplate", builder => builder.WithBooleanNode("InstanceBoolean"))
 			)
-			.WithSubForm("SubForm", (builder, _) => builder.WithBooleanNode("SubFormBoolean"))
+			.WithSection("SubForm", (builder, _) => builder.WithBooleanNode("SubFormBoolean"))
 			.Build();
 
 		// Get all nodes.
@@ -102,7 +102,7 @@ public class Visitors
 				(builder, _) =>
 					builder.UseTemplate("SectionTemplate", builder => builder.WithBooleanNode("InstanceBoolean"))
 			)
-			.WithSubForm("SubForm", (builder, _) => builder.WithBooleanNode("SubFormBoolean"))
+			.WithSection("SubForm", (builder, _) => builder.WithBooleanNode("SubFormBoolean"))
 			.Build();
 
 		// Get all nodes.
