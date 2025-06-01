@@ -270,61 +270,55 @@ public class Binding
 			.WithBooleanNode(
 				"Boolean",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.BooleanProperty,
-							(model, value) => model.BooleanProperty = value
-						)
+					node.UseInstanceGetterSetterBinding(
+						instanceBindingFactory,
+						model => model.BooleanProperty,
+						(model, value) => model.BooleanProperty = value
 					)
 			)
 			.WithNumberNode(
 				"Decimal",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.DecimalProperty,
-							(model, value) => model.DecimalProperty = value
-						)
+					node.UseInstanceGetterSetterBinding(
+						instanceBindingFactory,
+						model => model.DecimalProperty,
+						(model, value) => model.DecimalProperty = value
 					)
 			)
 			.WithNumberNode(
 				"Double",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.DoubleProperty,
-							(model, value) => model.DoubleProperty = value
-						)
+					node.UseInstanceGetterSetterBinding(
+						instanceBindingFactory,
+						model => (decimal?)model.DoubleProperty,
+						(model, value) => model.DoubleProperty = (double?)value
 					)
 			)
 			.WithNumberNode(
 				"Float",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.FloatProperty,
-							(model, value) => model.FloatProperty = value
-						)
+					node.UseInstanceGetterSetterBinding(
+						instanceBindingFactory,
+						model => (decimal?)model.FloatProperty,
+						(model, value) => model.FloatProperty = (float?)value
 					)
 			)
 			.WithNumberNode(
 				"Long",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.LongProperty,
-							(model, value) => model.LongProperty = value
-						)
+					node.UseInstanceGetterSetterBinding(
+						instanceBindingFactory,
+						model => model.LongProperty,
+						(model, value) => model.LongProperty = (long?)value
 					)
 			)
 			.WithNumberNode(
 				"Int",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.IntProperty,
-							(model, value) => model.IntProperty = value
-						)
+					node.UseInstanceGetterSetterBinding(
+						instanceBindingFactory,
+						model => model.IntProperty,
+						(model, value) => model.IntProperty = (int?)value
 					)
 			)
 			.WithTextNode(
@@ -377,7 +371,7 @@ public class Binding
 								(model, value) => model.SectionProperty = value
 							)
 						)
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 5, out var _))
+						.UseTemplate("Template", template => template.UseInstanceModel<int?>(() => 5, out var _))
 			)
 			.Build();
 

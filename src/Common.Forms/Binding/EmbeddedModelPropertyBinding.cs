@@ -3,13 +3,13 @@ namespace RobinEpple.Common.Forms.Binding;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 
-public class InstanceModelPropertyAccessor<TModel, TFieldValue, TProperty> : IValueAccessor<TFieldValue>
+public class EmbeddedModelPropertyBinding<TModel, TFieldValue, TProperty> : IValueAccessor<TFieldValue>
 {
 	private readonly string _instanceNodeName;
 	private readonly Func<TModel, TFieldValue> _getter;
 	private readonly Action<TModel, TFieldValue> _setter;
 
-	public InstanceModelPropertyAccessor(string instanceNodeName, Expression<Func<TModel, TProperty>> propertyAccessor)
+	public EmbeddedModelPropertyBinding(string instanceNodeName, Expression<Func<TModel, TProperty>> propertyAccessor)
 	{
 		_getter = BuildGetter(propertyAccessor);
 		_setter = BuildSetter(propertyAccessor);
@@ -76,6 +76,7 @@ public class InstanceModelPropertyAccessor<TModel, TFieldValue, TProperty> : IVa
 				// Target node found.
 				break;
 			}
+			target = target.Parent;
 		}
 
 		// If no target is found, no model can be retrieved.

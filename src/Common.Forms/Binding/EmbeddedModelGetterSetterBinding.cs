@@ -2,12 +2,11 @@ namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
-public class InstanceModelGetterSetterAccessor<TModel, TValue>(
+public class EmbeddedModelGetterSetterBinding<TModel, TValue>(
 	string instanceNodeName,
 	Func<TModel, TValue> getter,
 	Action<TModel, TValue> setter
 ) : IValueAccessor<TValue>
-	where TModel : class
 {
 	private readonly string _instanceNodeName = instanceNodeName;
 
@@ -25,6 +24,7 @@ public class InstanceModelGetterSetterAccessor<TModel, TValue>(
 				// Target node found.
 				break;
 			}
+			target = target.Parent;
 		}
 
 		// If no target is found, no model can be retrieved.

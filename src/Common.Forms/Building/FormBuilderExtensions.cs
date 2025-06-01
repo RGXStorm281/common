@@ -863,4 +863,44 @@ public static class FormBuilderExtensions
 		builder.UseBinding(binding);
 		return builder;
 	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="IBooleanNode"/> using custom getter and setter methods.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="bindingFactory">The binding factory for referencing an instance model.</param>
+	/// <param name="getter">The method loading the value from the model.</param>
+	/// <param name="setter">The method writing the value to the model.</param>
+	/// <returns>The binding.</returns>
+	public static IBooleanNodeBuilder UseInstanceGetterSetterBinding<TModel>(
+		this IBooleanNodeBuilder builder,
+		InstanceBindingFactory<TModel> bindingFactory,
+		Func<TModel, bool?> getter,
+		Action<TModel, bool?> setter
+	)
+	{
+		var binding = bindingFactory.CreateGetterSetterBinding(getter, setter);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="INumberNodeBuilder"/> using custom getter and setter methods.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="bindingFactory">The binding factory for referencing an instance model.</param>
+	/// <param name="getter">The method loading the value from the model.</param>
+	/// <param name="setter">The method writing the value to the model.</param>
+	/// <returns>The binding.</returns>
+	public static INumberNodeBuilder UseInstanceGetterSetterBinding<TModel>(
+		this INumberNodeBuilder builder,
+		InstanceBindingFactory<TModel> bindingFactory,
+		Func<TModel, decimal?> getter,
+		Action<TModel, decimal?> setter
+	)
+	{
+		var binding = bindingFactory.CreateGetterSetterBinding(getter, setter);
+		builder.UseBinding(binding);
+		return builder;
+	}
 }
