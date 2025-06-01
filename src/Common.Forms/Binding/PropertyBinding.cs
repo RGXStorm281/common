@@ -3,6 +3,11 @@ namespace RobinEpple.Common.Forms.Binding;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// Binds a field node to a property in an external model, that can be defined statically at form building time.
+/// </summary>
+/// <typeparam name="TFieldValue">The value type of the field node.</typeparam>
+/// <typeparam name="TProperty">The type of the property to bind to.</typeparam>
 public class PropertyBinding<TFieldValue, TProperty> : IFormNodeBinding
 {
 	private readonly Func<TFieldValue> _getter;
