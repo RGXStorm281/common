@@ -8,12 +8,12 @@ using RobinEpple.Common.Forms.Nodes;
 /// </summary>
 /// <typeparam name="TFieldValue">The value type of the field node.</typeparam>
 /// <typeparam name="TProperty">The type of the property to bind to.</typeparam>
-public class PropertyBinding<TFieldValue, TProperty> : IFormNodeBinding
+public class PropertyAccessor<TFieldValue, TProperty> : IValueAccessor<TFieldValue>
 {
 	private readonly Func<TFieldValue> _getter;
 	private readonly Action<TFieldValue> _setter;
 
-	public PropertyBinding(Expression<Func<TProperty>> propertyAccessor)
+	public PropertyAccessor(Expression<Func<TProperty>> propertyAccessor)
 	{
 		// Compile the getter and setter expressions
 		_getter = BuildGetter(propertyAccessor);
@@ -70,28 +70,8 @@ public class PropertyBinding<TFieldValue, TProperty> : IFormNodeBinding
 	}
 
 	/// <inheritdoc />
-	public void LoadFromModel(IFormNode node)
-	{
-		if (node is not IValueNode<TFieldValue> valueNode)
-		{
-			throw new InvalidOperationException(
-				$"The getter setter binding for value type '{typeof(TFieldValue).Name}' can only be used on IValueNodes with the same value type."
-			);
-		}
-
-		valueNode.Value = _getter();
-	}
+	public TFieldValue GetValue(IFormNode node) => _getter();
 
 	/// <inheritdoc />
-	public void WriteToModel(IFormNode node)
-	{
-		if (node is not IValueNode<TFieldValue> valueNode)
-		{
-			throw new InvalidOperationException(
-				$"The getter setter binding for value type '{typeof(TFieldValue).Name}' can only be used on IValueNodes with the same value type."
-			);
-		}
-
-		_setter(valueNode.Value);
-	}
+	public void SetValue(TFieldValue value, IFormNode node) => _setter(value);
 }
