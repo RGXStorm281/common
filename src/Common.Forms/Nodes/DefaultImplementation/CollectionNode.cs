@@ -118,7 +118,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public void Instantiate(IForm template)
+	public IForm Instantiate(IForm template)
 	{
 		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
 		{
@@ -132,10 +132,11 @@ internal class CollectionNode : NodeBase, ICollectionNode
 
 		var initializer = new NodeInitializer();
 		initializer.Visit(child);
+		return child;
 	}
 
 	/// <inheritdoc />
-	public async Task InstantiateAsync(IForm template)
+	public async Task<IForm> InstantiateAsync(IForm template)
 	{
 		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
 		{
@@ -149,6 +150,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 
 		var initializer = new NodeInitializer();
 		initializer.Visit(child);
+		return child;
 	}
 
 	/// <inheritdoc />

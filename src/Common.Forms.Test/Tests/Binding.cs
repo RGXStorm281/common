@@ -106,7 +106,7 @@ public class Binding
 				"Section",
 				(node, _) =>
 					node.UseGetterSetterBinding(() => sectionTarget, value => sectionTarget = value)
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 5, out var _))
+						.UseTemplate("Template", template => template.UseInstanceModel<int?>(() => 5, out var _))
 			)
 			.Build();
 
@@ -195,7 +195,7 @@ public class Binding
 				"Section",
 				(node, _) =>
 					node.UsePropertyBinding(() => model.SectionProperty)
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 5, out var _))
+						.UseTemplate("Template", template => template.UseInstanceModel<int?>(() => 5, out var _))
 			)
 			.Build();
 

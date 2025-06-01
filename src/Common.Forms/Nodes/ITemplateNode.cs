@@ -20,10 +20,11 @@ public interface ITemplateNode : IParentNode
 	/// Creates a new instance of the given template.
 	/// </summary>
 	/// <param name="template">The template.</param>
-	public void Instantiate(IForm template);
+	/// <returns>The new instance.</returns>
+	public IForm Instantiate(IForm template);
 
 	/// <inheritdoc cref="Instantiate"/>
-	public Task InstantiateAsync(IForm template);
+	public Task<IForm> InstantiateAsync(IForm template);
 
 	/// <summary>
 	/// Removes the current instance.

@@ -8,7 +8,7 @@ using RobinEpple.Common.Forms.Nodes;
 /// <typeparam name="TValue">Type of the value to be used.</typeparam>
 /// <param name="getter">The getter function to load a value from the model.</param>
 /// <param name="setter">The setter function to write a value to the model.</param>
-public class GetterSetterAccessor<TValue>(Func<TValue> getter, Action<TValue> setter) : IValueAccessor<TValue>
+public class GetterSetterBinding<TValue>(Func<TValue> getter, Action<TValue> setter) : IValueAccessor<TValue>
 {
 	private readonly Func<TValue> _getter = getter;
 	private readonly Action<TValue> _setter = setter;

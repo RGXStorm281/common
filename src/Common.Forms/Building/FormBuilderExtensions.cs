@@ -410,7 +410,15 @@ public static class FormBuilderExtensions
 		this IBooleanNodeBuilder builder,
 		Func<bool?> getter,
 		Action<bool?> setter
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<bool?>(
+			new ValueNodeBinding<bool?>(),
+			new GetterSetterBinding<bool?>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -421,7 +429,15 @@ public static class FormBuilderExtensions
 	public static IBooleanNodeBuilder UsePropertyBinding(
 		this IBooleanNodeBuilder builder,
 		Expression<Func<bool?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<bool?>(
+			new ValueNodeBinding<bool?>(),
+			new PropertyBinding<bool?, bool?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding from the custom getter and setter functions.
@@ -435,7 +451,15 @@ public static class FormBuilderExtensions
 		this ICollectionNodeBuilder builder,
 		Func<IEnumerable<TItem>> getter,
 		Action<IEnumerable<TItem>> setter
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<IEnumerable<TItem>>(
+			new CollectionNodeBinding<TItem>(),
+			new GetterSetterBinding<IEnumerable<TItem>>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -447,7 +471,15 @@ public static class FormBuilderExtensions
 	public static ICollectionNodeBuilder UsePropertyBinding<TItem>(
 		this ICollectionNodeBuilder builder,
 		Expression<Func<IEnumerable<TItem>>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<IEnumerable<TItem>>(
+			new CollectionNodeBinding<TItem>(),
+			new PropertyBinding<IEnumerable<TItem>, IEnumerable<TItem>>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding from the custom getter and setter functions.
@@ -460,7 +492,15 @@ public static class FormBuilderExtensions
 		this IFileNodeBuilder builder,
 		Func<FileValue> getter,
 		Action<FileValue> setter
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<FileValue>(
+			new ValueNodeBinding<FileValue>(),
+			new GetterSetterBinding<FileValue>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -471,7 +511,15 @@ public static class FormBuilderExtensions
 	public static IFileNodeBuilder UsePropertyBinding(
 		this IFileNodeBuilder builder,
 		Expression<Func<FileValue>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<FileValue>(
+			new ValueNodeBinding<FileValue>(),
+			new PropertyBinding<FileValue, FileValue>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
@@ -481,15 +529,56 @@ public static class FormBuilderExtensions
 	/// <param name="builder">The node builder to configure with the instance model.</param>
 	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
 	/// <param name="bindingFactory">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
+	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseInstanceModel<TModel>(
 		this IFormBuilder builder,
 		Func<TModel> instanceFactory,
-		out InstanceBindingFactory<TModel> bindingFactory
+		out InstanceBindingFactory<TModel> bindingFactory,
+		Func<TModel, bool>? applicabilityPredicate = null
 	)
 	{
-		builder.UseExtension(new InstanceModelExtension<TModel>(instanceFactory));
+		if (applicabilityPredicate == null)
+		{
+			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory));
+		}
+		else
+		{
+			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory, applicabilityPredicate));
+		}
 		bindingFactory = new InstanceBindingFactory<TModel>(builder.GetNodeName());
+		return builder;
+	}
+
+	/// <summary>
+	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
+	/// An instance is for example created when a template is instantiated, etc.
+	/// </summary>
+	/// <typeparam name="TImplementationType">The type of the instance model.</typeparam>
+	/// <param name="builder">The node builder to configure with the instance model.</param>
+	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
+	/// <param name="bindingFactory">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
+	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public static IFormBuilder UseInstanceModel<TBaseType, TImplementationType>(
+		this IFormBuilder builder,
+		Func<TImplementationType> instanceFactory,
+		out InstanceBindingFactory<TImplementationType> bindingFactory,
+		Func<TBaseType, bool>? applicabilityPredicate = null
+	)
+		where TImplementationType : TBaseType
+	{
+		if (applicabilityPredicate == null)
+		{
+			builder.UseExtension(new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory));
+		}
+		else
+		{
+			builder.UseExtension(
+				new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory, applicabilityPredicate)
+			);
+		}
+		bindingFactory = new InstanceBindingFactory<TImplementationType>(builder.GetNodeName());
 		return builder;
 	}
 
@@ -514,7 +603,15 @@ public static class FormBuilderExtensions
 		this INumberNodeBuilder builder,
 		Func<decimal?> getter,
 		Action<decimal?> setter
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new GetterSetterBinding<decimal?>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -525,7 +622,15 @@ public static class FormBuilderExtensions
 	public static INumberNodeBuilder UsePropertyBinding(
 		this INumberNodeBuilder builder,
 		Expression<Func<decimal?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new PropertyBinding<decimal?, decimal?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -536,7 +641,15 @@ public static class FormBuilderExtensions
 	public static INumberNodeBuilder UsePropertyBinding(
 		this INumberNodeBuilder builder,
 		Expression<Func<double?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new PropertyBinding<decimal?, double?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -547,7 +660,15 @@ public static class FormBuilderExtensions
 	public static INumberNodeBuilder UsePropertyBinding(
 		this INumberNodeBuilder builder,
 		Expression<Func<float?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new PropertyBinding<decimal?, float?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -558,7 +679,15 @@ public static class FormBuilderExtensions
 	public static INumberNodeBuilder UsePropertyBinding(
 		this INumberNodeBuilder builder,
 		Expression<Func<long?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new PropertyBinding<decimal?, long?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -569,7 +698,15 @@ public static class FormBuilderExtensions
 	public static INumberNodeBuilder UsePropertyBinding(
 		this INumberNodeBuilder builder,
 		Expression<Func<int?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new PropertyBinding<decimal?, int?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding from the custom getter and setter functions.
@@ -578,12 +715,38 @@ public static class FormBuilderExtensions
 	/// <param name="builder">The node builder to append the binding to.</param>
 	/// <param name="getter">The method loading the value from some model available in the building context.</param>
 	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <param name="emptyValue">The value to write to the model, if the template instance does not yield a model.</param>
 	/// <returns>The node builder for further configurations.</returns>
 	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
 		this ITemplateNodeBuilder builder,
 		Func<TModel?> getter,
+		Action<TModel?> setter,
+		TModel? emptyValue
+	)
+	{
+		var binding = new FormNodeBinding<TModel?>(
+			new TemplateNodeBinding<TModel?>(emptyValue),
+			new GetterSetterBinding<TModel?>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <inheritdoc cref="UseGetterSetterBinding{TModel}(ITemplateNodeBuilder,Func{TModel},Action{TModel},TModel)"/>
+	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Func<TModel?> getter,
 		Action<TModel?> setter
-	) => throw new NotImplementedException();
+	)
+		where TModel : class => builder.UseGetterSetterBinding(getter, setter, null);
+
+	/// <inheritdoc cref="UseGetterSetterBinding{TModel}(ITemplateNodeBuilder,Func{TModel},Action{TModel},TModel)"/>
+	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Func<TModel?> getter,
+		Action<TModel?> setter
+	)
+		where TModel : struct => builder.UseGetterSetterBinding(getter, setter, null);
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -591,11 +754,35 @@ public static class FormBuilderExtensions
 	/// <typeparam name="TModel">The type of the model this templated node represents. This may be a supertype for different implementations in different templates.</typeparam>
 	/// <param name="builder">The node builder to append the binding to.</param>
 	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <param name="emptyValue">The value to write to the model, if the template instance does not yield a model.</param>
 	/// <returns>The node builder for further configurations.</returns>
 	public static ITemplateNodeBuilder UsePropertyBinding<TModel>(
 		this ITemplateNodeBuilder builder,
+		Expression<Func<TModel?>> propertyAccessor,
+		TModel? emptyValue
+	)
+	{
+		var binding = new FormNodeBinding<TModel?>(
+			new TemplateNodeBinding<TModel?>(emptyValue),
+			new PropertyBinding<TModel?, TModel?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <inheritdoc cref="UsePropertyBinding{TModel}(ITemplateNodeBuilder,Expression{Func{TModel}},TModel)"/>
+	public static ITemplateNodeBuilder UsePropertyBinding<TModel>(
+		this ITemplateNodeBuilder builder,
 		Expression<Func<TModel?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+		where TModel : class => builder.UsePropertyBinding(propertyAccessor, null);
+
+	/// <inheritdoc cref="UsePropertyBinding{TModel}(ITemplateNodeBuilder,Expression{Func{TModel}},TModel)"/>
+	public static ITemplateNodeBuilder UsePropertyBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Expression<Func<TModel?>> propertyAccessor
+	)
+		where TModel : struct => builder.UsePropertyBinding(propertyAccessor, null);
 
 	/// <summary>
 	/// Creates a model binding from the custom getter and setter functions.
@@ -608,7 +795,15 @@ public static class FormBuilderExtensions
 		this ITextNodeBuilder builder,
 		Func<string?> getter,
 		Action<string?> setter
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<string?>(
+			new ValueNodeBinding<string?>(),
+			new GetterSetterBinding<string?>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -619,7 +814,15 @@ public static class FormBuilderExtensions
 	public static ITextNodeBuilder UsePropertyBinding(
 		this ITextNodeBuilder builder,
 		Expression<Func<string?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<string?>(
+			new ValueNodeBinding<string?>(),
+			new PropertyBinding<string?, string?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding from the custom getter and setter functions.
@@ -632,7 +835,15 @@ public static class FormBuilderExtensions
 		this ITimestampNodeBuilder builder,
 		Func<DateTime?> getter,
 		Action<DateTime?> setter
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<DateTime?>(
+			new ValueNodeBinding<DateTime?>(),
+			new GetterSetterBinding<DateTime?>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -643,5 +854,13 @@ public static class FormBuilderExtensions
 	public static ITimestampNodeBuilder UsePropertyBinding(
 		this ITimestampNodeBuilder builder,
 		Expression<Func<DateTime?>> propertyAccessor
-	) => throw new NotImplementedException();
+	)
+	{
+		var binding = new FormNodeBinding<DateTime?>(
+			new ValueNodeBinding<DateTime?>(),
+			new PropertyBinding<DateTime?, DateTime?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 }
