@@ -25,4 +25,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 
 	/// <inheritdoc />
 	public virtual void OnBeforeVisibilityEvaluation(IFormNode node) { }
+
+	/// <inheritdoc />
+	public virtual void OnInitialize(IFormNode node) { }
 }

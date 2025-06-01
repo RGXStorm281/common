@@ -5,6 +5,7 @@ using RobinEpple.Common.Forms.Nodes;
 
 public class MockExtension : FormNodeExtensionBase
 {
+	public bool OnInitializeHasBeenCalled { get; private set; } = false;
 	public bool OnBeforeReadonlyStateEvaluationHasBeenCalled { get; private set; } = false;
 	public bool? OnBeforeReadonlyStateEvaluationReadonlyValue { get; private set; }
 	public bool OnAfterReadonlyStateEvaluationHasBeenCalled { get; private set; } = false;
@@ -17,6 +18,12 @@ public class MockExtension : FormNodeExtensionBase
 	public bool? OnBeforeValidationIsValidValue { get; private set; }
 	public bool OnAfterValidationHasBeenCalled { get; private set; } = false;
 	public bool? OnAfterValidationIsValidValue { get; private set; }
+
+	/// <inheritdoc />
+	public override void OnInitialize(IFormNode node)
+	{
+		OnInitializeHasBeenCalled = true;
+	}
 
 	/// <inheritdoc />
 	public override void OnBeforeReadonlyStateEvaluation(IFormNode node)

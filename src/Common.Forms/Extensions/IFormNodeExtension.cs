@@ -10,6 +10,12 @@ using RobinEpple.Common.Forms.Nodes;
 public interface IFormNodeExtension
 {
 	/// <summary>
+	/// This event is run after the node has been created.
+	/// </summary>
+	/// <param name="node">The node that triggered the event.</param>
+	public void OnInitialize(IFormNode node);
+
+	/// <summary>
 	/// This event is run before the node evaluates it's readonly state.<br/>
 	/// It is always run.
 	/// </summary>

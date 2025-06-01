@@ -18,4 +18,9 @@ public interface IFormNodeBinding
 	/// </summary>
 	/// <param name="node">The node to read the value from.</param>
 	public void WriteToModel(IFormNode node);
+
+	/// <summary>
+	/// The name that is used for tagging nodes with an instance model.
+	/// </summary>
+	public const string InstanceModelTagName = "_instanceModel";
 }

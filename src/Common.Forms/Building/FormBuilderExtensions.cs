@@ -1,6 +1,9 @@
 namespace RobinEpple.Common.Forms.Building;
 
+using System.Linq.Expressions;
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
+using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.Forms.Validation;
 using static RobinEpple.Common.Forms.Expressions.FormExpression;
@@ -394,4 +397,235 @@ public static class FormBuilderExtensions
 	)
 		where TNodeBuilder : INodeBuilder<TNodeBuilder> =>
 		builder.UseValidator(new ExpressionValidator(checkInvalid, errorMessageTemplate));
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static IBooleanNodeBuilder UseGetterSetterBinding(
+		this IBooleanNodeBuilder builder,
+		Func<bool?> getter,
+		Action<bool?> setter
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static IBooleanNodeBuilder UsePropertyBinding(
+		this IBooleanNodeBuilder builder,
+		Expression<Func<bool?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <typeparam name="TItem">The type of the items in the collection, this node represents. This may be a supertype for different implementations in different templates.</typeparam>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ICollectionNodeBuilder UseGetterSetterBinding<TItem>(
+		this ICollectionNodeBuilder builder,
+		Func<IEnumerable<TItem>> getter,
+		Action<IEnumerable<TItem>> setter
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <typeparam name="TItem">The type of the items in the collection, this node represents. This may be a supertype for different implementations in different templates.</typeparam>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ICollectionNodeBuilder UsePropertyBinding<TItem>(
+		this ICollectionNodeBuilder builder,
+		Expression<Func<IEnumerable<TItem>>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static IFileNodeBuilder UseGetterSetterBinding(
+		this IFileNodeBuilder builder,
+		Func<FileValue> getter,
+		Action<FileValue> setter
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static IFileNodeBuilder UsePropertyBinding(
+		this IFileNodeBuilder builder,
+		Expression<Func<FileValue>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
+	/// An instance is for example created when a template is instantiated, etc.
+	/// </summary>
+	/// <typeparam name="TModel">The type of the instance model.</typeparam>
+	/// <param name="builder">The node builder to configure with the instance model.</param>
+	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
+	/// <param name="bindingFactory">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public static IFormBuilder UseInstanceModel<TModel>(
+		this IFormBuilder builder,
+		Func<TModel> instanceFactory,
+		out InstanceBindingFactory<TModel> bindingFactory
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static INumberNodeBuilder UseGetterSetterBinding(
+		this INumberNodeBuilder builder,
+		Func<decimal?> getter,
+		Action<decimal?> setter
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static INumberNodeBuilder UsePropertyBinding(
+		this INumberNodeBuilder builder,
+		Expression<Func<decimal?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static INumberNodeBuilder UsePropertyBinding(
+		this INumberNodeBuilder builder,
+		Expression<Func<double?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static INumberNodeBuilder UsePropertyBinding(
+		this INumberNodeBuilder builder,
+		Expression<Func<float?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static INumberNodeBuilder UsePropertyBinding(
+		this INumberNodeBuilder builder,
+		Expression<Func<long?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static INumberNodeBuilder UsePropertyBinding(
+		this INumberNodeBuilder builder,
+		Expression<Func<int?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <typeparam name="TModel">The type of the model this templated node represents. This may be a supertype for different implementations in different templates.</typeparam>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Func<TModel?> getter,
+		Action<TModel?> setter
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <typeparam name="TModel">The type of the model this templated node represents. This may be a supertype for different implementations in different templates.</typeparam>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITemplateNodeBuilder UsePropertyBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Expression<Func<TModel?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITextNodeBuilder UseGetterSetterBinding(
+		this ITextNodeBuilder builder,
+		Func<string?> getter,
+		Action<string?> setter
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITextNodeBuilder UsePropertyBinding(
+		this ITextNodeBuilder builder,
+		Expression<Func<string?>> propertyAccessor
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITimestampNodeBuilder UseGetterSetterBinding(
+		this ITimestampNodeBuilder builder,
+		Func<DateTime?> getter,
+		Action<DateTime?> setter
+	) => throw new NotImplementedException();
+
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITimestampNodeBuilder UsePropertyBinding(
+		this ITimestampNodeBuilder builder,
+		Expression<Func<DateTime?>> propertyAccessor
+	) => throw new NotImplementedException();
 }
