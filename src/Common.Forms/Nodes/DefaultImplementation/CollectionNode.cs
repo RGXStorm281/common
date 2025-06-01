@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Binding;
+using RobinEpple.Common.Forms.Visitors;
 using RobinEpple.Common.Util;
 
 internal class CollectionNode : NodeBase, ICollectionNode
@@ -128,6 +129,9 @@ internal class CollectionNode : NodeBase, ICollectionNode
 		child.ChangeParent(this);
 		_instances.Add(child);
 		child.Reset();
+
+		var initializer = new NodeInitializer();
+		initializer.Visit(child);
 	}
 
 	/// <inheritdoc />
@@ -142,6 +146,9 @@ internal class CollectionNode : NodeBase, ICollectionNode
 		child.ChangeParent(this);
 		_instances.Add(child);
 		await child.ResetAsync();
+
+		var initializer = new NodeInitializer();
+		initializer.Visit(child);
 	}
 
 	/// <inheritdoc />

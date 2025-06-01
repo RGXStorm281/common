@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Binding;
+using RobinEpple.Common.Forms.Visitors;
 
 internal class TemplateNode : NodeBase, ITemplateNode
 {
@@ -140,6 +141,9 @@ internal class TemplateNode : NodeBase, ITemplateNode
 		child.ChangeParent(this);
 		Instance = child;
 		child.Reset();
+
+		var initializer = new NodeInitializer();
+		initializer.Visit(child);
 	}
 
 	/// <inheritdoc />
@@ -154,6 +158,9 @@ internal class TemplateNode : NodeBase, ITemplateNode
 		child.ChangeParent(this);
 		Instance = child;
 		await child.ResetAsync();
+
+		var initializer = new NodeInitializer();
+		initializer.Visit(child);
 	}
 
 	/// <inheritdoc />

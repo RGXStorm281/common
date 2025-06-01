@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Test.Tests;
 
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Forms.Test.Mocks;
 
 [TestClass]
 public class Instantiation
@@ -321,5 +322,90 @@ public class Instantiation
 		innerTextNode.Value = "inner Text";
 		Assert.IsTrue(outerTextNode.Value == "outer Text");
 		Assert.IsTrue(innerTextNode.Value == "inner Text");
+	}
+
+	[TestMethod]
+	public void Initialize_ShouldNotBeCalledOnTemplates()
+	{
+		var collectionMockExtension = new MockExtension();
+		var templateMockExtension = new MockExtension();
+
+		// Build the form.
+		var form = new FormBuilder("Test")
+			.WithCollectionNode(
+				"CollectionNode",
+				(builder, _) =>
+					builder.UseTemplate(
+						"Template",
+						templateBuilder =>
+						{
+							templateBuilder.UseExtension(collectionMockExtension).WithTextNode("TextNode");
+						}
+					)
+			)
+			.WithTemplatedSection(
+				"TemplateSection",
+				(builder, _) =>
+					builder.UseTemplate(
+						"Template",
+						templateBuilder =>
+						{
+							templateBuilder.UseExtension(templateMockExtension).WithTextNode("TemplateText");
+						}
+					)
+			)
+			.Build();
+
+		// Templates should not have been initialized.
+		Assert.IsFalse(collectionMockExtension.OnInitializeHasBeenCalled);
+		Assert.IsFalse(templateMockExtension.OnInitializeHasBeenCalled);
+	}
+
+	[TestMethod]
+	public void Instantiate_ShouldInitializeNewInstance()
+	{
+		var collectionMockExtension = new MockExtension();
+		var templateMockExtension = new MockExtension();
+
+		// Build the form.
+		var form = new FormBuilder("Test")
+			.WithCollectionNode(
+				"CollectionNode",
+				(builder, _) =>
+					builder.UseTemplate(
+						"Template",
+						templateBuilder =>
+						{
+							templateBuilder.UseExtension(collectionMockExtension).WithTextNode("TextNode");
+						}
+					)
+			)
+			.WithTemplatedSection(
+				"TemplateSection",
+				(builder, _) =>
+					builder.UseTemplate(
+						"Template",
+						templateBuilder =>
+						{
+							templateBuilder.UseExtension(templateMockExtension).WithTextNode("TemplateText");
+						}
+					)
+			)
+			.Build();
+
+		// Then instantiate the templates.
+		var collectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "CollectionNode");
+		var collectionTemplate = collectionNode.Templates.First(template => template.Name == "Template");
+		collectionNode.Instantiate(collectionTemplate);
+		var collectionInstance = collectionNode.Instances.First();
+
+		var sectionNode = (ITemplateNode)form.Nodes.First(node => node.Name == "TemplateSection");
+		var sectionTemplate = sectionNode.Templates.First(template => template.Name == "Template");
+		sectionNode.Instantiate(sectionTemplate);
+		var sectionInstance = sectionNode.Instance!;
+
+		// Now the instances should have been initialized.
+		Assert.IsTrue(collectionMockExtension.OnInitializeHasBeenCalled);
+		Assert.IsTrue(templateMockExtension.OnInitializeHasBeenCalled);
 	}
 }
