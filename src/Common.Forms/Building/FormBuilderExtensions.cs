@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Building;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
+using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.Forms.Validation;
@@ -485,7 +486,12 @@ public static class FormBuilderExtensions
 		this IFormBuilder builder,
 		Func<TModel> instanceFactory,
 		out InstanceBindingFactory<TModel> bindingFactory
-	) => throw new NotImplementedException();
+	)
+	{
+		builder.UseExtension(new InstanceModelExtension<TModel>(instanceFactory));
+		bindingFactory = new InstanceBindingFactory<TModel>(builder.GetNodeName());
+		return builder;
+	}
 
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single field value.

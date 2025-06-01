@@ -8,6 +8,12 @@ using RobinEpple.Common.Forms.Validation;
 public interface INodeBuilder<TSpecificNodeBuilder>
 {
 	/// <summary>
+	/// Returns the name of the node that is currently built.
+	/// </summary>
+	/// <returns>The name of the node.</returns>
+	public string GetNodeName();
+
+	/// <summary>
 	/// Configures the node to use a label different to the field name.
 	/// </summary>
 	/// <param name="label">The label of the node.</param>

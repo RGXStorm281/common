@@ -219,4 +219,7 @@ public class FormBuilder : IFormBuilder
 		Form.AddNode(subForm);
 		return this;
 	}
+
+	/// <inheritdoc/>
+	public string GetNodeName() => Form.Name;
 }

@@ -78,4 +78,7 @@ internal abstract class NodeBuilder<TSpecificNodeBuilder, TNode> : INodeBuilder<
 		Node.UseBinding(binding);
 		return CastThis();
 	}
+
+	/// <inheritdoc/>
+	public string GetNodeName() => Node.Name;
 }
