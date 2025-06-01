@@ -2,6 +2,7 @@
 
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Forms.Test.Mocks;
 
 [TestClass]
 public sealed class Structure
@@ -186,5 +187,56 @@ public sealed class Structure
 						.UseTemplate("Template1", templateBuilder => templateBuilder.WithBooleanNode("Boolean"))
 						.UseTemplate("Template2", templateBuilder => templateBuilder.WithBooleanNode("Boolean"))
 			);
+	}
+
+	[TestMethod]
+	public void Build_ShouldCallOnInitializeForAllNodeExtensions()
+	{
+		// Build a structure with depth.
+		var form = new FormBuilder("Test")
+			.UseExtension(new MockExtension())
+			.WithBooleanNode("Boolean", node => node.UseExtension(new MockExtension()))
+			.WithTemplatedSection(
+				"TemplatedSection",
+				(builder, _) =>
+					builder
+						.UseExtension(new MockExtension())
+						.UseTemplate(
+							"SectionTemplate",
+							builder =>
+								builder
+									.UseExtension(new MockExtension())
+									.WithBooleanNode("Boolean", node => node.UseExtension(new MockExtension()))
+						)
+			)
+			.WithCollectionNode(
+				"Collection",
+				(builder, _) =>
+					builder
+						.UseExtension(new MockExtension())
+						.UseTemplate(
+							"CollectionTemplate",
+							builder =>
+								builder
+									.UseExtension(new MockExtension())
+									.WithBooleanNode("Boolean", node => node.UseExtension(new MockExtension()))
+						)
+			)
+			.WithSubForm(
+				"SubForm",
+				(builder, _) =>
+					builder
+						.UseExtension(new MockExtension())
+						.WithBooleanNode("Boolean", node => node.UseExtension(new MockExtension()))
+			)
+			.Build();
+
+		// Check that "OnInitialize" was called on all nodes.
+		var matcher = new PredicateMatcher(node =>
+			node.Extensions.OfType<MockExtension>().First().OnInitializeHasBeenCalled
+		);
+		matcher.Visit(form);
+
+		Assert.IsFalse(matcher.NotMatchingNodes.Any());
 	}
 }

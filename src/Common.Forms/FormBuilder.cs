@@ -9,6 +9,7 @@ using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 using RobinEpple.Common.Forms.Validation;
+using RobinEpple.Common.Forms.Visitors;
 
 /// <summary>
 /// Use this class to build and configure a form structure.
@@ -132,7 +133,12 @@ public class FormBuilder : IFormBuilder
 	}
 
 	/// <inheritdoc/>
-	public IForm Build() => Form;
+	public IForm Build()
+	{
+		var initializer = new NodeInitializer();
+		initializer.Visit(Form);
+		return Form;
+	}
 
 	/// <inheritdoc/>
 	public IFormBuilder UseDefaultReadonly(bool isReadonly)
