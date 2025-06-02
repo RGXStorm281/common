@@ -7,13 +7,16 @@ using RobinEpple.Common.Forms.Nodes;
 /// This factory can be used to create model bindings for instance models in parent nodes.
 /// </summary>
 /// <typeparam name="TModel">The type of the instance model.</typeparam>
-public class InstanceBindingFactory<TModel>
+public class EmbeddedModelReference<TModel>
 {
-	private readonly string _instanceNodeName;
+	/// <summary>
+	/// The name of the node that contains the embedded model.
+	/// </summary>
+	public string ModelNodeName { get; }
 
-	public InstanceBindingFactory(string instanceNodeName)
+	public EmbeddedModelReference(string modelNodeName)
 	{
-		_instanceNodeName = instanceNodeName;
+		ModelNodeName = modelNodeName;
 	}
 
 	/// <summary>
@@ -22,11 +25,11 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreateGetterSetterBinding(Func<TModel, bool?> getter, Action<TModel, bool?> setter)
+	internal IFormNodeBinding CreateBooleanGetterSetterBinding(Func<TModel, bool?> getter, Action<TModel, bool?> setter)
 	{
 		var binding = new FormNodeBinding<bool?>(
 			new ValueNodeBinding<bool?>(),
-			new EmbeddedModelGetterSetterBinding<TModel, bool?>(_instanceNodeName, getter, setter)
+			new EmbeddedModelGetterSetterBinding<TModel, bool?>(ModelNodeName, getter, setter)
 		);
 		return binding;
 	}
@@ -36,11 +39,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, bool?>> propertyAccessor)
+	internal IFormNodeBinding CreateBooleanPropertyBinding(Expression<Func<TModel, bool?>> propertyAccessor)
 	{
 		var binding = new FormNodeBinding<bool?>(
 			new ValueNodeBinding<bool?>(),
-			new EmbeddedModelPropertyBinding<TModel, bool?, bool?>(_instanceNodeName, propertyAccessor)
+			new EmbeddedModelPropertyBinding<TModel, bool?, bool?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -51,14 +54,14 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreateGetterSetterBinding(
+	internal IFormNodeBinding CreateFileGetterSetterBinding(
 		Func<TModel, FileValue> getter,
 		Action<TModel, FileValue> setter
 	)
 	{
 		var binding = new FormNodeBinding<FileValue>(
 			new ValueNodeBinding<FileValue>(),
-			new EmbeddedModelGetterSetterBinding<TModel, FileValue>(_instanceNodeName, getter, setter)
+			new EmbeddedModelGetterSetterBinding<TModel, FileValue>(ModelNodeName, getter, setter)
 		);
 		return binding;
 	}
@@ -68,11 +71,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, FileValue>> propertyAccessor)
+	internal IFormNodeBinding CreateFilePropertyBinding(Expression<Func<TModel, FileValue>> propertyAccessor)
 	{
 		var binding = new FormNodeBinding<FileValue>(
 			new ValueNodeBinding<FileValue>(),
-			new EmbeddedModelPropertyBinding<TModel, FileValue, FileValue>(_instanceNodeName, propertyAccessor)
+			new EmbeddedModelPropertyBinding<TModel, FileValue, FileValue>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -83,11 +86,14 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreateGetterSetterBinding(Func<TModel, decimal?> getter, Action<TModel, decimal?> setter)
+	internal IFormNodeBinding CreateNumberGetterSetterBinding(
+		Func<TModel, decimal?> getter,
+		Action<TModel, decimal?> setter
+	)
 	{
 		var binding = new FormNodeBinding<decimal?>(
 			new ValueNodeBinding<decimal?>(),
-			new EmbeddedModelGetterSetterBinding<TModel, decimal?>(_instanceNodeName, getter, setter)
+			new EmbeddedModelGetterSetterBinding<TModel, decimal?>(ModelNodeName, getter, setter)
 		);
 		return binding;
 	}
@@ -97,11 +103,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, decimal?>> propertyAccessor)
+	internal IFormNodeBinding CreateNumberPropertyBinding(Expression<Func<TModel, decimal?>> propertyAccessor)
 	{
 		var binding = new FormNodeBinding<decimal?>(
 			new ValueNodeBinding<decimal?>(),
-			new EmbeddedModelPropertyBinding<TModel, decimal?, decimal?>(_instanceNodeName, propertyAccessor)
+			new EmbeddedModelPropertyBinding<TModel, decimal?, decimal?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -111,11 +117,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, double?>> propertyAccessor)
+	internal IFormNodeBinding CreateNumberPropertyBinding(Expression<Func<TModel, double?>> propertyAccessor)
 	{
-		var binding = new FormNodeBinding<double?>(
-			new ValueNodeBinding<double?>(),
-			new EmbeddedModelPropertyBinding<TModel, double?, double?>(_instanceNodeName, propertyAccessor)
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new EmbeddedModelPropertyBinding<TModel, decimal?, double?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -125,11 +131,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, float?>> propertyAccessor)
+	internal IFormNodeBinding CreateNumberPropertyBinding(Expression<Func<TModel, float?>> propertyAccessor)
 	{
-		var binding = new FormNodeBinding<float?>(
-			new ValueNodeBinding<float?>(),
-			new EmbeddedModelPropertyBinding<TModel, float?, float?>(_instanceNodeName, propertyAccessor)
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new EmbeddedModelPropertyBinding<TModel, decimal?, float?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -139,11 +145,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, long?>> propertyAccessor)
+	internal IFormNodeBinding CreateNumberPropertyBinding(Expression<Func<TModel, long?>> propertyAccessor)
 	{
-		var binding = new FormNodeBinding<long?>(
-			new ValueNodeBinding<long?>(),
-			new EmbeddedModelPropertyBinding<TModel, long?, long?>(_instanceNodeName, propertyAccessor)
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new EmbeddedModelPropertyBinding<TModel, decimal?, long?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -153,11 +159,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, int?>> propertyAccessor)
+	internal IFormNodeBinding CreateNumberPropertyBinding(Expression<Func<TModel, int?>> propertyAccessor)
 	{
-		var binding = new FormNodeBinding<int?>(
-			new ValueNodeBinding<int?>(),
-			new EmbeddedModelPropertyBinding<TModel, int?, int?>(_instanceNodeName, propertyAccessor)
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new EmbeddedModelPropertyBinding<TModel, decimal?, int?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -168,11 +174,14 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreateGetterSetterBinding(Func<TModel, string?> getter, Action<TModel, string?> setter)
+	internal IFormNodeBinding CreateTextGetterSetterBinding(
+		Func<TModel, string?> getter,
+		Action<TModel, string?> setter
+	)
 	{
 		var binding = new FormNodeBinding<string?>(
 			new ValueNodeBinding<string?>(),
-			new EmbeddedModelGetterSetterBinding<TModel, string?>(_instanceNodeName, getter, setter)
+			new EmbeddedModelGetterSetterBinding<TModel, string?>(ModelNodeName, getter, setter)
 		);
 		return binding;
 	}
@@ -182,11 +191,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, string?>> propertyAccessor)
+	internal IFormNodeBinding CreateTextPropertyBinding(Expression<Func<TModel, string?>> propertyAccessor)
 	{
 		var binding = new FormNodeBinding<string?>(
 			new ValueNodeBinding<string?>(),
-			new EmbeddedModelPropertyBinding<TModel, string?, string?>(_instanceNodeName, propertyAccessor)
+			new EmbeddedModelPropertyBinding<TModel, string?, string?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -197,14 +206,14 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreateGetterSetterBinding(
+	internal IFormNodeBinding CreateTimestampGetterSetterBinding(
 		Func<TModel, DateTime?> getter,
 		Action<TModel, DateTime?> setter
 	)
 	{
 		var binding = new FormNodeBinding<DateTime?>(
 			new ValueNodeBinding<DateTime?>(),
-			new EmbeddedModelGetterSetterBinding<TModel, DateTime?>(_instanceNodeName, getter, setter)
+			new EmbeddedModelGetterSetterBinding<TModel, DateTime?>(ModelNodeName, getter, setter)
 		);
 		return binding;
 	}
@@ -214,11 +223,11 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding(Expression<Func<TModel, DateTime?>> propertyAccessor)
+	internal IFormNodeBinding CreateTimestampPropertyBinding(Expression<Func<TModel, DateTime?>> propertyAccessor)
 	{
 		var binding = new FormNodeBinding<DateTime?>(
 			new ValueNodeBinding<DateTime?>(),
-			new EmbeddedModelPropertyBinding<TModel, DateTime?, DateTime?>(_instanceNodeName, propertyAccessor)
+			new EmbeddedModelPropertyBinding<TModel, DateTime?, DateTime?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
@@ -230,7 +239,7 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="setter">The method writing the value to the model.</param>
 	/// <param name="emptyValue">The value to write to the model, if the template instance does not yield a model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreateGetterSetterBinding<TInnerModel>(
+	internal IFormNodeBinding CreateTemplateGetterSetterBinding<TInnerModel>(
 		Func<TModel, TInnerModel?> getter,
 		Action<TModel, TInnerModel?> setter,
 		TInnerModel? emptyValue
@@ -238,24 +247,10 @@ public class InstanceBindingFactory<TModel>
 	{
 		var binding = new FormNodeBinding<TInnerModel?>(
 			new TemplateNodeBinding<TInnerModel?>(emptyValue),
-			new EmbeddedModelGetterSetterBinding<TModel, TInnerModel?>(_instanceNodeName, getter, setter)
+			new EmbeddedModelGetterSetterBinding<TModel, TInnerModel?>(ModelNodeName, getter, setter)
 		);
 		return binding;
 	}
-
-	/// <inheritdoc cref="CreateGetterSetterBinding{TInnerModel}(Func{TModel,TInnerModel},Action{TModel,TInnerModel},TInnerModel)"/>
-	internal IFormNodeBinding CreateGetterSetterBinding<TInnerModel>(
-		Func<TModel, TInnerModel?> getter,
-		Action<TModel, TInnerModel?> setter
-	)
-		where TInnerModel : class => CreateGetterSetterBinding(getter, setter, null);
-
-	/// <inheritdoc cref="CreateGetterSetterBinding{TInnerModel}(Func{TModel,TInnerModel},Action{TModel,TInnerModel},TInnerModel)"/>
-	internal IFormNodeBinding CreateGetterSetterBinding<TInnerModel>(
-		Func<TModel, TInnerModel?> getter,
-		Action<TModel, TInnerModel?> setter
-	)
-		where TInnerModel : struct => CreateGetterSetterBinding(getter, setter, null);
 
 	/// <summary>
 	/// Creates a binding for an <see cref="ITemplateNode"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
@@ -263,31 +258,17 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <param name="emptyValue">The value to write to the model, if the template instance does not yield a model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding<TInnerModel>(
+	internal IFormNodeBinding CreateTemplatePropertyBinding<TInnerModel>(
 		Expression<Func<TModel, TInnerModel?>> propertyAccessor,
 		TInnerModel? emptyValue
 	)
 	{
 		var binding = new FormNodeBinding<TInnerModel?>(
 			new TemplateNodeBinding<TInnerModel?>(emptyValue),
-			new EmbeddedModelPropertyBinding<TModel, TInnerModel?, TInnerModel?>(_instanceNodeName, propertyAccessor)
+			new EmbeddedModelPropertyBinding<TModel, TInnerModel?, TInnerModel?>(ModelNodeName, propertyAccessor)
 		);
 		return binding;
 	}
-
-	/// <inheritdoc cref="CreatePropertyBinding{TInnerModel}(Expression{Func{TModel,TInnerModel}},TInnerModel)"/>
-	internal IFormNodeBinding CreatePropertyBinding<TInnerModel>(
-		Func<TModel, TInnerModel?> getter,
-		Action<TModel, TInnerModel?> setter
-	)
-		where TInnerModel : class => CreateGetterSetterBinding(getter, setter, null);
-
-	/// <inheritdoc cref="CreatePropertyBinding{TInnerModel}(Expression{Func{TModel,TInnerModel}},TInnerModel)"/>
-	internal IFormNodeBinding CreatePropertyBinding<TInnerModel>(
-		Func<TModel, TInnerModel?> getter,
-		Action<TModel, TInnerModel?> setter
-	)
-		where TInnerModel : struct => CreateGetterSetterBinding(getter, setter, null);
 
 	/// <summary>
 	/// Creates a binding for an <see cref="ICollectionNode"/> using custom getter and setter methods.
@@ -295,14 +276,14 @@ public class InstanceBindingFactory<TModel>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreateGetterSetterBinding<TItem>(
+	internal IFormNodeBinding CreateCollectionGetterSetterBinding<TItem>(
 		Func<TModel, IEnumerable<TItem>> getter,
 		Action<TModel, IEnumerable<TItem>> setter
 	)
 	{
 		var binding = new FormNodeBinding<IEnumerable<TItem>>(
 			new CollectionNodeBinding<TItem>(),
-			new EmbeddedModelGetterSetterBinding<TModel, IEnumerable<TItem>>(_instanceNodeName, getter, setter)
+			new EmbeddedModelGetterSetterBinding<TModel, IEnumerable<TItem>>(ModelNodeName, getter, setter)
 		);
 		return binding;
 	}
@@ -312,14 +293,14 @@ public class InstanceBindingFactory<TModel>
 	/// </summary>
 	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
 	/// <returns>The binding.</returns>
-	internal IFormNodeBinding CreatePropertyBinding<TItem>(
+	internal IFormNodeBinding CreateCollectionPropertyBinding<TItem>(
 		Expression<Func<TModel, IEnumerable<TItem>>> propertyAccessor
 	)
 	{
 		var binding = new FormNodeBinding<IEnumerable<TItem>>(
 			new CollectionNodeBinding<TItem>(),
 			new EmbeddedModelPropertyBinding<TModel, IEnumerable<TItem>, IEnumerable<TItem>>(
-				_instanceNodeName,
+				ModelNodeName,
 				propertyAccessor
 			)
 		);

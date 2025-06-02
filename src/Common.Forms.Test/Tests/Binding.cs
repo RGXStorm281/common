@@ -43,7 +43,7 @@ public class Binding
 	}
 
 	[TestMethod]
-	public void InstanceModels_ShouldBeUniqueOnEachInstance()
+	public void EmbeddedModels_ShouldBeUniqueOnEachInstance()
 	{
 		var form = new FormBuilder("Test")
 			.WithCollectionNode(
@@ -51,7 +51,7 @@ public class Binding
 				(collection, _) =>
 					collection.UseTemplate(
 						"Template",
-						template => template.UseInstanceModel(() => Guid.NewGuid(), out var _)
+						template => template.UseEmbeddedModel(() => Guid.NewGuid(), out var _)
 					)
 			)
 			.Build();
@@ -69,7 +69,7 @@ public class Binding
 	}
 
 	[TestMethod]
-	public void ExternalGetterSetterBinding_ShouldAccessValuesFromBuildingContext()
+	public void GetterSetterBinding_ShouldAccessValuesFromBuildingContext()
 	{
 		// Define some variables to bind to.
 		bool? booleanTarget = false;
@@ -100,13 +100,13 @@ public class Binding
 				"Collection",
 				(node, _) =>
 					node.UseGetterSetterBinding(() => collectionTarget, value => collectionTarget = value)
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 4, out var _))
+						.UseTemplate("Template", template => template.UseEmbeddedModel(() => 4, out var _))
 			)
 			.WithTemplatedSection(
 				"Section",
 				(node, _) =>
 					node.UseGetterSetterBinding(() => sectionTarget, value => sectionTarget = value)
-						.UseTemplate("Template", template => template.UseInstanceModel<int?>(() => 5, out var _))
+						.UseTemplate("Template", template => template.UseEmbeddedModel<int?>(() => 5, out var _))
 			)
 			.Build();
 
@@ -157,7 +157,7 @@ public class Binding
 	}
 
 	[TestMethod]
-	public void ExternalPropertyBinding_ShouldAccessPropertyFromBuildingContext()
+	public void PropertyBinding_ShouldAccessPropertyFromBuildingContext()
 	{
 		var model = new BindingModel();
 
@@ -189,13 +189,13 @@ public class Binding
 				"Collection",
 				(node, _) =>
 					node.UsePropertyBinding(() => model.CollectionProperty)
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 4, out var _))
+						.UseTemplate("Template", template => template.UseEmbeddedModel(() => 4, out var _))
 			)
 			.WithTemplatedSection(
 				"Section",
 				(node, _) =>
 					node.UsePropertyBinding(() => model.SectionProperty)
-						.UseTemplate("Template", template => template.UseInstanceModel<int?>(() => 5, out var _))
+						.UseTemplate("Template", template => template.UseEmbeddedModel<int?>(() => 5, out var _))
 			)
 			.Build();
 
@@ -262,15 +262,15 @@ public class Binding
 	}
 
 	[TestMethod]
-	public void InstanceGetterSetterBinding_ShouldAccessValuesInInstanceModel()
+	public void EmbeddedModelGetterSetterBinding_ShouldAccessValuesInInstanceModel()
 	{
 		// Build the form with all the bindings.
 		var form = new FormBuilder("Test")
-			.UseInstanceModel(() => new BindingModel(), out var instanceBindingFactory)
+			.UseEmbeddedModel(() => new BindingModel(), out var instanceBindingFactory)
 			.WithBooleanNode(
 				"Boolean",
 				node =>
-					node.UseInstanceGetterSetterBinding(
+					node.UseEmbeddedModelGetterSetterBinding(
 						instanceBindingFactory,
 						model => model.BooleanProperty,
 						(model, value) => model.BooleanProperty = value
@@ -279,7 +279,7 @@ public class Binding
 			.WithNumberNode(
 				"Decimal",
 				node =>
-					node.UseInstanceGetterSetterBinding(
+					node.UseEmbeddedModelGetterSetterBinding(
 						instanceBindingFactory,
 						model => model.DecimalProperty,
 						(model, value) => model.DecimalProperty = value
@@ -288,7 +288,7 @@ public class Binding
 			.WithNumberNode(
 				"Double",
 				node =>
-					node.UseInstanceGetterSetterBinding(
+					node.UseEmbeddedModelGetterSetterBinding(
 						instanceBindingFactory,
 						model => (decimal?)model.DoubleProperty,
 						(model, value) => model.DoubleProperty = (double?)value
@@ -297,7 +297,7 @@ public class Binding
 			.WithNumberNode(
 				"Float",
 				node =>
-					node.UseInstanceGetterSetterBinding(
+					node.UseEmbeddedModelGetterSetterBinding(
 						instanceBindingFactory,
 						model => (decimal?)model.FloatProperty,
 						(model, value) => model.FloatProperty = (float?)value
@@ -306,7 +306,7 @@ public class Binding
 			.WithNumberNode(
 				"Long",
 				node =>
-					node.UseInstanceGetterSetterBinding(
+					node.UseEmbeddedModelGetterSetterBinding(
 						instanceBindingFactory,
 						model => model.LongProperty,
 						(model, value) => model.LongProperty = (long?)value
@@ -315,7 +315,7 @@ public class Binding
 			.WithNumberNode(
 				"Int",
 				node =>
-					node.UseInstanceGetterSetterBinding(
+					node.UseEmbeddedModelGetterSetterBinding(
 						instanceBindingFactory,
 						model => model.IntProperty,
 						(model, value) => model.IntProperty = (int?)value
@@ -324,54 +324,49 @@ public class Binding
 			.WithTextNode(
 				"Text",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.TextProperty,
-							(model, value) => model.TextProperty = value
-						)
+					node.UseEmbeddedModelGetterSetterBinding(
+						instanceBindingFactory,
+						model => model.TextProperty,
+						(model, value) => model.TextProperty = value
 					)
 			)
 			.WithTimestampNode(
 				"Timestamp",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.TimestampProperty,
-							(model, value) => model.TimestampProperty = value
-						)
+					node.UseEmbeddedModelGetterSetterBinding(
+						instanceBindingFactory,
+						model => model.TimestampProperty,
+						(model, value) => model.TimestampProperty = value
 					)
 			)
 			.WithFileNode(
 				"File",
 				node =>
-					node.UseBinding(
-						instanceBindingFactory.CreateGetterSetterBinding(
-							model => model.TimestampProperty,
-							(model, value) => model.TimestampProperty = value
-						)
+					node.UseEmbeddedModelGetterSetterBinding(
+						instanceBindingFactory,
+						model => model.FileProperty,
+						(model, value) => model.FileProperty = value
 					)
 			)
 			.WithCollectionNode(
 				"Collection",
 				(node, _) =>
-					node.UseBinding(
-							instanceBindingFactory.CreateGetterSetterBinding(
-								model => model.CollectionProperty,
-								(model, value) => model.CollectionProperty = value
-							)
+					node.UseEmbeddedModelGetterSetterBinding(
+							instanceBindingFactory,
+							model => model.CollectionProperty,
+							(model, value) => model.CollectionProperty = value
 						)
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 4, out var _))
+						.UseTemplate("Template", template => template.UseEmbeddedModel(() => 4, out var _))
 			)
 			.WithTemplatedSection(
 				"Section",
 				(node, _) =>
-					node.UseBinding(
-							instanceBindingFactory.CreateGetterSetterBinding(
-								model => model.SectionProperty,
-								(model, value) => model.SectionProperty = value
-							)
+					node.UseEmbeddedModelGetterSetterBinding(
+							instanceBindingFactory,
+							model => model.SectionProperty,
+							(model, value) => model.SectionProperty = value
 						)
-						.UseTemplate("Template", template => template.UseInstanceModel<int?>(() => 5, out var _))
+						.UseTemplate("Template", template => template.UseEmbeddedModel<int?>(() => 5, out var _))
 			)
 			.Build();
 
@@ -452,58 +447,58 @@ public class Binding
 	}
 
 	[TestMethod]
-	public void InstancePropertyBinding_ShouldAccessPropertyInInstanceModel()
+	public void EmbeddedModelPropertyBinding_ShouldAccessPropertyInInstanceModel()
 	{
 		// Build the form with all the bindings.
 		var form = new FormBuilder("Test")
-			.UseInstanceModel(() => new BindingModel(), out var instanceBindingFactory)
+			.UseEmbeddedModel(() => new BindingModel(), out var instanceBindingFactory)
 			.WithBooleanNode(
 				"Boolean",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.BooleanProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.BooleanProperty)
 			)
 			.WithNumberNode(
 				"Decimal",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.DecimalProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.DecimalProperty)
 			)
 			.WithNumberNode(
 				"Double",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.DoubleProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.DoubleProperty)
 			)
 			.WithNumberNode(
 				"Float",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.FloatProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.FloatProperty)
 			)
 			.WithNumberNode(
 				"Long",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.LongProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.LongProperty)
 			)
 			.WithNumberNode(
 				"Int",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.IntProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.IntProperty)
 			)
 			.WithTextNode(
 				"Text",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.TextProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.TextProperty)
 			)
 			.WithTimestampNode(
 				"Timestamp",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.TimestampProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.TimestampProperty)
 			)
 			.WithFileNode(
 				"File",
-				node => node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.TimestampProperty))
+				node => node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.FileProperty)
 			)
 			.WithCollectionNode(
 				"Collection",
 				(node, _) =>
-					node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.CollectionProperty))
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 4, out var _))
+					node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.CollectionProperty)
+						.UseTemplate("Template", template => template.UseEmbeddedModel(() => 4, out var _))
 			)
 			.WithTemplatedSection(
 				"Section",
 				(node, _) =>
-					node.UseBinding(instanceBindingFactory.CreatePropertyBinding(model => model.SectionProperty))
-						.UseTemplate("Template", template => template.UseInstanceModel(() => 5, out var _))
+					node.UseEmbeddedModelPropertyBinding(instanceBindingFactory, model => model.SectionProperty)
+						.UseTemplate("Template", template => template.UseEmbeddedModel<int?>(() => 5, out var _))
 			)
 			.Build();
 

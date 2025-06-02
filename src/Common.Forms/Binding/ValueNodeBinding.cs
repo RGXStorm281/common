@@ -21,7 +21,7 @@ public class ValueNodeBinding<TValue> : IValueAccessor<TValue>
 		if (node is not IValueNode<TValue> valueNode)
 		{
 			throw new InvalidOperationException(
-				$"The given node needs to be an IValueNode with the value type '{typeof(TValue).Name}'."
+				$"The given node needs to be an IValueNode with the value type '{typeof(TValue).Name}' but is of type '{node.GetType().Name}'."
 			);
 		}
 

@@ -421,19 +421,84 @@ public static class FormBuilderExtensions
 	}
 
 	/// <summary>
-	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// Creates a model binding from the custom getter and setter functions.
 	/// </summary>
 	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
 	/// <returns>The node builder for further configurations.</returns>
-	public static IBooleanNodeBuilder UsePropertyBinding(
-		this IBooleanNodeBuilder builder,
-		Expression<Func<bool?>> propertyAccessor
+	public static IFileNodeBuilder UseGetterSetterBinding(
+		this IFileNodeBuilder builder,
+		Func<FileValue> getter,
+		Action<FileValue> setter
 	)
 	{
-		var binding = new FormNodeBinding<bool?>(
-			new ValueNodeBinding<bool?>(),
-			new PropertyBinding<bool?, bool?>(propertyAccessor)
+		var binding = new FormNodeBinding<FileValue>(
+			new ValueNodeBinding<FileValue>(),
+			new GetterSetterBinding<FileValue>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static INumberNodeBuilder UseGetterSetterBinding(
+		this INumberNodeBuilder builder,
+		Func<decimal?> getter,
+		Action<decimal?> setter
+	)
+	{
+		var binding = new FormNodeBinding<decimal?>(
+			new ValueNodeBinding<decimal?>(),
+			new GetterSetterBinding<decimal?>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITextNodeBuilder UseGetterSetterBinding(
+		this ITextNodeBuilder builder,
+		Func<string?> getter,
+		Action<string?> setter
+	)
+	{
+		var binding = new FormNodeBinding<string?>(
+			new ValueNodeBinding<string?>(),
+			new GetterSetterBinding<string?>(getter, setter)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a model binding from the custom getter and setter functions.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITimestampNodeBuilder UseGetterSetterBinding(
+		this ITimestampNodeBuilder builder,
+		Func<DateTime?> getter,
+		Action<DateTime?> setter
+	)
+	{
+		var binding = new FormNodeBinding<DateTime?>(
+			new ValueNodeBinding<DateTime?>(),
+			new GetterSetterBinding<DateTime?>(getter, setter)
 		);
 		builder.UseBinding(binding);
 		return builder;
@@ -462,41 +527,59 @@ public static class FormBuilderExtensions
 	}
 
 	/// <summary>
-	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// Creates a model binding from the custom getter and setter functions.
 	/// </summary>
-	/// <typeparam name="TItem">The type of the items in the collection, this node represents. This may be a supertype for different implementations in different templates.</typeparam>
+	/// <typeparam name="TModel">The type of the model this templated node represents. This may be a supertype for different implementations in different templates.</typeparam>
 	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <param name="getter">The method loading the value from some model available in the building context.</param>
+	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <param name="emptyValue">The value to write to the model, if the template instance does not yield a model.</param>
 	/// <returns>The node builder for further configurations.</returns>
-	public static ICollectionNodeBuilder UsePropertyBinding<TItem>(
-		this ICollectionNodeBuilder builder,
-		Expression<Func<IEnumerable<TItem>>> propertyAccessor
+	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Func<TModel?> getter,
+		Action<TModel?> setter,
+		TModel? emptyValue
 	)
 	{
-		var binding = new FormNodeBinding<IEnumerable<TItem>>(
-			new CollectionNodeBinding<TItem>(),
-			new PropertyBinding<IEnumerable<TItem>, IEnumerable<TItem>>(propertyAccessor)
+		var binding = new FormNodeBinding<TModel?>(
+			new TemplateNodeBinding<TModel?>(emptyValue),
+			new GetterSetterBinding<TModel?>(getter, setter)
 		);
 		builder.UseBinding(binding);
 		return builder;
 	}
 
+	/// <inheritdoc cref="UseGetterSetterBinding{TModel}(ITemplateNodeBuilder,Func{TModel},Action{TModel},TModel)"/>
+	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Func<TModel?> getter,
+		Action<TModel?> setter
+	)
+		where TModel : class => builder.UseGetterSetterBinding(getter, setter, null);
+
+	/// <inheritdoc cref="UseGetterSetterBinding{TModel}(ITemplateNodeBuilder,Func{TModel},Action{TModel},TModel)"/>
+	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
+		this ITemplateNodeBuilder builder,
+		Func<TModel?> getter,
+		Action<TModel?> setter
+	)
+		where TModel : struct => builder.UseGetterSetterBinding(getter, setter, null);
+
 	/// <summary>
-	/// Creates a model binding from the custom getter and setter functions.
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
 	/// </summary>
 	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="getter">The method loading the value from some model available in the building context.</param>
-	/// <param name="setter">The method writing the value to some model available in the building context.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
 	/// <returns>The node builder for further configurations.</returns>
-	public static IFileNodeBuilder UseGetterSetterBinding(
-		this IFileNodeBuilder builder,
-		Func<FileValue> getter,
-		Action<FileValue> setter
+	public static IBooleanNodeBuilder UsePropertyBinding(
+		this IBooleanNodeBuilder builder,
+		Expression<Func<bool?>> propertyAccessor
 	)
 	{
-		var binding = new FormNodeBinding<FileValue>(
-			new ValueNodeBinding<FileValue>(),
-			new GetterSetterBinding<FileValue>(getter, setter)
+		var binding = new FormNodeBinding<bool?>(
+			new ValueNodeBinding<bool?>(),
+			new PropertyBinding<bool?, bool?>(propertyAccessor)
 		);
 		builder.UseBinding(binding);
 		return builder;
@@ -516,98 +599,6 @@ public static class FormBuilderExtensions
 		var binding = new FormNodeBinding<FileValue>(
 			new ValueNodeBinding<FileValue>(),
 			new PropertyBinding<FileValue, FileValue>(propertyAccessor)
-		);
-		builder.UseBinding(binding);
-		return builder;
-	}
-
-	/// <summary>
-	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
-	/// An instance is for example created when a template is instantiated, etc.
-	/// </summary>
-	/// <typeparam name="TModel">The type of the instance model.</typeparam>
-	/// <param name="builder">The node builder to configure with the instance model.</param>
-	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
-	/// <param name="bindingFactory">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
-	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
-	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseInstanceModel<TModel>(
-		this IFormBuilder builder,
-		Func<TModel> instanceFactory,
-		out InstanceBindingFactory<TModel> bindingFactory,
-		Func<TModel, bool>? applicabilityPredicate = null
-	)
-	{
-		if (applicabilityPredicate == null)
-		{
-			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory));
-		}
-		else
-		{
-			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory, applicabilityPredicate));
-		}
-		bindingFactory = new InstanceBindingFactory<TModel>(builder.GetNodeName());
-		return builder;
-	}
-
-	/// <summary>
-	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
-	/// An instance is for example created when a template is instantiated, etc.
-	/// </summary>
-	/// <typeparam name="TImplementationType">The type of the instance model.</typeparam>
-	/// <param name="builder">The node builder to configure with the instance model.</param>
-	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
-	/// <param name="bindingFactory">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
-	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
-	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseInstanceModel<TBaseType, TImplementationType>(
-		this IFormBuilder builder,
-		Func<TImplementationType> instanceFactory,
-		out InstanceBindingFactory<TImplementationType> bindingFactory,
-		Func<TBaseType, bool>? applicabilityPredicate = null
-	)
-		where TImplementationType : TBaseType
-	{
-		if (applicabilityPredicate == null)
-		{
-			builder.UseExtension(new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory));
-		}
-		else
-		{
-			builder.UseExtension(
-				new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory, applicabilityPredicate)
-			);
-		}
-		bindingFactory = new InstanceBindingFactory<TImplementationType>(builder.GetNodeName());
-		return builder;
-	}
-
-	/// <summary>
-	/// Defines, that the model for this form is represented in a single field value.
-	/// </summary>
-	/// <typeparam name="TModel">The type of the model (and field value).</typeparam>
-	/// <param name="builder">The node builder to configure with the instance model.</param>
-	/// <param name="fieldName">The name of the inner field that holds the value.</param>
-	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseSingleFieldModel<TModel>(this IFormBuilder builder, string fieldName) =>
-		throw new NotImplementedException();
-
-	/// <summary>
-	/// Creates a model binding from the custom getter and setter functions.
-	/// </summary>
-	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="getter">The method loading the value from some model available in the building context.</param>
-	/// <param name="setter">The method writing the value to some model available in the building context.</param>
-	/// <returns>The node builder for further configurations.</returns>
-	public static INumberNodeBuilder UseGetterSetterBinding(
-		this INumberNodeBuilder builder,
-		Func<decimal?> getter,
-		Action<decimal?> setter
-	)
-	{
-		var binding = new FormNodeBinding<decimal?>(
-			new ValueNodeBinding<decimal?>(),
-			new GetterSetterBinding<decimal?>(getter, setter)
 		);
 		builder.UseBinding(binding);
 		return builder;
@@ -709,44 +700,62 @@ public static class FormBuilderExtensions
 	}
 
 	/// <summary>
-	/// Creates a model binding from the custom getter and setter functions.
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
 	/// </summary>
-	/// <typeparam name="TModel">The type of the model this templated node represents. This may be a supertype for different implementations in different templates.</typeparam>
 	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="getter">The method loading the value from some model available in the building context.</param>
-	/// <param name="setter">The method writing the value to some model available in the building context.</param>
-	/// <param name="emptyValue">The value to write to the model, if the template instance does not yield a model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
 	/// <returns>The node builder for further configurations.</returns>
-	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
-		this ITemplateNodeBuilder builder,
-		Func<TModel?> getter,
-		Action<TModel?> setter,
-		TModel? emptyValue
+	public static ITextNodeBuilder UsePropertyBinding(
+		this ITextNodeBuilder builder,
+		Expression<Func<string?>> propertyAccessor
 	)
 	{
-		var binding = new FormNodeBinding<TModel?>(
-			new TemplateNodeBinding<TModel?>(emptyValue),
-			new GetterSetterBinding<TModel?>(getter, setter)
+		var binding = new FormNodeBinding<string?>(
+			new ValueNodeBinding<string?>(),
+			new PropertyBinding<string?, string?>(propertyAccessor)
 		);
 		builder.UseBinding(binding);
 		return builder;
 	}
 
-	/// <inheritdoc cref="UseGetterSetterBinding{TModel}(ITemplateNodeBuilder,Func{TModel},Action{TModel},TModel)"/>
-	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
-		this ITemplateNodeBuilder builder,
-		Func<TModel?> getter,
-		Action<TModel?> setter
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ITimestampNodeBuilder UsePropertyBinding(
+		this ITimestampNodeBuilder builder,
+		Expression<Func<DateTime?>> propertyAccessor
 	)
-		where TModel : class => builder.UseGetterSetterBinding(getter, setter, null);
+	{
+		var binding = new FormNodeBinding<DateTime?>(
+			new ValueNodeBinding<DateTime?>(),
+			new PropertyBinding<DateTime?, DateTime?>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
-	/// <inheritdoc cref="UseGetterSetterBinding{TModel}(ITemplateNodeBuilder,Func{TModel},Action{TModel},TModel)"/>
-	public static ITemplateNodeBuilder UseGetterSetterBinding<TModel>(
-		this ITemplateNodeBuilder builder,
-		Func<TModel?> getter,
-		Action<TModel?> setter
+	/// <summary>
+	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// </summary>
+	/// <typeparam name="TItem">The type of the items in the collection, this node represents. This may be a supertype for different implementations in different templates.</typeparam>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
+	/// <returns>The node builder for further configurations.</returns>
+	public static ICollectionNodeBuilder UsePropertyBinding<TItem>(
+		this ICollectionNodeBuilder builder,
+		Expression<Func<IEnumerable<TItem>>> propertyAccessor
 	)
-		where TModel : struct => builder.UseGetterSetterBinding(getter, setter, null);
+	{
+		var binding = new FormNodeBinding<IEnumerable<TItem>>(
+			new CollectionNodeBinding<TItem>(),
+			new PropertyBinding<IEnumerable<TItem>, IEnumerable<TItem>>(propertyAccessor)
+		);
+		builder.UseBinding(binding);
+		return builder;
+	}
 
 	/// <summary>
 	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
@@ -785,82 +794,63 @@ public static class FormBuilderExtensions
 		where TModel : struct => builder.UsePropertyBinding(propertyAccessor, null);
 
 	/// <summary>
-	/// Creates a model binding from the custom getter and setter functions.
+	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
+	/// An instance is for example created when a template is instantiated, etc.
 	/// </summary>
-	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="getter">The method loading the value from some model available in the building context.</param>
-	/// <param name="setter">The method writing the value to some model available in the building context.</param>
-	/// <returns>The node builder for further configurations.</returns>
-	public static ITextNodeBuilder UseGetterSetterBinding(
-		this ITextNodeBuilder builder,
-		Func<string?> getter,
-		Action<string?> setter
+	/// <typeparam name="TModel">The type of the instance model.</typeparam>
+	/// <param name="builder">The node builder to configure with the instance model.</param>
+	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
+	/// <param name="modelReference">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
+	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public static IFormBuilder UseEmbeddedModel<TModel>(
+		this IFormBuilder builder,
+		Func<TModel> instanceFactory,
+		out EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, bool>? applicabilityPredicate = null
 	)
 	{
-		var binding = new FormNodeBinding<string?>(
-			new ValueNodeBinding<string?>(),
-			new GetterSetterBinding<string?>(getter, setter)
-		);
-		builder.UseBinding(binding);
+		if (applicabilityPredicate == null)
+		{
+			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory));
+		}
+		else
+		{
+			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory, applicabilityPredicate));
+		}
+		modelReference = new EmbeddedModelReference<TModel>(builder.GetNodeName());
 		return builder;
 	}
 
 	/// <summary>
-	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
+	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
+	/// An instance is for example created when a template is instantiated, etc.
 	/// </summary>
-	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
-	/// <returns>The node builder for further configurations.</returns>
-	public static ITextNodeBuilder UsePropertyBinding(
-		this ITextNodeBuilder builder,
-		Expression<Func<string?>> propertyAccessor
+	/// <typeparam name="TImplementationType">The type of the instance model.</typeparam>
+	/// <param name="builder">The node builder to configure with the instance model.</param>
+	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
+	/// <param name="modelReference">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
+	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public static IFormBuilder UseEmbeddedModel<TBaseType, TImplementationType>(
+		this IFormBuilder builder,
+		Func<TImplementationType> instanceFactory,
+		out EmbeddedModelReference<TImplementationType> modelReference,
+		Func<TBaseType, bool>? applicabilityPredicate = null
 	)
+		where TImplementationType : TBaseType
 	{
-		var binding = new FormNodeBinding<string?>(
-			new ValueNodeBinding<string?>(),
-			new PropertyBinding<string?, string?>(propertyAccessor)
-		);
-		builder.UseBinding(binding);
-		return builder;
-	}
-
-	/// <summary>
-	/// Creates a model binding from the custom getter and setter functions.
-	/// </summary>
-	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="getter">The method loading the value from some model available in the building context.</param>
-	/// <param name="setter">The method writing the value to some model available in the building context.</param>
-	/// <returns>The node builder for further configurations.</returns>
-	public static ITimestampNodeBuilder UseGetterSetterBinding(
-		this ITimestampNodeBuilder builder,
-		Func<DateTime?> getter,
-		Action<DateTime?> setter
-	)
-	{
-		var binding = new FormNodeBinding<DateTime?>(
-			new ValueNodeBinding<DateTime?>(),
-			new GetterSetterBinding<DateTime?>(getter, setter)
-		);
-		builder.UseBinding(binding);
-		return builder;
-	}
-
-	/// <summary>
-	/// Creates a model binding by constructing getter and setter methods from the given <paramref name="propertyAccessor"/>
-	/// </summary>
-	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="propertyAccessor">An expression pointing to some property accessible from the building context.</param>
-	/// <returns>The node builder for further configurations.</returns>
-	public static ITimestampNodeBuilder UsePropertyBinding(
-		this ITimestampNodeBuilder builder,
-		Expression<Func<DateTime?>> propertyAccessor
-	)
-	{
-		var binding = new FormNodeBinding<DateTime?>(
-			new ValueNodeBinding<DateTime?>(),
-			new PropertyBinding<DateTime?, DateTime?>(propertyAccessor)
-		);
-		builder.UseBinding(binding);
+		if (applicabilityPredicate == null)
+		{
+			builder.UseExtension(new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory));
+		}
+		else
+		{
+			builder.UseExtension(
+				new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory, applicabilityPredicate)
+			);
+		}
+		modelReference = new EmbeddedModelReference<TImplementationType>(builder.GetNodeName());
 		return builder;
 	}
 
@@ -868,18 +858,38 @@ public static class FormBuilderExtensions
 	/// Creates a binding for an <see cref="IBooleanNode"/> using custom getter and setter methods.
 	/// </summary>
 	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="bindingFactory">The binding factory for referencing an instance model.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
-	/// <returns>The binding.</returns>
-	public static IBooleanNodeBuilder UseInstanceGetterSetterBinding<TModel>(
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static IBooleanNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel>(
 		this IBooleanNodeBuilder builder,
-		InstanceBindingFactory<TModel> bindingFactory,
+		EmbeddedModelReference<TModel> modelReference,
 		Func<TModel, bool?> getter,
 		Action<TModel, bool?> setter
 	)
 	{
-		var binding = bindingFactory.CreateGetterSetterBinding(getter, setter);
+		var binding = modelReference.CreateBooleanGetterSetterBinding(getter, setter);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="IFileNodeBuilder"/> using custom getter and setter methods.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="getter">The method loading the value from the model.</param>
+	/// <param name="setter">The method writing the value to the model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static IFileNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel>(
+		this IFileNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, FileValue> getter,
+		Action<TModel, FileValue> setter
+	)
+	{
+		var binding = modelReference.CreateFileGetterSetterBinding(getter, setter);
 		builder.UseBinding(binding);
 		return builder;
 	}
@@ -888,19 +898,343 @@ public static class FormBuilderExtensions
 	/// Creates a binding for an <see cref="INumberNodeBuilder"/> using custom getter and setter methods.
 	/// </summary>
 	/// <param name="builder">The node builder to append the binding to.</param>
-	/// <param name="bindingFactory">The binding factory for referencing an instance model.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
 	/// <param name="getter">The method loading the value from the model.</param>
 	/// <param name="setter">The method writing the value to the model.</param>
-	/// <returns>The binding.</returns>
-	public static INumberNodeBuilder UseInstanceGetterSetterBinding<TModel>(
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static INumberNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel>(
 		this INumberNodeBuilder builder,
-		InstanceBindingFactory<TModel> bindingFactory,
+		EmbeddedModelReference<TModel> modelReference,
 		Func<TModel, decimal?> getter,
 		Action<TModel, decimal?> setter
 	)
 	{
-		var binding = bindingFactory.CreateGetterSetterBinding(getter, setter);
+		var binding = modelReference.CreateNumberGetterSetterBinding(getter, setter);
 		builder.UseBinding(binding);
 		return builder;
 	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ITextNodeBuilder"/> using custom getter and setter methods.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="getter">The method loading the value from the model.</param>
+	/// <param name="setter">The method writing the value to the model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ITextNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel>(
+		this ITextNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, string?> getter,
+		Action<TModel, string?> setter
+	)
+	{
+		var binding = modelReference.CreateTextGetterSetterBinding(getter, setter);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ITimestampNodeBuilder"/> using custom getter and setter methods.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="getter">The method loading the value from the model.</param>
+	/// <param name="setter">The method writing the value to the model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ITimestampNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel>(
+		this ITimestampNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, DateTime?> getter,
+		Action<TModel, DateTime?> setter
+	)
+	{
+		var binding = modelReference.CreateTimestampGetterSetterBinding(getter, setter);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ICollectionNodeBuilder"/> using custom getter and setter methods.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="getter">The method loading the value from the model.</param>
+	/// <param name="setter">The method writing the value to the model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ICollectionNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel, TItem>(
+		this ICollectionNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, IEnumerable<TItem>> getter,
+		Action<TModel, IEnumerable<TItem>> setter
+	)
+	{
+		var binding = modelReference.CreateCollectionGetterSetterBinding(getter, setter);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ITemplateNodeBuilder"/> using custom getter and setter methods.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="getter">The method loading the value from the model.</param>
+	/// <param name="setter">The method writing the value to the model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ITemplateNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel, TInnerModel>(
+		this ITemplateNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, TInnerModel?> getter,
+		Action<TModel, TInnerModel?> setter,
+		TInnerModel? emptyValue
+	)
+	{
+		var binding = modelReference.CreateTemplateGetterSetterBinding(getter, setter, emptyValue);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <inheritdoc cref="UseEmbeddedModelGetterSetterBinding{TModel,TInnerModel}(ITemplateNodeBuilder,EmbeddedModelReference{TModel},Func{TModel,TInnerModel},Action{TModel,TInnerModel},TInnerModel)"/>
+	public static ITemplateNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel, TInnerModel>(
+		this ITemplateNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, TInnerModel?> getter,
+		Action<TModel, TInnerModel?> setter
+	)
+		where TInnerModel : class => builder.UseEmbeddedModelGetterSetterBinding(modelReference, getter, setter, null);
+
+	/// <inheritdoc cref="UseEmbeddedModelGetterSetterBinding{TModel,TInnerModel}(ITemplateNodeBuilder,EmbeddedModelReference{TModel},Func{TModel,TInnerModel},Action{TModel,TInnerModel},TInnerModel)"/>
+	public static ITemplateNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel, TInnerModel>(
+		this ITemplateNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, TInnerModel?> getter,
+		Action<TModel, TInnerModel?> setter
+	)
+		where TInnerModel : struct => builder.UseEmbeddedModelGetterSetterBinding(modelReference, getter, setter, null);
+
+	/// <summary>
+	/// Creates a binding for an <see cref="IBooleanNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static IBooleanNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this IBooleanNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, bool?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateBooleanPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="IFileNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static IFileNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this IFileNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, FileValue>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateFilePropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="INumberNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this INumberNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, decimal?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateNumberPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="INumberNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this INumberNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, double?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateNumberPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="INumberNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this INumberNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, float?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateNumberPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="INumberNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this INumberNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, long?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateNumberPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="INumberNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this INumberNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, int?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateNumberPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ITextNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ITextNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this ITextNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, string?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateTextPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ITimestampNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ITimestampNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		this ITimestampNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, DateTime?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateTimestampPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ICollectionNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ICollectionNodeBuilder UseEmbeddedModelPropertyBinding<TModel, TItem>(
+		this ICollectionNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, IEnumerable<TItem>>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateCollectionPropertyBinding(propertyAccessor);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <summary>
+	/// Creates a binding for an <see cref="ITemplateNodeBuilder"/> by constructing getter and setter methods from the <paramref name="propertyAccessor"/>.
+	/// </summary>
+	/// <param name="builder">The node builder to append the binding to.</param>
+	/// <param name="modelReference">The binding factory for referencing an instance model.</param>
+	/// <param name="propertyAccessor">An expression pointing to some property of a given instance model.</param>
+	/// <returns>The node builder for adding further configurations.</returns>
+	public static ITemplateNodeBuilder UseEmbeddedModelPropertyBinding<TModel, TInnerModel>(
+		this ITemplateNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, TInnerModel?>> propertyAccessor,
+		TInnerModel? emptyItem
+	)
+	{
+		var binding = modelReference.CreateTemplatePropertyBinding(propertyAccessor, emptyItem);
+		builder.UseBinding(binding);
+		return builder;
+	}
+
+	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding{TModel,TInnerModel}(ITemplateNodeBuilder,EmbeddedModelReference{TModel},Expression{Func{TModel, TInnerModel}},TInnerModel)"/>
+	public static ITemplateNodeBuilder UseEmbeddedModelPropertyBinding<TModel, TInnerModel>(
+		this ITemplateNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, TInnerModel?>> propertyAccessor
+	)
+		where TInnerModel : class => builder.UseEmbeddedModelPropertyBinding(modelReference, propertyAccessor, null);
+
+	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding{TModel,TInnerModel}(ITemplateNodeBuilder,EmbeddedModelReference{TModel},Expression{Func{TModel, TInnerModel}},TInnerModel)"/>
+	public static ITemplateNodeBuilder UseEmbeddedModelPropertyBinding<TModel, TInnerModel>(
+		this ITemplateNodeBuilder builder,
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, TInnerModel?>> propertyAccessor
+	)
+		where TInnerModel : struct => builder.UseEmbeddedModelPropertyBinding(modelReference, propertyAccessor, null);
+
+	/// <summary>
+	/// Defines, that the model for this form is represented in a single field value.
+	/// </summary>
+	/// <typeparam name="TModel">The type of the model (and field value).</typeparam>
+	/// <param name="builder">The node builder to configure with the instance model.</param>
+	/// <param name="fieldName">The name of the inner field that holds the value.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public static IFormBuilder UseSingleFieldModel<TModel>(this IFormBuilder builder, string fieldName) =>
+		throw new NotImplementedException();
 }
