@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RobinEpple.Common.Forms.Binding;
 
 internal class Form : NodeBase, IForm
 {
@@ -20,6 +21,14 @@ internal class Form : NodeBase, IForm
 
 	/// <inheritdoc />
 	public IEnumerable<IFormNode> Nodes => _nodesByName.Values;
+
+	/// <inheritdoc />
+	public IFormModel? EmbeddedModel { get; private set; }
+
+	internal void UseEmbeddedModel(IFormModel model)
+	{
+		EmbeddedModel = model;
+	}
 
 	internal void AddNode(IFormNode node)
 	{

@@ -794,67 +794,6 @@ public static class FormBuilderExtensions
 		where TModel : struct => builder.UsePropertyBinding(propertyAccessor, null);
 
 	/// <summary>
-	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
-	/// An instance is for example created when a template is instantiated, etc.
-	/// </summary>
-	/// <typeparam name="TModel">The type of the instance model.</typeparam>
-	/// <param name="builder">The node builder to configure with the instance model.</param>
-	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
-	/// <param name="modelReference">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
-	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
-	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseEmbeddedModel<TModel>(
-		this IFormBuilder builder,
-		Func<TModel> instanceFactory,
-		out EmbeddedModelReference<TModel> modelReference,
-		Func<TModel, bool>? applicabilityPredicate = null
-	)
-	{
-		if (applicabilityPredicate == null)
-		{
-			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory));
-		}
-		else
-		{
-			builder.UseExtension(new InstanceModelExtension<TModel, TModel>(instanceFactory, applicabilityPredicate));
-		}
-		modelReference = new EmbeddedModelReference<TModel>(builder.GetNodeName());
-		return builder;
-	}
-
-	/// <summary>
-	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
-	/// An instance is for example created when a template is instantiated, etc.
-	/// </summary>
-	/// <typeparam name="TImplementationType">The type of the instance model.</typeparam>
-	/// <param name="builder">The node builder to configure with the instance model.</param>
-	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
-	/// <param name="modelReference">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
-	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
-	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseEmbeddedModel<TBaseType, TImplementationType>(
-		this IFormBuilder builder,
-		Func<TImplementationType> instanceFactory,
-		out EmbeddedModelReference<TImplementationType> modelReference,
-		Func<TBaseType, bool>? applicabilityPredicate = null
-	)
-		where TImplementationType : TBaseType
-	{
-		if (applicabilityPredicate == null)
-		{
-			builder.UseExtension(new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory));
-		}
-		else
-		{
-			builder.UseExtension(
-				new InstanceModelExtension<TBaseType, TImplementationType>(instanceFactory, applicabilityPredicate)
-			);
-		}
-		modelReference = new EmbeddedModelReference<TImplementationType>(builder.GetNodeName());
-		return builder;
-	}
-
-	/// <summary>
 	/// Creates a binding for an <see cref="IBooleanNode"/> using custom getter and setter methods.
 	/// </summary>
 	/// <param name="builder">The node builder to append the binding to.</param>
@@ -1227,14 +1166,4 @@ public static class FormBuilderExtensions
 		Expression<Func<TModel, TInnerModel?>> propertyAccessor
 	)
 		where TInnerModel : struct => builder.UseEmbeddedModelPropertyBinding(modelReference, propertyAccessor, null);
-
-	/// <summary>
-	/// Defines, that the model for this form is represented in a single field value.
-	/// </summary>
-	/// <typeparam name="TModel">The type of the model (and field value).</typeparam>
-	/// <param name="builder">The node builder to configure with the instance model.</param>
-	/// <param name="fieldName">The name of the inner field that holds the value.</param>
-	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseSingleFieldModel<TModel>(this IFormBuilder builder, string fieldName) =>
-		throw new NotImplementedException();
 }

@@ -222,4 +222,34 @@ public class FormBuilder : IFormBuilder
 
 	/// <inheritdoc/>
 	public string GetNodeName() => Form.Name;
+
+	/// <inheritdoc/>
+	public IFormBuilder UseEmbeddedModel<TModel>(
+		Func<TModel> instanceFactory,
+		out EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, bool>? applicabilityPredicate = null
+	)
+	{
+		EmbeddedModel<TModel> model;
+		if (applicabilityPredicate == null)
+		{
+			model = new EmbeddedModel<TModel>(instanceFactory);
+		}
+		else
+		{
+			model = new EmbeddedModel<TModel>(instanceFactory, applicabilityPredicate);
+		}
+		Form.UseExtension(model);
+		Form.UseEmbeddedModel(model);
+		modelReference = new EmbeddedModelReference<TModel>(GetNodeName());
+		return this;
+	}
+
+	/// <inheritdoc/>
+	public IFormBuilder UseSingleFieldModel<TModel>(string fieldName, TModel emptyValue)
+	{
+		var model = new SingleFieldModel<TModel>(fieldName, emptyValue);
+		Form.UseEmbeddedModel(model);
+		return this;
+	}
 }

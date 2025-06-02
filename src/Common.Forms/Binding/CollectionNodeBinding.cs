@@ -1,8 +1,8 @@
 namespace RobinEpple.Common.Forms.Binding;
 
 using System.Diagnostics.CodeAnalysis;
-using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 public class CollectionNodeBinding<TItem> : IValueAccessor<IEnumerable<TItem>>
 {
@@ -25,21 +25,15 @@ public class CollectionNodeBinding<TItem> : IValueAccessor<IEnumerable<TItem>>
 		return values;
 	}
 
-	private bool TryGetModelFromInstance(IForm instance, [NotNullWhen(true)] out TItem? model)
+	private bool TryGetModelFromInstance(IForm node, [NotNullWhen(true)] out TItem? model)
 	{
 		model = default;
-		if (!instance.Tags.TryGetValue(IFormNodeBinding.InstanceModelTagName, out var instanceModel))
+		if (node.EmbeddedModel?.GetInstance(node) is not { } instance)
 		{
 			return false;
 		}
 
-		if (instanceModel is not TItem value)
-		{
-			return false;
-		}
-
-		model = value;
-		return true;
+		return NullableUnwrappingTypeConverter.TryConvert(instance, out model);
 	}
 
 	/// <inheritdoc />
@@ -62,27 +56,23 @@ public class CollectionNodeBinding<TItem> : IValueAccessor<IEnumerable<TItem>>
 
 	private void InstantiateModel(ICollectionNode collectionNode, TItem value)
 	{
-		// Iterate over all templates.
+		// Iterate over all templates and instantiate the first that accepts the model.
 		foreach (var template in collectionNode.Templates)
 		{
-			// Check if there is an extension, that is applicable for the given value type.
-			foreach (var extension in template.Extensions)
+			if (template.EmbeddedModel is not { } model)
 			{
-				if (extension is not IValueModelExtension<TItem> valueModel)
-				{
-					continue;
-				}
-
-				if (!valueModel.IsApplicableTo(value))
-				{
-					continue;
-				}
-
-				// Use the first extension that accepts this model type, and quit.
-				var instance = collectionNode.Instantiate(template);
-				valueModel.LoadValue(instance, value);
-				return;
+				continue;
 			}
+
+			if (!model.Accepts(value))
+			{
+				continue;
+			}
+
+			// Use the first extension that accepts this model type, and quit.
+			var instance = collectionNode.Instantiate(template);
+			model.SetInstance(instance, value);
+			return;
 		}
 	}
 }

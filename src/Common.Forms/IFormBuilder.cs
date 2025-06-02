@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms;
 
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes;
 
 public interface IFormBuilder : INodeBuilder<IFormBuilder>
@@ -143,4 +144,28 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="configure">A function to configure the template section.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public IFormBuilder WithTemplatedSection(string name, TemplatedSectionBuilder? configure = null);
+
+	/// <summary>
+	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
+	/// An instance is for example created when a template is instantiated, etc.
+	/// </summary>
+	/// <typeparam name="TModel">The type of the instance model.</typeparam>
+	/// <param name="instanceFactory">A factory function for creating new model instances.</param>
+	/// <param name="modelReference">A factory that can be used to create bindings of inner fields to the instance of this parent form.</param>
+	/// <param name="applicabilityPredicate">Optional predicate to define, when this template is applicable to loading a model. If left empty, the default predicate is a type match.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public IFormBuilder UseEmbeddedModel<TModel>(
+		Func<TModel> instanceFactory,
+		out EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, bool>? applicabilityPredicate = null
+	);
+
+	/// <summary>
+	/// Defines, that the model for this form is represented in a single field value.
+	/// </summary>
+	/// <typeparam name="TModel">The type of the model (and field value).</typeparam>
+	/// <param name="fieldName">The name of the inner field that holds the value.</param>
+	/// <param name="emptyValue">The value to use for emptying the node.</param>
+	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
+	public IFormBuilder UseSingleFieldModel<TModel>(string fieldName, TModel emptyValue);
 }

@@ -1,8 +1,10 @@
 namespace RobinEpple.Common.Forms.Binding;
 
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 public class TemplateNodeBinding<TValue>(TValue emptyValue) : IValueAccessor<TValue>
 {
@@ -30,21 +32,15 @@ public class TemplateNodeBinding<TValue>(TValue emptyValue) : IValueAccessor<TVa
 		return _emptyValue;
 	}
 
-	private bool TryGetModelFromInstance(IForm instance, [NotNullWhen(true)] out TValue? model)
+	private bool TryGetModelFromInstance(IForm node, [NotNullWhen(true)] out TValue? model)
 	{
 		model = default;
-		if (!instance.Tags.TryGetValue(IFormNodeBinding.InstanceModelTagName, out var instanceModel))
+		if (node.EmbeddedModel?.GetInstance(node) is not { } instance)
 		{
 			return false;
 		}
 
-		if (instanceModel is not TValue value)
-		{
-			return false;
-		}
-
-		model = value;
-		return true;
+		return NullableUnwrappingTypeConverter.TryConvert(instance, out model);
 	}
 
 	/// <inheritdoc />
@@ -70,27 +66,23 @@ public class TemplateNodeBinding<TValue>(TValue emptyValue) : IValueAccessor<TVa
 
 	private void InstantiateModel(ITemplateNode templateNode, TValue value)
 	{
-		// Iterate over all templates.
+		// Iterate over all templates and instantiate the first that accepts the model.
 		foreach (var template in templateNode.Templates)
 		{
-			// Check if there is an extension, that is applicable for the given value type.
-			foreach (var extension in template.Extensions)
+			if (template.EmbeddedModel is not { } model)
 			{
-				if (extension is not IValueModelExtension<TValue> embeddedModel)
-				{
-					continue;
-				}
-
-				if (!embeddedModel.IsApplicableTo(value))
-				{
-					continue;
-				}
-
-				// Use the first extension that accepts this model type, and quit.
-				var instance = templateNode.Instantiate(template);
-				embeddedModel.LoadValue(instance, value);
-				return;
+				continue;
 			}
+
+			if (!model.Accepts(value))
+			{
+				continue;
+			}
+
+			// Use the first extension that accepts this model type, and quit.
+			var instance = templateNode.Instantiate(template);
+			model.SetInstance(instance, value);
+			return;
 		}
 	}
 }
