@@ -579,7 +579,7 @@ public class Binding
 	}
 
 	[TestMethod]
-	public void SingleFieldModel_ShouldSyncToTheFieldValue()
+	public void ValueNodeModel_ShouldSyncToTheFieldValue()
 	{
 		var model = new BindingModel();
 
@@ -594,7 +594,7 @@ public class Binding
 					node.UsePropertyBinding(() => model.CollectionProperty)
 						.UseTemplate(
 							"Template",
-							template => template.UseNumberSingleFieldModel("IntField").WithNumberNode("IntField")
+							template => template.UseNumberNodeModel("IntField").WithNumberNode("IntField")
 						)
 			)
 			.WithTemplatedSection(
@@ -603,7 +603,7 @@ public class Binding
 					node.UsePropertyBinding(() => model.SectionProperty)
 						.UseTemplate(
 							"Template",
-							template => template.UseNumberSingleFieldModel("IntField").WithNumberNode("IntField")
+							template => template.UseNumberNodeModel("IntField").WithNumberNode("IntField")
 						)
 			)
 			.Build();

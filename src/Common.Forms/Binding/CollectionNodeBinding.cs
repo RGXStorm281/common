@@ -28,7 +28,7 @@ public class CollectionNodeBinding<TItem> : IValueAccessor<IEnumerable<TItem>>
 	private bool TryGetModelFromInstance(IForm node, [NotNullWhen(true)] out TItem? model)
 	{
 		model = default;
-		if (node.EmbeddedModel?.GetInstance(node) is not { } instance)
+		if (node.EmbeddedModel?.GetValue(node) is not { } instance)
 		{
 			return false;
 		}
@@ -71,7 +71,7 @@ public class CollectionNodeBinding<TItem> : IValueAccessor<IEnumerable<TItem>>
 
 			// Use the first extension that accepts this model type, and quit.
 			var instance = collectionNode.Instantiate(template);
-			model.SetInstance(instance, value);
+			model.SetValue(instance, value);
 			return;
 		}
 	}

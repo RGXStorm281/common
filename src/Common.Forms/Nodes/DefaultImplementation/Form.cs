@@ -23,9 +23,9 @@ internal class Form : NodeBase, IForm
 	public IEnumerable<IFormNode> Nodes => _nodesByName.Values;
 
 	/// <inheritdoc />
-	public IFormModel? EmbeddedModel { get; private set; }
+	public IEmbeddedModel? EmbeddedModel { get; private set; }
 
-	internal void UseEmbeddedModel(IFormModel model)
+	internal void UseEmbeddedModel(IEmbeddedModel model)
 	{
 		EmbeddedModel = model;
 	}

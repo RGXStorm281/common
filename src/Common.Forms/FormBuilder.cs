@@ -246,9 +246,9 @@ public class FormBuilder : IFormBuilder
 	}
 
 	/// <inheritdoc/>
-	public IFormBuilder UseSingleFieldModel<TModel>(string fieldName, TModel emptyValue)
+	public IFormBuilder UseValueNodeModel<TModel>(string fieldName, TModel emptyValue)
 	{
-		var model = new SingleFieldModel<TModel>(fieldName, emptyValue);
+		var model = new ValueNodeModel<TModel>(fieldName, emptyValue);
 		Form.UseEmbeddedModel(model);
 		return this;
 	}

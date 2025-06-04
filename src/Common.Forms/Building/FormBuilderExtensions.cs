@@ -404,38 +404,38 @@ public static class FormBuilderExtensions
 	/// </summary>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseBooleanSingleFieldModel(this IFormBuilder builder, string fieldName) =>
-		builder.UseSingleFieldModel<bool?>(fieldName, null);
+	public static IFormBuilder UseBooleanNodeModel(this IFormBuilder builder, string fieldName) =>
+		builder.UseValueNodeModel<bool?>(fieldName, null);
 
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single file field.
 	/// </summary>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseFileSingleFieldModel(this IFormBuilder builder, string fieldName) =>
-		builder.UseSingleFieldModel<FileValue?>(fieldName, null);
+	public static IFormBuilder UseFileNodeModel(this IFormBuilder builder, string fieldName) =>
+		builder.UseValueNodeModel<FileValue?>(fieldName, null);
 
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single number field.
 	/// </summary>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseNumberSingleFieldModel(this IFormBuilder builder, string fieldName) =>
-		builder.UseSingleFieldModel<decimal?>(fieldName, null);
+	public static IFormBuilder UseNumberNodeModel(this IFormBuilder builder, string fieldName) =>
+		builder.UseValueNodeModel<decimal?>(fieldName, null);
 
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single text field.
 	/// </summary>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseTextSingleFieldModel(this IFormBuilder builder, string fieldName) =>
-		builder.UseSingleFieldModel<string?>(fieldName, null);
+	public static IFormBuilder UseTextNodeModel(this IFormBuilder builder, string fieldName) =>
+		builder.UseValueNodeModel<string?>(fieldName, null);
 
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single timestamp field.
 	/// </summary>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public static IFormBuilder UseTimestampSingleFieldModel(this IFormBuilder builder, string fieldName) =>
-		builder.UseSingleFieldModel<DateTime?>(fieldName, null);
+	public static IFormBuilder UseTimestampNodeModel(this IFormBuilder builder, string fieldName) =>
+		builder.UseValueNodeModel<DateTime?>(fieldName, null);
 }

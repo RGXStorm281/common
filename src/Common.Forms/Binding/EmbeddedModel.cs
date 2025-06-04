@@ -7,7 +7,7 @@ using RobinEpple.Common.Util;
 
 public class EmbeddedModel<TModel>(Func<TModel> modelFactory, Func<TModel, bool> applicabilityPredicate)
 	: FormNodeExtensionBase,
-		IFormModel
+		IEmbeddedModel
 {
 	public EmbeddedModel(Func<TModel> modelFactory)
 		: this(modelFactory, _ => true) { }
@@ -16,39 +16,38 @@ public class EmbeddedModel<TModel>(Func<TModel> modelFactory, Func<TModel, bool>
 	private readonly Func<TModel, bool> _applicabilityPredicate = applicabilityPredicate;
 
 	/// <inheritdoc />
-	public bool Accepts(object? model) =>
-		TryConvert(model, out var castedModel) && _applicabilityPredicate(castedModel);
+	public bool Accepts(object? value) => TryConvert(value, out var model) && _applicabilityPredicate(model);
 
-	private bool TryConvert(object? model, [NotNullWhen(true)] out TModel? convertedModel)
+	private bool TryConvert(object? value, [NotNullWhen(true)] out TModel? model)
 	{
-		convertedModel = default;
-		if (model == null)
+		model = default;
+		if (value == null)
 		{
 			return false;
 		}
-		return NullableUnwrappingTypeConverter.TryConvert(model, out convertedModel);
+		return NullableUnwrappingTypeConverter.TryConvert(value, out model);
 	}
 
 	/// <inheritdoc />
-	public object? GetInstance(IForm instance)
+	public object? GetValue(IForm node)
 	{
-		if (!instance.Tags.TryGetValue(IFormNodeBinding.InstanceModelTagName, out var model))
+		if (!node.Tags.TryGetValue(IFormNodeBinding.InstanceModelTagName, out var value))
 		{
 			throw new ArgumentException($"The form instance does not contain a model.");
 		}
 
-		return model;
+		return value;
 	}
 
 	/// <inheritdoc />
-	public void SetInstance(IForm instance, object? model)
+	public void SetValue(IForm node, object? value)
 	{
-		if (!Accepts(model))
+		if (!Accepts(value))
 		{
 			throw new ArgumentException($"The given model is not accepted by this node.");
 		}
 
-		instance.SetTag(IFormNodeBinding.InstanceModelTagName, model);
+		node.SetTag(IFormNodeBinding.InstanceModelTagName, value);
 	}
 
 	/// <inheritdoc />

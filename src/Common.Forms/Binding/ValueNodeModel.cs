@@ -4,30 +4,29 @@ using System.Diagnostics.CodeAnalysis;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
 
-public class SingleFieldModel<TValue>(string fieldName, TValue emptyValue) : IFormModel
+public class ValueNodeModel<TValue>(string fieldName, TValue emptyValue) : IEmbeddedModel
 {
 	private readonly string _fieldName = fieldName;
 	private readonly TValue _emptyValue = emptyValue;
 
 	/// <inheritdoc />
 	// Always accept models with the correct type.
+	public bool Accepts(object? value) => value == null || TryConvert(value, out _);
 
-	public bool Accepts(object? model) => model == null || TryConvert(model, out _);
-
-	private bool TryConvert(object? model, [NotNullWhen(true)] out TValue? convertedModel)
+	private bool TryConvert(object? value, [NotNullWhen(true)] out TValue? model)
 	{
-		convertedModel = default;
-		if (model == null)
+		model = default;
+		if (value == null)
 		{
 			return false;
 		}
-		return NullableUnwrappingTypeConverter.TryConvert(model, out convertedModel);
+		return NullableUnwrappingTypeConverter.TryConvert(value, out model);
 	}
 
 	/// <inheritdoc />
-	public object? GetInstance(IForm instance)
+	public object? GetValue(IForm node)
 	{
-		var targetNode = instance.FindNode(_fieldName);
+		var targetNode = node.FindNode(_fieldName);
 		if (targetNode == null)
 		{
 			throw new ArgumentException(
@@ -46,14 +45,14 @@ public class SingleFieldModel<TValue>(string fieldName, TValue emptyValue) : IFo
 	}
 
 	/// <inheritdoc />
-	public void SetInstance(IForm instance, object? model)
+	public void SetValue(IForm node, object? value)
 	{
-		if (!Accepts(model))
+		if (!Accepts(value))
 		{
 			throw new ArgumentException($"The given model is not accepted by this node.");
 		}
 
-		var targetNode = instance.FindNode(_fieldName);
+		var targetNode = node.FindNode(_fieldName);
 		if (targetNode == null)
 		{
 			throw new ArgumentException(
@@ -68,16 +67,16 @@ public class SingleFieldModel<TValue>(string fieldName, TValue emptyValue) : IFo
 			);
 		}
 
-		if (model == null)
+		if (value == null)
 		{
 			targetField.Value = _emptyValue;
 		}
 
-		if (!TryConvert(model, out var value))
+		if (!TryConvert(value, out var typedValue))
 		{
 			throw new ArgumentException($"The given model is not accepted by this node.");
 		}
 
-		targetField.Value = value;
+		targetField.Value = typedValue;
 	}
 }

@@ -16,5 +16,5 @@ public interface IForm : IScopeProvider
 	/// <summary>
 	/// Optional embedded model in this form.
 	/// </summary>
-	public IFormModel? EmbeddedModel { get; }
+	public IEmbeddedModel? EmbeddedModel { get; }
 }

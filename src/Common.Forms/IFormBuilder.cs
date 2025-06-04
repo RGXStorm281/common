@@ -167,5 +167,5 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <param name="emptyValue">The value to use for emptying the node.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder UseSingleFieldModel<TModel>(string fieldName, TModel emptyValue);
+	public IFormBuilder UseValueNodeModel<TModel>(string fieldName, TModel emptyValue);
 }
