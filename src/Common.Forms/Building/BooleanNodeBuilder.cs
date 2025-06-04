@@ -1,5 +1,7 @@
 namespace RobinEpple.Common.Forms.Building;
 
+using System.Linq.Expressions;
+using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 internal class BooleanNodeBuilder : FieldNodeBuilder<IBooleanNodeBuilder, BooleanNode>, IBooleanNodeBuilder
@@ -12,7 +14,52 @@ internal class BooleanNodeBuilder : FieldNodeBuilder<IBooleanNodeBuilder, Boolea
 	{
 		Node.Value = defaultValue;
 		Node.ReplaceDefaultValue(defaultValue);
-		return CastThis();
+		return this;
+	}
+
+	/// <inheritdoc />
+	public IBooleanNodeBuilder UseGetterSetterBinding(Func<bool?> getter, Action<bool?> setter)
+	{
+		var binding = new FormNodeBinding<bool?>(
+			new ValueNodeBinding<bool?>(),
+			new GetterSetterBinding<bool?>(getter, setter)
+		);
+		UseBinding(binding);
+		return this;
+	}
+
+	/// <inheritdoc />
+	public IBooleanNodeBuilder UsePropertyBinding(Expression<Func<bool?>> propertyAccessor)
+	{
+		var binding = new FormNodeBinding<bool?>(
+			new ValueNodeBinding<bool?>(),
+			new PropertyBinding<bool?, bool?>(propertyAccessor)
+		);
+		UseBinding(binding);
+		return this;
+	}
+
+	/// <inheritdoc />
+	public IBooleanNodeBuilder UseEmbeddedModelGetterSetterBinding<TModel>(
+		EmbeddedModelReference<TModel> modelReference,
+		Func<TModel, bool?> getter,
+		Action<TModel, bool?> setter
+	)
+	{
+		var binding = modelReference.CreateBooleanGetterSetterBinding(getter, setter);
+		UseBinding(binding);
+		return this;
+	}
+
+	/// <inheritdoc />
+	public IBooleanNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
+		EmbeddedModelReference<TModel> modelReference,
+		Expression<Func<TModel, bool?>> propertyAccessor
+	)
+	{
+		var binding = modelReference.CreateBooleanPropertyBinding(propertyAccessor);
+		UseBinding(binding);
+		return this;
 	}
 
 	/// <inheritdoc />
