@@ -594,8 +594,7 @@ public class Binding
 					node.UsePropertyBinding(() => model.CollectionProperty)
 						.UseTemplate(
 							"Template",
-							template =>
-								template.UseSingleFieldModel<decimal?>("IntField", null).WithNumberNode("IntField")
+							template => template.UseNumberSingleFieldModel("IntField").WithNumberNode("IntField")
 						)
 			)
 			.WithTemplatedSection(
@@ -604,8 +603,7 @@ public class Binding
 					node.UsePropertyBinding(() => model.SectionProperty)
 						.UseTemplate(
 							"Template",
-							template =>
-								template.UseSingleFieldModel<decimal?>("IntField", null).WithNumberNode("IntField")
+							template => template.UseNumberSingleFieldModel("IntField").WithNumberNode("IntField")
 						)
 			)
 			.Build();
