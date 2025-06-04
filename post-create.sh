@@ -24,6 +24,7 @@ dotnet tool restore --tool-manifest=/workspaces/common/src/.config/dotnet-tools.
 echo "Mounting local nuget folder..."
 dotnet nuget add source /local-nuget -n local
 
+# Initialize libmagic.
 echo "Installing and linking libmagic..."
 sudo apt update
 sudo apt install -y libmagic1

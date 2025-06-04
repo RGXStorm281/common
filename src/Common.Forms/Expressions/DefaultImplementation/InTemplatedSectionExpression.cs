@@ -12,7 +12,7 @@ internal class InTemplatedSectionExpression<TValue>(string name, IFormExpression
 	/// <inheritdoc />
 	public TValue EvaluateOn(IFormNode node)
 	{
-		var targetSection = node.GetScope().FindNode(_name) as ITemplateNode;
+		var targetSection = node.GetScope().FindFirst(_name) as ITemplateNode;
 
 		if (targetSection == null)
 		{
@@ -32,7 +32,7 @@ internal class InTemplatedSectionExpression<TValue>(string name, IFormExpression
 	/// <inheritdoc />
 	public Task<TValue> EvaluateOnAsync(IFormNode node)
 	{
-		var targetSection = node.GetScope().FindNode(_name) as ITemplateNode;
+		var targetSection = node.GetScope().FindFirst(_name) as ITemplateNode;
 
 		if (targetSection == null)
 		{

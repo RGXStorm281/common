@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Binding;
+using RobinEpple.Common.Forms.Search;
 
 internal class Form : NodeBase, IForm
 {
@@ -41,85 +42,33 @@ internal class Form : NodeBase, IForm
 	}
 
 	/// <inheritdoc />
-	public IFormNode? FindNode(string name, StringComparer? comparer = null)
+	public IFormNode? FindFirst(Func<IFormNode, bool> predicate, int? maxDepth = null)
 	{
-		// Default comparer is case sensitive.
-		comparer ??= StringComparer.Ordinal;
-
-		// First search the current layer.
-		foreach (var node in Nodes)
-		{
-			if (comparer.Equals(node.Name, name))
-			{
-				return node;
-			}
-		}
-
-		// Then search all subsections in order.
-		foreach (var node in Nodes)
-		{
-			if (node is IScopeProvider subsection && subsection.FindNode(name, comparer) is { } subsectionTarget)
-			{
-				return subsectionTarget;
-			}
-
-			if (node is ITemplateNode template && template.Instance?.FindNode(name, comparer) is { } templateTarget)
-			{
-				return templateTarget;
-			}
-
-			// Never search collections for unique nodes.
-		}
-
-		// If none is found return null.
-		return null;
+		var search = new BreadthFirstSearch(predicate, true);
+		search.Visit(this);
+		return search.Results.FirstOrDefault();
 	}
 
 	/// <inheritdoc />
-	public IEnumerable<IFormNode> FindNodes(string name, StringComparer? comparer = null)
+	public IFormNode? FindFirst(string name, StringComparer? comparer = null, int? maxDepth = null)
 	{
-		// Default comparer is case sensitive.
 		comparer ??= StringComparer.Ordinal;
+		return FindFirst(node => comparer.Equals(node.Name, name), maxDepth);
+	}
 
-		// First return all matches in this node.
-		foreach (var node in Nodes)
-		{
-			if (comparer.Equals(node.Name, name))
-			{
-				yield return node;
-			}
-		}
+	/// <inheritdoc />
+	public IEnumerable<IFormNode> FindAll(Func<IFormNode, bool> predicate, int? maxDepth = null)
+	{
+		var search = new BreadthFirstSearch(predicate, false);
+		search.Visit(this);
+		return search.Results;
+	}
 
-		// Then search all subsections in order.
-		foreach (var node in Nodes)
-		{
-			if (node is IScopeProvider subsection)
-			{
-				foreach (var target in subsection.FindNodes(name, comparer))
-				{
-					yield return target;
-				}
-			}
-
-			if (node is ITemplateNode template)
-			{
-				foreach (var target in template.Instance?.FindNodes(name, comparer) ?? [])
-				{
-					yield return target;
-				}
-			}
-
-			if (node is ICollectionNode collection)
-			{
-				foreach (var instance in collection.Instances)
-				{
-					foreach (var target in instance.FindNodes(name, comparer))
-					{
-						yield return target;
-					}
-				}
-			}
-		}
+	/// <inheritdoc />
+	public IEnumerable<IFormNode> FindAll(string name, StringComparer? comparer = null, int? maxDepth = null)
+	{
+		comparer ??= StringComparer.Ordinal;
+		return FindAll(node => comparer.Equals(node.Name, name), maxDepth);
 	}
 
 	/// <inheritdoc />

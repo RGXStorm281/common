@@ -13,7 +13,7 @@ internal class GetNodeExpression<TNode>(string name) : IFormExpression<TNode>
 	{
 		var scope = node.GetScope();
 
-		var searchResult = scope.FindNode(_name);
+		var searchResult = scope.FindFirst(_name);
 		if (searchResult == null)
 		{
 			throw new NodeNotFoundException(

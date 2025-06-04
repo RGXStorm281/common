@@ -1,13 +1,13 @@
-namespace RobinEpple.Common.Forms.Visitors;
+namespace RobinEpple.Common.Forms;
 
 using RobinEpple.Common.Forms.Nodes;
 
 /// <summary>
 /// Traverses the tree, by first exploring one branch to its end before going to the next one.
 /// </summary>
-public abstract class DepthFirstVisitor
+public abstract class DepthFirstTraversal
 {
-	private Stack<IFormNode> _nextNodes = [];
+	private Stack<(int Depth, IFormNode Node)> _nextVisits = [];
 
 	/// <summary>
 	/// Traverses the form tree starting with the given node.
@@ -15,20 +15,44 @@ public abstract class DepthFirstVisitor
 	/// <param name="node">The starting point of the breadth-first traversal.</param>
 	public void Visit(IFormNode node)
 	{
-		var context = new VisitingContext();
+		var context = new TraversalContext();
 		VisitInternal(node, context);
 	}
 
-	private void VisitInternal(IFormNode node, VisitingContext context)
+	private void VisitInternal(IFormNode node, TraversalContext context)
 	{
 		// Execute on the current node.
 		ExecuteOnNode(node, context);
-		if (context.BreakLoop)
+		if (context.Quit)
 		{
 			return;
 		}
 
-		// Then enqueue its children if available.
+		// Then enqueue its children if enabled.
+		if (context.TraverseChildren)
+		{
+			EnqueueChildren(node, context);
+		}
+		else
+		{
+			// If not, re-enable it for the next node.
+			context.TraverseChildren = true;
+		}
+
+		// Visit the next node if available.
+		if (!_nextVisits.TryPop(out var nextVisit))
+		{
+			// All nodes have been visited.
+			return;
+		}
+		context.NodeIndex++;
+		context.CurrentDepth = nextVisit.Depth;
+		VisitInternal(nextVisit.Node, context);
+	}
+
+	private void EnqueueChildren(IFormNode node, TraversalContext context)
+	{
+		var nextDepth = context.CurrentDepth + 1;
 		// Reverse the order of lists, such that the first child is at the top of the stack.
 		switch (node)
 		{
@@ -36,7 +60,7 @@ public abstract class DepthFirstVisitor
 			{
 				foreach (var child in form.Nodes.Reverse())
 				{
-					_nextNodes.Push(child);
+					_nextVisits.Push((nextDepth, child));
 				}
 				break;
 			}
@@ -44,7 +68,7 @@ public abstract class DepthFirstVisitor
 			{
 				foreach (var child in collection.Instances.Reverse())
 				{
-					_nextNodes.Push(child);
+					_nextVisits.Push((nextDepth, child));
 				}
 				break;
 			}
@@ -52,20 +76,11 @@ public abstract class DepthFirstVisitor
 			{
 				if (templatedSection.Instance is { } child)
 				{
-					_nextNodes.Push(child);
+					_nextVisits.Push((nextDepth, child));
 				}
 				break;
 			}
 		}
-
-		// Visit the next node if available.
-		if (!_nextNodes.TryPop(out var nextNode))
-		{
-			// All nodes have been visited.
-			return;
-		}
-		context.NodeIndex++;
-		VisitInternal(nextNode, context);
 	}
 
 	/// <summary>
@@ -76,5 +91,5 @@ public abstract class DepthFirstVisitor
 	/// The context providing information about the state in the tree traversal.<br/>
 	/// Also allows breaking the loop (e.g. when the desired element is found).
 	/// </param>
-	protected abstract void ExecuteOnNode(IFormNode node, VisitingContext context);
+	protected abstract void ExecuteOnNode(IFormNode node, TraversalContext context);
 }

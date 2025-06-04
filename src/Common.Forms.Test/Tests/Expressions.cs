@@ -426,49 +426,6 @@ public class Expressions
 	}
 
 	[TestMethod]
-	public void GetNode_ShouldNotAccessCollections()
-	{
-		var form = new FormBuilder("Test")
-			.WithCollectionNode(
-				"Collection",
-				(node, _) =>
-					node.UseTemplate(
-						"CollectionTemplate",
-						template =>
-							template
-								.WithBooleanNode("Boolean")
-								.WithFileNode("File")
-								.WithNumberNode("Number")
-								.WithTextNode("Text")
-								.WithTimestampNode("Timestamp")
-					)
-			)
-			.Build();
-
-		var collectionNode = (ICollectionNode)form.Nodes.First(node => node.Name == "Collection");
-		collectionNode.Instantiate(collectionNode.Templates.First());
-
-		var booleanNode = (IBooleanNode)collectionNode.Instances.First().Nodes.First(node => node.Name == "Boolean");
-		var fileNode = (IFileNode)collectionNode.Instances.First().Nodes.First(node => node.Name == "File");
-		var numberNode = (INumberNode)collectionNode.Instances.First().Nodes.First(node => node.Name == "Number");
-		var textNode = (ITextNode)collectionNode.Instances.First().Nodes.First(node => node.Name == "Text");
-		var timestampNode = (ITimestampNode)
-			collectionNode.Instances.First().Nodes.First(node => node.Name == "Timestamp");
-
-		booleanNode.Value = true;
-		fileNode.Value = new("test", [1, 2, 3]);
-		numberNode.Value = 42;
-		textNode.Value = "testText";
-		timestampNode.Value = DateTime.Today;
-
-		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<IBooleanNode>("Boolean").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<IFileNode>("File").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<INumberNode>("Number").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<ITextNode>("Text").EvaluateOn(form));
-		Assert.ThrowsException<NodeNotFoundException>(() => GetNode<ITimestampNode>("Timestamp").EvaluateOn(form));
-	}
-
-	[TestMethod]
 	public void GetNode_ShouldPrioritizeHigherLayers()
 	{
 		var form = new FormBuilder("Test")

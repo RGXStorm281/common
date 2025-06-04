@@ -8,7 +8,7 @@ using RobinEpple.Common.Util;
 public class Search
 {
 	[TestMethod]
-	public void FindNode_ShouldFindChildInForm()
+	public void FindFirst_ShouldFindChildInForm()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -20,17 +20,17 @@ public class Search
 			.WithTimestampNode("Timestamp")
 			.Build();
 
-		Assert.IsTrue(form.FindNode("Boolean") is IBooleanNode);
-		Assert.IsTrue(form.FindNode("Collection") is ICollectionNode);
-		Assert.IsTrue(form.FindNode("File") is IFileNode);
-		Assert.IsTrue(form.FindNode("Number") is INumberNode);
-		Assert.IsTrue(form.FindNode("Section") is ITemplateNode);
-		Assert.IsTrue(form.FindNode("Text") is ITextNode);
-		Assert.IsTrue(form.FindNode("Timestamp") is ITimestampNode);
+		Assert.IsTrue(form.FindFirst("Boolean") is IBooleanNode);
+		Assert.IsTrue(form.FindFirst("Collection") is ICollectionNode);
+		Assert.IsTrue(form.FindFirst("File") is IFileNode);
+		Assert.IsTrue(form.FindFirst("Number") is INumberNode);
+		Assert.IsTrue(form.FindFirst("Section") is ITemplateNode);
+		Assert.IsTrue(form.FindFirst("Text") is ITextNode);
+		Assert.IsTrue(form.FindFirst("Timestamp") is ITimestampNode);
 	}
 
 	[TestMethod]
-	public void FindNode_ShouldReturnNullIfNodeDoesNotExist()
+	public void FindFirst_ShouldReturnNullIfNodeDoesNotExist()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -42,11 +42,11 @@ public class Search
 			.WithTimestampNode("Timestamp")
 			.Build();
 
-		Assert.AreEqual(null, form.FindNode("Text2"));
+		Assert.AreEqual(null, form.FindFirst("Text2"));
 	}
 
 	[TestMethod]
-	public void FindNode_ShouldNotSearchTemplatedSectionTemplates()
+	public void FindFirst_ShouldNotSearchTemplatedSectionTemplates()
 	{
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection(
@@ -55,11 +55,11 @@ public class Search
 			)
 			.Build();
 
-		Assert.AreEqual(null, form.FindNode("Boolean"));
+		Assert.AreEqual(null, form.FindFirst("Boolean"));
 	}
 
 	[TestMethod]
-	public void FindNode_ShouldSearchTemplatedSectionInstances()
+	public void FindFirst_ShouldSearchTemplatedSectionInstances()
 	{
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection(
@@ -75,11 +75,11 @@ public class Search
 		// Set value to make sure the node is from the instance and not the template.
 		booleanInstance.Value = true;
 
-		Assert.IsTrue(form.FindNode("Boolean") is IBooleanNode { Value: true });
+		Assert.IsTrue(form.FindFirst("Boolean") is IBooleanNode { Value: true });
 	}
 
 	[TestMethod]
-	public void FindNode_ShouldNotSearchCollections()
+	public void FindFirst_ShouldSearchCollections()
 	{
 		var form = new FormBuilder("Test")
 			.WithCollectionNode(
@@ -90,17 +90,17 @@ public class Search
 
 		var collection = (ICollectionNode)form.Nodes.First();
 		var template = collection.Templates.First();
-		collection.Instantiate(template);
+		var instance1 = collection.Instantiate(template);
+		var booleanNode1 = instance1.Nodes.First();
+		var instance2 = collection.Instantiate(template);
+		var booleanNode2 = instance1.Nodes.First();
 
-		// The collection should not search all instances.
-		Assert.AreEqual(null, form.FindNode("Boolean"));
-
-		// But if a specific instance is searched the (now unique) node should be found.
-		Assert.IsTrue(collection.Instances.First().FindNode("Boolean") is IBooleanNode);
+		// The search should find the first instance.
+		Assert.AreEqual(booleanNode1, form.FindFirst("Boolean"));
 	}
 
 	[TestMethod]
-	public void FindNode_ShouldNotTraverseUp()
+	public void FindFirst_ShouldNotTraverseUp()
 	{
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
@@ -111,12 +111,12 @@ public class Search
 		var template = section.Templates.First();
 		section.Instantiate(template);
 
-		Assert.IsTrue(section.Instance!.FindNode("Boolean") == null);
-		Assert.IsTrue(form!.FindNode("Boolean") is IBooleanNode);
+		Assert.IsTrue(section.Instance!.FindFirst("Boolean") == null);
+		Assert.IsTrue(form!.FindFirst("Boolean") is IBooleanNode);
 	}
 
 	[TestMethod]
-	public void FindNodeRecursiveTemplates_ShouldReturnUppermostInstance()
+	public void FindFirst_RecursiveTemplates_ShouldReturnUppermostInstance()
 	{
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection(
@@ -131,19 +131,19 @@ public class Search
 		section.Instantiate(template);
 		var upperBooleanNode = form.Nodes.First(node => node.Name == "Boolean");
 
-		Assert.IsTrue(ReferenceEquals(upperBooleanNode, form.FindNode("Boolean")));
+		Assert.IsTrue(ReferenceEquals(upperBooleanNode, form.FindFirst("Boolean")));
 	}
 
 	[TestMethod]
-	public void FindNodeEqualityComparer_ShouldTakeEffect()
+	public void FindFirst_EqualityComparer_ShouldTakeEffect()
 	{
 		var form = new FormBuilder("Test").WithBooleanNode("Boolean").Build();
 
-		Assert.IsTrue(form.FindNode("boolean", StringComparer.OrdinalIgnoreCase) is IBooleanNode);
+		Assert.IsTrue(form.FindFirst("boolean", StringComparer.OrdinalIgnoreCase) is IBooleanNode);
 	}
 
 	[TestMethod]
-	public void FindNodes_ShouldReturnEmptyIfNoNodeIsFound()
+	public void FindAll_ShouldReturnEmptyIfNoNodeIsFound()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -155,11 +155,11 @@ public class Search
 			.WithTimestampNode("Timestamp")
 			.Build();
 
-		Assert.IsTrue(form.FindNodes("Text2").None());
+		Assert.IsTrue(form.FindAll("Text2").None());
 	}
 
 	[TestMethod]
-	public void FindNodes_ShouldFindAllInstancesIncludingTemplatesAndCollections()
+	public void FindAll_ShouldFindAllInstancesIncludingTemplatesAndCollections()
 	{
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("Boolean")
@@ -180,12 +180,12 @@ public class Search
 		templateNode.Instantiate(form);
 
 		// Should find one on top level, one in templated section and two in collection.
-		Assert.IsTrue(form.FindNodes("Boolean").Count() == 4);
-		Assert.IsTrue(form.FindNodes("Boolean").All(node => node is IBooleanNode));
+		Assert.IsTrue(form.FindAll("Boolean").Count() == 4);
+		Assert.IsTrue(form.FindAll("Boolean").All(node => node is IBooleanNode));
 	}
 
 	[TestMethod]
-	public void FindNodes_ShouldNotTraverseUp()
+	public void FindAll_ShouldNotTraverseUp()
 	{
 		var form = new FormBuilder("Test")
 			.WithTemplatedSection("Section", (node, _) => node.UseTemplate("Template"))
@@ -198,8 +198,8 @@ public class Search
 		var collection = (ICollectionNode)form.Nodes.First(node => node.Name == "Collection");
 		collection.Instantiate(collection.Templates.First());
 
-		Assert.IsTrue(section.Instance!.FindNodes("Boolean").None());
-		Assert.IsTrue(collection.Instances.First().FindNodes("Boolean").None());
-		Assert.IsTrue(form!.FindNodes("Boolean").Count() == 1);
+		Assert.IsTrue(section.Instance!.FindAll("Boolean").None());
+		Assert.IsTrue(collection.Instances.First().FindAll("Boolean").None());
+		Assert.IsTrue(form!.FindAll("Boolean").Count() == 1);
 	}
 }

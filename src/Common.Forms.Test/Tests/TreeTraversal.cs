@@ -5,7 +5,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Test.Mocks;
 
 [TestClass]
-public class Visitors
+public class TreeTraversal
 {
 	[TestMethod]
 	public void BreadthFirst_ShouldVisitLayersInOrder()

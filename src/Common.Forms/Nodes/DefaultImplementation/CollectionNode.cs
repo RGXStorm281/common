@@ -2,8 +2,6 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RobinEpple.Common.Forms.Binding;
-using RobinEpple.Common.Forms.Visitors;
 using RobinEpple.Common.Util;
 
 internal class CollectionNode : NodeBase, ICollectionNode
@@ -198,7 +196,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 		// Search all instances in order.
 		foreach (var instance in Instances)
 		{
-			foreach (var target in instance.FindNodes(name, comparer))
+			foreach (var target in instance.FindAll(name, comparer))
 			{
 				yield return target;
 			}

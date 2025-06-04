@@ -12,7 +12,7 @@ internal class ForEachCollectionItemExpression<TValue>(string name, IFormExpress
 	/// <inheritdoc />
 	public IEnumerable<TValue> EvaluateOn(IFormNode node)
 	{
-		var targetCollection = node.GetScope().FindNode(_name) as ICollectionNode;
+		var targetCollection = node.GetScope().FindFirst(_name) as ICollectionNode;
 
 		if (targetCollection == null)
 		{
@@ -27,7 +27,7 @@ internal class ForEachCollectionItemExpression<TValue>(string name, IFormExpress
 	/// <inheritdoc />
 	public async Task<IEnumerable<TValue>> EvaluateOnAsync(IFormNode node)
 	{
-		var targetCollection = node.GetScope().FindNode(_name) as ICollectionNode;
+		var targetCollection = node.GetScope().FindFirst(_name) as ICollectionNode;
 
 		if (targetCollection == null)
 		{

@@ -1,11 +1,11 @@
-namespace RobinEpple.Common.Forms.Visitors;
+namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
-public class BindingWriter : BreadthFirstVisitor
+public class BindingWriter : BreadthFirstTraversal
 {
 	/// <inheritdoc />
-	protected override void ExecuteOnNode(IFormNode node, VisitingContext context)
+	protected override void ExecuteOnNode(IFormNode node, TraversalContext context)
 	{
 		// Only write back visible nodes.
 		if (!node.IsVisible)

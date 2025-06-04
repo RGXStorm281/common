@@ -613,9 +613,9 @@ public class Binding
 
 		// Load the state from the model.
 		form.LoadFromBinding();
-		var collectionField1 = (INumberNode)collectionNode.Instances.First().FindNode("IntField")!;
-		var collectionField2 = (INumberNode)collectionNode.Instances.Skip(1).First().FindNode("IntField")!;
-		var sectionField = (INumberNode)sectionNode.Instance!.FindNode("IntField")!;
+		var collectionField1 = (INumberNode)collectionNode.Instances.First().FindFirst("IntField")!;
+		var collectionField2 = (INumberNode)collectionNode.Instances.Skip(1).First().FindFirst("IntField")!;
+		var sectionField = (INumberNode)sectionNode.Instance!.FindFirst("IntField")!;
 		Assert.AreEqual(collectionField1.Value, 1);
 		Assert.AreEqual(collectionField2.Value, 2);
 		Assert.AreEqual(sectionField.Value, 3);

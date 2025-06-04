@@ -1,4 +1,4 @@
-namespace RobinEpple.Common.Forms.Visitors;
+namespace RobinEpple.Common.Forms.Search;
 
 using RobinEpple.Common.Forms.Nodes;
 
@@ -7,16 +7,8 @@ using RobinEpple.Common.Forms.Nodes;
 /// </summary>
 /// <param name="predicate">The predicate defining a matching node.</param>
 /// <param name="stopOnFirstMatch">Whether the search should stop on the first match.</param>
-public class BreadthFirstSearch(Func<IFormNode, bool> predicate, bool stopOnFirstMatch) : BreadthFirstVisitor
+public class BreadthFirstSearch(Func<IFormNode, bool> predicate, bool stopOnFirstMatch) : BreadthFirstTraversal
 {
-	/// <summary>
-	/// Searches the tree for nodes with the given <paramref name="name">.
-	/// </summary>
-	/// <param name="name">The name of the desired nodes.</param>
-	/// <param name="stopOnFirstMatch">Whether the search should stop on the first match.</param>
-	public BreadthFirstSearch(string name, bool stopOnFirstMatch)
-		: this(node => node.Name == name, stopOnFirstMatch) { }
-
 	private readonly Func<IFormNode, bool> _isMatch = predicate;
 	private readonly bool _stopOnFirstMatch = stopOnFirstMatch;
 
@@ -28,7 +20,7 @@ public class BreadthFirstSearch(Func<IFormNode, bool> predicate, bool stopOnFirs
 	public IEnumerable<IFormNode> Results => _results;
 
 	/// <inheritdoc />
-	protected override void ExecuteOnNode(IFormNode node, VisitingContext context)
+	protected override void ExecuteOnNode(IFormNode node, TraversalContext context)
 	{
 		if (!_isMatch(node))
 		{
@@ -39,7 +31,7 @@ public class BreadthFirstSearch(Func<IFormNode, bool> predicate, bool stopOnFirs
 
 		if (_stopOnFirstMatch)
 		{
-			context.BreakLoop = true;
+			context.Quit = true;
 		}
 	}
 }

@@ -26,7 +26,7 @@ public class ValueNodeModel<TValue>(string fieldName, TValue emptyValue) : IEmbe
 	/// <inheritdoc />
 	public object? GetValue(IForm node)
 	{
-		var targetNode = node.FindNode(_fieldName);
+		var targetNode = node.FindFirst(_fieldName);
 		if (targetNode == null)
 		{
 			throw new ArgumentException(
@@ -52,7 +52,7 @@ public class ValueNodeModel<TValue>(string fieldName, TValue emptyValue) : IEmbe
 			throw new ArgumentException($"The given model is not accepted by this node.");
 		}
 
-		var targetNode = node.FindNode(_fieldName);
+		var targetNode = node.FindFirst(_fieldName);
 		if (targetNode == null)
 		{
 			throw new ArgumentException(
