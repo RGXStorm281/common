@@ -1,0 +1,104 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.9 Chrome/134.0.6998.205 Electron/35.4.0 Safari/537.36" version="27.0.9">
+  <diagram name="Seite-1" id="Mojv2EU-aoYTBJWFKzDW">
+    <mxGraphModel dx="2207" dy="1496" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="9N_7vsKgPiTfnDlMyCdx-2" target="9N_7vsKgPiTfnDlMyCdx-21">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-2" value="&lt;b&gt;Building&lt;/b&gt;&lt;br&gt;Flow API for buillding the structure and configuring each node" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="309" y="110" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-21" value="Tree Structure" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-46" y="310" width="920" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-1" target="9N_7vsKgPiTfnDlMyCdx-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="105" />
+              <mxPoint x="600" y="105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-1" target="9N_7vsKgPiTfnDlMyCdx-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="105" />
+              <mxPoint x="320" y="105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-12" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-1" target="9N_7vsKgPiTfnDlMyCdx-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-4" target="9N_7vsKgPiTfnDlMyCdx-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="125" />
+              <mxPoint x="600" y="125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-13" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-4" target="9N_7vsKgPiTfnDlMyCdx-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-4" value="Expressions&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Extensible Expression Tree for Querying the structure with &quot;late binding&quot;, e.g. searching the current instance of a template.&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="9N_7vsKgPiTfnDlMyCdx-21">
+          <mxGeometry x="680" y="60" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-7" target="9N_7vsKgPiTfnDlMyCdx-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="125" />
+              <mxPoint x="320" y="125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-7" value="&lt;b&gt;Extensions&lt;/b&gt;&lt;br&gt;Providing an API for hooking into important lifecycle and update events allows for easy extension of existing nodes" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="9N_7vsKgPiTfnDlMyCdx-21">
+          <mxGeometry x="30" y="60" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-11" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-10" target="9N_7vsKgPiTfnDlMyCdx-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-10" value="&lt;b&gt;Search&lt;/b&gt;&lt;br&gt;Defining what Node can see which other nodes" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="9N_7vsKgPiTfnDlMyCdx-21">
+          <mxGeometry x="590" y="225" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-14" target="9N_7vsKgPiTfnDlMyCdx-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-14" target="9N_7vsKgPiTfnDlMyCdx-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-14" target="9N_7vsKgPiTfnDlMyCdx-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-14" target="9N_7vsKgPiTfnDlMyCdx-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="335" />
+              <mxPoint x="390" y="335" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="9N_7vsKgPiTfnDlMyCdx-21" source="9N_7vsKgPiTfnDlMyCdx-14" target="9N_7vsKgPiTfnDlMyCdx-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-14" value="&lt;b&gt;Validation&lt;/b&gt;&lt;br&gt;A pretty big selection of validators. Follows the concept of field oriented validation, but allows for referencing other nodes through search and expressions" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="9N_7vsKgPiTfnDlMyCdx-21">
+          <mxGeometry x="359" y="435" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-15" value="&lt;b&gt;SelectLists&lt;/b&gt;&lt;br&gt;Restricting input values to some list. This is supposed to ensure equality between display and validation." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="9N_7vsKgPiTfnDlMyCdx-21">
+          <mxGeometry x="290" y="145" width="150" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="9N_7vsKgPiTfnDlMyCdx-1" value="Nodes&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Hierarchical Tree Structure&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="9N_7vsKgPiTfnDlMyCdx-21">
+          <mxGeometry x="404" y="75" width="120" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
