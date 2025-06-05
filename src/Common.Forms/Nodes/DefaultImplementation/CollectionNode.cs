@@ -112,7 +112,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 			throw new InvalidOperationException("The given node is not a child of this collection.");
 		}
 
-		return $"{GetId()}{IFormNode.IndexIdentifier.Format(indexOfChild)}{child.Name}";
+		return $"{GetId()}{IFormNode.IndexIdentifier.Format(indexOfChild)}{IFormNode.PathSeparator}{child.Name}";
 	}
 
 	/// <inheritdoc />
