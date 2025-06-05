@@ -235,7 +235,7 @@ public sealed class Structure
 		var matcher = new PredicateMatcher(node =>
 			node.Extensions.OfType<MockExtension>().First().OnInitializeHasBeenCalled
 		);
-		matcher.Visit(form);
+		matcher.RunOn(form);
 
 		Assert.IsFalse(matcher.NotMatchingNodes.Any());
 	}

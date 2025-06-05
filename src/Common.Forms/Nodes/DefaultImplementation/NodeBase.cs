@@ -401,13 +401,13 @@ internal abstract class NodeBase : IFormNode
 	public void LoadFromBinding()
 	{
 		var loader = new BindingLoader();
-		loader.Visit(this);
+		loader.RunOn(this);
 	}
 
 	/// <inheritdoc />
 	public void WriteToBinding()
 	{
 		var writer = new BindingWriter();
-		writer.Visit(this);
+		writer.RunOn(this);
 	}
 }

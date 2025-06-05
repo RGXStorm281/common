@@ -58,7 +58,7 @@ public class TreeTraversal
 
 		// Index nodes according to traversal.
 		var indexer = new BreadthFirstIndexer();
-		indexer.Visit(form);
+		indexer.RunOn(form);
 
 		// Make sure the nodes have been visited in the correct order.
 		// Layer 1
@@ -133,7 +133,7 @@ public class TreeTraversal
 
 		// Index nodes according to traversal.
 		var indexer = new DepthFirstIndexer();
-		indexer.Visit(form);
+		indexer.RunOn(form);
 
 		// Make sure the nodes have been visited in the correct order.
 		Assert.AreEqual(form.Tags[DepthFirstIndexer.IndexTagName], 0);

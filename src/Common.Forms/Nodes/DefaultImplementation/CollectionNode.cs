@@ -129,7 +129,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 		child.Reset();
 
 		var initializer = new NodeInitializer();
-		initializer.Visit(child);
+		initializer.RunOn(child);
 		return child;
 	}
 
@@ -147,7 +147,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 		await child.ResetAsync();
 
 		var initializer = new NodeInitializer();
-		initializer.Visit(child);
+		initializer.RunOn(child);
 		return child;
 	}
 

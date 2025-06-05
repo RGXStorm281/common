@@ -16,7 +16,7 @@ public class PredicateMatcher(Func<IFormNode, bool> predicate) : BreadthFirstTra
 	public IEnumerable<IFormNode> NotMatchingNodes => _notMatchingNodes;
 	public IEnumerable<IFormNode> MatchingNodes => _matchingNodes;
 
-	protected override void ExecuteOnNode(IFormNode node, TraversalContext context)
+	protected override void Visit(IFormNode node, TraversalContext context)
 	{
 		if (_isMatch(node))
 		{

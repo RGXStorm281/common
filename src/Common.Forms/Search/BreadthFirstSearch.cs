@@ -20,7 +20,7 @@ public class BreadthFirstSearch(Func<IFormNode, bool> predicate, bool stopOnFirs
 	public IEnumerable<IFormNode> Results => _results;
 
 	/// <inheritdoc />
-	protected override void ExecuteOnNode(IFormNode node, TraversalContext context)
+	protected override void Visit(IFormNode node, TraversalContext context)
 	{
 		if (!_isMatch(node))
 		{

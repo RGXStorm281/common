@@ -15,7 +15,7 @@ public class DepthFirstSearch(Func<IFormNode, bool> predicate, bool stopOnFirstM
 	public IEnumerable<IFormNode> Results => _results;
 
 	/// <inheritdoc />
-	protected override void ExecuteOnNode(IFormNode node, TraversalContext context)
+	protected override void Visit(IFormNode node, TraversalContext context)
 	{
 		if (!_isMatch(node))
 		{

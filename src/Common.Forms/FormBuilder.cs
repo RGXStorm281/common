@@ -135,7 +135,7 @@ public class FormBuilder : IFormBuilder
 	public IForm Build()
 	{
 		var initializer = new NodeInitializer();
-		initializer.Visit(Form);
+		initializer.RunOn(Form);
 		return Form;
 	}
 

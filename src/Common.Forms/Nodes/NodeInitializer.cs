@@ -5,7 +5,7 @@ namespace RobinEpple.Common.Forms.Nodes;
 /// </summary>
 public class NodeInitializer : BreadthFirstTraversal
 {
-	protected override void ExecuteOnNode(IFormNode node, TraversalContext context)
+	protected override void Visit(IFormNode node, TraversalContext context)
 	{
 		foreach (var extension in node.Extensions)
 		{

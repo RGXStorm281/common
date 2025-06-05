@@ -13,41 +13,33 @@ public abstract class DepthFirstTraversal
 	/// Traverses the form tree starting with the given node.
 	/// </summary>
 	/// <param name="node">The starting point of the breadth-first traversal.</param>
-	public void Visit(IFormNode node)
+	public void RunOn(IFormNode node)
 	{
 		var context = new TraversalContext();
-		VisitInternal(node, context);
-	}
+		_nextVisits.Push((context.CurrentDepth, node));
 
-	private void VisitInternal(IFormNode node, TraversalContext context)
-	{
-		// Execute on the current node.
-		ExecuteOnNode(node, context);
-		if (context.Quit)
+		while (_nextVisits.TryPop(out var nextVisit))
 		{
-			return;
-		}
+			context.CurrentDepth = nextVisit.Depth;
+			Visit(nextVisit.Node, context);
+			if (context.Quit)
+			{
+				return;
+			}
 
-		// Then enqueue its children if enabled.
-		if (context.TraverseChildren)
-		{
-			EnqueueChildren(node, context);
-		}
-		else
-		{
-			// If not, re-enable it for the next node.
-			context.TraverseChildren = true;
-		}
+			// Then enqueue its children if enabled.
+			if (context.TraverseChildren)
+			{
+				EnqueueChildren(nextVisit.Node, context);
+			}
+			else
+			{
+				// If not, re-enable it for the next node.
+				context.TraverseChildren = true;
+			}
 
-		// Visit the next node if available.
-		if (!_nextVisits.TryPop(out var nextVisit))
-		{
-			// All nodes have been visited.
-			return;
+			context.NodeIndex++;
 		}
-		context.NodeIndex++;
-		context.CurrentDepth = nextVisit.Depth;
-		VisitInternal(nextVisit.Node, context);
 	}
 
 	private void EnqueueChildren(IFormNode node, TraversalContext context)
@@ -91,5 +83,5 @@ public abstract class DepthFirstTraversal
 	/// The context providing information about the state in the tree traversal.<br/>
 	/// Also allows breaking the loop (e.g. when the desired element is found).
 	/// </param>
-	protected abstract void ExecuteOnNode(IFormNode node, TraversalContext context);
+	protected abstract void Visit(IFormNode node, TraversalContext context);
 }

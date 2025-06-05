@@ -5,7 +5,7 @@ using RobinEpple.Common.Forms.Nodes;
 public class BindingWriter : BreadthFirstTraversal
 {
 	/// <inheritdoc />
-	protected override void ExecuteOnNode(IFormNode node, TraversalContext context)
+	protected override void Visit(IFormNode node, TraversalContext context)
 	{
 		// Only write back visible nodes.
 		if (!node.IsVisible)

@@ -45,7 +45,7 @@ internal class Form : NodeBase, IForm
 	public IFormNode? FindFirst(Func<IFormNode, bool> predicate, int? maxDepth = null)
 	{
 		var search = new BreadthFirstSearch(predicate, true);
-		search.Visit(this);
+		search.RunOn(this);
 		return search.Results.FirstOrDefault();
 	}
 
@@ -60,7 +60,7 @@ internal class Form : NodeBase, IForm
 	public IEnumerable<IFormNode> FindAll(Func<IFormNode, bool> predicate, int? maxDepth = null)
 	{
 		var search = new BreadthFirstSearch(predicate, false);
-		search.Visit(this);
+		search.RunOn(this);
 		return search.Results;
 	}
 

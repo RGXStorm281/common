@@ -141,7 +141,7 @@ internal class TemplateNode : NodeBase, ITemplateNode
 		child.Reset();
 
 		var initializer = new NodeInitializer();
-		initializer.Visit(child);
+		initializer.RunOn(child);
 		return child;
 	}
 
@@ -159,7 +159,7 @@ internal class TemplateNode : NodeBase, ITemplateNode
 		await child.ResetAsync();
 
 		var initializer = new NodeInitializer();
-		initializer.Visit(child);
+		initializer.RunOn(child);
 		return child;
 	}
 
