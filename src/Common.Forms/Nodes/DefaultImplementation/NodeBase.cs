@@ -224,13 +224,13 @@ internal abstract class NodeBase : IFormNode
 	/// <inheritdoc />
 	public virtual async Task UpdateAsync()
 	{
-		CallExtensionEvent(extension => extension.OnBeforeReadonlyStateEvaluation(this));
+		await CallExtensionEventAsync(extension => extension.OnBeforeReadonlyStateEvaluationAsync(this));
 		await UpdateReadonlyStateAsync();
-		CallExtensionEvent(extension => extension.OnAfterReadonlyStateEvaluation(this));
+		await CallExtensionEventAsync(extension => extension.OnAfterReadonlyStateEvaluationAsync(this));
 
-		CallExtensionEvent(extension => extension.OnBeforeVisibilityEvaluation(this));
+		await CallExtensionEventAsync(extension => extension.OnBeforeVisibilityEvaluationAsync(this));
 		await UpdateVisibilityAsync();
-		CallExtensionEvent(extension => extension.OnAfterVisibilityEvaluation(this));
+		await CallExtensionEventAsync(extension => extension.OnAfterVisibilityEvaluationAsync(this));
 
 		if (!IsVisible)
 		{
@@ -238,9 +238,9 @@ internal abstract class NodeBase : IFormNode
 			return;
 		}
 
-		CallExtensionEvent(extension => extension.OnBeforeValidation(this));
+		await CallExtensionEventAsync(extension => extension.OnBeforeValidationAsync(this));
 		await ValidateAsync();
-		CallExtensionEvent(extension => extension.OnAfterValidation(this));
+		await CallExtensionEventAsync(extension => extension.OnAfterValidationAsync(this));
 	}
 
 	private void CallExtensionEvent(Action<IFormNodeExtension> callEvent)
