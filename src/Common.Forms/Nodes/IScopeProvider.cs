@@ -8,7 +8,7 @@ public interface IScopeProvider : IParentNode
 	/// <summary>
 	/// Searches for the first node in this scope, that matches the given predicate.<br/>
 	/// Layers are traversed down, but not up.<br/>
-	/// Hint: If recursive templates are used, the search will return the uppermost instance.
+	/// Hint: One layer will be searched fully before moving to the next lower one, so the uppermost result will be returned.
 	/// </summary>
 	/// <param name="predicate">The predicate, identifying the given node.</param>
 	/// <param name="maxDepth">Optional maximum number of child-layers the search traverses down.</param>
@@ -18,7 +18,7 @@ public interface IScopeProvider : IParentNode
 	/// <summary>
 	/// Searches for the first node in this scope, that has the given name.<br/>
 	/// Layers are traversed down, but not up.<br/>
-	/// Hint: If recursive templates are used, the search will return the uppermost instance.
+	/// Hint: One layer will be searched fully before moving to the next lower one, so the uppermost result will be returned.
 	/// </summary>
 	/// <param name="name">The name of the desired node.</param>
 	/// <param name="comparer">Optional comparer for the name search.</param>

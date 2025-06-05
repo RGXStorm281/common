@@ -165,12 +165,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	/// <inheritdoc />
 	public Task RemoveItemAsync(IForm instance)
 	{
-		var indexOfChild = _instances.IndexOf(instance);
-		if (indexOfChild < 0)
-		{
-			throw new InvalidOperationException("The given node is not a child of this collection.");
-		}
-		_instances.RemoveAt(indexOfChild);
+		RemoveItem(instance);
 		return Task.CompletedTask;
 	}
 
@@ -183,24 +178,8 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	/// <inheritdoc />
 	public Task ClearAsync()
 	{
-		_instances.Clear();
+		Clear();
 		return Task.CompletedTask;
-	}
-
-	/// <inheritdoc />
-	public IEnumerable<IFormNode> FindNodes(string name, StringComparer? comparer = null)
-	{
-		// Default comparer is case sensitive.
-		comparer ??= StringComparer.Ordinal;
-
-		// Search all instances in order.
-		foreach (var instance in Instances)
-		{
-			foreach (var target in instance.FindAll(name, comparer))
-			{
-				yield return target;
-			}
-		}
 	}
 
 	/// <inheritdoc />

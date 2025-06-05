@@ -56,6 +56,7 @@ public class AllowedFileNameSymbolValidator(string characterWhitelist, string? e
 	/// <inheritdoc />
 	public Task ValidateAsync(IFormNode node)
 	{
-		throw new NotImplementedException();
+		Validate(node);
+		return Task.CompletedTask;
 	}
 }
