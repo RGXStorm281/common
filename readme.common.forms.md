@@ -40,7 +40,7 @@ I've already mentioned a pipeline. Contrary to other form frameworks this one ho
 
 ## Tests
 
-You may have noticed, that this package alone is covered by nearly 300 unit tests. I have been using the test-first development strategy, and that has worked very nicely.
+You may have noticed, that this package alone is covered by over 250 unit tests. I have been using the test-first development strategy, and that has worked very nicely.
 
 So if you want to explore how to use the framework and interact with the form, it might be the best to just look at the different test cases and start jumping around or stepping through the code from there.
 
