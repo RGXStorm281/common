@@ -21,7 +21,7 @@ There are three main benefits about this:
 
 Enough about selling DevContainers, lets get to specifics on how to open this repository. You will need to install the following three tools:
 
--   [Docker Desktop](https://www.docker.com/products/docker-desktop/): Default installation will do. Make sure it is configured for Linux containers, but that is the default. Just launch it once and make sure you click through the setup until you see the desktop. After that you won't need to touch it again.
+-   [Docker Desktop](https://www.docker.com/products/docker-desktop/): Default installation will do. Make sure it is configured for Linux containers, but that is the default. Just launch it once and make sure you click through the setup until you see the dashboard. After that you won't need to touch it again.
 -   [Visual Studio Code](https://code.visualstudio.com): Also just the default installation is fine. The only extension you need is:
     -   [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers): This connects VS Code to docker, and lets you view and manage the created containers from inside VS Code. On MacOS you might get prompted if you want to allow communication from VS Code to other apps -> That is necessary for this extension to control docker.
 
@@ -40,11 +40,12 @@ DevContainers are a good step towards eliminating local dependencies, but realit
 
 ## NuGet
 
-This project provides NuGet Packages. Since I have not yet proceeded to host them on some public platform, the currently live in a mounted folder called /local-nuget in the home directory of your host machine. To build the current version, go to the root directory "/workspaces/common" in the terminal of the dev container ("Terminal > New Terminal" while connected) and use the following command:
+This project provides NuGet Packages. Since I have not yet proceeded to host them on some public platform, they currently live in a mounted folder called /local-nuget in the home directory of your host machine. To build the current version, go to the root directory "/workspaces/common" in the terminal of the dev container ("Terminal > New Terminal" while connected) and use the following command:
 
 ```
 cd /workspaces/common
-./buildLocalNuget.sh
+./clean-repository.sh
+./build-local-nuget.sh
 ```
 
 ## Code style
