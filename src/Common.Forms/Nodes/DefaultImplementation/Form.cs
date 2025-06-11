@@ -185,4 +185,7 @@ internal class Form : NodeBase, IForm
 			IsValid = IsValid && node.IsValid;
 		}
 	}
+
+	/// <inheritdoc />
+	public IEnumerable<IFormNode> GetChildren() => Nodes;
 }

@@ -209,4 +209,7 @@ internal class TemplateNode : NodeBase, ITemplateNode
 			IsValid = IsValid && Instance.IsValid;
 		}
 	}
+
+	/// <inheritdoc />
+	public IEnumerable<IFormNode> GetChildren() => Instance == null ? [] : [Instance];
 }

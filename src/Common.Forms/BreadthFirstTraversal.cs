@@ -45,31 +45,11 @@ public abstract class BreadthFirstTraversal
 	private void EnqueueChildren(IFormNode node, TraversalContext context)
 	{
 		var nextDepth = context.CurrentDepth + 1;
-		switch (node)
+		if (node is IParentNode parent)
 		{
-			case IForm form:
+			foreach (var child in parent.GetChildren())
 			{
-				foreach (var child in form.Nodes)
-				{
-					_nextVisits.Enqueue((nextDepth, child));
-				}
-				break;
-			}
-			case ICollectionNode collection:
-			{
-				foreach (var child in collection.Instances)
-				{
-					_nextVisits.Enqueue((nextDepth, child));
-				}
-				break;
-			}
-			case ITemplateNode templatedSection:
-			{
-				if (templatedSection.Instance is { } child)
-				{
-					_nextVisits.Enqueue((nextDepth, child));
-				}
-				break;
+				_nextVisits.Enqueue((nextDepth, child));
 			}
 		}
 	}
