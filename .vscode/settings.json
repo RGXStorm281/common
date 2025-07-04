@@ -7,6 +7,9 @@
 	"[xml]": {
 		"editor.defaultFormatter": "DotJoshJohnson.xml"
 	},
+	"[aspnetcorerazor]": {
+		"editor.defaultFormatter": "ms-dotnettools.csharp"
+	},
 	"cSpell.words": [
 		"aabbcc",
 		"abcdabc",
