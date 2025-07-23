@@ -24,6 +24,9 @@ dotnet tool restore --tool-manifest=/workspaces/common/src/.config/dotnet-tools.
 echo "Mounting local nuget folder..."
 dotnet nuget add source /local-nuget -n local
 
+echo "Creating self signed development certificate"
+dotnet dev-certs https
+
 # Initialize libmagic.
 echo "Installing and linking libmagic..."
 sudo apt update
