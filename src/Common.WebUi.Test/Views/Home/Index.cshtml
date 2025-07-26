@@ -2,5 +2,10 @@
     ViewBag.Title = "Home Page";
 }
 
-@H1(ViewBag.Title)
-<p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@H1((string)ViewBag.Title)
+@H2("Section Heading")
+@H3("Subsection Heading")
+@H4("Subsubsection Heading")
+@H5("Paragraph Heading").Attribute("rarity", "legendary")
+@H6(Concat(Bold("Who "), Encode("uses H6?"))).Class("useless")
+@Br()

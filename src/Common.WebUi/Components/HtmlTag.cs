@@ -1,52 +1,56 @@
 namespace RobinEpple.Common.WebUi.Components;
 
+using System.Collections.Immutable;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 
-public abstract record class HtmlTag : IHtmlContent
+public record class HtmlTag : IHtmlContent
 {
-	public HtmlTag(string tag)
+	public HtmlTag(string tag, bool selfClosing)
+		: this(tag, selfClosing, new HtmlString(string.Empty), [], []) { }
+
+	public HtmlTag(string tag, bool selfClosing, IHtmlContent content)
+		: this(tag, selfClosing, content, [], []) { }
+
+	public HtmlTag(
+		string tag,
+		bool selfClosing,
+		IHtmlContent content,
+		IEnumerable<string> classes,
+		IEnumerable<KeyValuePair<string, string>> attributes
+	)
 	{
-		_tag = tag;
-		_classes = [];
-		_attributes = new Dictionary<string, string>();
+		Tag = tag;
+		SelfClosing = selfClosing;
+		Content = content;
+		Classes = classes.ToImmutableHashSet();
+		Attributes = attributes.ToImmutableDictionary();
 	}
 
-	public HtmlTag(string tag, IEnumerable<string> classes, IDictionary<string, string> attributes)
-	{
-		_tag = tag;
-		_classes = classes.ToHashSet();
-		_attributes = attributes;
-	}
-
-	private string _tag { get; }
-
-	private HashSet<string> _classes { get; }
-
-	private IDictionary<string, string> _attributes { get; }
-
-	public void Class(string cssClass) => _classes.Add(cssClass);
-
-	public void RemoveClass(string cssClass) => _classes.Remove(cssClass);
-
-	public void Attribute(string name, string content) => _attributes[name] = content;
-
-	public void RemoveAttribute(string name) => _attributes.Remove(name);
+	public string Tag { get; }
+	public bool SelfClosing { get; }
+	public IHtmlContent Content { get; set; }
+	public IImmutableSet<string> Classes { get; set; }
+	public IImmutableDictionary<string, string> Attributes { get; set; }
 
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		var builder = new HtmlContentBuilder();
 
-		var classes = _classes.Count > 0 ? $"class=\"{string.Join(" ", _classes)}\"" : string.Empty;
-		var attributeList = _attributes.Select(attribute => $"{attribute.Key}=\"{attribute.Value}\"");
+		var classes = Classes.Count > 0 ? $"class=\"{string.Join(" ", Classes)}\"" : string.Empty;
+		var attributeList = Attributes.Select(attribute => $"{attribute.Key}=\"{attribute.Value}\"");
 		var attributes = string.Join(" ", attributeList);
 
-		builder.AppendHtml($"<{_tag} {classes} {attributes}>");
-		AppendContent(builder);
-		builder.AppendHtml($"</{_tag}>");
-
+		if (SelfClosing)
+		{
+			builder.AppendHtml($"<{Tag} {classes} {attributes} />");
+		}
+		else
+		{
+			builder.AppendHtml($"<{Tag} {classes} {attributes}>");
+			builder.AppendHtml(Content);
+			builder.AppendHtml($"</{Tag}>");
+		}
 		builder.WriteTo(writer, encoder);
 	}
-
-	protected abstract void AppendContent(HtmlContentBuilder builder);
 }
