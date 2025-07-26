@@ -4,6 +4,9 @@ using System.Collections.Immutable;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 
+/// <summary>
+/// A record representing an html tag.
+/// </summary>
 public record class HtmlTag : IHtmlContent
 {
 	public HtmlTag(string tag, bool selfClosing)
@@ -27,10 +30,29 @@ public record class HtmlTag : IHtmlContent
 		Attributes = attributes.ToImmutableDictionary();
 	}
 
+	/// <summary>
+	/// The name of the tag.
+	/// </summary>
 	public string Tag { get; }
+
+	/// <summary>
+	/// Whether the tag is self closing. If set to <see langword="true"/> the <see cref="Content"/> is ignored.
+	/// </summary>
 	public bool SelfClosing { get; }
+
+	/// <summary>
+	/// The content to render within the tag.
+	/// </summary>
 	public IHtmlContent Content { get; set; }
+
+	/// <summary>
+	/// The css classes to render in the tag.
+	/// </summary>
 	public IImmutableSet<string> Classes { get; set; }
+
+	/// <summary>
+	/// Additional attributes to render in the tag.
+	/// </summary>
 	public IImmutableDictionary<string, string> Attributes { get; set; }
 
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)

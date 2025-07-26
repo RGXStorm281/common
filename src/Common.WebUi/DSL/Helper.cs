@@ -3,6 +3,10 @@ namespace RobinEpple.Common.WebUi.DSL;
 using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.WebUi.Components;
 
+/// <summary>
+/// Provides some basic rendering functions and API for working with the
+/// HTML content from the DSL defined in this package.
+/// </summary>
 public static class Helper
 {
 	public static TTag Class<TTag>(this TTag tag, string cssClass)
@@ -27,5 +31,5 @@ public static class Helper
 
 	public static Encode Encode(string text) => new Encode(text);
 
-	public static Concat Concat(params IHtmlContent[] parts) => new Concat(parts);
+	public static Concat Concat(params IEnumerable<IHtmlContent> parts) => new Concat(parts);
 }

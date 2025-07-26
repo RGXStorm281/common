@@ -4,11 +4,14 @@ using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 
+/// <summary>
+/// A helper record to concatenate a list of html contents.
+/// </summary>
 public record class Concat : IHtmlContent
 {
-	private readonly IHtmlContent[] _parts;
+	private readonly IEnumerable<IHtmlContent> _parts;
 
-	public Concat(IHtmlContent[] parts)
+	public Concat(IEnumerable<IHtmlContent> parts)
 	{
 		_parts = parts;
 	}
