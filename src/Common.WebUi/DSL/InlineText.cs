@@ -13,10 +13,11 @@ public static class InlineText
 	/// <summary>
 	/// Together with its href attribute, creates a hyperlink to web pages, files, email addresses, locations within the current page, or anything else a URL can address.
 	/// </summary>
-	public static HtmlTag A(string target, IHtmlContent content) => new AnchorTag(target, content);
+	public static HtmlTag A(string href, IHtmlContent content) =>
+		new HtmlTag("a", false, content).Attribute("href", href);
 
 	/// <inheritdoc cref="A(string, IHtmlContent)"/>
-	public static HtmlTag A(string target, string text) => new AnchorTag(target, Encode(text));
+	public static HtmlTag A(string href, string text) => A(href, Encode(text));
 
 	/// <summary>
 	/// Represents an abbreviation or acronym.
