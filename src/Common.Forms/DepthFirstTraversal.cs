@@ -45,32 +45,12 @@ public abstract class DepthFirstTraversal
 	private void EnqueueChildren(IFormNode node, TraversalContext context)
 	{
 		var nextDepth = context.CurrentDepth + 1;
-		// Reverse the order of lists, such that the first child is at the top of the stack.
-		switch (node)
+		if (node is IParentNode parent)
 		{
-			case IForm form:
+			// Reverse the order of lists, such that the first child is at the top of the stack.
+			foreach (var child in parent.GetChildren().Reverse())
 			{
-				foreach (var child in form.Nodes.Reverse())
-				{
-					_nextVisits.Push((nextDepth, child));
-				}
-				break;
-			}
-			case ICollectionNode collection:
-			{
-				foreach (var child in collection.Instances.Reverse())
-				{
-					_nextVisits.Push((nextDepth, child));
-				}
-				break;
-			}
-			case ITemplateNode templatedSection:
-			{
-				if (templatedSection.Instance is { } child)
-				{
-					_nextVisits.Push((nextDepth, child));
-				}
-				break;
+				_nextVisits.Push((nextDepth, child));
 			}
 		}
 	}

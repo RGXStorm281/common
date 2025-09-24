@@ -235,7 +235,7 @@
         <mxCell id="6xftwZw5f3BE2wH4BhlQ-27" value="(+) Nodes: IEnumerable&amp;lt;IFormNode&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="6xftwZw5f3BE2wH4BhlQ-26" vertex="1">
           <mxGeometry y="26" width="320" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="cjiWfFtDag0nhP1z4jup-8" value="(+) Model: IEmbeddedModel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" vertex="1" parent="6xftwZw5f3BE2wH4BhlQ-26">
+        <mxCell id="cjiWfFtDag0nhP1z4jup-8" value="(+) Model: IEmbeddedModel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="6xftwZw5f3BE2wH4BhlQ-26" vertex="1">
           <mxGeometry y="52" width="320" height="26" as="geometry" />
         </mxCell>
         <mxCell id="6xftwZw5f3BE2wH4BhlQ-31" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=open;endFill=0;" parent="1" source="6xftwZw5f3BE2wH4BhlQ-27" target="m99GT-mjRImgJTyzYSu6-5" edge="1">
@@ -456,7 +456,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="qtFCNYfIopmYvthrmCET-25" value="IParentNode" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="1" vertex="1">
-          <mxGeometry x="-390" y="585" width="317.5" height="104" as="geometry" />
+          <mxGeometry x="-390" y="560" width="317.5" height="130" as="geometry" />
         </mxCell>
         <mxCell id="qtFCNYfIopmYvthrmCET-26" value="# GetChildId(child: IFormNode)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="qtFCNYfIopmYvthrmCET-25" vertex="1">
           <mxGeometry y="26" width="317.5" height="26" as="geometry" />
@@ -466,6 +466,9 @@
         </mxCell>
         <mxCell id="TGhuQhnJfKRLCoam5iDR-2" value="+ GetParentAt(index: int): IParentNode" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="qtFCNYfIopmYvthrmCET-25" vertex="1">
           <mxGeometry y="78" width="317.5" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="EkMUnJX--wdJwougDRp1-3" value="+ GetChildren(): IEnumerable&amp;lt;IFormNode&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" vertex="1" parent="qtFCNYfIopmYvthrmCET-25">
+          <mxGeometry y="104" width="317.5" height="26" as="geometry" />
         </mxCell>
         <mxCell id="qtFCNYfIopmYvthrmCET-32" value="&lt;div&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;struct&amp;gt;&amp;gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;FileValue" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="1" vertex="1">
           <mxGeometry x="1101" y="1043" width="140" height="92" as="geometry" />
@@ -556,7 +559,7 @@
         <mxCell id="Ko8vKC5Kn6cFQ8JIQZNb-5" value="+ Value: TValue" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" parent="Ko8vKC5Kn6cFQ8JIQZNb-3" vertex="1">
           <mxGeometry y="26" width="265" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="cjiWfFtDag0nhP1z4jup-9" value="-&amp;gt; See binding" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;size=14;" vertex="1" parent="1">
+        <mxCell id="cjiWfFtDag0nhP1z4jup-9" value="-&amp;gt; See binding" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=none;fillColor=#fff2cc;strokeColor=#d6b656;size=14;" parent="1" vertex="1">
           <mxGeometry x="130" y="942" width="130" height="38" as="geometry" />
         </mxCell>
       </root>

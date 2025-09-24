@@ -242,4 +242,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 			IsValid = IsValid && instance.IsValid;
 		}
 	}
+
+	/// <inheritdoc />
+	public IEnumerable<IFormNode> GetChildren() => Instances;
 }
