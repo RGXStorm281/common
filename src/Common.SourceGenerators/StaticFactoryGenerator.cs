@@ -157,20 +157,29 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		)
 		{
 			// Reference the documentation of the constructor.
-			sb.AppendLine(IndentHelper.Indent(BuildInheritdoc(constructor)));
+			sb.AppendLine(IndentHelper.Indent(BuildConstructorInheritdoc(constructor)));
 
 			// Create the method signature.
 			var parameters = string.Join(
 				", ",
 				constructor.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
 			);
+			var constructorAccessModifier = constructor.DeclaredAccessibility.ToString().ToLower();
+			var typeParameterString = string.Empty;
+			if (constructor.ContainingType.TypeParameters.ToList() is { Count: > 0 } typeParameters)
+			{
+				typeParameterString =
+					"<"
+					+ string.Join(", ", typeParameters.Select(typeParameter => typeParameter.ToDisplayString()))
+					+ ">";
+			}
 			sb.AppendLine(
 				IndentHelper.Indent(
-					$"{constructor.DeclaredAccessibility} static {interfaceImplementation.ToDisplayString()} {interfaceImplementation.Name}({parameters})"
+					$"{constructorAccessModifier} static {interfaceImplementation.ToDisplayString()} {interfaceImplementation.Name}{typeParameterString}({parameters})"
 				)
 			);
 
-			// Call the constructor and return the new object.
+			// Call the constructor and return the new object (type parameters are already included in "ToDisplayString").
 			var args = string.Join(", ", constructor.Parameters.Select(p => p.Name));
 			sb.AppendLine(IndentHelper.Indent($"=> new {interfaceImplementation.ToDisplayString()}({args});", 2));
 			sb.AppendLine();
@@ -186,9 +195,15 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		);
 	}
 
-	private static string BuildInheritdoc(IMethodSymbol constructor)
+	private static string BuildConstructorInheritdoc(IMethodSymbol constructor)
 	{
 		var parameterTypes = string.Join(",", constructor.Parameters.Select(p => p.Type.ToDisplayString()));
-		return $"/// <inheritdoc cref=\"{constructor.Name}.{constructor.Name}({parameterTypes})\"/>";
+		var typeParameterString = string.Empty;
+		if (constructor.ContainingType.TypeParameters.ToList() is { Count: > 0 } typeParameters)
+		{
+			typeParameterString =
+				"{" + string.Join(", ", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + "}";
+		}
+		return $"/// <inheritdoc cref=\"{constructor.ContainingNamespace}.{constructor.ContainingType.Name}{typeParameterString}.{constructor.ContainingType.Name}({parameterTypes})\"/>";
 	}
 }
