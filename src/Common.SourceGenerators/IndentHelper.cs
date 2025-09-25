@@ -4,6 +4,9 @@ using System.Text;
 
 public class IndentHelper
 {
+	/// <summary>
+	/// Indents each line of the given string by the specified depth.
+	/// </summary>
 	public static string Indent(string content, int additionalDepth = 1)
 	{
 		var lines = content.Split('\n');

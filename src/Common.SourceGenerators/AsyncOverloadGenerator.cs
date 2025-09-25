@@ -9,6 +9,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// Generates async overloads for all marked methods.
+/// </summary>
 [Generator]
 public class AsyncOverloadGenerator : IIncrementalGenerator
 {
@@ -17,21 +20,33 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 		// Find candidate methods that have a [GenerateAsyncOverload] attribute.
 		var methods = context
 			.SyntaxProvider.CreateSyntaxProvider(
-				predicate: static (syntaxNode, _) => IsCandidate(syntaxNode),
-				transform: static (context, _) => GetTarget(context)
+				predicate: static (syntaxNode, _) => IsAttributedMethod(syntaxNode),
+				transform: static (context, _) => GetMethodSyntaxIfTarget(context)
 			)
 			.Where(m => m is not null);
 
-		// Combine with the bigger compilation context to have access to other classes in the assembly.
+		// Process all methods in one run, because one async method needs to know what other async
+		// methods will be generated around it.
+		var allMethods = methods.Collect();
+
+		// Combine with the compilation context to have access class semantics.
 		var compilationAndMethods = context.CompilationProvider.Combine(methods.Collect());
 
 		// Register the source code factory.
 		context.RegisterSourceOutput(compilationAndMethods, Generate);
 	}
 
-	private static bool IsCandidate(SyntaxNode node) => node is MethodDeclarationSyntax m && m.AttributeLists.Count > 0;
+	/// <summary>
+	/// Checks if the syntax node is a method with attributes.
+	/// </summary>
+	private static bool IsAttributedMethod(SyntaxNode node) =>
+		node is MethodDeclarationSyntax m && m.AttributeLists.Count > 0;
 
-	private static MethodDeclarationSyntax? GetTarget(GeneratorSyntaxContext context)
+	/// <summary>
+	/// Checks whether the given method has an <see cref="GenerateAsyncOverloadAttribute"/> and if so,<br/>
+	/// casts the method declaration syntax for further processing.
+	/// </summary>
+	private static MethodDeclarationSyntax? GetMethodSyntaxIfTarget(GeneratorSyntaxContext context)
 	{
 		var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
@@ -60,6 +75,11 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			MethodDeclaration != null && MethodSymbol != null && SemanticModel != null && AsyncName != null;
 	}
 
+	/// <summary>
+	/// Generates each async overload in a dedicated partial class.
+	/// </summary>
+	/// <param name="context">The source production context to register the generated partial classes.</param>
+	/// <param name="generatorInformation">The list of method declarations and the compilation for interpretation of their semantics.</param>
 	private static void Generate(
 		SourceProductionContext context,
 		(Compilation Compilation, ImmutableArray<MethodDeclarationSyntax?> MethodDeclarations) generatorInformation
@@ -67,7 +87,8 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	{
 		var compilation = generatorInformation.Compilation;
 
-		// Keep in mind the async overloads that will be generated when translating.
+		// First map out all async methods that will be generated.
+		// This serves as information for other methods, that there will be an async overload that can be called.
 		var generationTasks = generatorInformation
 			.MethodDeclarations.Select(methodDeclaration =>
 			{
@@ -101,6 +122,7 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			string
 		>(task => task.MethodSymbol!, task => task.AsyncName!, SymbolEqualityComparer.Default);
 
+		// Then generate each method iteratively.
 		foreach (var generationTask in generationTasks)
 		{
 			var methodDeclaration = generationTask.MethodDeclaration!;
@@ -108,6 +130,8 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			var semanticModel = generationTask.SemanticModel!;
 			var asyncName = generationTask.AsyncName!;
 
+			// Ground the method in its context:
+			// Get the class name and namespace for the new partial class.
 			var classDeclaration = methodDeclaration.FirstAncestorOrSelf<ClassDeclarationSyntax>();
 			if (classDeclaration == null)
 			{
@@ -124,6 +148,7 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 
 			var classNamespace = classSymbol.ContainingNamespace.ToDisplayString();
 
+			// Start building the file.
 			var sb = new StringBuilder();
 
 			// Auto generated marker.
@@ -133,6 +158,8 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			// Namespace declaration.
 			sb.AppendLine($"namespace {classNamespace};");
 			sb.AppendLine();
+
+			// Usings are not needed, because types are spelled out with their fully qualified names.
 
 			// Rebuild class declaration with modifiers
 			sb.AppendLine(BuildClassDeclarationHeader(classDeclaration));

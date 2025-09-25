@@ -4,6 +4,10 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+/// <summary>
+/// Searches through the syntax tree of a method body and locates method invocations.
+/// For each invocation, it is checked if an async overload exists in the target class.
+/// </summary>
 internal class AwaitableOverloadLocator
 {
 	private IDictionary<IMethodSymbol, string> _toBeGeneratedAsyncMethodNamesBySyncMethod;

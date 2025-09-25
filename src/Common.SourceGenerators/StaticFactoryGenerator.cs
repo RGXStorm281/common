@@ -13,6 +13,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// Generates a static factory method for each constructor of each implementing type of the interface specified in the attribute.
+/// </summary>
 [Generator]
 public class StaticFactoryGenerator : IIncrementalGenerator
 {
@@ -153,23 +156,8 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 			)
 		)
 		{
-			// Copy the documentation of the constructor if available.
-			var documentation = constructor.GetDocumentationCommentXml(
-				expandIncludes: true,
-				cancellationToken: default
-			);
-			if (!string.IsNullOrWhiteSpace(documentation))
-			{
-				var xmlLines = documentation!.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-				foreach (var line in xmlLines)
-				{
-					if (line.StartsWith("<member") || line.StartsWith("</member"))
-					{
-						continue;
-					}
-					sb.AppendLine("    /// " + line.Trim());
-				}
-			}
+			// Reference the documentation of the constructor.
+			sb.AppendLine(IndentHelper.Indent(BuildInheritdoc(constructor)));
 
 			// Create the method signature.
 			var parameters = string.Join(
@@ -177,12 +165,14 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 				constructor.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
 			);
 			sb.AppendLine(
-				$"    public static {interfaceImplementation.ToDisplayString()} {interfaceImplementation.Name}({parameters})"
+				IndentHelper.Indent(
+					$"{constructor.DeclaredAccessibility} static {interfaceImplementation.ToDisplayString()} {interfaceImplementation.Name}({parameters})"
+				)
 			);
 
 			// Call the constructor and return the new object.
 			var args = string.Join(", ", constructor.Parameters.Select(p => p.Name));
-			sb.AppendLine($"        => new {interfaceImplementation.ToDisplayString()}({args});");
+			sb.AppendLine(IndentHelper.Indent($"=> new {interfaceImplementation.ToDisplayString()}({args});", 2));
 			sb.AppendLine();
 		}
 
@@ -194,5 +184,11 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 			$"{factoryClass.Name}.{interfaceImplementation.Name}.g.cs",
 			SourceText.From(sb.ToString(), Encoding.UTF8)
 		);
+	}
+
+	private static string BuildInheritdoc(IMethodSymbol constructor)
+	{
+		var parameterTypes = string.Join(",", constructor.Parameters.Select(p => p.Type.ToDisplayString()));
+		return $"/// <inheritdoc cref=\"{constructor.Name}.{constructor.Name}({parameterTypes})\"/>";
 	}
 }
