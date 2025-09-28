@@ -7,6 +7,8 @@ using RobinEpple.Common.SourceGenerators.Test.ReferenceImplementation;
 public class AsyncOverloadTests
 {
 	[DataTestMethod]
+	#region signature and applicability
+
 	[DataRow(nameof(AsyncOverloadTestClass), nameof(AsyncOverloadTestClass.EmptyVoidMethod_ShouldReturnCompletedTask))]
 	[DataRow(
 		nameof(AsyncOverloadTestClass),
@@ -25,21 +27,48 @@ public class AsyncOverloadTests
 		nameof(AsyncOverloadTestClass.AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInExpressionBody)
 	)]
 	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldCopySignature) + "_day" + "_month" + "_year"
+	)]
+	[DataRow(
 		nameof(AsyncOverloadTestAbstractClass),
 		nameof(AsyncOverloadTestAbstractClass.AsyncOverload_ShouldWorkOnAbstractMethodStubs)
+			+ "_day"
+			+ "_month"
+			+ "_year"
 	)]
 	[DataRow(
 		nameof(AsyncOverloadTestClass),
-		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnAbstractMethodStubs)
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnAbstractMethodStubs) + "_day" + "_month" + "_year"
 	)]
 	[DataRow(
 		nameof(IAsyncOverloadTestInterface),
 		nameof(IAsyncOverloadTestInterface.AsyncOverload_ShouldWorkOnInterfaceDeclarations)
+			+ "_day"
+			+ "_month"
+			+ "_year"
 	)]
 	[DataRow(
 		nameof(AsyncOverloadTestClass),
-		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnInterfaceDeclarations)
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnInterfaceDeclarations) + "_day" + "_month" + "_year"
 	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnGenericMethods) + "_TItem_item"
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnMultipleOverloads) + "_firstParam"
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnMultipleOverloads) + "_firstParam" + "_secondParam"
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldCallOtherGeneratedAsyncOverloads)
+	)]
+	#endregion
 	public void CompareSyntaxTree(string className, string syncMethodName)
 	{
 		// Define the folders where the generators are located.

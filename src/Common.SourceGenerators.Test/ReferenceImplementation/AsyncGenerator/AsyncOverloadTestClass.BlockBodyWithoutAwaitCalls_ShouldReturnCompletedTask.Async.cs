@@ -7,7 +7,7 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="BlockBodyWithoutAwaitCalls_ShouldReturnCompletedTask()"/>
 	public System.Threading.Tasks.Task<int> BlockBodyWithoutAwaitCalls_ShouldReturnCompletedTaskAsync()
 	{
-		return System.Threading.Tasks.Task.FromResult(42);
+		return System.Threading.Tasks.Task.FromResult<int>(42);
 	}
 
 }

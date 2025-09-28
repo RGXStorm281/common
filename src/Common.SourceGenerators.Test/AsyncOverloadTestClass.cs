@@ -42,7 +42,7 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 	public void AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInExpressionBody() => InternalVoidMethod();
 
 	[GenerateAsyncOverload]
-	protected static DateTime AsyncOverload_ShouldCopySignature(int day, int month, int year)
+	internal static DateTime AsyncOverload_ShouldCopySignature(int day, int month, int year)
 	{
 		return new DateTime(year, month, day);
 	}
@@ -55,5 +55,28 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 	public DateTime AsyncOverload_ShouldWorkOnInterfaceDeclarations(int day, int month, int year) =>
 		throw new NotImplementedException();
 
+	[GenerateAsyncOverload]
+	private void InternalGenerated() { }
+
+	[GenerateAsyncOverload]
+	public TItem AsyncOverload_ShouldWorkOnGenericMethods<TItem>(TItem item) => item;
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldWorkOnMultipleOverloads(int firstParam)
+	{
+		InternalVoidMethod();
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldWorkOnMultipleOverloads(int firstParam, int secondParam)
+	{
+		InternalVoidMethod();
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldCallOtherGeneratedAsyncOverloads()
+	{
+		InternalGenerated();
+	}
 	#endregion
 }

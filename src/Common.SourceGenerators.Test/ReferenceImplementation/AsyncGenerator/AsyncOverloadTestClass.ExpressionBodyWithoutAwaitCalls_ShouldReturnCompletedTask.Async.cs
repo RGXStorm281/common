@@ -6,5 +6,5 @@ public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="ExpressionBodyWithoutAwaitCalls_ShouldReturnCompletedTask()"/>
 	public System.Threading.Tasks.Task<int> ExpressionBodyWithoutAwaitCalls_ShouldReturnCompletedTaskAsync()
-		=> System.Threading.Tasks.Task.FromResult(42);
+		=> System.Threading.Tasks.Task.FromResult<int>(42);
 }

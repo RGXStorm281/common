@@ -184,11 +184,20 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			// Close class.
 			sb.AppendLine("}");
 
+			// Build a unique name for each overload.
+			var sourceName = $"{typeDeclaration.Identifier.Text}.{methodSymbol.Name}";
+			foreach (var typeParam in methodSymbol.TypeParameters)
+			{
+				sourceName += "_" + typeParam.Name;
+			}
+			foreach (var param in methodSymbol.Parameters)
+			{
+				sourceName += "_" + param.Name;
+			}
+			sourceName += $".Async.g.cs";
+
 			// Add the source code to the compilation.
-			context.AddSource(
-				$"{typeDeclaration.Identifier.Text}.{methodSymbol.Name}.Async.g.cs",
-				SourceText.From(sb.ToString(), Encoding.UTF8)
-			);
+			context.AddSource(sourceName, SourceText.From(sb.ToString(), Encoding.UTF8));
 		}
 	}
 
@@ -217,7 +226,13 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	private static string BuildInheritdoc(IMethodSymbol methodSymbol)
 	{
 		var parameterTypes = string.Join(",", methodSymbol.Parameters.Select(p => p.Type.ToDisplayString()));
-		return $"/// <inheritdoc cref=\"{methodSymbol.Name}({parameterTypes})\"/>";
+		var typeParameterString = string.Empty;
+		if (methodSymbol.TypeParameters.ToList() is { Count: > 0 } typeParameters)
+		{
+			typeParameterString =
+				"{" + string.Join(",", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + "}";
+		}
+		return $"/// <inheritdoc cref=\"{methodSymbol.Name}{typeParameterString}({parameterTypes})\"/>";
 	}
 
 	private static string BuildAsyncMethodSignature(
@@ -244,8 +259,14 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			", ",
 			generationTask.MethodSymbol!.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
 		);
+		var typeParameterString = string.Empty;
+		if (generationTask.MethodSymbol.TypeParameters.ToList() is { Count: > 0 } typeParameters)
+		{
+			typeParameterString =
+				"<" + string.Join(", ", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + ">";
+		}
 
-		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}({parameters})";
+		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}{typeParameterString}({parameters})";
 	}
 
 	private static string BuildAsyncMethodBody(

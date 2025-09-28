@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.SourceGenerators;
 
+using System.Reflection.Metadata;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,9 +12,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 /// </summary>
 public class AsyncTranslator
 {
-	private class TranslationContext(SemanticModel semanticModel, Dictionary<IMethodSymbol, string> awaitableOverloads)
+	private class TranslationContext(
+		SemanticModel semanticModel,
+		MethodDeclarationSyntax methodDeclaration,
+		IMethodSymbol methodSymbol,
+		Dictionary<IMethodSymbol, string> awaitableOverloads
+	)
 	{
 		public SemanticModel SemanticModel { get; } = semanticModel;
+		public MethodDeclarationSyntax MethodDeclaration { get; } = methodDeclaration;
+		public IMethodSymbol MethodSymbol { get; } = methodSymbol;
 		public Dictionary<IMethodSymbol, string> AwaitableOverloads { get; } = awaitableOverloads;
 		public bool IsRunningAsync => AwaitableOverloads.Count > 0;
 	}
@@ -33,7 +41,7 @@ public class AsyncTranslator
 		Dictionary<IMethodSymbol, string> awaitableOverloads
 	)
 	{
-		var context = new TranslationContext(semanticModel, awaitableOverloads);
+		var context = new TranslationContext(semanticModel, methodDeclaration, methodSymbol, awaitableOverloads);
 
 		// Translate the body if there is one.
 		if (methodDeclaration.Body is { } blockBody)
@@ -55,7 +63,8 @@ public class AsyncTranslator
 			var expression = TranslateWithoutParenthesesInternal(expressionBody.Expression, context);
 			if (awaitableOverloads.Count == 0 && expressionBody.Expression is not ThrowExpressionSyntax)
 			{
-				expression = $"System.Threading.Tasks.Task.FromResult({expression})";
+				expression =
+					$"System.Threading.Tasks.Task.FromResult<{methodSymbol.ReturnType.ToDisplayString()}>({expression})";
 			}
 			return IndentHelper.Indent($"=> {expression};");
 		}
@@ -154,20 +163,6 @@ public class AsyncTranslator
 				sb.AppendLine(";");
 				return sb.ToString();
 			}
-			case FixedStatementSyntax fixedStatementSyntax:
-			{
-				// Print out the "fixed" header and translate the internal statement.
-				var translatedStatement = TranslateInternal(fixedStatementSyntax.Statement, context);
-				if (fixedStatementSyntax.Statement is not BlockSyntax)
-				{
-					translatedStatement = IndentHelper.Indent(translatedStatement);
-				}
-				sb.Append("fixed (");
-				sb.Append(Print(fixedStatementSyntax.Declaration));
-				sb.AppendLine(")");
-				sb.Append(translatedStatement);
-				return sb.ToString();
-			}
 			case ForStatementSyntax forStatementSyntax:
 			{
 				// Translate the condition and the loop body.
@@ -192,15 +187,6 @@ public class AsyncTranslator
 				sb.Append(incrementorString);
 				sb.AppendLine(")");
 				sb.Append(block);
-				return sb.ToString();
-			}
-			case GotoStatementSyntax gotoStatementSyntax:
-			{
-				// Translate the expression.
-				var expression = TranslateWithoutParenthesesInternal(gotoStatementSyntax.Expression, context);
-				sb.Append("goto ");
-				sb.Append(expression);
-				sb.AppendLine(";");
 				return sb.ToString();
 			}
 			case IfStatementSyntax ifStatementSyntax:
@@ -335,7 +321,9 @@ public class AsyncTranslator
 					else
 					{
 						// There are no await calls. Return completed task.
-						sb.Append("return System.Threading.Tasks.Task.FromResult(");
+						sb.Append(
+							$"return System.Threading.Tasks.Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>("
+						);
 						sb.Append(expression);
 						sb.AppendLine(");");
 						return sb.ToString();
@@ -409,14 +397,6 @@ public class AsyncTranslator
 				}
 				return sb.ToString();
 			}
-			case UnsafeStatementSyntax unsafeStatementSyntax:
-			{
-				// Print the keyword and translate the inner block.
-				var block = TranslateInternal(unsafeStatementSyntax.Block, context);
-				sb.AppendLine("unsafe");
-				sb.Append(block);
-				return block;
-			}
 			case UsingStatementSyntax usingStatementSyntax:
 			{
 				// Print the declaration and translate the inner statement.
@@ -472,7 +452,10 @@ public class AsyncTranslator
 			case BreakStatementSyntax:
 			case ContinueStatementSyntax:
 			case EmptyStatementSyntax:
+			case FixedStatementSyntax:
+			case GotoStatementSyntax:
 			case LocalFunctionStatementSyntax:
+			case UnsafeStatementSyntax:
 			default:
 			{
 				// Just print out the statement, no translation needed.
