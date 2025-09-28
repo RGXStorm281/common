@@ -14,6 +14,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="ReferenceImplementation\**\*.cs" />
+        <Compile Remove="ReferenceImplementation\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="MSTest" />
     </ItemGroup>
@@ -25,5 +31,4 @@
     <ItemGroup>
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
     </ItemGroup>
-
 </Project>

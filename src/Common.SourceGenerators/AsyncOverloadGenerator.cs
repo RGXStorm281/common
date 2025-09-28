@@ -179,9 +179,7 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			sb.AppendLine(IndentHelper.Indent(BuildAsyncMethodSignature(generationTask, awaitableOverloads)));
 
 			// Body: naive clone + replace Foo() -> await FooAsync()
-			sb.AppendLine(
-				IndentHelper.Indent(BuildAsyncMethodBody(methodDeclaration, compilation, awaitableOverloads))
-			);
+			sb.AppendLine(IndentHelper.Indent(BuildAsyncMethodBody(generationTask, compilation, awaitableOverloads)));
 
 			// Close class.
 			sb.AppendLine("}");
@@ -251,14 +249,19 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	}
 
 	private static string BuildAsyncMethodBody(
-		MethodDeclarationSyntax methodDeclaration,
+		GenerationTask generationTask,
 		Compilation compilation,
 		Dictionary<IMethodSymbol, string> awaitableOverloads
 	)
 	{
-		var semanticModel = compilation.GetSemanticModel(methodDeclaration.SyntaxTree);
+		var semanticModel = compilation.GetSemanticModel(generationTask.MethodDeclaration!.SyntaxTree);
 
 		var translator = new AsyncTranslator();
-		return translator.TranslateMethodBody(methodDeclaration, semanticModel, awaitableOverloads);
+		return translator.TranslateMethodBody(
+			generationTask.MethodDeclaration!,
+			semanticModel,
+			generationTask.MethodSymbol!,
+			awaitableOverloads
+		);
 	}
 }

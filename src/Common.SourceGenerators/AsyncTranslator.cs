@@ -2,6 +2,7 @@ namespace RobinEpple.Common.SourceGenerators;
 
 using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 /// <summary>
@@ -28,20 +29,30 @@ public class AsyncTranslator
 	public string TranslateMethodBody(
 		MethodDeclarationSyntax methodDeclaration,
 		SemanticModel semanticModel,
+		IMethodSymbol methodSymbol,
 		Dictionary<IMethodSymbol, string> awaitableOverloads
 	)
 	{
 		var context = new TranslationContext(semanticModel, awaitableOverloads);
 
 		// Translate the body if there is one.
-		if (methodDeclaration.Body != null)
+		if (methodDeclaration.Body is { } blockBody)
 		{
-			return TranslateInternal(methodDeclaration.Body, context);
+			// Edge case: If the original return type was void, the return statement at the end can be omitted.
+			// If the async translation then has no await calls, it needs to return Task.CompletedTask at the end.
+			// Therefore we need to add a return statement at the end.
+			if (methodSymbol.ReturnsVoid && awaitableOverloads.Count == 0)
+			{
+				var returnStatement = SyntaxFactory.ReturnStatement();
+				blockBody = methodDeclaration.Body.AddStatements(returnStatement);
+			}
+
+			return TranslateInternal(blockBody, context);
 		}
 
-		if (methodDeclaration.ExpressionBody != null)
+		if (methodDeclaration.ExpressionBody is { } expressionBody)
 		{
-			var expression = TranslateInternal(methodDeclaration.ExpressionBody.Expression, context);
+			var expression = TranslateInternal(expressionBody.Expression, context);
 			return IndentHelper.Indent($"=> {expression};");
 		}
 
