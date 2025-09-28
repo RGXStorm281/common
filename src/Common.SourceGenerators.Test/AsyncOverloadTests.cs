@@ -69,6 +69,69 @@ public class AsyncOverloadTests
 		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldCallOtherGeneratedAsyncOverloads)
 	)]
 	#endregion
+
+	#region statement support
+
+	[DataRow(nameof(AsyncOverloadTestClass), nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsInBlocks))]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsInCheckedStatements)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsInForeachStatements)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsInDoWhile)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsCallsInForStatement)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsInIfStatement)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateLabelledStatements)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateOnlyHeadOfLockStatement)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateVariableInitializations)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateReturnStatements)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateSwitchStatement)
+	)]
+	[DataRow(nameof(AsyncOverloadTestClass), nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateThrow))]
+	[DataRow(nameof(AsyncOverloadTestClass), nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateTryCatch))]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateUsingStatement)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateWhileStatement)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateYieldStatement)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldNotTranslateLocalFunctions)
+	)]
+	#endregion
 	public void CompareSyntaxTree(string className, string syncMethodName)
 	{
 		// Define the folders where the generators are located.

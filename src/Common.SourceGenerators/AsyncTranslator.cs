@@ -1,6 +1,5 @@
 namespace RobinEpple.Common.SourceGenerators;
 
-using System.Reflection.Metadata;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -116,7 +115,7 @@ public class AsyncTranslator
 				}
 				if (commonForEachStatementSyntax.AwaitKeyword != null)
 				{
-					sb.Append("await ");
+					sb.Append(commonForEachStatementSyntax.AwaitKeyword.WithTrailingTrivia().ToFullString());
 				}
 				sb.Append("foreach (");
 				if (commonForEachStatementSyntax is ForEachVariableStatementSyntax forEachVariableStatementSyntax)
@@ -152,7 +151,7 @@ public class AsyncTranslator
 				sb.AppendLine(body);
 				sb.Append("while (");
 				sb.Append(condition);
-				sb.AppendLine(")");
+				sb.AppendLine(");");
 				return sb.ToString();
 			}
 			case ExpressionStatementSyntax expressionStatementSyntax:
@@ -230,9 +229,10 @@ public class AsyncTranslator
 			}
 			case LockStatementSyntax lockStatementSyntax:
 			{
-				// Translate the locked expression and the inner block.
+				// Translate the locked expression but NOT the inner block.
+				// Async calls are not allowed inside lock.
 				var expression = TranslateWithoutParenthesesInternal(lockStatementSyntax.Expression, context);
-				var block = TranslateInternal(lockStatementSyntax.Statement, context);
+				var block = Print(lockStatementSyntax.Statement);
 				if (lockStatementSyntax.Statement is not BlockSyntax)
 				{
 					block = IndentHelper.Indent(block);
@@ -382,9 +382,7 @@ public class AsyncTranslator
 					sb.Append("catch");
 					if (catchBlock.Declaration != null)
 					{
-						sb.Append(" (");
 						sb.Append(Print(catchBlock.Declaration));
-						sb.Append(")");
 					}
 					if (catchBlock.Filter != null)
 					{
@@ -673,7 +671,18 @@ public class AsyncTranslator
 	{
 		isAwaitedMethodCall = false;
 		// Get the symbol of the method being called
-		var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
+		SymbolInfo symbolInfo;
+		try
+		{
+			symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
+		}
+		catch (Exception ex)
+		{
+			throw new InvalidDataException(
+				$"Cannot get semantics for Invocation: {invocation.WithoutTrivia().ToFullString()}",
+				ex
+			);
+		}
 		var originalMethod = symbolInfo.Symbol as IMethodSymbol;
 		if (originalMethod == null)
 		{

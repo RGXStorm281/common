@@ -78,5 +78,204 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 	{
 		InternalGenerated();
 	}
+
+	#endregion
+
+	#region statement support
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateCallsInBlocks()
+	{
+		{
+			InternalVoidMethod();
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateCallsInCheckedStatements()
+	{
+		checked
+		{
+			InternalVoidMethod();
+		}
+	}
+
+	private int[] GetArray() => [1, 2, 3];
+
+	private Task<int[]> GetArrayAsync() => Task.FromResult<int[]>([1, 2, 3]);
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateCallsInForeachStatements()
+	{
+		foreach (var number in GetArray())
+		{
+			Identity(number);
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateCallsInDoWhile()
+	{
+		do
+		{
+			InternalVoidMethod();
+		} while (false);
+	}
+
+	[GenerateAsyncOverload]
+	private int Increment(int i) => i++;
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateCallsCallsInForStatement()
+	{
+		for (int i = 0; i < 10; Increment(i))
+		{
+			InternalVoidMethod();
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateCallsInIfStatement()
+	{
+		if (1 < Increment(2))
+		{
+			InternalVoidMethod();
+		}
+		else if (2 > Increment(3))
+		{
+			GetArray();
+		}
+		else
+		{
+			throw new Exception("unexpected result");
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateLabelledStatements()
+	{
+		Label:
+		InternalVoidMethod();
+
+		goto Label;
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateOnlyHeadOfLockStatement()
+	{
+		lock (GetArray())
+		{
+			InternalVoidMethod();
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateVariableInitializations()
+	{
+		int[] customArray = [2, 3, 4],
+			methodInitializedArray = GetArray();
+	}
+
+	[GenerateAsyncOverload]
+	public int[] AsyncOverload_ShouldTranslateReturnStatements()
+	{
+		return GetArray();
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateSwitchStatement()
+	{
+		switch (Increment(1))
+		{
+			case 1:
+			{
+				break;
+			}
+			case 2:
+			{
+				InternalVoidMethod();
+				return;
+			}
+			default:
+			{
+				return;
+			}
+		}
+	}
+
+	[GenerateAsyncOverload]
+	private TItem Identity<TItem>(TItem item) => item;
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateThrow()
+	{
+		throw Identity(new Exception("test"));
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateTryCatch()
+	{
+		try
+		{
+			InternalVoidMethod();
+		}
+		catch (InvalidOperationException e)
+		{
+			Identity(e);
+		}
+		catch
+		{
+			GetArray();
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateUsingStatement()
+	{
+		using (var memoryStream = Identity(new MemoryStream()))
+		{
+			Identity(memoryStream);
+		}
+
+		using var memoryStream2 = Identity(new MemoryStream());
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateWhileStatement()
+	{
+		while (Identity(1) < Increment(1))
+		{
+			InternalVoidMethod();
+			continue;
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public IEnumerable<int> AsyncOverload_ShouldTranslateYieldStatement()
+	{
+		foreach (var item in GetArray())
+		{
+			if (item < 2)
+			{
+				yield return Identity(item);
+			}
+			else
+			{
+				yield break;
+			}
+		}
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldNotTranslateLocalFunctions()
+	{
+		int Decrement(int i)
+		{
+			return i--;
+		}
+
+		Decrement(2);
+	}
+
 	#endregion
 }
