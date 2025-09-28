@@ -52,7 +52,11 @@ public class AsyncTranslator
 
 		if (methodDeclaration.ExpressionBody is { } expressionBody)
 		{
-			var expression = TranslateInternal(expressionBody.Expression, context);
+			var expression = TranslateWithoutParenthesesInternal(expressionBody.Expression, context);
+			if (awaitableOverloads.Count == 0 && expressionBody.Expression is not ThrowExpressionSyntax)
+			{
+				expression = $"System.Threading.Tasks.Task.FromResult({expression})";
+			}
 			return IndentHelper.Indent($"=> {expression};");
 		}
 
@@ -95,7 +99,7 @@ public class AsyncTranslator
 			case CommonForEachStatementSyntax commonForEachStatementSyntax:
 			{
 				// Translate the collection expression and the loop body.
-				var expression = TranslateInternal(commonForEachStatementSyntax.Expression, context);
+				var expression = TranslateWithoutParenthesesInternal(commonForEachStatementSyntax.Expression, context);
 				var body = TranslateInternal(commonForEachStatementSyntax.Statement, context);
 				if (commonForEachStatementSyntax.Statement is not BlockSyntax)
 				{
@@ -129,7 +133,7 @@ public class AsyncTranslator
 			case DoStatementSyntax doStatementSyntax:
 			{
 				// Translate the condition and the loop body.
-				var condition = TranslateInternal(doStatementSyntax.Condition, context);
+				var condition = TranslateWithoutParenthesesInternal(doStatementSyntax.Condition, context);
 				var body = TranslateInternal(doStatementSyntax.Statement, context);
 				if (doStatementSyntax.Statement is not BlockSyntax)
 				{
@@ -145,7 +149,7 @@ public class AsyncTranslator
 			case ExpressionStatementSyntax expressionStatementSyntax:
 			{
 				// Translate the expression.
-				var expression = TranslateInternal(expressionStatementSyntax.Expression, context);
+				var expression = TranslateWithoutParenthesesInternal(expressionStatementSyntax.Expression, context);
 				sb.Append(expression);
 				sb.AppendLine(";");
 				return sb.ToString();
@@ -167,14 +171,14 @@ public class AsyncTranslator
 			case ForStatementSyntax forStatementSyntax:
 			{
 				// Translate the condition and the loop body.
-				var condition = TranslateInternal(forStatementSyntax.Condition, context);
+				var condition = TranslateWithoutParenthesesInternal(forStatementSyntax.Condition, context);
 				var block = TranslateInternal(forStatementSyntax.Statement, context);
 				if (forStatementSyntax.Statement is not BlockSyntax)
 				{
 					block = IndentHelper.Indent(block);
 				}
 				var incrementors = forStatementSyntax.Incrementors.Select(incrementor =>
-					TranslateInternal(incrementor, context)
+					TranslateWithoutParenthesesInternal(incrementor, context)
 				);
 				var incrementorString = string.Join(", ", incrementors);
 				sb.Append("for (");
@@ -193,7 +197,7 @@ public class AsyncTranslator
 			case GotoStatementSyntax gotoStatementSyntax:
 			{
 				// Translate the expression.
-				var expression = TranslateInternal(gotoStatementSyntax.Expression, context);
+				var expression = TranslateWithoutParenthesesInternal(gotoStatementSyntax.Expression, context);
 				sb.Append("goto ");
 				sb.Append(expression);
 				sb.AppendLine(";");
@@ -202,7 +206,7 @@ public class AsyncTranslator
 			case IfStatementSyntax ifStatementSyntax:
 			{
 				// Translate the condition and it's body.
-				var condition = TranslateInternal(ifStatementSyntax.Condition, context);
+				var condition = TranslateWithoutParenthesesInternal(ifStatementSyntax.Condition, context);
 				var innerStatement = TranslateInternal(ifStatementSyntax.Statement, context);
 				if (ifStatementSyntax.Statement is not BlockSyntax)
 				{
@@ -241,7 +245,7 @@ public class AsyncTranslator
 			case LockStatementSyntax lockStatementSyntax:
 			{
 				// Translate the locked expression and the inner block.
-				var expression = TranslateInternal(lockStatementSyntax.Expression, context);
+				var expression = TranslateWithoutParenthesesInternal(lockStatementSyntax.Expression, context);
 				var block = TranslateInternal(lockStatementSyntax.Statement, context);
 				if (lockStatementSyntax.Statement is not BlockSyntax)
 				{
@@ -263,7 +267,7 @@ public class AsyncTranslator
 						variableBuilder.Append(Print(variable.Identifier));
 						if (variable.Initializer != null)
 						{
-							var initializer = TranslateInternal(variable.Initializer.Value, context);
+							var initializer = TranslateWithoutParenthesesInternal(variable.Initializer.Value, context);
 							variableBuilder.Append(" = ");
 							variableBuilder.Append(initializer);
 						}
@@ -318,7 +322,7 @@ public class AsyncTranslator
 				else
 				{
 					// Object return.
-					var expression = TranslateInternal(returnStatementSyntax.Expression, context);
+					var expression = TranslateWithoutParenthesesInternal(returnStatementSyntax.Expression, context);
 
 					if (context.IsRunningAsync)
 					{
@@ -341,7 +345,7 @@ public class AsyncTranslator
 			case SwitchStatementSyntax switchStatementSyntax:
 			{
 				// Translate the target expression and each case body.
-				var expression = TranslateInternal(switchStatementSyntax.Expression, context);
+				var expression = TranslateWithoutParenthesesInternal(switchStatementSyntax.Expression, context);
 				sb.Append("switch (");
 				sb.Append(expression);
 				sb.AppendLine(")");
@@ -372,7 +376,7 @@ public class AsyncTranslator
 			case ThrowStatementSyntax throwStatementSyntax:
 			{
 				// Translate the inner expression.
-				var expression = TranslateInternal(throwStatementSyntax.Expression, context);
+				var expression = TranslateWithoutParenthesesInternal(throwStatementSyntax.Expression, context);
 				sb.Append("throw ");
 				sb.Append(expression);
 				sb.AppendLine(";");
@@ -429,7 +433,7 @@ public class AsyncTranslator
 				}
 				if (usingStatementSyntax.Expression != null)
 				{
-					var expression = TranslateInternal(usingStatementSyntax.Expression, context);
+					var expression = TranslateWithoutParenthesesInternal(usingStatementSyntax.Expression, context);
 					sb.Append(expression);
 				}
 				sb.AppendLine(")");
@@ -439,7 +443,7 @@ public class AsyncTranslator
 			case WhileStatementSyntax whileStatementSyntax:
 			{
 				// Translate the condition and the loop body.
-				var condition = TranslateInternal(whileStatementSyntax.Condition, context);
+				var condition = TranslateWithoutParenthesesInternal(whileStatementSyntax.Condition, context);
 				var block = TranslateInternal(whileStatementSyntax.Statement, context);
 				if (whileStatementSyntax.Statement is not BlockSyntax)
 				{
@@ -455,7 +459,7 @@ public class AsyncTranslator
 			case YieldStatementSyntax yieldStatementSyntax:
 			{
 				// Translate the expression.
-				var expression = TranslateInternal(yieldStatementSyntax.Expression, context);
+				var expression = TranslateWithoutParenthesesInternal(yieldStatementSyntax.Expression, context);
 				sb.Append("yield ");
 				if (yieldStatementSyntax.ReturnOrBreakKeyword is { } returnOrBreak)
 				{
@@ -480,10 +484,36 @@ public class AsyncTranslator
 	}
 
 	/// <summary>
+	/// Translates an expression into async and wraps it in brackets if the top level expression is awaited.
+	/// </summary>
+	private string TranslateAndParenthesizeInternal(ExpressionSyntax? expression, TranslationContext context)
+	{
+		var translated = TranslateInternal(expression, context, out var isAwaitedMethodCall);
+		if (isAwaitedMethodCall)
+		{
+			return $"({translated})";
+		}
+		return translated;
+	}
+
+	/// <summary>
+	/// Translates an expression into async and wraps it in brackets if the top level expression is awaited.
+	/// </summary>
+	private string TranslateWithoutParenthesesInternal(ExpressionSyntax? expression, TranslationContext context)
+	{
+		return TranslateInternal(expression, context, out _);
+	}
+
+	/// <summary>
 	/// Translates an expression into async.
 	/// </summary>
-	private string TranslateInternal(ExpressionSyntax? expression, TranslationContext context)
+	private string TranslateInternal(
+		ExpressionSyntax? expression,
+		TranslationContext context,
+		out bool isAwaitedMethodCall
+	)
 	{
+		isAwaitedMethodCall = false;
 		if (expression == null)
 		{
 			return string.Empty;
@@ -494,37 +524,40 @@ public class AsyncTranslator
 			case AssignmentExpressionSyntax assignmentExpressionSyntax:
 			{
 				// Translate both sides and print the assignment.
-				var left = TranslateInternal(assignmentExpressionSyntax.Left, context);
-				var right = TranslateInternal(assignmentExpressionSyntax.Right, context);
+				var left = TranslateWithoutParenthesesInternal(assignmentExpressionSyntax.Left, context);
+				var right = TranslateWithoutParenthesesInternal(assignmentExpressionSyntax.Right, context);
 				var assignment = Print(assignmentExpressionSyntax.OperatorToken);
 				return $"{left} {assignment} {right}";
 			}
 			case BinaryExpressionSyntax binaryExpressionSyntax:
 			{
 				// Translate both sides and combine with the binary operator.
-				var left = TranslateInternal(binaryExpressionSyntax.Left, context);
-				var right = TranslateInternal(binaryExpressionSyntax.Right, context);
+				var left = TranslateWithoutParenthesesInternal(binaryExpressionSyntax.Left, context);
+				var right = TranslateWithoutParenthesesInternal(binaryExpressionSyntax.Right, context);
 				return $"{left} {Print(binaryExpressionSyntax.OperatorToken)} {right}";
 			}
 			case CastExpressionSyntax castExpressionSyntax:
 			{
 				// Print the cast type and translate the inner expression.
-				var innerExpression = TranslateInternal(castExpressionSyntax.Expression, context);
+				var innerExpression = TranslateWithoutParenthesesInternal(castExpressionSyntax.Expression, context);
 				return $"({Print(castExpressionSyntax.Type)}){innerExpression}";
 			}
 			case ConditionalAccessExpressionSyntax conditionalAccessExpressionSyntax:
 			{
 				// Translate the receiver and the access expression.
-				var receiver = TranslateInternal(conditionalAccessExpressionSyntax.Expression, context);
-				var whenNotNull = TranslateInternal(conditionalAccessExpressionSyntax.WhenNotNull, context);
+				var receiver = TranslateAndParenthesizeInternal(conditionalAccessExpressionSyntax.Expression, context);
+				var whenNotNull = TranslateWithoutParenthesesInternal(
+					conditionalAccessExpressionSyntax.WhenNotNull,
+					context
+				);
 				return $"{receiver}?.{whenNotNull}";
 			}
 			case ConditionalExpressionSyntax conditionalExpressionSyntax:
 			{
 				// Translate the condition, true and false cases and wrap them back in a ternary operator.
-				var condition = TranslateInternal(conditionalExpressionSyntax.Condition, context);
-				var whenTrue = TranslateInternal(conditionalExpressionSyntax.WhenTrue, context);
-				var whenFalse = TranslateInternal(conditionalExpressionSyntax.WhenFalse, context);
+				var condition = TranslateWithoutParenthesesInternal(conditionalExpressionSyntax.Condition, context);
+				var whenTrue = TranslateWithoutParenthesesInternal(conditionalExpressionSyntax.WhenTrue, context);
+				var whenFalse = TranslateWithoutParenthesesInternal(conditionalExpressionSyntax.WhenFalse, context);
 
 				var sb = new StringBuilder();
 				sb.AppendLine(condition);
@@ -535,32 +568,33 @@ public class AsyncTranslator
 			case InvocationExpressionSyntax invocationExpressionSyntax:
 			{
 				// Here is the actual magic: Translate into an async call if possible.
-				return TryTranslateInvocationToAsync(invocationExpressionSyntax, context);
+				return TryTranslateInvocationToAsync(invocationExpressionSyntax, context, out isAwaitedMethodCall);
 			}
 			case MemberAccessExpressionSyntax memberAccessExpressionSyntax:
 			{
 				// Translate the receiver and append the member access.
-				var receiver = TranslateInternal(memberAccessExpressionSyntax.Expression, context);
+				var receiver = TranslateAndParenthesizeInternal(memberAccessExpressionSyntax.Expression, context);
 				var member = memberAccessExpressionSyntax.Name;
+				// Wrap the receiver in brackets in case it is an awaited call.
 				return $"{receiver}.{member}";
 			}
 			case ParenthesizedExpressionSyntax parenthesizedExpressionSyntax:
 			{
 				// Translate the inner expression and put them back in brackets.
-				var inner = TranslateInternal(parenthesizedExpressionSyntax.Expression, context);
+				var inner = TranslateWithoutParenthesesInternal(parenthesizedExpressionSyntax.Expression, context);
 				return $"({inner})";
 			}
 			case PostfixUnaryExpressionSyntax postfixUnaryExpressionSyntax:
 			{
 				// Translate the inner expression and append the operator.
-				var inner = TranslateInternal(postfixUnaryExpressionSyntax.Operand, context);
+				var inner = TranslateAndParenthesizeInternal(postfixUnaryExpressionSyntax.Operand, context);
 				var unaryOperator = Print(postfixUnaryExpressionSyntax.OperatorToken);
 				return $"{inner}{unaryOperator}";
 			}
 			case PrefixUnaryExpressionSyntax prefixUnaryExpressionSyntax:
 			{
 				// Translate the inner expression and prepend the operator.
-				var inner = TranslateInternal(prefixUnaryExpressionSyntax.Operand, context);
+				var inner = TranslateAndParenthesizeInternal(prefixUnaryExpressionSyntax.Operand, context);
 				var unaryOperator = Print(prefixUnaryExpressionSyntax.OperatorToken);
 				return $"{unaryOperator}{inner}";
 			}
@@ -568,7 +602,10 @@ public class AsyncTranslator
 			{
 				// Translate the condition and each case arm.
 				var sb = new StringBuilder();
-				var condition = TranslateInternal(switchExpressionSyntax.GoverningExpression, context);
+				var condition = TranslateWithoutParenthesesInternal(
+					switchExpressionSyntax.GoverningExpression,
+					context
+				);
 				sb.AppendLine($"{condition} switch");
 				sb.AppendLine("{");
 				foreach (var arm in switchExpressionSyntax.Arms)
@@ -579,7 +616,7 @@ public class AsyncTranslator
 						pattern = $"{pattern} when {Print(arm.WhenClause)}";
 					}
 					pattern = IndentHelper.Indent(pattern);
-					var inner = TranslateInternal(arm.Expression, context);
+					var inner = TranslateWithoutParenthesesInternal(arm.Expression, context);
 					sb.AppendLine($"{pattern} => {inner},");
 				}
 				sb.AppendLine("}");
@@ -590,7 +627,7 @@ public class AsyncTranslator
 				// Translate each tuple argument and wrap them back in brackets.
 				var args = tupleExpressionSyntax.Arguments.Select(argument =>
 				{
-					var inner = TranslateInternal(argument.Expression, context);
+					var inner = TranslateWithoutParenthesesInternal(argument.Expression, context);
 					if (argument.NameColon == null)
 					{
 						return inner;
@@ -645,8 +682,13 @@ public class AsyncTranslator
 	/// <summary>
 	/// Looks for an async overload for the invoked method and replaces the call with async if possible.
 	/// </summary>
-	private string TryTranslateInvocationToAsync(InvocationExpressionSyntax invocation, TranslationContext context)
+	private string TryTranslateInvocationToAsync(
+		InvocationExpressionSyntax invocation,
+		TranslationContext context,
+		out bool isAwaitedMethodCall
+	)
 	{
+		isAwaitedMethodCall = false;
 		// Get the symbol of the method being called
 		var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
 		var originalMethod = symbolInfo.Symbol as IMethodSymbol;
@@ -659,11 +701,11 @@ public class AsyncTranslator
 		// Translate each argument.
 		var args = string.Join(
 			", ",
-			invocation.ArgumentList.Arguments.Select(a => TranslateInternal(a.Expression, context))
+			invocation.ArgumentList.Arguments.Select(a => TranslateWithoutParenthesesInternal(a.Expression, context))
 		);
 
 		// Rewrite the base call.
-		var receiver = TranslateInternal(invocation.Expression, context);
+		var receiver = TranslateWithoutParenthesesInternal(invocation.Expression, context);
 
 		// Check if an overload exists.
 		if (!context.AwaitableOverloads.TryGetValue(originalMethod, out var asyncName))
@@ -673,13 +715,14 @@ public class AsyncTranslator
 		}
 
 		// Async overload found - replace the method name with the async one and await the call.
+		isAwaitedMethodCall = true;
 		var originalName = originalMethod.Name;
 
 		// Translate the receiver string like obj?. or a StaticClass, if it exists.
 		receiver = TrimEnd(receiver, originalName);
 
-		// Wrap the async call in brackets, in case the parent is a chained expression operation (member access, equality operator, ...).
-		return $"(await {receiver}{asyncName}({args}))";
+		// Await the async call.
+		return $"await {receiver}{asyncName}({args})";
 	}
 
 	public static string TrimEnd(string input, string suffix)

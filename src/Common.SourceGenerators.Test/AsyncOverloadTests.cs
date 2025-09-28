@@ -1,11 +1,46 @@
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using Microsoft.CodeAnalysis.CSharp;
+using RobinEpple.Common.SourceGenerators.Test.ReferenceImplementation;
+
 [TestClass]
 public class AsyncOverloadTests
 {
 	[DataTestMethod]
-	[DataRow(nameof(AsyncOverloadTestClass.EmptyVoidMethod_ShouldReturnCompletedTask))]
-	public void CompareSyntaxTree(string syncMethodName)
+	[DataRow(nameof(AsyncOverloadTestClass), nameof(AsyncOverloadTestClass.EmptyVoidMethod_ShouldReturnCompletedTask))]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.BlockBodyWithoutAwaitCalls_ShouldReturnCompletedTask)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.ExpressionBodyWithoutAwaitCalls_ShouldReturnCompletedTask)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInBlockBody)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInExpressionBody)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestAbstractClass),
+		nameof(AsyncOverloadTestAbstractClass.AsyncOverload_ShouldWorkOnAbstractMethodStubs)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnAbstractMethodStubs)
+	)]
+	[DataRow(
+		nameof(IAsyncOverloadTestInterface),
+		nameof(IAsyncOverloadTestInterface.AsyncOverload_ShouldWorkOnInterfaceDeclarations)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldWorkOnInterfaceDeclarations)
+	)]
+	public void CompareSyntaxTree(string className, string syncMethodName)
 	{
 		// Define the folders where the generators are located.
 		const string sourceGeneratorFolderPath =
@@ -14,8 +49,8 @@ public class AsyncOverloadTests
 			"/workspaces/common/src/Common.SourceGenerators.Test/ReferenceImplementation/AsyncGenerator";
 
 		// Build the file name.
-		var generatedFileName = $"{nameof(AsyncOverloadTestClass)}.{syncMethodName}.Async.g.cs";
-		var referenceFileName = $"{nameof(AsyncOverloadTestClass)}.{syncMethodName}.Async.cs";
+		var generatedFileName = $"{className}.{syncMethodName}.Async.g.cs";
+		var referenceFileName = $"{className}.{syncMethodName}.Async.cs";
 
 		// Combine for the full file paths.
 		var generatedFilePath = Path.Combine(sourceGeneratorFolderPath, generatedFileName);
@@ -36,7 +71,7 @@ public class AsyncOverloadTests
 
 		if (!File.Exists(referenceFilePath))
 		{
-			Assert.Fail($"The generated file {referenceFileName} could not be found.");
+			Assert.Fail($"The reference file {referenceFileName} could not be found.");
 			return;
 		}
 		var referenceText = File.ReadAllText(referenceFilePath);

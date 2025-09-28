@@ -132,21 +132,21 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 
 			// Ground the method in its context:
 			// Get the class name and namespace for the new partial class.
-			var classDeclaration = methodDeclaration.FirstAncestorOrSelf<ClassDeclarationSyntax>();
-			if (classDeclaration == null)
+			var typeDeclaration = methodDeclaration.FirstAncestorOrSelf<TypeDeclarationSyntax>();
+			if (typeDeclaration == null)
 			{
 				return;
 			}
 
-			var classSymbol = compilation
-				.GetSemanticModel(classDeclaration.SyntaxTree)
-				.GetDeclaredSymbol(classDeclaration);
-			if (classSymbol == null)
+			var typeSymbol = compilation
+				.GetSemanticModel(typeDeclaration.SyntaxTree)
+				.GetDeclaredSymbol(typeDeclaration);
+			if (typeSymbol == null)
 			{
 				return;
 			}
 
-			var classNamespace = classSymbol.ContainingNamespace.ToDisplayString();
+			var typeNamespace = typeSymbol.ContainingNamespace.ToDisplayString();
 
 			// Start building the file.
 			var sb = new StringBuilder();
@@ -156,13 +156,13 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			sb.AppendLine();
 
 			// Namespace declaration.
-			sb.AppendLine($"namespace {classNamespace};");
+			sb.AppendLine($"namespace {typeNamespace};");
 			sb.AppendLine();
 
 			// Usings are not needed, because types are spelled out with their fully qualified names.
 
 			// Rebuild class declaration with modifiers
-			sb.AppendLine(BuildClassDeclarationHeader(classDeclaration));
+			sb.AppendLine(BuildClassDeclarationHeader(typeDeclaration));
 			sb.AppendLine("{");
 
 			// Inherit the documentation from the original.
@@ -186,28 +186,28 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 
 			// Add the source code to the compilation.
 			context.AddSource(
-				$"{classDeclaration.Identifier.Text}.{methodSymbol.Name}.Async.g.cs",
+				$"{typeDeclaration.Identifier.Text}.{methodSymbol.Name}.Async.g.cs",
 				SourceText.From(sb.ToString(), Encoding.UTF8)
 			);
 		}
 	}
 
-	private static string BuildClassDeclarationHeader(ClassDeclarationSyntax classDeclaration)
+	private static string BuildClassDeclarationHeader(TypeDeclarationSyntax typeDeclaration)
 	{
 		var sb = new StringBuilder();
 
 		// Declare modifiers.
-		var classModifiers = string.Join(" ", classDeclaration.Modifiers.Select(m => m.Text));
+		var classModifiers = string.Join(" ", typeDeclaration.Modifiers.Select(m => m.Text));
 		sb.Append(classModifiers);
 
 		// Declare the class.
-		sb.Append(" class ");
-		sb.Append(classDeclaration.Identifier.Text);
+		sb.Append($" {typeDeclaration.Keyword.WithoutTrivia().ToFullString()} ");
+		sb.Append(typeDeclaration.Identifier.Text);
 
 		// Add type parameters if they exist.
-		if (classDeclaration.TypeParameterList != null)
+		if (typeDeclaration.TypeParameterList != null)
 		{
-			sb.Append(classDeclaration.TypeParameterList.ToFullString());
+			sb.Append(typeDeclaration.TypeParameterList.ToFullString());
 		}
 
 		// Build the class declaration.
