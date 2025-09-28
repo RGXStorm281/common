@@ -207,9 +207,12 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 	private TItem Identity<TItem>(TItem item) => item;
 
 	[GenerateAsyncOverload]
+	private Exception GetException(string message) => new Exception(message);
+
+	[GenerateAsyncOverload]
 	public void AsyncOverload_ShouldTranslateThrow()
 	{
-		throw Identity(new Exception("test"));
+		throw GetException("test");
 	}
 
 	[GenerateAsyncOverload]

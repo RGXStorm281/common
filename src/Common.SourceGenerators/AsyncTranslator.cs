@@ -245,45 +245,7 @@ public class AsyncTranslator
 			}
 			case LocalDeclarationStatementSyntax localDecl:
 			{
-				// Translate each initializer expression.
-				var declarations = localDecl
-					.Declaration.Variables.Select(variable =>
-					{
-						var variableBuilder = new StringBuilder();
-						variableBuilder.Append(Print(variable.Identifier));
-						if (variable.Initializer != null)
-						{
-							var initializer = TranslateWithoutParenthesesInternal(variable.Initializer.Value, context);
-							variableBuilder.Append(" = ");
-							variableBuilder.Append(initializer);
-						}
-						return variableBuilder.ToString();
-					})
-					.ToList();
-
-				sb.Append(Print(localDecl.Declaration.Type));
-				sb.Append(" ");
-				if (declarations.Count == 1)
-				{
-					sb.Append(declarations[0]);
-					sb.AppendLine(";");
-					return sb.ToString();
-				}
-
-				// More than one.
-				for (int i = 0; i < declarations.Count; i++)
-				{
-					var declaration = declarations[i];
-					if (i > 0)
-					{
-						declaration = IndentHelper.Indent(declaration);
-					}
-					sb.Append(declaration);
-					if (i < declarations.Count - 1)
-					{
-						sb.AppendLine(",");
-					}
-				}
+				sb.Append(TranslateVariableDeclarationSyntax(localDecl.Declaration, context));
 				sb.AppendLine(";");
 				return sb.ToString();
 			}
@@ -404,10 +366,9 @@ public class AsyncTranslator
 					translatedStatement = IndentHelper.Indent(translatedStatement);
 				}
 				sb.Append("using (");
-				if (usingStatementSyntax.Declaration != null)
+				if (usingStatementSyntax.Declaration is { } variable)
 				{
-					sb.Append(Print(usingStatementSyntax.Declaration));
-					sb.Append(" = ");
+					sb.Append(TranslateVariableDeclarationSyntax(variable, context));
 				}
 				if (usingStatementSyntax.Expression != null)
 				{
@@ -462,6 +423,50 @@ public class AsyncTranslator
 				return sb.ToString();
 			}
 		}
+	}
+
+	private string TranslateVariableDeclarationSyntax(VariableDeclarationSyntax declaration, TranslationContext context)
+	{
+		// Translate each initializer expression.
+		var sb = new StringBuilder();
+		var variableDeclarations = declaration
+			.Variables.Select(variable =>
+			{
+				var variableBuilder = new StringBuilder();
+				variableBuilder.Append(Print(variable.Identifier));
+				if (variable.Initializer != null)
+				{
+					var initializer = TranslateWithoutParenthesesInternal(variable.Initializer.Value, context);
+					variableBuilder.Append(" = ");
+					variableBuilder.Append(initializer);
+				}
+				return variableBuilder.ToString();
+			})
+			.ToList();
+
+		sb.Append(Print(declaration.Type));
+		sb.Append(" ");
+		if (variableDeclarations.Count == 1)
+		{
+			sb.Append(variableDeclarations[0]);
+			return sb.ToString();
+		}
+
+		// More than one.
+		for (int i = 0; i < variableDeclarations.Count; i++)
+		{
+			var variableDeclaration = variableDeclarations[i];
+			if (i > 0)
+			{
+				variableDeclaration = IndentHelper.Indent(variableDeclaration);
+			}
+			sb.Append(variableDeclaration);
+			if (i < variableDeclarations.Count - 1)
+			{
+				sb.AppendLine(",");
+			}
+		}
+		return sb.ToString();
 	}
 
 	/// <summary>
@@ -674,15 +679,14 @@ public class AsyncTranslator
 		SymbolInfo symbolInfo;
 		try
 		{
-			symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
+			symbolInfo = context.SemanticModel.GetSymbolInfo(invocation.Expression);
 		}
-		catch (Exception ex)
+		catch
 		{
-			throw new InvalidDataException(
-				$"Cannot get semantics for Invocation: {invocation.WithoutTrivia().ToFullString()}",
-				ex
-			);
+			// Generics appear to be a problem here sometimes...
+			return Print(invocation);
 		}
+
 		var originalMethod = symbolInfo.Symbol as IMethodSymbol;
 		if (originalMethod == null)
 		{
