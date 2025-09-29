@@ -7,9 +7,9 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCallsInCheckedStatements()"/>
 	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCallsInCheckedStatementsAsync()
 	{
-        checked
-        {
-            await InternalVoidMethodAsync();
-        }
+		checked
+		{
+			await InternalVoidMethodAsync();
+		}
 	}
 }

@@ -80,26 +80,21 @@ internal class AwaitableOverloadLocator
 				CollectInternal(expressionStatementSyntax.Expression, context);
 				break;
 			}
-			case FixedStatementSyntax fixedStatementSyntax:
-			{
-				CollectInternal(fixedStatementSyntax.Statement, context);
-				break;
-			}
 			case ForStatementSyntax forStatementSyntax:
 			{
 				CollectInternal(forStatementSyntax.Condition, context);
 				CollectInternal(forStatementSyntax.Statement, context);
-				break;
-			}
-			case GotoStatementSyntax gotoStatementSyntax:
-			{
-				CollectInternal(gotoStatementSyntax.Expression, context);
+				foreach (var incrementor in forStatementSyntax.Incrementors)
+				{
+					CollectInternal(incrementor, context);
+				}
 				break;
 			}
 			case IfStatementSyntax ifStatementSyntax:
 			{
 				CollectInternal(ifStatementSyntax.Condition, context);
 				CollectInternal(ifStatementSyntax.Statement, context);
+				CollectInternal(ifStatementSyntax.Else?.Statement, context);
 				break;
 			}
 			case LabeledStatementSyntax labeledStatementSyntax:
@@ -109,8 +104,9 @@ internal class AwaitableOverloadLocator
 			}
 			case LockStatementSyntax lockStatementSyntax:
 			{
+				// Translate the locked expression but NOT the inner block.
+				// Async calls are not allowed inside lock.
 				CollectInternal(lockStatementSyntax.Expression, context);
-				CollectInternal(lockStatementSyntax.Statement, context);
 				break;
 			}
 			case LocalDeclarationStatementSyntax localDecl:
@@ -152,14 +148,13 @@ internal class AwaitableOverloadLocator
 				}
 				break;
 			}
-			case UnsafeStatementSyntax unsafeStatementSyntax:
-			{
-				CollectInternal(unsafeStatementSyntax.Block, context);
-				break;
-			}
 			case UsingStatementSyntax usingStatementSyntax:
 			{
 				CollectInternal(usingStatementSyntax.Expression, context);
+				foreach (var variable in usingStatementSyntax.Declaration?.Variables ?? [])
+				{
+					CollectInternal(variable.Initializer?.Value, context);
+				}
 				CollectInternal(usingStatementSyntax.Statement, context);
 				break;
 			}
@@ -177,7 +172,10 @@ internal class AwaitableOverloadLocator
 			case BreakStatementSyntax:
 			case ContinueStatementSyntax:
 			case EmptyStatementSyntax:
+			case FixedStatementSyntax:
+			case GotoStatementSyntax:
 			case LocalFunctionStatementSyntax:
+			case UnsafeStatementSyntax:
 			default:
 			{
 				break;
@@ -326,26 +324,27 @@ internal class AwaitableOverloadLocator
 			return;
 		}
 
+		// Normalize to generic method definition if applicable
+		var methodKey = originalMethod.IsGenericMethod ? originalMethod.OriginalDefinition : originalMethod;
+
 		// If the method has already been resolved, skip.
-		if (context.CollectedAwaitableOverloads.ContainsKey(originalMethod))
+		if (context.CollectedAwaitableOverloads.ContainsKey(methodKey))
 		{
 			return;
 		}
 
 		// If the method will get a generated async overload, just assume the generation will be successful and the method will exist.
-		if (
-			_toBeGeneratedAsyncMethodNamesBySyncMethod.TryGetValue(originalMethod, out var toBeGeneratedAsyncMethodName)
-		)
+		if (_toBeGeneratedAsyncMethodNamesBySyncMethod.TryGetValue(methodKey, out var toBeGeneratedAsyncMethodName))
 		{
-			context.CollectedAwaitableOverloads.Add(originalMethod, toBeGeneratedAsyncMethodName);
+			context.CollectedAwaitableOverloads.Add(methodKey, toBeGeneratedAsyncMethodName);
 		}
 
 		// Try to find an async overload in the compilation.
-		var asyncSymbol = FindAsyncOverload(originalMethod, context.SemanticModel);
+		var asyncSymbol = FindAsyncOverload(methodKey, context.SemanticModel);
 
 		if (asyncSymbol != null)
 		{
-			context.CollectedAwaitableOverloads.Add(originalMethod, asyncSymbol.Name);
+			context.CollectedAwaitableOverloads.Add(methodKey, asyncSymbol.Name);
 		}
 	}
 

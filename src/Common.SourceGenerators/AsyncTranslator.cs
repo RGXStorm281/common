@@ -259,6 +259,11 @@ public class AsyncTranslator
 			}
 			case LocalDeclarationStatementSyntax localDecl:
 			{
+				if (localDecl.UsingKeyword != null)
+				{
+					sb.Append(Print(localDecl.UsingKeyword));
+					sb.Append(" ");
+				}
 				sb.Append(TranslateVariableDeclarationSyntax(localDecl.Declaration, context));
 				sb.AppendLine(";");
 				return sb.ToString();
@@ -714,8 +719,11 @@ public class AsyncTranslator
 		// Rewrite the base call.
 		var receiver = TranslateWithoutParenthesesInternal(invocation.Expression, context);
 
+		// Normalize to generic method definition if applicable
+		var methodKey = originalMethod.IsGenericMethod ? originalMethod.OriginalDefinition : originalMethod;
+
 		// Check if an overload exists.
-		if (!context.AwaitableOverloads.TryGetValue(originalMethod, out var asyncName))
+		if (!context.AwaitableOverloads.TryGetValue(methodKey, out var asyncName))
 		{
 			// No async overload found — keep original, but call translated arguments.
 			return $"{receiver}({args})";

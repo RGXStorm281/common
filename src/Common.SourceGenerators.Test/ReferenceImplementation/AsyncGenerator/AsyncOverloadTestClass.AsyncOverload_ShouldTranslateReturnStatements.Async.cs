@@ -5,7 +5,7 @@ namespace RobinEpple.Common.SourceGenerators.Test;
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateReturnStatements()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateReturnStatementsAsync()
+	public async System.Threading.Tasks.Task<int[]> AsyncOverload_ShouldTranslateReturnStatementsAsync()
 	{
 		return await GetArrayAsync();
 	}

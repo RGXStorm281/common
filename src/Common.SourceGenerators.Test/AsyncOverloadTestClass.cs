@@ -126,7 +126,7 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 	private int Increment(int i) => i++;
 
 	[GenerateAsyncOverload]
-	public void AsyncOverload_ShouldTranslateCallsCallsInForStatement()
+	public void AsyncOverload_ShouldTranslateCallsInForStatement()
 	{
 		for (int i = 0; i < 10; Increment(i))
 		{

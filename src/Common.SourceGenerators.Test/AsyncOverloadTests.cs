@@ -87,7 +87,7 @@ public class AsyncOverloadTests
 	)]
 	[DataRow(
 		nameof(AsyncOverloadTestClass),
-		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsCallsInForStatement)
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateCallsInForStatement)
 	)]
 	[DataRow(
 		nameof(AsyncOverloadTestClass),

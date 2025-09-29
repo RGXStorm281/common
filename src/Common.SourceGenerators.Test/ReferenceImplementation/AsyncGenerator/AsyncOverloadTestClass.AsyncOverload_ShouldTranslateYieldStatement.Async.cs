@@ -5,7 +5,7 @@ namespace RobinEpple.Common.SourceGenerators.Test;
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateYieldStatement()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateYieldStatementAsync()
+	public async System.Collections.Generic.IAsyncEnumerable<int> AsyncOverload_ShouldTranslateYieldStatementAsync()
 	{
 		foreach (var item in await GetArrayAsync())
 		{

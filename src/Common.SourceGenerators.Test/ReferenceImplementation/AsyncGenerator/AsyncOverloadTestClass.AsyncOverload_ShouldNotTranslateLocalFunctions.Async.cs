@@ -13,6 +13,6 @@ public partial class AsyncOverloadTestClass
 		}
 
 		Decrement(2);
-		return Task.CompletedTask;
+		return System.Threading.Tasks.Task.CompletedTask;
 	}
 }

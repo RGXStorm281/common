@@ -4,8 +4,8 @@ namespace RobinEpple.Common.SourceGenerators.Test;
 
 public partial class AsyncOverloadTestClass
 {
-	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCallsCallsInIfStatement()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCallsCallsInIfStatementAsync()
+	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCallsInIfStatement()"/>
+	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCallsInIfStatementAsync()
 	{
 		if (1 < await IncrementAsync(2))
 		{

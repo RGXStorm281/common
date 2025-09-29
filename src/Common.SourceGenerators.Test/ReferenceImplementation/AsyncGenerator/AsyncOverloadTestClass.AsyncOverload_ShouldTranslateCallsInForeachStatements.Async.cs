@@ -4,8 +4,8 @@ namespace RobinEpple.Common.SourceGenerators.Test;
 
 public partial class AsyncOverloadTestClass
 {
-	/// <inheritdoc cref="AsyncOverloads_ShouldTranslateCallsInForeachStatements()"/>
-	public async System.Threading.Tasks.Task AsyncOverloads_ShouldTranslateCallsInForeachStatementsAsync()
+	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCallsInForeachStatements()"/>
+	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCallsInForeachStatementsAsync()
 	{
 		foreach (var number in await GetArrayAsync())
 		{
