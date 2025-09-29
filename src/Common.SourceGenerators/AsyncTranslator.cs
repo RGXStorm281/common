@@ -11,20 +11,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 /// </summary>
 public class AsyncTranslator
 {
-	private class TranslationContext(
-		SemanticModel semanticModel,
-		MethodDeclarationSyntax methodDeclaration,
-		IMethodSymbol methodSymbol,
-		Dictionary<IMethodSymbol, string> awaitableOverloads
-	)
-	{
-		public SemanticModel SemanticModel { get; } = semanticModel;
-		public MethodDeclarationSyntax MethodDeclaration { get; } = methodDeclaration;
-		public IMethodSymbol MethodSymbol { get; } = methodSymbol;
-		public Dictionary<IMethodSymbol, string> AwaitableOverloads { get; } = awaitableOverloads;
-		public bool IsRunningAsync => AwaitableOverloads.Count > 0;
-	}
-
 	/// <summary>
 	/// Prints out the syntax tree with some rough formatting, replacing every method call that has an awaitable overload available <br/>
 	/// with the corresponding async call.
@@ -33,37 +19,46 @@ public class AsyncTranslator
 	/// <param name="semanticModel">The semantic model, for semantically identifying methods.</param>
 	/// <param name="awaitableOverloads">A dictionary for resolving available async overload names for synchronous methods in the given syntax tree.</param>
 	/// <returns>A dictionary, containing the name of the awaitable overload method for each replaceable method invocation in the body.</returns>
-	public string TranslateMethodBody(
-		MethodDeclarationSyntax methodDeclaration,
-		SemanticModel semanticModel,
-		IMethodSymbol methodSymbol,
-		Dictionary<IMethodSymbol, string> awaitableOverloads
-	)
+	public string TranslateMethodBody(AsyncOverloadGenerationTask context)
 	{
-		var context = new TranslationContext(semanticModel, methodDeclaration, methodSymbol, awaitableOverloads);
-
 		// Translate the body if there is one.
-		if (methodDeclaration.Body is { } blockBody)
+		if (context.MethodDeclaration.Body is { } blockBody)
 		{
+			var translatedBody = TranslateInternal(blockBody, context);
+
 			// Edge case: If the original return type was void, the return statement at the end can be omitted.
 			// If the async translation then has no await calls, it needs to return Task.CompletedTask at the end.
 			// Therefore we need to add a return statement at the end.
-			if (methodSymbol.ReturnsVoid && awaitableOverloads.Count == 0)
+			if (
+				context.MethodSymbol.ReturnsVoid
+				&& !context.IsRunningAsync
+				&& !LastStatementIsThrowOrReturn(translatedBody)
+			)
 			{
-				var returnStatement = SyntaxFactory.ReturnStatement();
-				blockBody = methodDeclaration.Body.AddStatements(returnStatement);
+				// Remove trailing spaces and the closing bracket.
+				translatedBody = translatedBody.TrimEnd().TrimEnd('}').TrimEnd();
+
+				// Append the return statement.
+				var sb = new StringBuilder(translatedBody);
+				sb.AppendLine();
+				var returnStatement = TranslateInternal(SyntaxFactory.ReturnStatement(), context);
+				sb.Append(IndentHelper.Indent(returnStatement));
+
+				// Close the block again.
+				sb.AppendLine("}");
+				translatedBody = sb.ToString();
 			}
 
-			return TranslateInternal(blockBody, context);
+			return translatedBody;
 		}
 
-		if (methodDeclaration.ExpressionBody is { } expressionBody)
+		if (context.MethodDeclaration.ExpressionBody is { } expressionBody)
 		{
 			var expression = TranslateWithoutParenthesesInternal(expressionBody.Expression, context);
-			if (awaitableOverloads.Count == 0 && expressionBody.Expression is not ThrowExpressionSyntax)
+			if (context.AwaitableOverloads.Count == 0 && expressionBody.Expression is not ThrowExpressionSyntax)
 			{
 				expression =
-					$"System.Threading.Tasks.Task.FromResult<{methodSymbol.ReturnType.ToDisplayString()}>({expression})";
+					$"System.Threading.Tasks.Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>({expression})";
 			}
 			return IndentHelper.Indent($"=> {expression};");
 		}
@@ -72,10 +67,29 @@ public class AsyncTranslator
 		return IndentHelper.Indent(";");
 	}
 
+	private bool LastStatementIsThrowOrReturn(string block)
+	{
+		// Split into lines, remove all closing brackets from the end (there might be multiple, e.g. from an "else" statement)
+		var lastStatementLine = block
+			.Split('\n')
+			.Select(line => line.Trim().Trim('}').Trim())
+			.Where(line => !string.IsNullOrEmpty(line))
+			.LastOrDefault();
+
+		if (lastStatementLine == null)
+		{
+			return false;
+		}
+
+		return lastStatementLine.StartsWith("throw")
+			|| lastStatementLine.StartsWith("return")
+			|| lastStatementLine.StartsWith("yield");
+	}
+
 	/// <summary>
 	/// Translates a statement into async.
 	/// </summary>
-	private string TranslateInternal(StatementSyntax? statement, TranslationContext context)
+	private string TranslateInternal(StatementSyntax? statement, AsyncOverloadGenerationTask context)
 	{
 		if (statement == null)
 		{
@@ -425,7 +439,10 @@ public class AsyncTranslator
 		}
 	}
 
-	private string TranslateVariableDeclarationSyntax(VariableDeclarationSyntax declaration, TranslationContext context)
+	private string TranslateVariableDeclarationSyntax(
+		VariableDeclarationSyntax declaration,
+		AsyncOverloadGenerationTask context
+	)
 	{
 		// Translate each initializer expression.
 		var sb = new StringBuilder();
@@ -472,7 +489,7 @@ public class AsyncTranslator
 	/// <summary>
 	/// Translates an expression into async and wraps it in brackets if the top level expression is awaited.
 	/// </summary>
-	private string TranslateAndParenthesizeInternal(ExpressionSyntax? expression, TranslationContext context)
+	private string TranslateAndParenthesizeInternal(ExpressionSyntax? expression, AsyncOverloadGenerationTask context)
 	{
 		var translated = TranslateInternal(expression, context, out var isAwaitedMethodCall);
 		if (isAwaitedMethodCall)
@@ -485,7 +502,10 @@ public class AsyncTranslator
 	/// <summary>
 	/// Translates an expression into async and wraps it in brackets if the top level expression is awaited.
 	/// </summary>
-	private string TranslateWithoutParenthesesInternal(ExpressionSyntax? expression, TranslationContext context)
+	private string TranslateWithoutParenthesesInternal(
+		ExpressionSyntax? expression,
+		AsyncOverloadGenerationTask context
+	)
 	{
 		return TranslateInternal(expression, context, out _);
 	}
@@ -495,7 +515,7 @@ public class AsyncTranslator
 	/// </summary>
 	private string TranslateInternal(
 		ExpressionSyntax? expression,
-		TranslationContext context,
+		AsyncOverloadGenerationTask context,
 		out bool isAwaitedMethodCall
 	)
 	{
@@ -670,23 +690,14 @@ public class AsyncTranslator
 	/// </summary>
 	private string TryTranslateInvocationToAsync(
 		InvocationExpressionSyntax invocation,
-		TranslationContext context,
+		AsyncOverloadGenerationTask context,
 		out bool isAwaitedMethodCall
 	)
 	{
 		isAwaitedMethodCall = false;
-		// Get the symbol of the method being called
-		SymbolInfo symbolInfo;
-		try
-		{
-			symbolInfo = context.SemanticModel.GetSymbolInfo(invocation.Expression);
-		}
-		catch
-		{
-			// Generics appear to be a problem here sometimes...
-			return Print(invocation);
-		}
 
+		// Get the symbol of the method being called
+		var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation.Expression);
 		var originalMethod = symbolInfo.Symbol as IMethodSymbol;
 		if (originalMethod == null)
 		{
