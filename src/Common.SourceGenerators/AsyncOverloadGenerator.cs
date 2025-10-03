@@ -15,6 +15,23 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 [Generator]
 public class AsyncOverloadGenerator : IIncrementalGenerator
 {
+	private static readonly DiagnosticDescriptor _globalFailure = new DiagnosticDescriptor(
+		id: "REASYNCGEN01",
+		title: "Global exception at async overload generation",
+		messageFormat: "A global exception has occurred during the generation of async methods: {0}",
+		category: "SourceGeneration",
+		DiagnosticSeverity.Error,
+		isEnabledByDefault: true
+	);
+	private static readonly DiagnosticDescriptor _methodSpecificFailure = new DiagnosticDescriptor(
+		id: "REASYNCGEN02",
+		title: "Exception at async overload generation",
+		messageFormat: "An exception has been thrown during the generation of method {0}: {1}",
+		category: "SourceGeneration",
+		DiagnosticSeverity.Error,
+		isEnabledByDefault: true
+	);
+
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		// Find candidate methods that have a [GenerateAsyncOverload] attribute.
@@ -29,11 +46,8 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 		// methods will be generated around it.
 		var allMethods = methods.Collect();
 
-		// Combine with the compilation context to have access class semantics.
-		var compilationAndMethods = context.CompilationProvider.Combine(methods.Collect());
-
 		// Register the source code factory.
-		context.RegisterSourceOutput(compilationAndMethods, Generate);
+		context.RegisterSourceOutput(allMethods, Generate);
 	}
 
 	/// <summary>
@@ -46,33 +60,38 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	/// Checks whether the given method has an <see cref="GenerateAsyncOverloadAttribute"/> and if so,<br/>
 	/// casts the method declaration syntax for further processing.
 	/// </summary>
-	private static MethodDeclarationSyntax? GetMethodSyntaxIfTarget(GeneratorSyntaxContext context)
+	private static AsyncOverloadGenerationTask? GetMethodSyntaxIfTarget(GeneratorSyntaxContext context)
 	{
+		// Get the information on the method declaration.
 		var methodDeclaration = (MethodDeclarationSyntax)context.Node;
+		var methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodDeclaration);
+		if (methodSymbol == null)
+		{
+			return null;
+		}
+		var asyncName = methodSymbol.Name + "Async";
 
+		// Check that the method is actually decorated with the GenerateAsyncOverloadAttribute and not any other attribute.
 		foreach (var attr in methodDeclaration.AttributeLists.SelectMany(attributeList => attributeList.Attributes))
 		{
-			var symbol = context.SemanticModel.GetSymbolInfo(attr).Symbol;
-			if (
-				symbol is IMethodSymbol methodSymbol
-				&& methodSymbol.ContainingType.ToDisplayString() == typeof(GenerateAsyncOverloadAttribute).FullName
-			)
+			var constructor = context.SemanticModel.GetSymbolInfo(attr).Symbol;
+			if (constructor is not IMethodSymbol attributeConstructor)
 			{
-				return methodDeclaration;
+				continue;
 			}
+
+			var attributeType = attributeConstructor.ContainingType.ToDisplayString();
+			if (attributeType != typeof(GenerateAsyncOverloadAttribute).FullName)
+			{
+				continue;
+			}
+
+			// If so, add the generation task.
+			return new AsyncOverloadGenerationTask(methodDeclaration, methodSymbol, context.SemanticModel, asyncName);
 		}
 
+		// Otherwise skip this method.
 		return null;
-	}
-
-	private record GenerationTask
-	{
-		public MethodDeclarationSyntax? MethodDeclaration { get; set; }
-		public IMethodSymbol? MethodSymbol { get; set; }
-		public SemanticModel? SemanticModel { get; set; }
-		public string? AsyncName { get; set; }
-		public bool IsComplete =>
-			MethodDeclaration != null && MethodSymbol != null && SemanticModel != null && AsyncName != null;
 	}
 
 	/// <summary>
@@ -82,134 +101,148 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	/// <param name="generatorInformation">The list of method declarations and the compilation for interpretation of their semantics.</param>
 	private static void Generate(
 		SourceProductionContext context,
-		(Compilation Compilation, ImmutableArray<MethodDeclarationSyntax?> MethodDeclarations) generatorInformation
+		ImmutableArray<AsyncOverloadGenerationTask?> generationTasks
 	)
 	{
-		var compilation = generatorInformation.Compilation;
-
-		// First map out all async methods that will be generated.
-		// This serves as information for other methods, that there will be an async overload that can be called.
-		var generationTasks = generatorInformation
-			.MethodDeclarations.Select(methodDeclaration =>
-			{
-				if (methodDeclaration == null)
-				{
-					return new GenerationTask();
-				}
-
-				var semanticModel = compilation.GetSemanticModel(methodDeclaration.SyntaxTree);
-				var methodSymbol = semanticModel.GetDeclaredSymbol(methodDeclaration);
-				if (methodSymbol == null)
-				{
-					return new GenerationTask();
-				}
-
-				var asyncName = methodSymbol.Name + "Async";
-				return new GenerationTask
-				{
-					MethodDeclaration = methodDeclaration,
-					MethodSymbol = methodSymbol,
-					SemanticModel = semanticModel,
-					AsyncName = asyncName,
-				};
-			})
-			.Where(task => task.IsComplete)
-			.ToList();
-
-		var toBeGeneratedAsyncMethodNamesBySyncOverload = generationTasks.ToDictionary<
-			GenerationTask,
-			IMethodSymbol,
-			string
-		>(task => task.MethodSymbol!, task => task.AsyncName!, SymbolEqualityComparer.Default);
-
-		// Then generate each method iteratively.
-		foreach (var generationTask in generationTasks)
+		try
 		{
-			var methodDeclaration = generationTask.MethodDeclaration!;
-			var methodSymbol = generationTask.MethodSymbol!;
-			var semanticModel = generationTask.SemanticModel!;
-			var asyncName = generationTask.AsyncName!;
+			var nullSafeGenerationTasks = generationTasks.OfType<AsyncOverloadGenerationTask>().ToList();
 
-			// Ground the method in its context:
-			// Get the class name and namespace for the new partial class.
-			var classDeclaration = methodDeclaration.FirstAncestorOrSelf<ClassDeclarationSyntax>();
-			if (classDeclaration == null)
+			// First map out all async methods that will be generated.
+			// This serves as information for other methods, that there will be an async overload that can be called.
+
+			var toBeGeneratedAsyncMethodNamesBySyncOverload = nullSafeGenerationTasks.ToDictionary<
+				AsyncOverloadGenerationTask,
+				IMethodSymbol,
+				string
+			>(task => task.MethodSymbol!, task => task.AsyncName!, SymbolEqualityComparer.Default);
+
+			// Then generate each method iteratively.
+			foreach (var generationTask in nullSafeGenerationTasks)
 			{
-				return;
+				try
+				{
+					var methodDeclaration = generationTask.MethodDeclaration!;
+					var methodSymbol = generationTask.MethodSymbol!;
+					var semanticModel = generationTask.SemanticModel!;
+					var asyncName = generationTask.AsyncName!;
+
+					// Ground the method in its context:
+					// Get the class name and namespace for the new partial class.
+					var typeDeclaration = methodDeclaration.FirstAncestorOrSelf<TypeDeclarationSyntax>();
+					if (typeDeclaration == null)
+					{
+						return;
+					}
+
+					var typeSymbol = semanticModel.GetDeclaredSymbol(typeDeclaration);
+					if (typeSymbol == null)
+					{
+						return;
+					}
+
+					var typeNamespace = typeSymbol.ContainingNamespace.ToDisplayString();
+
+					// Start building the file.
+					var sb = new StringBuilder();
+
+					// Enable nullable when the source is nullable enabled.
+					if (semanticModel.GetNullableContext(methodDeclaration.SpanStart) != NullableContext.Disabled)
+					{
+						sb.AppendLine("#nullable enable");
+					}
+
+					// Auto generated marker.
+					sb.AppendLine("// <auto-generated/>");
+					sb.AppendLine();
+
+					// Namespace declaration.
+					sb.AppendLine($"namespace {typeNamespace};");
+					sb.AppendLine();
+
+					// Usings are not needed, because types are spelled out with their fully qualified names.
+
+					// Rebuild class declaration with modifiers
+					sb.AppendLine(BuildClassDeclarationHeader(typeDeclaration));
+					sb.AppendLine("{");
+
+					// Inherit the documentation from the original.
+					sb.AppendLine(IndentHelper.Indent(BuildInheritdoc(methodSymbol)));
+
+					// Find all awaitable overloads in the methods.
+					var awaitableOverloadLocator = new AwaitableOverloadLocator(
+						toBeGeneratedAsyncMethodNamesBySyncOverload
+					);
+					generationTask.AwaitableOverloads = awaitableOverloadLocator.FindAwaitableOverloadsInMethod(
+						methodDeclaration,
+						semanticModel
+					);
+
+					// Build the async signature.
+					sb.AppendLine(IndentHelper.Indent(BuildAsyncMethodSignature(generationTask)));
+
+					// Body: naive clone + replace Foo() -> await FooAsync()
+					sb.AppendLine(IndentHelper.Indent(BuildAsyncMethodBody(generationTask)));
+
+					// Close class.
+					sb.AppendLine("}");
+
+					// Build a unique name for each overload.
+					var sourceName = $"{typeDeclaration.Identifier.Text}.{methodSymbol.Name}";
+					foreach (var typeParam in methodSymbol.TypeParameters)
+					{
+						sourceName += "_" + typeParam.Name;
+					}
+					foreach (var param in methodSymbol.Parameters)
+					{
+						sourceName += "_" + param.Name;
+					}
+					sourceName += $".Async.g.cs";
+
+					// Add the source code to the compilation.
+					context.AddSource(sourceName, SourceText.From(sb.ToString(), Encoding.UTF8));
+				}
+				catch (Exception ex)
+				{
+					var diagnostic = Diagnostic.Create(
+						_methodSpecificFailure,
+						Location.None,
+						generationTask.AsyncName,
+						FlattenException(ex)
+					);
+					context.ReportDiagnostic(diagnostic);
+				}
 			}
-
-			var classSymbol = compilation
-				.GetSemanticModel(classDeclaration.SyntaxTree)
-				.GetDeclaredSymbol(classDeclaration);
-			if (classSymbol == null)
-			{
-				return;
-			}
-
-			var classNamespace = classSymbol.ContainingNamespace.ToDisplayString();
-
-			// Start building the file.
-			var sb = new StringBuilder();
-
-			// Auto generated marker.
-			sb.AppendLine("// <auto-generated/>");
-			sb.AppendLine();
-
-			// Namespace declaration.
-			sb.AppendLine($"namespace {classNamespace};");
-			sb.AppendLine();
-
-			// Usings are not needed, because types are spelled out with their fully qualified names.
-
-			// Rebuild class declaration with modifiers
-			sb.AppendLine(BuildClassDeclarationHeader(classDeclaration));
-			sb.AppendLine("{");
-
-			// Inherit the documentation from the original.
-			sb.AppendLine(IndentHelper.Indent(BuildInheritdoc(methodSymbol)));
-
-			// Find all awaitable overloads in the methods.
-			var awaitableOverloadLocator = new AwaitableOverloadLocator(toBeGeneratedAsyncMethodNamesBySyncOverload);
-			var awaitableOverloads = awaitableOverloadLocator.FindAwaitableOverloadsInMethod(
-				methodDeclaration,
-				semanticModel
-			);
-
-			// Build the async signature.
-			sb.AppendLine(IndentHelper.Indent(BuildAsyncMethodSignature(generationTask, awaitableOverloads)));
-
-			// Body: naive clone + replace Foo() -> await FooAsync()
-			sb.AppendLine(
-				IndentHelper.Indent(BuildAsyncMethodBody(methodDeclaration, compilation, awaitableOverloads))
-			);
-
-			// Close class.
-			sb.AppendLine("}");
-
-			// Add the source code to the compilation.
-			context.AddSource(
-				$"{classDeclaration.Identifier.Text}.{methodSymbol.Name}.Async.g.cs",
-				SourceText.From(sb.ToString(), Encoding.UTF8)
-			);
+		}
+		catch (Exception ex)
+		{
+			var diagnostic = Diagnostic.Create(_globalFailure, Location.None, FlattenException(ex));
+			context.ReportDiagnostic(diagnostic);
 		}
 	}
 
-	private static string BuildClassDeclarationHeader(ClassDeclarationSyntax classDeclaration)
+	private static string FlattenException(Exception ex)
+	{
+		return ex.ToString()
+			+ (ex.InnerException != null ? "\nInner Exception:\n" + FlattenException(ex.InnerException) : "");
+	}
+
+	private static string BuildClassDeclarationHeader(TypeDeclarationSyntax typeDeclaration)
 	{
 		var sb = new StringBuilder();
 
 		// Declare modifiers.
-		var classModifiers = string.Join(" ", classDeclaration.Modifiers.Select(m => m.Text));
+		var classModifiers = string.Join(" ", typeDeclaration.Modifiers.Select(m => m.Text));
 		sb.Append(classModifiers);
 
 		// Declare the class.
-		sb.Append(" class ");
-		sb.Append(classDeclaration.Identifier.Text);
+		sb.Append($" {typeDeclaration.Keyword.WithoutTrivia().ToFullString()} ");
+		sb.Append(typeDeclaration.Identifier.Text);
 
 		// Add type parameters if they exist.
-		if (classDeclaration.TypeParameterList != null)
+		if (typeDeclaration.TypeParameterList != null)
 		{
-			sb.Append(classDeclaration.TypeParameterList.ToFullString());
+			sb.Append(typeDeclaration.TypeParameterList.ToFullString());
 		}
 
 		// Build the class declaration.
@@ -219,24 +252,38 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	private static string BuildInheritdoc(IMethodSymbol methodSymbol)
 	{
 		var parameterTypes = string.Join(",", methodSymbol.Parameters.Select(p => p.Type.ToDisplayString()));
-		return $"/// <inheritdoc cref=\"{methodSymbol.Name}({parameterTypes})\"/>";
+		var typeParameterString = string.Empty;
+		if (methodSymbol.TypeParameters.ToList() is { Count: > 0 } typeParameters)
+		{
+			typeParameterString =
+				"{" + string.Join(",", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + "}";
+		}
+		return $"/// <inheritdoc cref=\"{methodSymbol.Name}{typeParameterString}({parameterTypes})\"/>";
 	}
 
-	private static string BuildAsyncMethodSignature(
-		GenerationTask generationTask,
-		Dictionary<IMethodSymbol, string> awaitableOverloads
-	)
+	private static string BuildAsyncMethodSignature(AsyncOverloadGenerationTask generationTask)
 	{
 		// Return type.
-		var returnType = generationTask.MethodSymbol!.ReturnsVoid
-			? "System.Threading.Tasks.Task"
-			: $"System.Threading.Tasks.Task<{generationTask.MethodSymbol!.ReturnType.ToDisplayString()}>";
+		string? returnType;
+		if (generationTask.MethodSymbol!.ReturnsVoid)
+		{
+			returnType = "System.Threading.Tasks.Task";
+		}
+		else if (generationTask.HasYieldStatements)
+		{
+			returnType = generationTask.MethodSymbol!.ReturnType.ToDisplayString();
+			returnType = returnType.Replace("IEnumerable", "IAsyncEnumerable");
+		}
+		else
+		{
+			returnType = $"System.Threading.Tasks.Task<{generationTask.MethodSymbol!.ReturnType.ToDisplayString()}>";
+		}
 
 		// Modifiers.
 		var methodModifiers = generationTask.MethodDeclaration!.Modifiers.Select(m => m.Text).ToList();
 
 		// Only add "async" if at least one call is awaited.
-		if (awaitableOverloads.Any())
+		if (generationTask.IsRunningAsync)
 		{
 			methodModifiers.Add("async");
 		}
@@ -246,19 +293,19 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			", ",
 			generationTask.MethodSymbol!.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
 		);
+		var typeParameterString = string.Empty;
+		if (generationTask.MethodSymbol.TypeParameters.ToList() is { Count: > 0 } typeParameters)
+		{
+			typeParameterString =
+				"<" + string.Join(", ", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + ">";
+		}
 
-		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}({parameters})";
+		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}{typeParameterString}({parameters})";
 	}
 
-	private static string BuildAsyncMethodBody(
-		MethodDeclarationSyntax methodDeclaration,
-		Compilation compilation,
-		Dictionary<IMethodSymbol, string> awaitableOverloads
-	)
+	private static string BuildAsyncMethodBody(AsyncOverloadGenerationTask generationTask)
 	{
-		var semanticModel = compilation.GetSemanticModel(methodDeclaration.SyntaxTree);
-
 		var translator = new AsyncTranslator();
-		return translator.TranslateMethodBody(methodDeclaration, semanticModel, awaitableOverloads);
+		return translator.TranslateMethodBody(generationTask);
 	}
 }

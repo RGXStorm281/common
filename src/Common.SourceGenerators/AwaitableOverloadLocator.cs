@@ -80,26 +80,21 @@ internal class AwaitableOverloadLocator
 				CollectInternal(expressionStatementSyntax.Expression, context);
 				break;
 			}
-			case FixedStatementSyntax fixedStatementSyntax:
-			{
-				CollectInternal(fixedStatementSyntax.Statement, context);
-				break;
-			}
 			case ForStatementSyntax forStatementSyntax:
 			{
 				CollectInternal(forStatementSyntax.Condition, context);
 				CollectInternal(forStatementSyntax.Statement, context);
-				break;
-			}
-			case GotoStatementSyntax gotoStatementSyntax:
-			{
-				CollectInternal(gotoStatementSyntax.Expression, context);
+				foreach (var incrementor in forStatementSyntax.Incrementors)
+				{
+					CollectInternal(incrementor, context);
+				}
 				break;
 			}
 			case IfStatementSyntax ifStatementSyntax:
 			{
 				CollectInternal(ifStatementSyntax.Condition, context);
 				CollectInternal(ifStatementSyntax.Statement, context);
+				CollectInternal(ifStatementSyntax.Else?.Statement, context);
 				break;
 			}
 			case LabeledStatementSyntax labeledStatementSyntax:
@@ -109,8 +104,9 @@ internal class AwaitableOverloadLocator
 			}
 			case LockStatementSyntax lockStatementSyntax:
 			{
+				// Translate the locked expression but NOT the inner block.
+				// Async calls are not allowed inside lock.
 				CollectInternal(lockStatementSyntax.Expression, context);
-				CollectInternal(lockStatementSyntax.Statement, context);
 				break;
 			}
 			case LocalDeclarationStatementSyntax localDecl:
@@ -152,14 +148,13 @@ internal class AwaitableOverloadLocator
 				}
 				break;
 			}
-			case UnsafeStatementSyntax unsafeStatementSyntax:
-			{
-				CollectInternal(unsafeStatementSyntax.Block, context);
-				break;
-			}
 			case UsingStatementSyntax usingStatementSyntax:
 			{
 				CollectInternal(usingStatementSyntax.Expression, context);
+				foreach (var variable in usingStatementSyntax.Declaration?.Variables ?? [])
+				{
+					CollectInternal(variable.Initializer?.Value, context);
+				}
 				CollectInternal(usingStatementSyntax.Statement, context);
 				break;
 			}
@@ -177,7 +172,10 @@ internal class AwaitableOverloadLocator
 			case BreakStatementSyntax:
 			case ContinueStatementSyntax:
 			case EmptyStatementSyntax:
+			case FixedStatementSyntax:
+			case GotoStatementSyntax:
 			case LocalFunctionStatementSyntax:
+			case UnsafeStatementSyntax:
 			default:
 			{
 				break;
@@ -194,10 +192,35 @@ internal class AwaitableOverloadLocator
 
 		switch (expression)
 		{
+			case AnonymousObjectCreationExpressionSyntax anonymousObjectCreationExpressionSyntax:
+			{
+				foreach (var member in anonymousObjectCreationExpressionSyntax.Initializers)
+				{
+					CollectInternal(member.Expression, context);
+				}
+				break;
+			}
+			case ArrayCreationExpressionSyntax arrayCreationExpressionSyntax:
+			{
+				CollectInternal(arrayCreationExpressionSyntax.Initializer, context);
+				break;
+			}
 			case AssignmentExpressionSyntax assignmentExpressionSyntax:
 			{
 				CollectInternal(assignmentExpressionSyntax.Left, context);
 				CollectInternal(assignmentExpressionSyntax.Right, context);
+				break;
+			}
+			case BaseObjectCreationExpressionSyntax baseObjectCreationExpressionSyntax:
+			{
+				foreach (var argument in baseObjectCreationExpressionSyntax.ArgumentList?.Arguments ?? [])
+				{
+					CollectInternal(argument.Expression, context);
+				}
+				if (baseObjectCreationExpressionSyntax.Initializer != null)
+				{
+					CollectInternal(baseObjectCreationExpressionSyntax.Initializer, context);
+				}
 				break;
 			}
 			case BinaryExpressionSyntax binaryExpressionSyntax:
@@ -209,6 +232,26 @@ internal class AwaitableOverloadLocator
 			case CastExpressionSyntax castExpressionSyntax:
 			{
 				CollectInternal(castExpressionSyntax.Expression, context);
+				break;
+			}
+			case CollectionExpressionSyntax collectionExpressionSyntax:
+			{
+				foreach (var element in collectionExpressionSyntax.Elements)
+				{
+					switch (element)
+					{
+						case ExpressionElementSyntax expressionElement:
+						{
+							CollectInternal(expressionElement.Expression, context);
+							break;
+						}
+						case SpreadElementSyntax spreadElement:
+						{
+							CollectInternal(spreadElement.Expression, context);
+							break;
+						}
+					}
+				}
 				break;
 			}
 			case ConditionalAccessExpressionSyntax conditionalAccessExpressionSyntax:
@@ -224,6 +267,52 @@ internal class AwaitableOverloadLocator
 				CollectInternal(conditionalExpressionSyntax.WhenFalse, context);
 				break;
 			}
+			case ElementAccessExpressionSyntax elementAccessExpressionSyntax:
+			{
+				CollectInternal(elementAccessExpressionSyntax.Expression, context);
+				foreach (var arg in elementAccessExpressionSyntax.ArgumentList.Arguments)
+				{
+					CollectInternal(arg.Expression, context);
+				}
+				break;
+			}
+			case ElementBindingExpressionSyntax elementBindingExpressionSyntax:
+			{
+				foreach (var arg in elementBindingExpressionSyntax.ArgumentList.Arguments)
+				{
+					CollectInternal(arg.Expression, context);
+				}
+				break;
+			}
+			case ImplicitArrayCreationExpressionSyntax implicitArrayCreationExpressionSyntax:
+			{
+				CollectInternal(implicitArrayCreationExpressionSyntax.Initializer, context);
+				break;
+			}
+			case ImplicitElementAccessSyntax implicitElementAccessSyntax:
+			{
+				foreach (var argument in implicitElementAccessSyntax.ArgumentList.Arguments)
+				{
+					CollectInternal(argument.Expression, context);
+				}
+				break;
+			}
+			case InitializerExpressionSyntax initializerExpressionSyntax:
+			{
+				foreach (var propertyInitialization in initializerExpressionSyntax.Expressions)
+				{
+					CollectInternal(propertyInitialization, context);
+				}
+				break;
+			}
+			case InterpolatedStringExpressionSyntax interpolatedStringExpressionSyntax:
+			{
+				foreach (var interpolation in interpolatedStringExpressionSyntax.Contents.OfType<InterpolationSyntax>())
+				{
+					CollectInternal(interpolation.Expression, context);
+				}
+				break;
+			}
 			case InvocationExpressionSyntax invocationExpressionSyntax:
 			{
 				foreach (var argument in invocationExpressionSyntax.ArgumentList.Arguments)
@@ -234,6 +323,11 @@ internal class AwaitableOverloadLocator
 				CollectInternal(invocationExpressionSyntax.Expression, context);
 
 				TryAddAsyncOverload(invocationExpressionSyntax, context);
+				break;
+			}
+			case IsPatternExpressionSyntax isPatternExpressionSyntax:
+			{
+				CollectInternal(isPatternExpressionSyntax.Expression, context);
 				break;
 			}
 			case MemberAccessExpressionSyntax memberAccessExpressionSyntax:
@@ -256,6 +350,12 @@ internal class AwaitableOverloadLocator
 				CollectInternal(prefixUnaryExpressionSyntax.Operand, context);
 				break;
 			}
+			case RangeExpressionSyntax rangeExpressionSyntax:
+			{
+				CollectInternal(rangeExpressionSyntax.LeftOperand, context);
+				CollectInternal(rangeExpressionSyntax.RightOperand, context);
+				break;
+			}
 			case SwitchExpressionSyntax switchExpressionSyntax:
 			{
 				CollectInternal(switchExpressionSyntax.GoverningExpression, context);
@@ -263,6 +363,11 @@ internal class AwaitableOverloadLocator
 				{
 					CollectInternal(arm.Expression, context);
 				}
+				break;
+			}
+			case ThrowExpressionSyntax throwExpressionSyntax:
+			{
+				CollectInternal(throwExpressionSyntax.Expression, context);
 				break;
 			}
 			case TupleExpressionSyntax tupleExpressionSyntax:
@@ -273,41 +378,33 @@ internal class AwaitableOverloadLocator
 				}
 				break;
 			}
+			case WithExpressionSyntax withExpressionSyntax:
+			{
+				CollectInternal(withExpressionSyntax.Expression, context);
+				CollectInternal(withExpressionSyntax.Initializer, context);
+				break;
+			}
 
 			// Default fallback: preserve original text
 			case AnonymousFunctionExpressionSyntax:
-			case AnonymousObjectCreationExpressionSyntax:
-			case ArrayCreationExpressionSyntax:
 			case AwaitExpressionSyntax:
-			case BaseObjectCreationExpressionSyntax:
 			case CheckedExpressionSyntax:
-			case CollectionExpressionSyntax:
 			case DeclarationExpressionSyntax:
 			case DefaultExpressionSyntax:
-			case ElementAccessExpressionSyntax:
-			case ElementBindingExpressionSyntax:
-			case ImplicitArrayCreationExpressionSyntax:
-			case ImplicitElementAccessSyntax:
 			case ImplicitStackAllocArrayCreationExpressionSyntax:
-			case InitializerExpressionSyntax:
 			case InstanceExpressionSyntax:
-			case InterpolatedStringExpressionSyntax:
-			case IsPatternExpressionSyntax:
 			case LiteralExpressionSyntax:
 			case MakeRefExpressionSyntax:
 			case MemberBindingExpressionSyntax:
 			case OmittedArraySizeExpressionSyntax:
 			case QueryExpressionSyntax:
-			case RangeExpressionSyntax:
 			case RefExpressionSyntax:
 			case RefTypeExpressionSyntax:
 			case RefValueExpressionSyntax:
 			case SizeOfExpressionSyntax:
 			case StackAllocArrayCreationExpressionSyntax:
-			case ThrowExpressionSyntax:
 			case TypeOfExpressionSyntax:
 			case TypeSyntax:
-			case WithExpressionSyntax:
 			default:
 			{
 				break;
@@ -326,26 +423,27 @@ internal class AwaitableOverloadLocator
 			return;
 		}
 
+		// Normalize to generic method definition if applicable
+		var methodKey = originalMethod.IsGenericMethod ? originalMethod.OriginalDefinition : originalMethod;
+
 		// If the method has already been resolved, skip.
-		if (context.CollectedAwaitableOverloads.ContainsKey(originalMethod))
+		if (context.CollectedAwaitableOverloads.ContainsKey(methodKey))
 		{
 			return;
 		}
 
 		// If the method will get a generated async overload, just assume the generation will be successful and the method will exist.
-		if (
-			_toBeGeneratedAsyncMethodNamesBySyncMethod.TryGetValue(originalMethod, out var toBeGeneratedAsyncMethodName)
-		)
+		if (_toBeGeneratedAsyncMethodNamesBySyncMethod.TryGetValue(methodKey, out var toBeGeneratedAsyncMethodName))
 		{
-			context.CollectedAwaitableOverloads.Add(originalMethod, toBeGeneratedAsyncMethodName);
+			context.CollectedAwaitableOverloads.Add(methodKey, toBeGeneratedAsyncMethodName);
 		}
 
 		// Try to find an async overload in the compilation.
-		var asyncSymbol = FindAsyncOverload(originalMethod, context.SemanticModel);
+		var asyncSymbol = FindAsyncOverload(methodKey, context.SemanticModel);
 
 		if (asyncSymbol != null)
 		{
-			context.CollectedAwaitableOverloads.Add(originalMethod, asyncSymbol.Name);
+			context.CollectedAwaitableOverloads.Add(methodKey, asyncSymbol.Name);
 		}
 	}
 
