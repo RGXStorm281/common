@@ -68,6 +68,7 @@ public class AsyncOverloadTests
 		nameof(AsyncOverloadTestClass),
 		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldCallOtherGeneratedAsyncOverloads)
 	)]
+	[DataRow(nameof(AsyncOverloadTestClass), nameof(AsyncOverloadTestClass.AsyncOverload_ShouldHandleGenericClasses))]
 	#endregion
 
 	#region statement support

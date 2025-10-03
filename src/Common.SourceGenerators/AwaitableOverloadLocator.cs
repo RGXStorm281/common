@@ -424,7 +424,11 @@ internal class AwaitableOverloadLocator
 		}
 
 		// Normalize to generic method definition if applicable
-		var methodKey = originalMethod.IsGenericMethod ? originalMethod.OriginalDefinition : originalMethod;
+		var methodKey = originalMethod;
+		if (originalMethod.IsGenericMethod || originalMethod.ContainingType is { IsGenericType: true })
+		{
+			methodKey = originalMethod.OriginalDefinition;
+		}
 
 		// If the method has already been resolved, skip.
 		if (context.CollectedAwaitableOverloads.ContainsKey(methodKey))
