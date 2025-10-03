@@ -557,11 +557,34 @@ public class AsyncTranslator
 			{
 				// Translate the receiver and the access expression.
 				var receiver = TranslateAndParenthesizeInternal(conditionalAccessExpressionSyntax.Expression, context);
-				var whenNotNull = TranslateWithoutParenthesesInternal(
+				var whenNotNull = TranslateInternal(
 					conditionalAccessExpressionSyntax.WhenNotNull,
-					context
+					context,
+					out var isAwaitedMemberCall
 				);
-				return $"{receiver}?.{whenNotNull}";
+				if (isAwaitedMemberCall)
+				{
+					// Push the await call in front of the receiver.
+					whenNotNull = RemoveStart(whenNotNull.TrimStart(), "await ");
+				}
+				var conditionalAccess = $"{receiver}?{whenNotNull}";
+				if (isAwaitedMemberCall)
+				{
+					var typeInfo = context.SemanticModel.GetTypeInfo(conditionalAccessExpressionSyntax.WhenNotNull);
+					if (typeInfo.Type is { } type)
+					{
+						conditionalAccess =
+							"await ("
+							+ conditionalAccess
+							+ $" ?? System.Threading.Tasks.Task.FromResult<{type.ToDisplayString()}>(default))";
+					}
+					else
+					{
+						conditionalAccess =
+							"await (" + conditionalAccess + $" ?? System.Threading.Tasks.Task.CompletedTask)";
+					}
+				}
+				return conditionalAccess;
 			}
 			case ConditionalExpressionSyntax conditionalExpressionSyntax:
 			{
@@ -747,6 +770,16 @@ public class AsyncTranslator
 			return input.Substring(0, input.Length - suffix.Length);
 		}
 		return input;
+	}
+
+	public static string RemoveStart(string input, string toRemove)
+	{
+		if (!input.StartsWith(toRemove))
+		{
+			return input;
+		}
+
+		return input.Substring(toRemove.Length);
 	}
 
 	private string Print(SyntaxNode node)

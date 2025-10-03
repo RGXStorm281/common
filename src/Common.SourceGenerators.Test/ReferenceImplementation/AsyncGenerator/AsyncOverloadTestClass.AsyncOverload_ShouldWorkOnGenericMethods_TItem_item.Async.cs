@@ -1,3 +1,4 @@
+#nullable enable
 namespace RobinEpple.Common.SourceGenerators.Test;
 
 public partial class AsyncOverloadTestClass
