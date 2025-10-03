@@ -8,7 +8,7 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateIsPatternExpression()"/>
 	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateIsPatternExpressionAsync()
 	{
-		var hasObject = (await GetInstanceUnsureAsync()) is not null;
+		var hasObject = await GetInstanceUnsureAsync() is not null;
 	}
 
 }

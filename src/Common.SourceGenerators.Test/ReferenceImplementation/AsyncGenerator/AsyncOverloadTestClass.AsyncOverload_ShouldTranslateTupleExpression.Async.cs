@@ -6,9 +6,9 @@ namespace RobinEpple.Common.SourceGenerators.Test;
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateTupleExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateTupleExpressionAsync()
+	public async System.Threading.Tasks.Task<(int First, int Second)> AsyncOverload_ShouldTranslateTupleExpressionAsync()
 	{
-		var tuple = (await IdentityAsync(1), await IdentityAsync(2));
+		return (await IdentityAsync(1), await IdentityAsync(2));
 	}
 
 }

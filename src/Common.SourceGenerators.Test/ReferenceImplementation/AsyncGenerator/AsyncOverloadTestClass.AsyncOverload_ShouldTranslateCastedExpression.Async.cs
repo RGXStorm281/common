@@ -8,7 +8,7 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCastedExpression()"/>
 	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCastedExpressionAsync()
 	{
-		var result = (decimal)(await IdentityAsync(4));
+		var result = (decimal)await IdentityAsync(4);
 	}
 
 }

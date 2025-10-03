@@ -209,6 +209,26 @@ internal class AwaitableOverloadLocator
 				CollectInternal(castExpressionSyntax.Expression, context);
 				break;
 			}
+			case CollectionExpressionSyntax collectionExpressionSyntax:
+			{
+				foreach (var element in collectionExpressionSyntax.Elements)
+				{
+					switch (element)
+					{
+						case ExpressionElementSyntax expressionElement:
+						{
+							CollectInternal(expressionElement.Expression, context);
+							break;
+						}
+						case SpreadElementSyntax spreadElement:
+						{
+							CollectInternal(spreadElement.Expression, context);
+							break;
+						}
+					}
+				}
+				break;
+			}
 			case ConditionalAccessExpressionSyntax conditionalAccessExpressionSyntax:
 			{
 				CollectInternal(conditionalAccessExpressionSyntax.Expression, context);
@@ -222,6 +242,31 @@ internal class AwaitableOverloadLocator
 				CollectInternal(conditionalExpressionSyntax.WhenFalse, context);
 				break;
 			}
+			case ElementAccessExpressionSyntax elementAccessExpressionSyntax:
+			{
+				CollectInternal(elementAccessExpressionSyntax.Expression, context);
+				foreach (var arg in elementAccessExpressionSyntax.ArgumentList.Arguments)
+				{
+					CollectInternal(arg.Expression, context);
+				}
+				break;
+			}
+			case InitializerExpressionSyntax initializerExpressionSyntax:
+			{
+				foreach (var propertyInitialization in initializerExpressionSyntax.Expressions)
+				{
+					CollectInternal(propertyInitialization, context);
+				}
+				break;
+			}
+			case InterpolatedStringExpressionSyntax interpolatedStringExpressionSyntax:
+			{
+				foreach (var interpolation in interpolatedStringExpressionSyntax.Contents.OfType<InterpolationSyntax>())
+				{
+					CollectInternal(interpolation.Expression, context);
+				}
+				break;
+			}
 			case InvocationExpressionSyntax invocationExpressionSyntax:
 			{
 				foreach (var argument in invocationExpressionSyntax.ArgumentList.Arguments)
@@ -232,6 +277,11 @@ internal class AwaitableOverloadLocator
 				CollectInternal(invocationExpressionSyntax.Expression, context);
 
 				TryAddAsyncOverload(invocationExpressionSyntax, context);
+				break;
+			}
+			case IsPatternExpressionSyntax isPatternExpressionSyntax:
+			{
+				CollectInternal(isPatternExpressionSyntax.Expression, context);
 				break;
 			}
 			case MemberAccessExpressionSyntax memberAccessExpressionSyntax:
@@ -254,6 +304,12 @@ internal class AwaitableOverloadLocator
 				CollectInternal(prefixUnaryExpressionSyntax.Operand, context);
 				break;
 			}
+			case RangeExpressionSyntax rangeExpressionSyntax:
+			{
+				CollectInternal(rangeExpressionSyntax.LeftOperand, context);
+				CollectInternal(rangeExpressionSyntax.RightOperand, context);
+				break;
+			}
 			case SwitchExpressionSyntax switchExpressionSyntax:
 			{
 				CollectInternal(switchExpressionSyntax.GoverningExpression, context);
@@ -261,6 +317,11 @@ internal class AwaitableOverloadLocator
 				{
 					CollectInternal(arm.Expression, context);
 				}
+				break;
+			}
+			case ThrowExpressionSyntax throwExpressionSyntax:
+			{
+				CollectInternal(throwExpressionSyntax.Expression, context);
 				break;
 			}
 			case TupleExpressionSyntax tupleExpressionSyntax:
@@ -271,6 +332,12 @@ internal class AwaitableOverloadLocator
 				}
 				break;
 			}
+			case WithExpressionSyntax withExpressionSyntax:
+			{
+				CollectInternal(withExpressionSyntax.Expression, context);
+				CollectInternal(withExpressionSyntax.Initializer, context);
+				break;
+			}
 
 			// Default fallback: preserve original text
 			case AnonymousFunctionExpressionSyntax:
@@ -279,33 +346,25 @@ internal class AwaitableOverloadLocator
 			case AwaitExpressionSyntax:
 			case BaseObjectCreationExpressionSyntax:
 			case CheckedExpressionSyntax:
-			case CollectionExpressionSyntax:
 			case DeclarationExpressionSyntax:
 			case DefaultExpressionSyntax:
-			case ElementAccessExpressionSyntax:
 			case ElementBindingExpressionSyntax:
 			case ImplicitArrayCreationExpressionSyntax:
 			case ImplicitElementAccessSyntax:
 			case ImplicitStackAllocArrayCreationExpressionSyntax:
-			case InitializerExpressionSyntax:
 			case InstanceExpressionSyntax:
-			case InterpolatedStringExpressionSyntax:
-			case IsPatternExpressionSyntax:
 			case LiteralExpressionSyntax:
 			case MakeRefExpressionSyntax:
 			case MemberBindingExpressionSyntax:
 			case OmittedArraySizeExpressionSyntax:
 			case QueryExpressionSyntax:
-			case RangeExpressionSyntax:
 			case RefExpressionSyntax:
 			case RefTypeExpressionSyntax:
 			case RefValueExpressionSyntax:
 			case SizeOfExpressionSyntax:
 			case StackAllocArrayCreationExpressionSyntax:
-			case ThrowExpressionSyntax:
 			case TypeOfExpressionSyntax:
 			case TypeSyntax:
-			case WithExpressionSyntax:
 			default:
 			{
 				break;

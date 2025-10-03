@@ -8,7 +8,7 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateConditionalExpression()"/>
 	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateConditionalExpressionAsync()
 	{
-		int? result = (await GetInstanceUnsureAsync()) is { } instance
+		int? result = await GetInstanceUnsureAsync() is { } instance
 			? await instance.GetOneAsync()
 			: null;
 	}

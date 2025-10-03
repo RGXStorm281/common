@@ -8,7 +8,7 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateRangeExpression()"/>
 	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateRangeExpressionAsync()
 	{
-		var firstTwo = (await GetArraySureAsync())[..Identity(1)];
+		var firstTwo = (await GetArraySureAsync())[..(await IdentityAsync(1))];
 	}
 
 }

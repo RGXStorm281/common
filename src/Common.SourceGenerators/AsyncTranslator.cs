@@ -259,11 +259,8 @@ public class AsyncTranslator
 			}
 			case LocalDeclarationStatementSyntax localDecl:
 			{
-				if (localDecl.UsingKeyword != null)
-				{
-					sb.Append(Print(localDecl.UsingKeyword));
-					sb.Append(" ");
-				}
+				sb.Append(Print(localDecl.UsingKeyword));
+				sb.Append(localDecl.UsingKeyword.TrailingTrivia);
 				sb.Append(TranslateVariableDeclarationSyntax(localDecl.Declaration, context));
 				sb.AppendLine(";");
 				return sb.ToString();
@@ -553,6 +550,37 @@ public class AsyncTranslator
 				var innerExpression = TranslateWithoutParenthesesInternal(castExpressionSyntax.Expression, context);
 				return $"({Print(castExpressionSyntax.Type)}){innerExpression}";
 			}
+			case CollectionExpressionSyntax collectionExpressionSyntax:
+			{
+				var sb = new StringBuilder();
+				sb.Append("[");
+				sb.Append(
+					string.Join(
+						", ",
+						collectionExpressionSyntax.Elements.Select(element =>
+						{
+							switch (element)
+							{
+								case ExpressionElementSyntax expressionElement:
+								{
+									return TranslateWithoutParenthesesInternal(expressionElement.Expression, context);
+								}
+								case SpreadElementSyntax spreadElement:
+								{
+									return Print(spreadElement.OperatorToken)
+										+ TranslateAndParenthesizeInternal(spreadElement.Expression, context);
+								}
+								default:
+								{
+									return Print(element);
+								}
+							}
+						})
+					)
+				);
+				sb.Append("]");
+				return sb.ToString();
+			}
 			case ConditionalAccessExpressionSyntax conditionalAccessExpressionSyntax:
 			{
 				// Translate the receiver and the access expression.
@@ -560,16 +588,17 @@ public class AsyncTranslator
 				var whenNotNull = TranslateInternal(
 					conditionalAccessExpressionSyntax.WhenNotNull,
 					context,
-					out var isAwaitedMemberCall
+					out var whenNotNullIsAwaited
 				);
-				if (isAwaitedMemberCall)
+				if (whenNotNullIsAwaited)
 				{
 					// Push the await call in front of the receiver.
 					whenNotNull = RemoveStart(whenNotNull.TrimStart(), "await ");
 				}
 				var conditionalAccess = $"{receiver}?{whenNotNull}";
-				if (isAwaitedMemberCall)
+				if (whenNotNullIsAwaited)
 				{
+					isAwaitedMethodCall = true;
 					var typeInfo = context.SemanticModel.GetTypeInfo(conditionalAccessExpressionSyntax.WhenNotNull);
 					if (typeInfo.Type is { } type)
 					{
@@ -599,10 +628,61 @@ public class AsyncTranslator
 				sb.Append(IndentHelper.Indent(": " + whenFalse));
 				return sb.ToString();
 			}
+			case ElementAccessExpressionSyntax elementAccessExpressionSyntax:
+			{
+				var inner = TranslateAndParenthesizeInternal(elementAccessExpressionSyntax.Expression, context);
+				var args = TranslateArgumentList(elementAccessExpressionSyntax.ArgumentList, context);
+				return $"{inner}[{args}]";
+			}
+			case InitializerExpressionSyntax initializerExpressionSyntax:
+			{
+				var sb = new StringBuilder();
+				sb.AppendLine();
+				sb.AppendLine("{");
+				foreach (var propertyInitialization in initializerExpressionSyntax.Expressions)
+				{
+					var translatedInitialization = TranslateWithoutParenthesesInternal(propertyInitialization, context);
+					sb.AppendLine(IndentHelper.Indent(translatedInitialization));
+				}
+				sb.Append("}");
+				return sb.ToString();
+			}
+			case InterpolatedStringExpressionSyntax interpolatedStringExpressionSyntax:
+			{
+				var sb = new StringBuilder();
+				sb.Append(@"$""");
+				foreach (var part in interpolatedStringExpressionSyntax.Contents)
+				{
+					switch (part)
+					{
+						case InterpolationSyntax interpolation:
+						{
+							sb.Append(Print(interpolation.OpenBraceToken));
+							sb.Append(TranslateWithoutParenthesesInternal(interpolation.Expression, context));
+							sb.Append(Print(interpolation.AlignmentClause));
+							sb.Append(Print(interpolation.FormatClause));
+							sb.Append(Print(interpolation.CloseBraceToken));
+							break;
+						}
+						default:
+						{
+							sb.Append(Print(part));
+							break;
+						}
+					}
+				}
+				sb.Append(@"""");
+				return sb.ToString();
+			}
 			case InvocationExpressionSyntax invocationExpressionSyntax:
 			{
 				// Here is the actual magic: Translate into an async call if possible.
 				return TryTranslateInvocationToAsync(invocationExpressionSyntax, context, out isAwaitedMethodCall);
+			}
+			case IsPatternExpressionSyntax isPatternExpressionSyntax:
+			{
+				var inner = TranslateWithoutParenthesesInternal(isPatternExpressionSyntax.Expression, context);
+				return $"{inner} is {Print(isPatternExpressionSyntax.Pattern)}";
 			}
 			case MemberAccessExpressionSyntax memberAccessExpressionSyntax:
 			{
@@ -632,6 +712,12 @@ public class AsyncTranslator
 				var unaryOperator = Print(prefixUnaryExpressionSyntax.OperatorToken);
 				return $"{unaryOperator}{inner}";
 			}
+			case RangeExpressionSyntax rangeExpressionSyntax:
+			{
+				var left = TranslateAndParenthesizeInternal(rangeExpressionSyntax.LeftOperand, context);
+				var right = TranslateAndParenthesizeInternal(rangeExpressionSyntax.RightOperand, context);
+				return $"{left}{Print(rangeExpressionSyntax.OperatorToken)}{right}";
+			}
 			case SwitchExpressionSyntax switchExpressionSyntax:
 			{
 				// Translate the condition and each case arm.
@@ -653,8 +739,13 @@ public class AsyncTranslator
 					var inner = TranslateWithoutParenthesesInternal(arm.Expression, context);
 					sb.AppendLine($"{pattern} => {inner},");
 				}
-				sb.AppendLine("}");
+				sb.Append("}");
 				return sb.ToString();
+			}
+			case ThrowExpressionSyntax throwExpressionSyntax:
+			{
+				var inner = TranslateWithoutParenthesesInternal(throwExpressionSyntax.Expression, context);
+				return $"throw {inner}";
 			}
 			case TupleExpressionSyntax tupleExpressionSyntax:
 			{
@@ -671,6 +762,12 @@ public class AsyncTranslator
 
 				return $"({string.Join(", ", args)})";
 			}
+			case WithExpressionSyntax withExpressionSyntax:
+			{
+				var inner = TranslateWithoutParenthesesInternal(withExpressionSyntax.Expression, context);
+				var initializer = TranslateWithoutParenthesesInternal(withExpressionSyntax.Initializer, context);
+				return $"{inner} with {initializer}";
+			}
 
 			case AnonymousFunctionExpressionSyntax:
 			case AnonymousObjectCreationExpressionSyntax:
@@ -678,39 +775,47 @@ public class AsyncTranslator
 			case AwaitExpressionSyntax:
 			case BaseObjectCreationExpressionSyntax:
 			case CheckedExpressionSyntax:
-			case CollectionExpressionSyntax:
 			case DeclarationExpressionSyntax:
 			case DefaultExpressionSyntax:
-			case ElementAccessExpressionSyntax:
 			case ElementBindingExpressionSyntax:
 			case ImplicitArrayCreationExpressionSyntax:
 			case ImplicitElementAccessSyntax:
 			case ImplicitStackAllocArrayCreationExpressionSyntax:
-			case InitializerExpressionSyntax:
 			case InstanceExpressionSyntax:
-			case InterpolatedStringExpressionSyntax:
-			case IsPatternExpressionSyntax:
 			case LiteralExpressionSyntax:
 			case MakeRefExpressionSyntax:
 			case MemberBindingExpressionSyntax:
 			case OmittedArraySizeExpressionSyntax:
 			case QueryExpressionSyntax:
-			case RangeExpressionSyntax:
 			case RefExpressionSyntax:
 			case RefTypeExpressionSyntax:
 			case RefValueExpressionSyntax:
 			case SizeOfExpressionSyntax:
 			case StackAllocArrayCreationExpressionSyntax:
-			case ThrowExpressionSyntax:
 			case TypeOfExpressionSyntax:
 			case TypeSyntax:
-			case WithExpressionSyntax:
 			default:
 			{
 				// Default fallback: preserve original text.
 				return Print(expression);
 			}
 		}
+	}
+
+	private string TranslateArgumentList(BaseArgumentListSyntax argumentList, AsyncOverloadGenerationTask context)
+	{
+		return string.Join(
+			", ",
+			argumentList.Arguments.Select(arg =>
+			{
+				var argExpression = TranslateWithoutParenthesesInternal(arg.Expression, context);
+				if (arg.NameColon is { } name)
+				{
+					argExpression = Print(name.Name) + ": " + argExpression;
+				}
+				return argExpression;
+			})
+		);
 	}
 
 	/// <summary>
@@ -734,10 +839,7 @@ public class AsyncTranslator
 		}
 
 		// Translate each argument.
-		var args = string.Join(
-			", ",
-			invocation.ArgumentList.Arguments.Select(a => TranslateWithoutParenthesesInternal(a.Expression, context))
-		);
+		var args = TranslateArgumentList(invocation.ArgumentList, context);
 
 		// Rewrite the base call.
 		var receiver = TranslateWithoutParenthesesInternal(invocation.Expression, context);
@@ -782,13 +884,21 @@ public class AsyncTranslator
 		return input.Substring(toRemove.Length);
 	}
 
-	private string Print(SyntaxNode node)
+	private string Print(SyntaxNode? node)
 	{
+		if (node == null)
+		{
+			return string.Empty;
+		}
 		return node.WithoutTrivia().ToFullString();
 	}
 
-	private string Print(SyntaxToken token)
+	private string Print(SyntaxToken? token)
 	{
-		return token.WithoutTrivia().ToFullString();
+		if (token == null)
+		{
+			return string.Empty;
+		}
+		return token.Value.WithoutTrivia().ToFullString();
 	}
 }
