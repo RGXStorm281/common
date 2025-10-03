@@ -82,6 +82,14 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 		InternalGenerated();
 	}
 
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldHandleGenericClasses()
+	{
+		var genericInstance = new AsyncOverloadGenericClass<int>();
+		genericInstance.SetValue(2);
+		var value = genericInstance.GetValue();
+	}
+
 	#endregion
 
 	#region statement support

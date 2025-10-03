@@ -55,10 +55,23 @@ public class AsyncTranslator
 		if (context.MethodDeclaration.ExpressionBody is { } expressionBody)
 		{
 			var expression = TranslateWithoutParenthesesInternal(expressionBody.Expression, context);
-			if (context.AwaitableOverloads.Count == 0 && expressionBody.Expression is not ThrowExpressionSyntax)
+			if (!context.IsRunningAsync && expressionBody.Expression is not ThrowExpressionSyntax)
 			{
-				expression =
-					$"System.Threading.Tasks.Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>({expression})";
+				if (context.MethodSymbol.ReturnsVoid)
+				{
+					// Special case, we need to make this method a block body now.
+					var sb = new StringBuilder();
+					sb.AppendLine("{");
+					sb.AppendLine(IndentHelper.Indent(expression + ";"));
+					sb.Append(IndentHelper.Indent(TranslateInternal(SyntaxFactory.ReturnStatement(), context)));
+					sb.AppendLine("}");
+					return sb.ToString();
+				}
+				else
+				{
+					expression =
+						$"System.Threading.Tasks.Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>({expression})";
+				}
 			}
 			return IndentHelper.Indent($"=> {expression};");
 		}
@@ -911,7 +924,11 @@ public class AsyncTranslator
 		var receiver = TranslateWithoutParenthesesInternal(invocation.Expression, context);
 
 		// Normalize to generic method definition if applicable
-		var methodKey = originalMethod.IsGenericMethod ? originalMethod.OriginalDefinition : originalMethod;
+		var methodKey = originalMethod;
+		if (originalMethod.IsGenericMethod || originalMethod.ContainingType is { IsGenericType: true })
+		{
+			methodKey = originalMethod.OriginalDefinition;
+		}
 
 		// Check if an overload exists.
 		if (!context.AwaitableOverloads.TryGetValue(methodKey, out var asyncName))
