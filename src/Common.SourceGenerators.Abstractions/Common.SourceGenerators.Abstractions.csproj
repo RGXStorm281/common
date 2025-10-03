@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+
+        <AssemblyName>RobinEpple.Common.SourceGenerators.Abstractions</AssemblyName>
+        <PackageId>RobinEpple.Common.SourceGenerators.Abstractions</PackageId>
+        <RootNamespace>RobinEpple.Common.SourceGenerators.Abstractions</RootNamespace>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>Some marker attributes for the source generators.</Title>
+    </PropertyGroup>
+
+</Project>
