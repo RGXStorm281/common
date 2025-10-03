@@ -529,6 +529,31 @@ public class AsyncTranslator
 
 		switch (expression)
 		{
+			case AnonymousObjectCreationExpressionSyntax anonymousObjectCreationExpressionSyntax:
+			{
+				var sb = new StringBuilder();
+				sb.AppendLine("new");
+				sb.AppendLine("{");
+				foreach (var property in anonymousObjectCreationExpressionSyntax.Initializers)
+				{
+					var initializer =
+						Print(property.NameEquals)
+						+ " "
+						+ TranslateWithoutParenthesesInternal(property.Expression, context)
+						+ ",";
+					sb.AppendLine(IndentHelper.Indent(initializer));
+				}
+				sb.Append("}");
+				return sb.ToString();
+			}
+			case ArrayCreationExpressionSyntax arrayCreationExpressionSyntax:
+			{
+				var initializer = TranslateWithoutParenthesesInternal(
+					arrayCreationExpressionSyntax.Initializer,
+					context
+				);
+				return $"{Print(arrayCreationExpressionSyntax.NewKeyword)} {Print(arrayCreationExpressionSyntax.Type)}{initializer}";
+			}
 			case AssignmentExpressionSyntax assignmentExpressionSyntax:
 			{
 				// Translate both sides and print the assignment.
@@ -536,6 +561,26 @@ public class AsyncTranslator
 				var right = TranslateWithoutParenthesesInternal(assignmentExpressionSyntax.Right, context);
 				var assignment = Print(assignmentExpressionSyntax.OperatorToken);
 				return $"{left} {assignment} {right}";
+			}
+			case BaseObjectCreationExpressionSyntax baseObjectCreationExpressionSyntax:
+			{
+				var sb = new StringBuilder();
+				sb.Append("new ");
+				if (baseObjectCreationExpressionSyntax is ObjectCreationExpressionSyntax explicitlyTyped)
+				{
+					sb.Append(Print(explicitlyTyped.Type));
+				}
+				if (baseObjectCreationExpressionSyntax.ArgumentList is { } argumentList)
+				{
+					sb.Append("(");
+					sb.Append(TranslateArguments(baseObjectCreationExpressionSyntax.ArgumentList, context));
+					sb.Append(")");
+				}
+				if (baseObjectCreationExpressionSyntax.Initializer is { } initializer)
+				{
+					sb.Append(TranslateWithoutParenthesesInternal(initializer, context));
+				}
+				return sb.ToString();
 			}
 			case BinaryExpressionSyntax binaryExpressionSyntax:
 			{
@@ -631,8 +676,30 @@ public class AsyncTranslator
 			case ElementAccessExpressionSyntax elementAccessExpressionSyntax:
 			{
 				var inner = TranslateAndParenthesizeInternal(elementAccessExpressionSyntax.Expression, context);
-				var args = TranslateArgumentList(elementAccessExpressionSyntax.ArgumentList, context);
+				var args = TranslateArguments(elementAccessExpressionSyntax.ArgumentList, context);
 				return $"{inner}[{args}]";
+			}
+			case ElementBindingExpressionSyntax elementBindingExpressionSyntax:
+			{
+				var args = TranslateArguments(elementBindingExpressionSyntax.ArgumentList, context);
+				return $"[{args}]";
+			}
+			case ImplicitArrayCreationExpressionSyntax implicitArrayCreationExpressionSyntax:
+			{
+				var commas = string.Join(
+					string.Empty,
+					implicitArrayCreationExpressionSyntax.Commas.Select(comma => Print(comma))
+				);
+				var initializer = TranslateWithoutParenthesesInternal(
+					implicitArrayCreationExpressionSyntax.Initializer,
+					context
+				);
+				return $"new [{commas}]{initializer}";
+			}
+			case ImplicitElementAccessSyntax implicitElementAccessSyntax:
+			{
+				var args = TranslateArguments(implicitElementAccessSyntax.ArgumentList, context);
+				return $"[{args}]";
 			}
 			case InitializerExpressionSyntax initializerExpressionSyntax:
 			{
@@ -641,7 +708,8 @@ public class AsyncTranslator
 				sb.AppendLine("{");
 				foreach (var propertyInitialization in initializerExpressionSyntax.Expressions)
 				{
-					var translatedInitialization = TranslateWithoutParenthesesInternal(propertyInitialization, context);
+					var translatedInitialization =
+						TranslateWithoutParenthesesInternal(propertyInitialization, context) + ",";
 					sb.AppendLine(IndentHelper.Indent(translatedInitialization));
 				}
 				sb.Append("}");
@@ -770,16 +838,10 @@ public class AsyncTranslator
 			}
 
 			case AnonymousFunctionExpressionSyntax:
-			case AnonymousObjectCreationExpressionSyntax:
-			case ArrayCreationExpressionSyntax:
 			case AwaitExpressionSyntax:
-			case BaseObjectCreationExpressionSyntax:
 			case CheckedExpressionSyntax:
 			case DeclarationExpressionSyntax:
 			case DefaultExpressionSyntax:
-			case ElementBindingExpressionSyntax:
-			case ImplicitArrayCreationExpressionSyntax:
-			case ImplicitElementAccessSyntax:
 			case ImplicitStackAllocArrayCreationExpressionSyntax:
 			case InstanceExpressionSyntax:
 			case LiteralExpressionSyntax:
@@ -802,8 +864,12 @@ public class AsyncTranslator
 		}
 	}
 
-	private string TranslateArgumentList(BaseArgumentListSyntax argumentList, AsyncOverloadGenerationTask context)
+	private string TranslateArguments(BaseArgumentListSyntax? argumentList, AsyncOverloadGenerationTask context)
 	{
+		if (argumentList == null)
+		{
+			return string.Empty;
+		}
 		return string.Join(
 			", ",
 			argumentList.Arguments.Select(arg =>
@@ -839,7 +905,7 @@ public class AsyncTranslator
 		}
 
 		// Translate each argument.
-		var args = TranslateArgumentList(invocation.ArgumentList, context);
+		var args = TranslateArguments(invocation.ArgumentList, context);
 
 		// Rewrite the base call.
 		var receiver = TranslateWithoutParenthesesInternal(invocation.Expression, context);

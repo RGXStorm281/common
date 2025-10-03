@@ -8,7 +8,10 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateWithExpression()"/>
 	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateWithExpressionAsync()
 	{
-		var myStruct = await IdentityAsync(new TwoInts(1, 2)) with { First = await IdentityAsync(2) };
+		var myStruct = await IdentityAsync(new TwoInts(1, 2)) with
+		{
+			First = await IdentityAsync(2),
+		};
 	}
 
 }

@@ -192,10 +192,35 @@ internal class AwaitableOverloadLocator
 
 		switch (expression)
 		{
+			case AnonymousObjectCreationExpressionSyntax anonymousObjectCreationExpressionSyntax:
+			{
+				foreach (var member in anonymousObjectCreationExpressionSyntax.Initializers)
+				{
+					CollectInternal(member.Expression, context);
+				}
+				break;
+			}
+			case ArrayCreationExpressionSyntax arrayCreationExpressionSyntax:
+			{
+				CollectInternal(arrayCreationExpressionSyntax.Initializer, context);
+				break;
+			}
 			case AssignmentExpressionSyntax assignmentExpressionSyntax:
 			{
 				CollectInternal(assignmentExpressionSyntax.Left, context);
 				CollectInternal(assignmentExpressionSyntax.Right, context);
+				break;
+			}
+			case BaseObjectCreationExpressionSyntax baseObjectCreationExpressionSyntax:
+			{
+				foreach (var argument in baseObjectCreationExpressionSyntax.ArgumentList?.Arguments ?? [])
+				{
+					CollectInternal(argument.Expression, context);
+				}
+				if (baseObjectCreationExpressionSyntax.Initializer != null)
+				{
+					CollectInternal(baseObjectCreationExpressionSyntax.Initializer, context);
+				}
 				break;
 			}
 			case BinaryExpressionSyntax binaryExpressionSyntax:
@@ -248,6 +273,27 @@ internal class AwaitableOverloadLocator
 				foreach (var arg in elementAccessExpressionSyntax.ArgumentList.Arguments)
 				{
 					CollectInternal(arg.Expression, context);
+				}
+				break;
+			}
+			case ElementBindingExpressionSyntax elementBindingExpressionSyntax:
+			{
+				foreach (var arg in elementBindingExpressionSyntax.ArgumentList.Arguments)
+				{
+					CollectInternal(arg.Expression, context);
+				}
+				break;
+			}
+			case ImplicitArrayCreationExpressionSyntax implicitArrayCreationExpressionSyntax:
+			{
+				CollectInternal(implicitArrayCreationExpressionSyntax.Initializer, context);
+				break;
+			}
+			case ImplicitElementAccessSyntax implicitElementAccessSyntax:
+			{
+				foreach (var argument in implicitElementAccessSyntax.ArgumentList.Arguments)
+				{
+					CollectInternal(argument.Expression, context);
 				}
 				break;
 			}
@@ -341,16 +387,10 @@ internal class AwaitableOverloadLocator
 
 			// Default fallback: preserve original text
 			case AnonymousFunctionExpressionSyntax:
-			case AnonymousObjectCreationExpressionSyntax:
-			case ArrayCreationExpressionSyntax:
 			case AwaitExpressionSyntax:
-			case BaseObjectCreationExpressionSyntax:
 			case CheckedExpressionSyntax:
 			case DeclarationExpressionSyntax:
 			case DefaultExpressionSyntax:
-			case ElementBindingExpressionSyntax:
-			case ImplicitArrayCreationExpressionSyntax:
-			case ImplicitElementAccessSyntax:
 			case ImplicitStackAllocArrayCreationExpressionSyntax:
 			case InstanceExpressionSyntax:
 			case LiteralExpressionSyntax:

@@ -226,6 +226,22 @@ public class AsyncOverloadTests
 		nameof(AsyncOverloadTestClass),
 		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateWithExpression)
 	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateAnonymousObjectCreation)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateArrayCreationExpression)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateObjectCreationExpression)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateImplicitArrayCreationExpression)
+	)]
 	#endregion
 	public void CompareSyntaxTree(string className, string syncMethodName)
 	{

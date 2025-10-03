@@ -448,5 +448,38 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 		var myStruct = Identity(new TwoInts(1, 2)) with { First = Identity(2) };
 	}
 
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateAnonymousObjectCreation()
+	{
+		var myObject = new { SomeNumber = Identity(1), SomeText = Identity("Hello World!") };
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateArrayCreationExpression()
+	{
+		var array = new int[] { Identity(1), Identity(2) };
+		var array2 = new int[5];
+	}
+
+	private class ClassWithPartialConstructorInit(int number)
+	{
+		public int Number { get; } = number;
+		public string? Text { get; set; }
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateObjectCreationExpression()
+	{
+		var explicitlyTyped = new ClassWithPartialConstructorInit(Identity(1)) { Text = Identity("some text") };
+
+		ClassWithPartialConstructorInit implicitlyTyped = new(Identity(1)) { Text = Identity("some text") };
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldTranslateImplicitArrayCreationExpression()
+	{
+		var array = new[] { Identity(1), Identity(2) };
+	}
+
 	#endregion
 }
