@@ -402,3 +402,4 @@ FodyWeavers.xsd
 lines_of_code.md
 *.bkp
 src/Common.SourceGenerators.Test/Generated
+src/Common.Forms/_generated

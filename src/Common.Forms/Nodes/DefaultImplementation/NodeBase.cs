@@ -6,8 +6,9 @@ using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal abstract class NodeBase : IFormNode
+internal abstract partial class NodeBase : IFormNode
 {
 	public NodeBase(string name, IForm root, IParentNode? parent)
 	{
@@ -200,62 +201,47 @@ internal abstract class NodeBase : IFormNode
 	}
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public virtual void Update()
 	{
-		CallExtensionEvent(extension => extension.OnBeforeReadonlyStateEvaluation(this));
+		// Readonly.
+		foreach (var extension in Extensions)
+		{
+			extension.OnBeforeReadonlyStateEvaluation(this);
+		}
 		UpdateReadonlyState();
-		CallExtensionEvent(extension => extension.OnAfterReadonlyStateEvaluation(this));
+		foreach (var extension in Extensions)
+		{
+			extension.OnAfterReadonlyStateEvaluation(this);
+		}
 
-		CallExtensionEvent(extension => extension.OnBeforeVisibilityEvaluation(this));
+		// Visibility.
+		foreach (var extension in Extensions)
+		{
+			extension.OnBeforeVisibilityEvaluation(this);
+		}
 		UpdateVisibility();
-		CallExtensionEvent(extension => extension.OnAfterVisibilityEvaluation(this));
+		foreach (var extension in Extensions)
+		{
+			extension.OnAfterVisibilityEvaluation(this);
+		}
 
+		// Only validate if visible.
 		if (!IsVisible)
 		{
 			IsValid = true;
 			return;
 		}
 
-		CallExtensionEvent(extension => extension.OnBeforeValidation(this));
+		// Validation.
+		foreach (var extension in Extensions)
+		{
+			extension.OnBeforeValidation(this);
+		}
 		Validate();
-		CallExtensionEvent(extension => extension.OnAfterValidation(this));
-	}
-
-	/// <inheritdoc />
-	public virtual async Task UpdateAsync()
-	{
-		await CallExtensionEventAsync(extension => extension.OnBeforeReadonlyStateEvaluationAsync(this));
-		await UpdateReadonlyStateAsync();
-		await CallExtensionEventAsync(extension => extension.OnAfterReadonlyStateEvaluationAsync(this));
-
-		await CallExtensionEventAsync(extension => extension.OnBeforeVisibilityEvaluationAsync(this));
-		await UpdateVisibilityAsync();
-		await CallExtensionEventAsync(extension => extension.OnAfterVisibilityEvaluationAsync(this));
-
-		if (!IsVisible)
-		{
-			IsValid = true;
-			return;
-		}
-
-		await CallExtensionEventAsync(extension => extension.OnBeforeValidationAsync(this));
-		await ValidateAsync();
-		await CallExtensionEventAsync(extension => extension.OnAfterValidationAsync(this));
-	}
-
-	private void CallExtensionEvent(Action<IFormNodeExtension> callEvent)
-	{
 		foreach (var extension in Extensions)
 		{
-			callEvent(extension);
-		}
-	}
-
-	private async Task CallExtensionEventAsync(Func<IFormNodeExtension, Task> callEventAsync)
-	{
-		foreach (var extension in Extensions)
-		{
-			await callEventAsync(extension);
+			extension.OnAfterValidation(this);
 		}
 	}
 

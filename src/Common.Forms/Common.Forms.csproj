@@ -6,13 +6,22 @@
         <RootNamespace>RobinEpple.Common.Forms</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>Private Form Engine</Title>
+
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>./_generated</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="_generated\**\*.cs" />
+        <Compile Remove="_generated\**\*.cs" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="IbanNet" />
         <PackageReference Include="libphonenumber-csharp" />
         <PackageReference Include="Mime" />
         <PackageReference Include="RobinEpple.Common.Util" />
+        <PackageReference Include="RobinEpple.Common.SourceGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 
 </Project>
