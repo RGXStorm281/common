@@ -1,21 +1,16 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class InRootScopeExpression<TValue>(IFormExpression<TValue> expression) : IFormExpression<TValue>
+internal partial class InRootScopeExpression<TValue>(IFormExpression<TValue> expression) : IFormExpression<TValue>
 {
 	private readonly IFormExpression<TValue> _expression = expression;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public TValue EvaluateOn(IFormNode node)
 	{
 		return _expression.EvaluateOn(node.Root);
-	}
-
-	/// <inheritdoc />
-	public Task<TValue> EvaluateOnAsync(IFormNode node)
-	{
-		return _expression.EvaluateOnAsync(node.Root);
 	}
 }

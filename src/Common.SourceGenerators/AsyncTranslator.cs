@@ -868,7 +868,6 @@ public class AsyncTranslator
 			case SizeOfExpressionSyntax:
 			case StackAllocArrayCreationExpressionSyntax:
 			case TypeOfExpressionSyntax:
-			case TypeSyntax:
 			default:
 			{
 				// Default fallback: preserve original text.

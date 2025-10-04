@@ -1,14 +1,15 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class GetNodeExpression<TNode>(string name) : IFormExpression<TNode>
+internal partial class GetNodeExpression<TNode>(string name) : IFormExpression<TNode>
 	where TNode : IFormNode
 {
 	private readonly string _name = name;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public TNode EvaluateOn(IFormNode node)
 	{
 		var scope = node.GetScope();
@@ -29,12 +30,5 @@ internal class GetNodeExpression<TNode>(string name) : IFormExpression<TNode>
 		}
 
 		return target;
-	}
-
-	/// <inheritdoc />
-	public Task<TNode> EvaluateOnAsync(IFormNode node)
-	{
-		var result = EvaluateOn(node);
-		return Task.FromResult(result);
 	}
 }

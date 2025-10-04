@@ -1,15 +1,18 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class OnNotFoundExpression<TValue>(IFormExpression<TValue> source, IFormExpression<TValue> fallbackValue)
-	: IFormExpression<TValue>
+internal partial class OnNotFoundExpression<TValue>(
+	IFormExpression<TValue> source,
+	IFormExpression<TValue> fallbackValue
+) : IFormExpression<TValue>
 {
 	private readonly IFormExpression<TValue> _source = source;
 	private readonly IFormExpression<TValue> _fallbackValue = fallbackValue;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public TValue EvaluateOn(IFormNode node)
 	{
 		try
@@ -19,19 +22,6 @@ internal class OnNotFoundExpression<TValue>(IFormExpression<TValue> source, IFor
 		catch (NodeNotFoundException)
 		{
 			return _fallbackValue.EvaluateOn(node);
-		}
-	}
-
-	/// <inheritdoc />
-	public async Task<TValue> EvaluateOnAsync(IFormNode node)
-	{
-		try
-		{
-			return await _source.EvaluateOnAsync(node);
-		}
-		catch (NodeNotFoundException)
-		{
-			return await _fallbackValue.EvaluateOnAsync(node);
 		}
 	}
 }

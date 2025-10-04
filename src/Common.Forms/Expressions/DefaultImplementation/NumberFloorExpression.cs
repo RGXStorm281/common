@@ -1,23 +1,17 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class NumberFloorExpression(IFormExpression<decimal> target) : IFormExpression<decimal>
+internal partial class NumberFloorExpression(IFormExpression<decimal> target) : IFormExpression<decimal>
 {
 	private readonly IFormExpression<decimal> _target = target;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public decimal EvaluateOn(IFormNode node)
 	{
 		var targetValue = _target.EvaluateOn(node);
-		return Math.Floor(targetValue);
-	}
-
-	/// <inheritdoc />
-	public async Task<decimal> EvaluateOnAsync(IFormNode node)
-	{
-		var targetValue = await _target.EvaluateOnAsync(node);
 		return Math.Floor(targetValue);
 	}
 }
