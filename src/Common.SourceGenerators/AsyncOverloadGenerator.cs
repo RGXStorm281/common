@@ -285,12 +285,12 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 		}
 		else if (generationTask.HasYieldStatements)
 		{
-			returnType = generationTask.MethodSymbol!.ReturnType.ToDisplayString();
-			returnType = returnType.Replace("System.Collections.Generic.IEnumerable", "IAsyncEnumerable");
+			returnType = Print(generationTask.MethodDeclaration.ReturnType);
+			returnType = returnType.Replace("IEnumerable", "IAsyncEnumerable");
 		}
 		else
 		{
-			returnType = $"Task<{generationTask.MethodSymbol!.ReturnType.ToDisplayString()}>";
+			returnType = $"Task<{Print(generationTask.MethodDeclaration.ReturnType)}>";
 		}
 
 		// Modifiers.
@@ -303,23 +303,33 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 		}
 
 		// Parameters
-		var parameters = string.Join(
-			", ",
-			generationTask.MethodSymbol!.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
-		);
-		var typeParameterString = string.Empty;
-		if (generationTask.MethodSymbol.TypeParameters.ToList() is { Count: > 0 } typeParameters)
-		{
-			typeParameterString =
-				"<" + string.Join(", ", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + ">";
-		}
+		var parameters = Print(generationTask.MethodDeclaration.ParameterList);
+		var typeParameterString = Print(generationTask.MethodDeclaration.TypeParameterList);
 
-		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}{typeParameterString}({parameters})";
+		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}{typeParameterString}{parameters}";
 	}
 
 	private static string BuildAsyncMethodBody(AsyncOverloadGenerationTask generationTask)
 	{
 		var translator = new AsyncTranslator();
 		return translator.TranslateMethodBody(generationTask);
+	}
+
+	private static string Print(SyntaxNode? node)
+	{
+		if (node == null)
+		{
+			return string.Empty;
+		}
+		return node.WithoutTrivia().ToFullString();
+	}
+
+	private static string Print(SyntaxToken? token)
+	{
+		if (token == null)
+		{
+			return string.Empty;
+		}
+		return token.Value.WithoutTrivia().ToFullString();
 	}
 }

@@ -9,5 +9,5 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 public partial interface IAsyncOverloadTestInterface
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldWorkOnInterfaceDeclarations(int,int,int)"/>
-	public Task<System.DateTime> AsyncOverload_ShouldWorkOnInterfaceDeclarationsAsync(int day, int month, int year);
+	public Task<DateTime> AsyncOverload_ShouldWorkOnInterfaceDeclarationsAsync(int day, int month, int year);
 }

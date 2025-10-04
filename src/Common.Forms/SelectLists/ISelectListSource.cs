@@ -1,10 +1,12 @@
 namespace RobinEpple.Common.Forms.SelectLists;
 
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 /// <summary>
 /// Defines the API for a source, selection options of form fields can be loaded from.
 /// </summary>
 /// <typeparam name="TValue">The value type of the selection item.</typeparam>
-public interface ISelectListSource<TValue>
+public partial interface ISelectListSource<TValue>
 {
 	/// <summary>
 	/// Loads the list of options available given the current set of <paramref name="dependencies"/>.<br/>
@@ -12,10 +14,8 @@ public interface ISelectListSource<TValue>
 	/// </summary>
 	/// <param name="dependencies">The dependency list.</param>
 	/// <returns>The list of available selection options.</returns>
+	[GenerateAsyncOverload]
 	public IEnumerable<ISelectListItem<TValue>> LoadItems(IDictionary<string, object?>? dependencies = null);
-
-	/// <inheritdoc cref="LoadItems"/>
-	public Task<IEnumerable<ISelectListItem<TValue>>> LoadItemsAsync(IDictionary<string, object?>? dependencies = null);
 
 	/// <summary>
 	/// Creates a source for a static list of values.

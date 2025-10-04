@@ -69,7 +69,7 @@ public class AsyncTranslator
 				}
 				else
 				{
-					expression = $"Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>({expression})";
+					expression = $"Task.FromResult<{Print(context.MethodDeclaration.ReturnType)}>({expression})";
 				}
 			}
 			return IndentHelper.Indent($"=> {expression};");
@@ -311,7 +311,7 @@ public class AsyncTranslator
 					else
 					{
 						// There are no await calls. Return completed task.
-						sb.Append($"return Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>(");
+						sb.Append($"return Task.FromResult<{Print(context.MethodDeclaration.ReturnType)}>(");
 						sb.Append(expression);
 						sb.AppendLine(");");
 						return sb.ToString();
