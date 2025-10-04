@@ -1,10 +1,10 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
-internal class CollectionNode : NodeBase, ICollectionNode
+internal partial class CollectionNode : NodeBase, ICollectionNode
 {
 	public CollectionNode(string name, IParentNode parent)
 		: base(name, parent.Root, parent)
@@ -116,6 +116,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public IForm Instantiate(IForm template)
 	{
 		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
@@ -134,24 +135,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public async Task<IForm> InstantiateAsync(IForm template)
-	{
-		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
-		{
-			throw new InvalidOperationException("The given node is not a child of this collection.");
-		}
-
-		var child = (IForm)template.Clone();
-		child.ChangeParent(this);
-		_instances.Add(child);
-		await child.ResetAsync();
-
-		var initializer = new NodeInitializer();
-		initializer.RunOn(child);
-		return child;
-	}
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void RemoveItem(IForm instance)
 	{
 		var indexOfChild = _instances.IndexOf(instance);
@@ -163,23 +147,10 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public Task RemoveItemAsync(IForm instance)
-	{
-		RemoveItem(instance);
-		return Task.CompletedTask;
-	}
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Clear()
 	{
 		_instances.Clear();
-	}
-
-	/// <inheritdoc />
-	public Task ClearAsync()
-	{
-		Clear();
-		return Task.CompletedTask;
 	}
 
 	/// <inheritdoc />
@@ -208,6 +179,7 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public override void Reset()
 	{
 		base.Reset();
@@ -215,30 +187,13 @@ internal class CollectionNode : NodeBase, ICollectionNode
 	}
 
 	/// <inheritdoc />
-	public override async Task ResetAsync()
-	{
-		await base.ResetAsync();
-		await ClearAsync();
-	}
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public override void Update()
 	{
 		base.Update();
 		foreach (var instance in _instances)
 		{
 			instance.Update();
-			IsValid = IsValid && instance.IsValid;
-		}
-	}
-
-	/// <inheritdoc />
-	public override async Task UpdateAsync()
-	{
-		await base.UpdateAsync();
-		foreach (var instance in _instances)
-		{
-			await instance.UpdateAsync();
 			IsValid = IsValid && instance.IsValid;
 		}
 	}
