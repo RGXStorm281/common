@@ -160,8 +160,20 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 					sb.AppendLine($"namespace {typeNamespace};");
 					sb.AppendLine();
 
-					// Usings are not needed, because types are spelled out with their fully qualified names.
-
+					// Usings.
+					var usingsInFile = typeDeclaration
+						.SyntaxTree.GetRoot()
+						.DescendantNodes()
+						.OfType<UsingDirectiveSyntax>()
+						.ToList();
+					foreach (var classUsing in usingsInFile)
+					{
+						sb.AppendLine(classUsing.WithoutTrivia().ToFullString());
+					}
+					if (usingsInFile.Count > 0)
+					{
+						sb.AppendLine();
+					}
 					// Rebuild class declaration with modifiers
 					sb.AppendLine(BuildClassDeclarationHeader(typeDeclaration));
 					sb.AppendLine("{");

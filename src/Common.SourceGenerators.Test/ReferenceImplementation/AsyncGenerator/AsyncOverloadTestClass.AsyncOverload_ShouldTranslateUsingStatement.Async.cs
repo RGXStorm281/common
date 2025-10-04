@@ -3,6 +3,8 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateUsingStatement()"/>
