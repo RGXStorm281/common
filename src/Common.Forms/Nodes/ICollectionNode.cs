@@ -1,10 +1,12 @@
 namespace RobinEpple.Common.Forms.Nodes;
 
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 /// <summary>
 /// This interface represents a collection of subsections in the form.<br/>
 /// Subsections may be polymorphic by providing multiple templates.
 /// </summary>
-public interface ICollectionNode : IParentNode
+public partial interface ICollectionNode : IParentNode
 {
 	/// <summary>
 	/// The list of templates, that can be instantiated to live in this collection.
@@ -21,25 +23,19 @@ public interface ICollectionNode : IParentNode
 	/// </summary>
 	/// <param name="template">The template.</param>
 	/// <returns>The newly created instance.</returns>
+	[GenerateAsyncOverload]
 	public IForm Instantiate(IForm template);
-
-	/// <inheritdoc cref="Instantiate"/>
-	public Task<IForm> InstantiateAsync(IForm template);
 
 	/// <summary>
 	/// Removes the given instance from this collection.
 	/// </summary>
 	/// <param name="instance">The instance.</param>
+	[GenerateAsyncOverload]
 	public void RemoveItem(IForm instance);
-
-	/// <inheritdoc cref="RemoveItem"/>
-	public Task RemoveItemAsync(IForm instance);
 
 	/// <summary>
 	/// Removes all instances.
 	/// </summary>
+	[GenerateAsyncOverload]
 	public void Clear();
-
-	/// <inheritdoc cref="Clear"/>
-	public Task ClearAsync();
 }

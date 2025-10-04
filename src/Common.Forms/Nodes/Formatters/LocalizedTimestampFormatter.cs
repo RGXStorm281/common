@@ -1,12 +1,14 @@
 namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
 using System.Globalization;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-public class LocalizedTimestampFormatter(CultureInfo culture) : IValueFormatter
+public partial class LocalizedTimestampFormatter(CultureInfo culture) : IValueFormatter
 {
 	private readonly CultureInfo _culture = culture;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public string? Format(object? value)
 	{
 		if (value is not DateTime timestamp)
@@ -18,9 +20,7 @@ public class LocalizedTimestampFormatter(CultureInfo culture) : IValueFormatter
 	}
 
 	/// <inheritdoc />
-	public Task<string?> FormatAsync(object? value) => Task.FromResult(Format(value));
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public object? Parse(string? textInput)
 	{
 		if (!DateTime.TryParse(textInput, _culture, out var number))
@@ -30,7 +30,4 @@ public class LocalizedTimestampFormatter(CultureInfo culture) : IValueFormatter
 
 		return number;
 	}
-
-	/// <inheritdoc />
-	public Task<object?> ParseAsync(string? textInput) => Task.FromResult(Parse(textInput));
 }

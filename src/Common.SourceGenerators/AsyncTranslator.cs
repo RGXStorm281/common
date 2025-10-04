@@ -881,9 +881,10 @@ public class AsyncTranslator
 			argumentList.Arguments.Select(arg =>
 			{
 				var argExpression = TranslateWithoutParenthesesInternal(arg.Expression, context);
-				if (arg.RefKindKeyword != null)
+				var refOrOut = Print(arg.RefKindKeyword);
+				if (!string.IsNullOrEmpty(refOrOut))
 				{
-					argExpression = Print(arg.RefKindKeyword) + " " + argExpression;
+					argExpression = refOrOut + " " + argExpression;
 				}
 				if (arg.NameColon is { } name)
 				{
