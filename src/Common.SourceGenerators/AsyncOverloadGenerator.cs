@@ -166,14 +166,16 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 						.DescendantNodes()
 						.OfType<UsingDirectiveSyntax>()
 						.ToList();
+					if (!usingsInFile.Any(usingInFile => usingInFile.Name?.ToString() == "System.Threading.Tasks"))
+					{
+						sb.AppendLine("using System.Threading.Tasks;");
+					}
 					foreach (var classUsing in usingsInFile)
 					{
 						sb.AppendLine(classUsing.WithoutTrivia().ToFullString());
 					}
-					if (usingsInFile.Count > 0)
-					{
-						sb.AppendLine();
-					}
+					sb.AppendLine();
+
 					// Rebuild class declaration with modifiers
 					sb.AppendLine(BuildClassDeclarationHeader(typeDeclaration));
 					sb.AppendLine("{");
@@ -279,16 +281,16 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 		string? returnType;
 		if (generationTask.MethodSymbol!.ReturnsVoid)
 		{
-			returnType = "System.Threading.Tasks.Task";
+			returnType = "Task";
 		}
 		else if (generationTask.HasYieldStatements)
 		{
 			returnType = generationTask.MethodSymbol!.ReturnType.ToDisplayString();
-			returnType = returnType.Replace("IEnumerable", "IAsyncEnumerable");
+			returnType = returnType.Replace("System.Collections.Generic.IEnumerable", "IAsyncEnumerable");
 		}
 		else
 		{
-			returnType = $"System.Threading.Tasks.Task<{generationTask.MethodSymbol!.ReturnType.ToDisplayString()}>";
+			returnType = $"Task<{generationTask.MethodSymbol!.ReturnType.ToDisplayString()}>";
 		}
 
 		// Modifiers.

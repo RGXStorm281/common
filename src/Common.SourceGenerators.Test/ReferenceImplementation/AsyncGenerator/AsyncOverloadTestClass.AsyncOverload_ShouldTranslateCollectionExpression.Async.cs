@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCollectionExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCollectionExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateCollectionExpressionAsync()
 	{
 		IEnumerable<int> collection = [await IdentityAsync(1), await IdentityAsync(2)];
 	}

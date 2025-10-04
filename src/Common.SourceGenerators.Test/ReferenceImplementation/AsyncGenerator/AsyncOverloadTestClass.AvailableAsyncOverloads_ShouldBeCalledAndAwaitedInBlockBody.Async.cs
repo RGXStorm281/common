@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInBlockBody()"/>
-	public async System.Threading.Tasks.Task AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInBlockBodyAsync()
+	public async Task AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInBlockBodyAsync()
 	{
 		var instanceDependency = new AsyncOverloadInstanceDependency();
 		await InternalVoidMethodAsync();

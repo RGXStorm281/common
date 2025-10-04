@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateSwitchStatement()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateSwitchStatementAsync()
+	public async Task AsyncOverload_ShouldTranslateSwitchStatementAsync()
 	{
 		switch (await IncrementAsync(1))
 		{

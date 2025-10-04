@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateTupleExpression()"/>
-	public async System.Threading.Tasks.Task<(int First, int Second)> AsyncOverload_ShouldTranslateTupleExpressionAsync()
+	public async Task<(int First, int Second)> AsyncOverload_ShouldTranslateTupleExpressionAsync()
 	{
 		return (await IdentityAsync(1), await IdentityAsync(2));
 	}

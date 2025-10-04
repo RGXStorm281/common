@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateOnlyHeadOfLockStatement()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateOnlyHeadOfLockStatementAsync()
+	public async Task AsyncOverload_ShouldTranslateOnlyHeadOfLockStatementAsync()
 	{
 		lock (await GetArrayAsync())
 		{

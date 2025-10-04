@@ -3,14 +3,15 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldCopySignature(int,int,int)"/>
-	internal static System.Threading.Tasks.Task<System.DateTime> AsyncOverload_ShouldCopySignatureAsync(int day, int month, int year)
+	internal static Task<System.DateTime> AsyncOverload_ShouldCopySignatureAsync(int day, int month, int year)
 	{
-		return System.Threading.Tasks.Task.FromResult<System.DateTime>(new DateTime(year, month, day));
+		return Task.FromResult<System.DateTime>(new DateTime(year, month, day));
 	}
 
 }

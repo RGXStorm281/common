@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateWhileStatement()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateWhileStatementAsync()
+	public async Task AsyncOverload_ShouldTranslateWhileStatementAsync()
 	{
 		while (await IdentityAsync(1) < await IncrementAsync(1))
 		{

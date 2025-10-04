@@ -3,16 +3,17 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldNotTranslateAnonymousFunction()"/>
-	public System.Threading.Tasks.Task AsyncOverload_ShouldNotTranslateAnonymousFunctionAsync()
+	public Task AsyncOverload_ShouldNotTranslateAnonymousFunctionAsync()
 	{
 		var increment = (int i) => Identity(i) + 1;
 		increment(2);
-		return System.Threading.Tasks.Task.CompletedTask;
+		return Task.CompletedTask;
 	}
 
 }

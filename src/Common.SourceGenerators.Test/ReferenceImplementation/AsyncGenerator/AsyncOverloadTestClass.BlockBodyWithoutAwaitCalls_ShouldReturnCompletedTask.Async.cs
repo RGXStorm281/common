@@ -3,14 +3,15 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="BlockBodyWithoutAwaitCalls_ShouldReturnCompletedTask()"/>
-	public System.Threading.Tasks.Task<int> BlockBodyWithoutAwaitCalls_ShouldReturnCompletedTaskAsync()
+	public Task<int> BlockBodyWithoutAwaitCalls_ShouldReturnCompletedTaskAsync()
 	{
-		return System.Threading.Tasks.Task.FromResult<int>(42);
+		return Task.FromResult<int>(42);
 	}
 
 }

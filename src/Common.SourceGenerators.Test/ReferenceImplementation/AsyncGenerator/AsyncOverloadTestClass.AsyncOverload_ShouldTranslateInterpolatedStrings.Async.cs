@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateInterpolatedStrings()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateInterpolatedStringsAsync()
+	public async Task AsyncOverload_ShouldTranslateInterpolatedStringsAsync()
 	{
 		var text = $"The number is {await IdentityAsync(5)}";
 	}

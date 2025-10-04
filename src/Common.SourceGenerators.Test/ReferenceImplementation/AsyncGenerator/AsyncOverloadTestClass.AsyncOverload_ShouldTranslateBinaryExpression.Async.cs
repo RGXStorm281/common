@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateBinaryExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateBinaryExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateBinaryExpressionAsync()
 	{
 		var result = await IdentityAsync(true) && await IdentityAsync(false);
 	}

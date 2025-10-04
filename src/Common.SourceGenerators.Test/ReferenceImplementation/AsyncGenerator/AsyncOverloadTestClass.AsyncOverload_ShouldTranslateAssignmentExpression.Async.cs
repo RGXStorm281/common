@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateAssignmentExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateAssignmentExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateAssignmentExpressionAsync()
 	{
 		int assigned;
 		var result = assigned = await IncrementAsync(2);

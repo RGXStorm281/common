@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateMemberAccessExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateMemberAccessExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateMemberAccessExpressionAsync()
 	{
 		var result = (await GetInstanceSureAsync()).Two;
 	}

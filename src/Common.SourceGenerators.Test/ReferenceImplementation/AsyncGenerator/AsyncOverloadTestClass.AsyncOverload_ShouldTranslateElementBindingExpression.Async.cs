@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateElementBindingExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateElementBindingExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateElementBindingExpressionAsync()
 	{
 		var element = (await GetArrayUnsureAsync())?[1];
 	}

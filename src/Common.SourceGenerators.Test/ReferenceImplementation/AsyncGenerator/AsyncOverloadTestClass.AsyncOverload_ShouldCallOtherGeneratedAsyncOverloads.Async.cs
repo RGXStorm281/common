@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldCallOtherGeneratedAsyncOverloads()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldCallOtherGeneratedAsyncOverloadsAsync()
+	public async Task AsyncOverload_ShouldCallOtherGeneratedAsyncOverloadsAsync()
 	{
 		await InternalGeneratedAsync();
 	}

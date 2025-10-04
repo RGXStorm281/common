@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateYieldStatement()"/>
-	public async System.Collections.Generic.IAsyncEnumerable<int> AsyncOverload_ShouldTranslateYieldStatementAsync()
+	public async IAsyncEnumerable<int> AsyncOverload_ShouldTranslateYieldStatementAsync()
 	{
 		foreach (var item in await GetArrayAsync())
 		{

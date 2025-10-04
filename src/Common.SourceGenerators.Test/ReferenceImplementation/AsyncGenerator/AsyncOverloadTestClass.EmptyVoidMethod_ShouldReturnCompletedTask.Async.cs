@@ -3,13 +3,14 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="EmptyVoidMethod_ShouldReturnCompletedTask()"/>
-	public System.Threading.Tasks.Task EmptyVoidMethod_ShouldReturnCompletedTaskAsync()
+	public Task EmptyVoidMethod_ShouldReturnCompletedTaskAsync()
 	{
-		return System.Threading.Tasks.Task.CompletedTask;
+		return Task.CompletedTask;
 	}
 }

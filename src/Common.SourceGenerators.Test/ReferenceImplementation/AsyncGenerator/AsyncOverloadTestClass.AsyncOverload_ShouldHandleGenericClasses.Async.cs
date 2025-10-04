@@ -3,12 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldHandleGenericClasses()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldHandleGenericClassesAsync()
+	public async Task AsyncOverload_ShouldHandleGenericClassesAsync()
 	{
 		var genericInstance = new AsyncOverloadGenericClass<int>();
 		await genericInstance.SetValueAsync(2);
