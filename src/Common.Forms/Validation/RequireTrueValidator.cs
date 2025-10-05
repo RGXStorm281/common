@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -9,12 +10,13 @@ using RobinEpple.Common.Util;
 /// Requires the field to have the value <see langword="true"/>.
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
-public class RequireTrueValidator(string? errorMessageTemplate = null) : INodeValidator
+public partial class RequireTrueValidator(string? errorMessageTemplate = null) : INodeValidator
 {
 	public const string ErrorKey = nameof(RequireTrueValidator);
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresTheValueTrue;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not IBooleanNode booleanNode)
@@ -32,12 +34,5 @@ public class RequireTrueValidator(string? errorMessageTemplate = null) : INodeVa
 
 		// Invalid.
 		booleanNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(booleanNode.Label));
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 }
