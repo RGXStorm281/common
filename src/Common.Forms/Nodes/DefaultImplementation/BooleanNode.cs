@@ -1,8 +1,9 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class BooleanNode : FieldNode, IBooleanNode
+internal partial class BooleanNode : FieldNode, IBooleanNode
 {
 	public BooleanNode(string name, IParentNode parent)
 		: base(name, parent, new BooleanFormatter("yes", "no"))
@@ -22,16 +23,10 @@ internal class BooleanNode : FieldNode, IBooleanNode
 	internal void ReplaceDefaultValue(bool? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public override void Reset()
 	{
 		base.Reset();
-		_value.Reset();
-	}
-
-	/// <inheritdoc />
-	public override async Task ResetAsync()
-	{
-		await base.ResetAsync();
 		_value.Reset();
 	}
 

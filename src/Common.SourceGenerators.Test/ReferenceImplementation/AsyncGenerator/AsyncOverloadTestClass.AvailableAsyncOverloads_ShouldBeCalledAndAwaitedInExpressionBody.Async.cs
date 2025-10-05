@@ -3,9 +3,12 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInExpressionBody()"/>
-	public async System.Threading.Tasks.Task AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInExpressionBodyAsync()
+	public async Task AvailableAsyncOverloads_ShouldBeCalledAndAwaitedInExpressionBodyAsync()
 		=> await InternalVoidMethodAsync();
 }

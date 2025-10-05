@@ -1,10 +1,6 @@
 namespace RobinEpple.Common.SourceGenerators.Test;
 
-using System.Net.Http.Headers;
-using System.Runtime.ExceptionServices;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RobinEpple.Common.SourceGenerators.Abstractions;
-using RobinEpple.Common.SourceGenerators.Test.ReferenceImplementation;
 
 /// <summary>
 /// This class contains test methods, who's generated async overloads are compared to some manual reference implementation.

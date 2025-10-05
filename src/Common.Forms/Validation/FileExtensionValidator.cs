@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using HeyRed.Mime;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -11,7 +12,8 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="allowedExtensions">The list of allowed file extensions.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name, {1} for the invalid extension and {2} for the list of allowed extensions.</param>
-public class FileExtensionValidator(string[] allowedExtensions, string? errorMessageTemplate = null) : INodeValidator
+public partial class FileExtensionValidator(string[] allowedExtensions, string? errorMessageTemplate = null)
+	: INodeValidator
 {
 	public const string ErrorKey = nameof(TemplateRequiredValidator);
 	private readonly string[] _allowedExtensions = allowedExtensions;
@@ -19,6 +21,7 @@ public class FileExtensionValidator(string[] allowedExtensions, string? errorMes
 		errorMessageTemplate ?? Resources.TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not IFileNode fileNode)
@@ -43,12 +46,5 @@ public class FileExtensionValidator(string[] allowedExtensions, string? errorMes
 				_errorMessageTemplate.Format(fileNode.Label, $".{guessedExtension}", allowedExtensionString)
 			);
 		}
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 }

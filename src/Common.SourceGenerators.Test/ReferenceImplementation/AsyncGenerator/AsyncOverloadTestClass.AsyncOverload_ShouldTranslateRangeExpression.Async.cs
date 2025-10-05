@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateRangeExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateRangeExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateRangeExpressionAsync()
 	{
 		var firstTwo = (await GetArraySureAsync())[..(await IdentityAsync(1))];
 	}

@@ -1,15 +1,13 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class ThrowExpression<TValue>(Func<IFormNode, Exception> exceptionFactory) : IFormExpression<TValue>
+internal partial class ThrowExpression<TValue>(Func<IFormNode, Exception> exceptionFactory) : IFormExpression<TValue>
 {
 	private readonly Func<IFormNode, Exception> _exceptionFactory = exceptionFactory;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public TValue EvaluateOn(IFormNode node) => throw _exceptionFactory(node);
-
-	/// <inheritdoc />
-	public Task<TValue> EvaluateOnAsync(IFormNode node) => throw _exceptionFactory(node);
 }

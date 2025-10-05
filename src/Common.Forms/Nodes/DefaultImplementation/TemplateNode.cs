@@ -2,8 +2,9 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class TemplateNode : NodeBase, ITemplateNode
+internal partial class TemplateNode : NodeBase, ITemplateNode
 {
 	public TemplateNode(string name, IParentNode parent)
 		: base(name, parent.Root, parent)
@@ -93,16 +94,10 @@ internal class TemplateNode : NodeBase, ITemplateNode
 	public IForm? Instance { get; private set; }
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Clear()
 	{
 		Instance = null;
-	}
-
-	/// <inheritdoc />
-	public Task ClearAsync()
-	{
-		Clear();
-		return Task.CompletedTask;
 	}
 
 	/// <inheritdoc />
@@ -128,6 +123,7 @@ internal class TemplateNode : NodeBase, ITemplateNode
 	}
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public IForm Instantiate(IForm template)
 	{
 		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
@@ -139,24 +135,6 @@ internal class TemplateNode : NodeBase, ITemplateNode
 		child.ChangeParent(this);
 		Instance = child;
 		child.Reset();
-
-		var initializer = new NodeInitializer();
-		initializer.RunOn(child);
-		return child;
-	}
-
-	/// <inheritdoc />
-	public async Task<IForm> InstantiateAsync(IForm template)
-	{
-		if (!_templatesByName.TryGetValue(template.Name, out var configuredTemplate) || configuredTemplate != template)
-		{
-			throw new InvalidOperationException("The given node is not a child of this collection.");
-		}
-
-		var child = (IForm)template.Clone();
-		child.ChangeParent(this);
-		Instance = child;
-		await child.ResetAsync();
 
 		var initializer = new NodeInitializer();
 		initializer.RunOn(child);

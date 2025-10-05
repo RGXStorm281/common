@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateInitializerExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateInitializerExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateInitializerExpressionAsync()
 	{
 		var instance = new AsyncOverloadInstanceDependency()
 		{

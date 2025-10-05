@@ -13,7 +13,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 	public virtual void OnInitialize(IFormNode node) { }
 
 	/// <inheritdoc />
-	public Task OnInitializeAsync(IFormNode node)
+	public virtual Task OnInitializeAsync(IFormNode node)
 	{
 		OnInitialize(node);
 		return Task.CompletedTask;
@@ -23,7 +23,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 	public virtual void OnBeforeReadonlyStateEvaluation(IFormNode node) { }
 
 	/// <inheritdoc />
-	public Task OnBeforeReadonlyStateEvaluationAsync(IFormNode node)
+	public virtual Task OnBeforeReadonlyStateEvaluationAsync(IFormNode node)
 	{
 		OnBeforeReadonlyStateEvaluation(node);
 		return Task.CompletedTask;
@@ -33,7 +33,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 	public virtual void OnAfterReadonlyStateEvaluation(IFormNode node) { }
 
 	/// <inheritdoc />
-	public Task OnAfterReadonlyStateEvaluationAsync(IFormNode node)
+	public virtual Task OnAfterReadonlyStateEvaluationAsync(IFormNode node)
 	{
 		OnAfterReadonlyStateEvaluation(node);
 		return Task.CompletedTask;
@@ -43,7 +43,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 	public virtual void OnAfterValidation(IFormNode node) { }
 
 	/// <inheritdoc />
-	public Task OnBeforeVisibilityEvaluationAsync(IFormNode node)
+	public virtual Task OnBeforeVisibilityEvaluationAsync(IFormNode node)
 	{
 		OnAfterValidation(node);
 		return Task.CompletedTask;
@@ -53,7 +53,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 	public virtual void OnAfterVisibilityEvaluation(IFormNode node) { }
 
 	/// <inheritdoc />
-	public Task OnAfterVisibilityEvaluationAsync(IFormNode node)
+	public virtual Task OnAfterVisibilityEvaluationAsync(IFormNode node)
 	{
 		OnAfterVisibilityEvaluation(node);
 		return Task.CompletedTask;
@@ -63,7 +63,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 	public virtual void OnBeforeValidation(IFormNode node) { }
 
 	/// <inheritdoc />
-	public Task OnBeforeValidationAsync(IFormNode node)
+	public virtual Task OnBeforeValidationAsync(IFormNode node)
 	{
 		OnBeforeValidation(node);
 		return Task.CompletedTask;
@@ -73,7 +73,7 @@ public abstract class FormNodeExtensionBase : IFormNodeExtension
 	public virtual void OnBeforeVisibilityEvaluation(IFormNode node) { }
 
 	/// <inheritdoc />
-	public Task OnAfterValidationAsync(IFormNode node)
+	public virtual Task OnAfterValidationAsync(IFormNode node)
 	{
 		OnBeforeVisibilityEvaluation(node);
 		return Task.CompletedTask;

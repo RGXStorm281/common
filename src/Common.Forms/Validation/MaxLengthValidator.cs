@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -11,7 +12,7 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="maxLength">The expression defining the (inclusive) lower bound for the content length.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the minimum value.</param>
-public class MaxLengthValidator(IFormExpression<decimal?> maxLength, string? errorMessageTemplate = null)
+public partial class MaxLengthValidator(IFormExpression<decimal?> maxLength, string? errorMessageTemplate = null)
 	: INodeValidator
 {
 	public const string ErrorKey = nameof(MaxLengthValidator);
@@ -20,6 +21,7 @@ public class MaxLengthValidator(IFormExpression<decimal?> maxLength, string? err
 		errorMessageTemplate ?? Resources.TheField_AllowsAMaximumContentLengthOf_;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not ITextNode textNode)
@@ -36,30 +38,6 @@ public class MaxLengthValidator(IFormExpression<decimal?> maxLength, string? err
 		}
 
 		var maxLength = _maxLength.EvaluateOn(textNode);
-		if (textNode.Value.Length > maxLength)
-		{
-			// Invalid.
-			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Label, maxLength));
-		}
-	}
-
-	/// <inheritdoc />
-	public async Task ValidateAsync(IFormNode node)
-	{
-		if (node is not ITextNode textNode)
-		{
-			throw new InvalidOperationException(
-				$"A {nameof(MaxLengthValidator)} can only be used on text nodes and not on '{node.GetType().FullName}'."
-			);
-		}
-
-		if (textNode.Value == null)
-		{
-			// Do not validate empty, this is the task of the required validation.
-			return;
-		}
-
-		var maxLength = await _maxLength.EvaluateOnAsync(textNode);
 		if (textNode.Value.Length > maxLength)
 		{
 			// Invalid.

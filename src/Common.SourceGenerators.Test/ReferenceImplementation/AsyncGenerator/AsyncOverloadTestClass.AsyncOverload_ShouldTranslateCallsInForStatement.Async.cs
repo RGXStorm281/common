@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCallsInForStatement()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCallsInForStatementAsync()
+	public async Task AsyncOverload_ShouldTranslateCallsInForStatementAsync()
 	{
 		for (int i = 0; i < 10; await IncrementAsync(i))
 		{

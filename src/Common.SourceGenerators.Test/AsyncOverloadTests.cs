@@ -1,7 +1,6 @@
 namespace RobinEpple.Common.SourceGenerators.Test;
 
 using Microsoft.CodeAnalysis.CSharp;
-using RobinEpple.Common.SourceGenerators.Test.ReferenceImplementation;
 
 [TestClass]
 public class AsyncOverloadTests

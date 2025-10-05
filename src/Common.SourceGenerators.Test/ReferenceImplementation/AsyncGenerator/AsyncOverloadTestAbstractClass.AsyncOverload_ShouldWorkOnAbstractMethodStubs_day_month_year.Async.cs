@@ -3,8 +3,11 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public abstract partial class AsyncOverloadTestAbstractClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldWorkOnAbstractMethodStubs(int,int,int)"/>
-	public abstract System.Threading.Tasks.Task<System.DateTime> AsyncOverload_ShouldWorkOnAbstractMethodStubsAsync(int day, int month, int year);
+	public abstract Task<DateTime> AsyncOverload_ShouldWorkOnAbstractMethodStubsAsync(int day, int month, int year);
 }

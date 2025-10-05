@@ -69,8 +69,7 @@ public class AsyncTranslator
 				}
 				else
 				{
-					expression =
-						$"System.Threading.Tasks.Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>({expression})";
+					expression = $"Task.FromResult<{Print(context.MethodDeclaration.ReturnType)}>({expression})";
 				}
 			}
 			return IndentHelper.Indent($"=> {expression};");
@@ -292,7 +291,7 @@ public class AsyncTranslator
 					else
 					{
 						// There are no await calls. Return completed task.
-						sb.AppendLine("return System.Threading.Tasks.Task.CompletedTask;");
+						sb.AppendLine("return Task.CompletedTask;");
 						return sb.ToString();
 					}
 				}
@@ -312,9 +311,7 @@ public class AsyncTranslator
 					else
 					{
 						// There are no await calls. Return completed task.
-						sb.Append(
-							$"return System.Threading.Tasks.Task.FromResult<{context.MethodSymbol.ReturnType.ToDisplayString()}>("
-						);
+						sb.Append($"return Task.FromResult<{Print(context.MethodDeclaration.ReturnType)}>(");
 						sb.Append(expression);
 						sb.AppendLine(");");
 						return sb.ToString();
@@ -661,14 +658,11 @@ public class AsyncTranslator
 					if (typeInfo.Type is { } type)
 					{
 						conditionalAccess =
-							"await ("
-							+ conditionalAccess
-							+ $" ?? System.Threading.Tasks.Task.FromResult<{type.ToDisplayString()}>(default))";
+							"await (" + conditionalAccess + $" ?? Task.FromResult<{type.ToDisplayString()}>(default))";
 					}
 					else
 					{
-						conditionalAccess =
-							"await (" + conditionalAccess + $" ?? System.Threading.Tasks.Task.CompletedTask)";
+						conditionalAccess = "await (" + conditionalAccess + $" ?? Task.CompletedTask)";
 					}
 				}
 				return conditionalAccess;
@@ -868,7 +862,6 @@ public class AsyncTranslator
 			case SizeOfExpressionSyntax:
 			case StackAllocArrayCreationExpressionSyntax:
 			case TypeOfExpressionSyntax:
-			case TypeSyntax:
 			default:
 			{
 				// Default fallback: preserve original text.
@@ -888,6 +881,11 @@ public class AsyncTranslator
 			argumentList.Arguments.Select(arg =>
 			{
 				var argExpression = TranslateWithoutParenthesesInternal(arg.Expression, context);
+				var refOrOut = Print(arg.RefKindKeyword);
+				if (!string.IsNullOrEmpty(refOrOut))
+				{
+					argExpression = refOrOut + " " + argExpression;
+				}
 				if (arg.NameColon is { } name)
 				{
 					argExpression = Print(name.Name) + ": " + argExpression;

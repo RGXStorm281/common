@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using System.Text.RegularExpressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -11,7 +12,8 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="characterWhitelist">The whitelist of symbols that are allowed to occur in the value.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the invalid characters.</param>
-public class AllowedSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null) : INodeValidator
+public partial class AllowedSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null)
+	: INodeValidator
 {
 	public const string ErrorKey = nameof(AllowedSymbolValidator);
 	private readonly Regex _invalidCharacterRegex = new Regex($"[^{characterWhitelist}]", RegexOptions.Compiled);
@@ -19,6 +21,7 @@ public class AllowedSymbolValidator(string characterWhitelist, string? errorMess
 		errorMessageTemplate ?? Resources.TheField_DoesNotAllowTheFollowingCharacters_;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not ITextNode textNode)
@@ -44,12 +47,5 @@ public class AllowedSymbolValidator(string characterWhitelist, string? errorMess
 			var invalidCharacters = string.Join(string.Empty, invalidCharacterList);
 			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Label, invalidCharacters));
 		}
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 }

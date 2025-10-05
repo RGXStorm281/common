@@ -4,11 +4,12 @@ using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
 /// <summary>
 /// This is the base interface for common properties of all form members.
 /// </summary>
-public interface IFormNode : ICloneable
+public partial interface IFormNode : ICloneable
 {
 	#region structure
 
@@ -168,18 +169,14 @@ public interface IFormNode : ICloneable
 	/// <summary>
 	/// Resets this node to its default state.
 	/// </summary>
+	[GenerateAsyncOverload]
 	public void Reset();
-
-	/// <inheritdoc cref="Reset"/>
-	public Task ResetAsync();
 
 	/// <summary>
 	/// Updates the state of this node by applying internal rules.
 	/// </summary>
+	[GenerateAsyncOverload]
 	public void Update();
-
-	/// <inheritdoc cref="Update"/>
-	public Task UpdateAsync();
 
 	#endregion
 

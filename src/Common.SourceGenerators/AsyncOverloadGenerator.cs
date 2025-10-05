@@ -160,7 +160,21 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 					sb.AppendLine($"namespace {typeNamespace};");
 					sb.AppendLine();
 
-					// Usings are not needed, because types are spelled out with their fully qualified names.
+					// Usings.
+					var usingsInFile = typeDeclaration
+						.SyntaxTree.GetRoot()
+						.DescendantNodes()
+						.OfType<UsingDirectiveSyntax>()
+						.ToList();
+					if (!usingsInFile.Any(usingInFile => usingInFile.Name?.ToString() == "System.Threading.Tasks"))
+					{
+						sb.AppendLine("using System.Threading.Tasks;");
+					}
+					foreach (var classUsing in usingsInFile)
+					{
+						sb.AppendLine(classUsing.WithoutTrivia().ToFullString());
+					}
+					sb.AppendLine();
 
 					// Rebuild class declaration with modifiers
 					sb.AppendLine(BuildClassDeclarationHeader(typeDeclaration));
@@ -267,16 +281,16 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 		string? returnType;
 		if (generationTask.MethodSymbol!.ReturnsVoid)
 		{
-			returnType = "System.Threading.Tasks.Task";
+			returnType = "Task";
 		}
 		else if (generationTask.HasYieldStatements)
 		{
-			returnType = generationTask.MethodSymbol!.ReturnType.ToDisplayString();
+			returnType = Print(generationTask.MethodDeclaration.ReturnType);
 			returnType = returnType.Replace("IEnumerable", "IAsyncEnumerable");
 		}
 		else
 		{
-			returnType = $"System.Threading.Tasks.Task<{generationTask.MethodSymbol!.ReturnType.ToDisplayString()}>";
+			returnType = $"Task<{Print(generationTask.MethodDeclaration.ReturnType)}>";
 		}
 
 		// Modifiers.
@@ -289,23 +303,33 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 		}
 
 		// Parameters
-		var parameters = string.Join(
-			", ",
-			generationTask.MethodSymbol!.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
-		);
-		var typeParameterString = string.Empty;
-		if (generationTask.MethodSymbol.TypeParameters.ToList() is { Count: > 0 } typeParameters)
-		{
-			typeParameterString =
-				"<" + string.Join(", ", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + ">";
-		}
+		var parameters = Print(generationTask.MethodDeclaration.ParameterList);
+		var typeParameterString = Print(generationTask.MethodDeclaration.TypeParameterList);
 
-		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}{typeParameterString}({parameters})";
+		return $"{string.Join(" ", methodModifiers)} {returnType} {generationTask.AsyncName}{typeParameterString}{parameters}";
 	}
 
 	private static string BuildAsyncMethodBody(AsyncOverloadGenerationTask generationTask)
 	{
 		var translator = new AsyncTranslator();
 		return translator.TranslateMethodBody(generationTask);
+	}
+
+	private static string Print(SyntaxNode? node)
+	{
+		if (node == null)
+		{
+			return string.Empty;
+		}
+		return node.WithoutTrivia().ToFullString();
+	}
+
+	private static string Print(SyntaxToken? token)
+	{
+		if (token == null)
+		{
+			return string.Empty;
+		}
+		return token.Value.WithoutTrivia().ToFullString();
 	}
 }

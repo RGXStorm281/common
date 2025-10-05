@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateConditionalExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateConditionalExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateConditionalExpressionAsync()
 	{
 		int? result = await GetInstanceUnsureAsync() is { } instance
 			? await instance.GetOneAsync()

@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslatePrefixUnaryExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslatePrefixUnaryExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslatePrefixUnaryExpressionAsync()
 	{
 		var result = !(await IdentityAsync(true));
 	}

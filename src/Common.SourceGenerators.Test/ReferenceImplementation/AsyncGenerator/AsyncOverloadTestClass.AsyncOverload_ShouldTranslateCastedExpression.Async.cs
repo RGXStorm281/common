@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateCastedExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateCastedExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateCastedExpressionAsync()
 	{
 		var result = (decimal)await IdentityAsync(4);
 	}

@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateReturnStatements()"/>
-	public async System.Threading.Tasks.Task<int[]> AsyncOverload_ShouldTranslateReturnStatementsAsync()
+	public async Task<int[]> AsyncOverload_ShouldTranslateReturnStatementsAsync()
 	{
 		return await GetArrayAsync();
 	}

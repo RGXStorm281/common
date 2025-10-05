@@ -3,13 +3,16 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldNotTranslateQueryExpression()"/>
-	public System.Threading.Tasks.Task AsyncOverload_ShouldNotTranslateQueryExpressionAsync()
+	public Task AsyncOverload_ShouldNotTranslateQueryExpressionAsync()
 	{
 		var smallerThanTwo = from item in GetArraySure() where item < 2 select item;
-		return System.Threading.Tasks.Task.CompletedTask;
+		return Task.CompletedTask;
 	}
 
 }

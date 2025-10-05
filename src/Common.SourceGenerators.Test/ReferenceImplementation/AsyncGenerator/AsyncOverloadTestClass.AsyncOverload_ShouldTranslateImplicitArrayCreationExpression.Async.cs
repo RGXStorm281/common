@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateImplicitArrayCreationExpression()"/>
-	public async System.Threading.Tasks.Task AsyncOverload_ShouldTranslateImplicitArrayCreationExpressionAsync()
+	public async Task AsyncOverload_ShouldTranslateImplicitArrayCreationExpressionAsync()
 	{
 		var array = new []
 		{

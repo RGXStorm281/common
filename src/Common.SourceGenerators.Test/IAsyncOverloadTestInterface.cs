@@ -1,4 +1,4 @@
-namespace RobinEpple.Common.SourceGenerators.Test.ReferenceImplementation;
+namespace RobinEpple.Common.SourceGenerators.Test;
 
 using RobinEpple.Common.SourceGenerators.Abstractions;
 

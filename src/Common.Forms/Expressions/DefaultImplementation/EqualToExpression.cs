@@ -1,9 +1,9 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class EqualToExpression<TComparable>(
+internal partial class EqualToExpression<TComparable>(
 	IFormExpression<TComparable> source,
 	IFormExpression<TComparable> target,
 	IComparer<TComparable>? comparer = null
@@ -15,22 +15,11 @@ internal class EqualToExpression<TComparable>(
 	private readonly IComparer<TComparable>? _comparer = comparer;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public bool EvaluateOn(IFormNode node)
 	{
 		var sourceValue = _source.EvaluateOn(node);
 		var bound = _target.EvaluateOn(node);
-		if (_comparer != null)
-		{
-			return _comparer.Compare(sourceValue, bound) == 0;
-		}
-		return sourceValue.CompareTo(bound) == 0;
-	}
-
-	/// <inheritdoc />
-	public async Task<bool> EvaluateOnAsync(IFormNode node)
-	{
-		var sourceValue = await _source.EvaluateOnAsync(node);
-		var bound = await _target.EvaluateOnAsync(node);
 		if (_comparer != null)
 		{
 			return _comparer.Compare(sourceValue, bound) == 0;

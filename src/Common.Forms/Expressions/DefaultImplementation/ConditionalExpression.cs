@@ -1,9 +1,9 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class ConditionalExpression<TValue>(
+internal partial class ConditionalExpression<TValue>(
 	IFormExpression<bool> condition,
 	IFormExpression<TValue> whenTrue,
 	IFormExpression<TValue> whenFalse
@@ -14,6 +14,7 @@ internal class ConditionalExpression<TValue>(
 	private readonly IFormExpression<TValue> _whenFalse = whenFalse;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public TValue EvaluateOn(IFormNode node)
 	{
 		var conditionMet = _condition.EvaluateOn(node);
@@ -24,20 +25,6 @@ internal class ConditionalExpression<TValue>(
 		else
 		{
 			return _whenFalse.EvaluateOn(node);
-		}
-	}
-
-	/// <inheritdoc />
-	public async Task<TValue> EvaluateOnAsync(IFormNode node)
-	{
-		var conditionMet = await _condition.EvaluateOnAsync(node);
-		if (conditionMet)
-		{
-			return await _whenTrue.EvaluateOnAsync(node);
-		}
-		else
-		{
-			return await _whenFalse.EvaluateOnAsync(node);
 		}
 	}
 }

@@ -3,10 +3,13 @@
 
 namespace RobinEpple.Common.SourceGenerators.Test;
 
+using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldNotTranslateLocalFunctions()"/>
-	public System.Threading.Tasks.Task AsyncOverload_ShouldNotTranslateLocalFunctionsAsync()
+	public Task AsyncOverload_ShouldNotTranslateLocalFunctionsAsync()
 	{
 		int Decrement(int i)
 		{
@@ -14,6 +17,6 @@ public partial class AsyncOverloadTestClass
 		}
 
 		Decrement(2);
-		return System.Threading.Tasks.Task.CompletedTask;
+		return Task.CompletedTask;
 	}
 }

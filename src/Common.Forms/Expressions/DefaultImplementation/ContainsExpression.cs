@@ -1,9 +1,9 @@
 namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class ContainsExpression<TElement>(
+internal partial class ContainsExpression<TElement>(
 	IFormExpression<IEnumerable<TElement>> list,
 	IFormExpression<TElement> item,
 	IEqualityComparer<TElement>? equalityComparer = null
@@ -14,18 +14,11 @@ internal class ContainsExpression<TElement>(
 	private readonly IEqualityComparer<TElement>? _equalityComparer = equalityComparer;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public bool EvaluateOn(IFormNode node)
 	{
 		var items = _list.EvaluateOn(node);
 		var searchTarget = _item.EvaluateOn(node);
-		return items.Contains(searchTarget, _equalityComparer);
-	}
-
-	/// <inheritdoc />
-	public async Task<bool> EvaluateOnAsync(IFormNode node)
-	{
-		var items = await _list.EvaluateOnAsync(node);
-		var searchTarget = await _item.EvaluateOnAsync(node);
 		return items.Contains(searchTarget, _equalityComparer);
 	}
 }

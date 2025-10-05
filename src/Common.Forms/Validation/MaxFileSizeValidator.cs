@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -10,7 +11,7 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="maxFileSizeInByte">The maximum size a file is allowed to be.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the file size.</param>
-public class MaxFileSizeValidator(long maxFileSizeInByte, string? errorMessageTemplate = null) : INodeValidator
+public partial class MaxFileSizeValidator(long maxFileSizeInByte, string? errorMessageTemplate = null) : INodeValidator
 {
 	public const string ErrorKey = nameof(TemplateRequiredValidator);
 	private readonly long _maxFileSize = maxFileSizeInByte;
@@ -18,6 +19,7 @@ public class MaxFileSizeValidator(long maxFileSizeInByte, string? errorMessageTe
 		errorMessageTemplate ?? Resources.TheFileInput_HasAMaximumFileSizeOf_;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not IFileNode fileNode)
@@ -41,13 +43,6 @@ public class MaxFileSizeValidator(long maxFileSizeInByte, string? errorMessageTe
 
 		// Too big.
 		fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Label, GetMaxSizeText()));
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 
 	private string GetMaxSizeText()

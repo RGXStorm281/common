@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -12,7 +13,7 @@ using RobinEpple.Common.Util;
 /// Requires the field value to be a valid email format.
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
-public class EmailValidator(string? errorMessageTemplate = null) : INodeValidator
+public partial class EmailValidator(string? errorMessageTemplate = null) : INodeValidator
 {
 	public const string ErrorKey = nameof(EmailValidator);
 	private readonly string _errorMessageTemplate =
@@ -25,6 +26,7 @@ public class EmailValidator(string? errorMessageTemplate = null) : INodeValidato
 	private static Regex _domainRegex = new Regex(@"(@)(.+)$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(200));
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not ITextNode textNode)
@@ -45,13 +47,6 @@ public class EmailValidator(string? errorMessageTemplate = null) : INodeValidato
 			// Invalid.
 			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Value));
 		}
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 
 	/// <summary>
