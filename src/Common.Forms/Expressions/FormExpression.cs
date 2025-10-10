@@ -10,16 +10,6 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 [StaticFactory(typeof(IFormExpression<>))]
 public static partial class FormExpression
 {
-	#region transform alias select
-
-	/// <inheritdoc cref="DefaultImplementation.Transform{TInput, TOutput}.Transform(Expressions.IFormExpression<TInput>,System.Func<TInput, TOutput>)"/>
-	public static IFormExpression<TOutput> Select<TInput, TOutput>(
-		this IFormExpression<TInput> source,
-		Func<TInput, TOutput> selector
-	) => source.Transform(selector);
-
-	#endregion
-
 	#region field value access
 
 	/// <summary>

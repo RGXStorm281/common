@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+[StaticFactoryMethodName("Subtract")]
 internal partial class DateSubtract(
 	[StaticFactoryThis] IFormExpression<DateTime> target,
 	IFormExpression<TimeSpan> timeSpan

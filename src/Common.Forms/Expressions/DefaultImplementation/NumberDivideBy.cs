@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+[StaticFactoryMethodName("DivideBy")]
 internal partial class NumberDivideBy(
 	[StaticFactoryThis] IFormExpression<decimal> target,
 	IFormExpression<decimal> factor

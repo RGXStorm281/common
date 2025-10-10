@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+[StaticFactoryMethodName("Add")]
 internal partial class NumberAdd([StaticFactoryThis] IFormExpression<decimal> left, IFormExpression<decimal> right)
 	: IFormExpression<decimal>
 {

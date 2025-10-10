@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+[StaticFactoryMethodName("MultiplyBy")]
 internal partial class NumberMultiplyBy(
 	[StaticFactoryThis] IFormExpression<decimal> target,
 	IFormExpression<decimal> factor

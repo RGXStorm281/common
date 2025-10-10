@@ -244,7 +244,8 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 			sb.AppendLine(IndentHelper.Indent(BuildConstructorInheritdoc(constructor)));
 
 			// Create the method signature.
-			var parameters = string.Join(", ", constructor.Parameters.Select(RenderParameter));
+			var parameterList = GetParameterList(constructor);
+			var parameters = RenderParameters(parameterList);
 			var constructorAccessModifier = constructor.DeclaredAccessibility.ToString().ToLower();
 			var typeParameterString = string.Empty;
 			if (constructor.ContainingType.TypeParameters.ToList() is { Count: > 0 } typeParameters)
@@ -262,9 +263,11 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 						IsMarkerInterface(implementedInterface, markerInterface)
 					);
 
+			var methodName = GetFactoryMethodName(interfaceImplementation);
+
 			sb.AppendLine(
 				IndentHelper.Indent(
-					$"{constructorAccessModifier} static {visibleType.ToDisplayString()} {interfaceImplementation.Name}{typeParameterString}({parameters})"
+					$"{constructorAccessModifier} static {visibleType.ToDisplayString()} {methodName}{typeParameterString}({parameters})"
 				)
 			);
 
@@ -311,18 +314,78 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		return $"/// <inheritdoc cref=\"{constructor.ContainingNamespace}.{constructor.ContainingType.Name}{typeParameterString}.{constructor.ContainingType.Name}({parameterTypes})\"/>";
 	}
 
-	private static string RenderParameter(IParameterSymbol p)
+	public static ParameterListSyntax? GetParameterList(IMethodSymbol methodSymbol)
 	{
-		var parameter = $"{p.Type.ToDisplayString()} {p.Name}";
-
-		foreach (var attribute in p.GetAttributes())
+		// Constructors, methods, local functions all have declarations
+		var syntaxRef = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault();
+		if (syntaxRef == null)
 		{
-			if (attribute.AttributeClass?.ToDisplayString() == typeof(StaticFactoryThisAttribute).FullName)
-			{
-				parameter = "this " + parameter;
-			}
+			return null; // No source (e.g. metadata only)
 		}
 
-		return parameter;
+		var syntaxNode = syntaxRef.GetSyntax();
+
+		// For constructors specifically:
+		if (syntaxNode is ConstructorDeclarationSyntax constructorSyntax)
+		{
+			return constructorSyntax.ParameterList;
+		}
+
+		// For normal methods:
+		if (syntaxNode is MethodDeclarationSyntax methodSyntax)
+		{
+			return methodSyntax.ParameterList;
+		}
+
+		// For primary constructors:
+		if (syntaxNode is ClassDeclarationSyntax classDeclaration)
+		{
+			return classDeclaration.ParameterList;
+		}
+
+		return null;
+	}
+
+	public static string GetFactoryMethodName(INamedTypeSymbol implementingType)
+	{
+		var explicitNameAttribute = implementingType
+			.GetAttributes()
+			.Where(attr => attr.AttributeClass?.ToDisplayString() == typeof(StaticFactoryMethodNameAttribute).FullName)
+			.FirstOrDefault();
+		if (explicitNameAttribute == null)
+		{
+			return implementingType.Name;
+		}
+
+		if (explicitNameAttribute.ConstructorArguments.Length != 1)
+		{
+			return implementingType.Name;
+		}
+
+		var explicitName = explicitNameAttribute.ConstructorArguments[0].Value as string;
+		if (explicitName is null)
+		{
+			return implementingType.Name;
+		}
+
+		return explicitName;
+	}
+
+	private static string RenderParameters(ParameterListSyntax? parameterList)
+	{
+		if (parameterList == null)
+		{
+			return string.Empty;
+		}
+
+		var parameterStrings = new List<string>();
+		foreach (var parameter in parameterList.Parameters)
+		{
+			var parameterString = parameter.WithoutTrivia().ToFullString();
+			parameterString = parameterString.Replace("[StaticFactoryThis]", "this");
+			parameterStrings.Add(parameterString);
+		}
+
+		return string.Join(", ", parameterStrings);
 	}
 }

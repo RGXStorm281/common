@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+[StaticFactoryMethodName("Difference")]
 internal partial class DateDifference(
 	[StaticFactoryThis] IFormExpression<DateTime> start,
 	IFormExpression<DateTime> end

@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+[StaticFactoryMethodName("MultiplyBy")]
 internal partial class TimeSpanMultiplyBy(
 	[StaticFactoryThis] IFormExpression<TimeSpan> target,
 	IFormExpression<decimal> factor

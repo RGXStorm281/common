@@ -3,6 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+[StaticFactoryMethodName("Select")]
 internal partial class Transform<TInput, TOutput>(
 	[StaticFactoryThis] IFormExpression<TInput> source,
 	Func<TInput, TOutput> selector

@@ -3,10 +3,10 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class Equals<TValue>(
+internal partial class IsEqualTo<TValue>(
 	[StaticFactoryThis] IFormExpression<TValue> left,
 	IFormExpression<TValue> right,
-	IEqualityComparer<TValue>? equalityComparer
+	IEqualityComparer<TValue>? equalityComparer = null
 ) : IFormExpression<bool>
 {
 	private readonly IFormExpression<TValue> _left = left;
