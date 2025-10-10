@@ -3,7 +3,8 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class NumberModulo(IFormExpression<int> target, IFormExpression<int> field) : IFormExpression<int>
+internal partial class NumberModulo([StaticFactoryThis] IFormExpression<int> target, IFormExpression<int> field)
+	: IFormExpression<int>
 {
 	private readonly IFormExpression<int> _target = target;
 	private readonly IFormExpression<int> _field = field;

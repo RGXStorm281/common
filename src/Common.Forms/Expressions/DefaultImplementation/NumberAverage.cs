@@ -3,7 +3,8 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class NumberAverage(IFormExpression<IEnumerable<decimal>> items) : IFormExpression<decimal>
+internal partial class NumberAverage([StaticFactoryThis] IFormExpression<IEnumerable<decimal>> items)
+	: IFormExpression<decimal>
 {
 	private readonly IFormExpression<IEnumerable<decimal>> _items = items;
 

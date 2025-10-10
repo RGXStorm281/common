@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class Conditional<TValue>(
-	IFormExpression<bool> condition,
+	[StaticFactoryThis] IFormExpression<bool> condition,
 	IFormExpression<TValue> whenTrue,
 	IFormExpression<TValue> whenFalse
 ) : IFormExpression<TValue>

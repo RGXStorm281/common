@@ -3,8 +3,10 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class Struct<TValue>(IFormExpression<TValue?> source, IFormExpression<TValue> fallbackValue)
-	: IFormExpression<TValue>
+internal partial class StructCoalesce<TValue>(
+	[StaticFactoryThis] IFormExpression<TValue?> source,
+	IFormExpression<TValue> fallbackValue
+) : IFormExpression<TValue>
 	where TValue : struct
 {
 	private readonly IFormExpression<TValue?> _source = source;

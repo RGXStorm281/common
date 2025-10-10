@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class BiggerThan<TComparable>(
-	IFormExpression<TComparable> source,
+	[StaticFactoryThis] IFormExpression<TComparable> source,
 	IFormExpression<TComparable> exclusiveLowerBound,
 	IComparer<TComparable>? comparer = null
 ) : IFormExpression<bool>

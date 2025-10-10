@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class Median<TComparable>(
-	IFormExpression<IEnumerable<TComparable>> items,
+	[StaticFactoryThis] IFormExpression<IEnumerable<TComparable>> items,
 	bool preferLowerIndex = false,
 	IComparer<TComparable>? comparer = null
 ) : IFormExpression<TComparable?>

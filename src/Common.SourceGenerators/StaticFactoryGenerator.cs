@@ -244,10 +244,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 			sb.AppendLine(IndentHelper.Indent(BuildConstructorInheritdoc(constructor)));
 
 			// Create the method signature.
-			var parameters = string.Join(
-				", ",
-				constructor.Parameters.Select(p => $"{p.Type.ToDisplayString()} {p.Name}")
-			);
+			var parameters = string.Join(", ", constructor.Parameters.Select(RenderParameter));
 			var constructorAccessModifier = constructor.DeclaredAccessibility.ToString().ToLower();
 			var typeParameterString = string.Empty;
 			if (constructor.ContainingType.TypeParameters.ToList() is { Count: > 0 } typeParameters)
@@ -312,5 +309,20 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 				"{" + string.Join(", ", typeParameters.Select(typeParameter => typeParameter.ToDisplayString())) + "}";
 		}
 		return $"/// <inheritdoc cref=\"{constructor.ContainingNamespace}.{constructor.ContainingType.Name}{typeParameterString}.{constructor.ContainingType.Name}({parameterTypes})\"/>";
+	}
+
+	private static string RenderParameter(IParameterSymbol p)
+	{
+		var parameter = $"{p.Type.ToDisplayString()} {p.Name}";
+
+		foreach (var attribute in p.GetAttributes())
+		{
+			if (attribute.AttributeClass?.ToDisplayString() == typeof(StaticFactoryThisAttribute).FullName)
+			{
+				parameter = "this " + parameter;
+			}
+		}
+
+		return parameter;
 	}
 }

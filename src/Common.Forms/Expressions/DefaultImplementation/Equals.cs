@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class Equals<TValue>(
-	IFormExpression<TValue> left,
+	[StaticFactoryThis] IFormExpression<TValue> left,
 	IFormExpression<TValue> right,
 	IEqualityComparer<TValue>? equalityComparer
 ) : IFormExpression<bool>

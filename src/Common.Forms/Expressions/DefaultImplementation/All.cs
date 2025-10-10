@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class All(IFormExpression<IEnumerable<bool>> operands) : IFormExpression<bool>
+internal partial class All([StaticFactoryThis] IFormExpression<IEnumerable<bool>> operands) : IFormExpression<bool>
 {
 	private readonly IFormExpression<IEnumerable<bool>> _operands = operands;
 

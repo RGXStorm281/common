@@ -3,8 +3,10 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class TimeSpanDivideBy(IFormExpression<TimeSpan> target, IFormExpression<decimal> factor)
-	: IFormExpression<TimeSpan>
+internal partial class TimeSpanDivideBy(
+	[StaticFactoryThis] IFormExpression<TimeSpan> target,
+	IFormExpression<decimal> factor
+) : IFormExpression<TimeSpan>
 {
 	private readonly IFormExpression<TimeSpan> _target = target;
 	private readonly IFormExpression<decimal> _factor = factor;

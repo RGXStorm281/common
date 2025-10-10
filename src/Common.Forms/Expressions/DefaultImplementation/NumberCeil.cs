@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class NumberCeil(IFormExpression<decimal> target) : IFormExpression<decimal>
+internal partial class NumberCeil([StaticFactoryThis] IFormExpression<decimal> target) : IFormExpression<decimal>
 {
 	private readonly IFormExpression<decimal> _target = target;
 

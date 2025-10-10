@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class Select<TInput, TOutput>(
-	IFormExpression<IEnumerable<TInput>> source,
+	[StaticFactoryThis] IFormExpression<IEnumerable<TInput>> source,
 	Func<TInput, TOutput> selector
 ) : IFormExpression<IEnumerable<TOutput>>
 {

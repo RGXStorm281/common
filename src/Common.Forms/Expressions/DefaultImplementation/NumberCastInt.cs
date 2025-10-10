@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class NumberCastInt(IFormExpression<decimal> target) : IFormExpression<int>
+internal partial class NumberCastInt([StaticFactoryThis] IFormExpression<decimal> target) : IFormExpression<int>
 {
 	private readonly IFormExpression<decimal> _target = target;
 

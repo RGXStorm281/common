@@ -4,7 +4,7 @@ using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class Min<TComparable>(
-	IFormExpression<IEnumerable<TComparable>> items,
+	[StaticFactoryThis] IFormExpression<IEnumerable<TComparable>> items,
 	IComparer<TComparable>? comparer = null
 ) : IFormExpression<TComparable?>
 	where TComparable : IComparable

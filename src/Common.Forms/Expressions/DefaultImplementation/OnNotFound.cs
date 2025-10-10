@@ -3,8 +3,10 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class OnNotFound<TValue>(IFormExpression<TValue> source, IFormExpression<TValue> fallbackValue)
-	: IFormExpression<TValue>
+internal partial class OnNotFound<TValue>(
+	[StaticFactoryThis] IFormExpression<TValue> source,
+	IFormExpression<TValue> fallbackValue
+) : IFormExpression<TValue>
 {
 	private readonly IFormExpression<TValue> _source = source;
 	private readonly IFormExpression<TValue> _fallbackValue = fallbackValue;

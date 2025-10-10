@@ -3,7 +3,8 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class NumberSum(IFormExpression<IEnumerable<decimal>> summands) : IFormExpression<decimal>
+internal partial class NumberSum([StaticFactoryThis] IFormExpression<IEnumerable<decimal>> summands)
+	: IFormExpression<decimal>
 {
 	private readonly IFormExpression<IEnumerable<decimal>> _summands = summands;
 

@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class DateAdd(IFormExpression<DateTime> target, IFormExpression<TimeSpan> timeSpan)
+internal partial class DateAdd([StaticFactoryThis] IFormExpression<DateTime> target, IFormExpression<TimeSpan> timeSpan)
 	: IFormExpression<DateTime>
 {
 	private readonly IFormExpression<DateTime> _target = target;

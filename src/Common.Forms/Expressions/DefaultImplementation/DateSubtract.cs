@@ -3,8 +3,10 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class DateSubtract(IFormExpression<DateTime> target, IFormExpression<TimeSpan> timeSpan)
-	: IFormExpression<DateTime>
+internal partial class DateSubtract(
+	[StaticFactoryThis] IFormExpression<DateTime> target,
+	IFormExpression<TimeSpan> timeSpan
+) : IFormExpression<DateTime>
 {
 	private readonly IFormExpression<DateTime> _target = target;
 	private readonly IFormExpression<TimeSpan> _timeSpan = timeSpan;

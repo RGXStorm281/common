@@ -3,7 +3,8 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class Or(IFormExpression<bool> left, IFormExpression<bool> right) : IFormExpression<bool>
+internal partial class Or([StaticFactoryThis] IFormExpression<bool> left, IFormExpression<bool> right)
+	: IFormExpression<bool>
 {
 	private readonly IFormExpression<bool> _left = left;
 	private readonly IFormExpression<bool> _right = right;

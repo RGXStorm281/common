@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Expressions.DefaultImplementation;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class NumberAdd(IFormExpression<decimal> left, IFormExpression<decimal> right)
+internal partial class NumberAdd([StaticFactoryThis] IFormExpression<decimal> left, IFormExpression<decimal> right)
 	: IFormExpression<decimal>
 {
 	private readonly IFormExpression<decimal> _left = left;
