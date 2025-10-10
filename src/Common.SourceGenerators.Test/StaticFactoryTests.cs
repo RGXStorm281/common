@@ -63,4 +63,12 @@ public sealed class StaticFactoryTests
 		StaticFactory.MarkedImplementationWithTypeParams(true);
 		Assert.IsTrue(true);
 	}
+
+	[TestMethod]
+	public void FactoryMethods_ShouldHandleInterfaces()
+	{
+		// When this compiles it succeeded.
+		var trueContainer = StaticFactory.MarkedImplementationWithBoolValue();
+		Assert.IsTrue(trueContainer.GetValue());
+	}
 }
