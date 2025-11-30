@@ -4,7 +4,7 @@
 /// A class marked with this attribute will get a static factory method generated for each constructor of each implementation of the <paramref name="markerInterface"/>.
 /// The class needs to be partial for the generated code to compile.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public class StaticFactoryAttribute : Attribute
 {
 	public Type MarkerInterface { get; }
