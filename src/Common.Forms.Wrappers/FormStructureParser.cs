@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Wrappers;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 
 public class StaticFormStructureParser
 {
@@ -172,7 +173,8 @@ public class StaticFormStructureParser
 				// First check the inner expression, might be the structure node before this one.
 				ParseInternal(invocationExpressionSyntax.Expression, context);
 
-				// TODO check if this invocation yields a structure node and append it to the context.
+				// Check if this invocation yields a structure node and append it to the context.
+				ProcessInvocation(invocationExpressionSyntax, context);
 				break;
 			}
 			case MemberAccessExpressionSyntax memberAccessExpressionSyntax:
@@ -241,5 +243,103 @@ public class StaticFormStructureParser
 				break;
 			}
 		}
+	}
+
+	/// <summary>
+	/// Check whether the invocation configures an addition to the form structure and potentially add the new structure element to the model.
+	/// </summary>
+	/// <param name="invocation">The method invocation in the current syntax context.</param>
+	/// <param name="semanticModel">The semantic model to look up method definitions.</param>
+	/// <param name="context">The context to add the structure elements to.</param>
+	private static void ProcessInvocation(InvocationExpressionSyntax invocation, CollectionContext context)
+	{
+		// 1. Resolve the method being invoked
+		var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
+		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
+		if (methodSymbol == null && symbolInfo.CandidateSymbols.Length == 1)
+		{
+			methodSymbol = symbolInfo.CandidateSymbols[0] as IMethodSymbol;
+		}
+		if (methodSymbol == null)
+		{
+			return;
+		}
+
+		// 2. Check for AddsFormNodeAttribute(Type nodeType)
+		var methodAttributes = AttributeCollector.CollectAllMethodAttributes(methodSymbol);
+		var addsFormNodeAttribute = methodAttributes.FirstOrDefault(attr =>
+			attr.AttributeClass?.Name == "AddsFormNodeAttribute"
+			|| attr.AttributeClass?.ToDisplayString() == "AddsFormNodeAttribute"
+		);
+		if (addsFormNodeAttribute == null)
+		{
+			return;
+		}
+
+		// 3. Extract fully qualified nodeType name
+		if (addsFormNodeAttribute.ConstructorArguments.Length < 1)
+		{
+			return;
+		}
+		var nodeTypeArgument = addsFormNodeAttribute.ConstructorArguments[0];
+		if (nodeTypeArgument.Value is not INamedTypeSymbol nodeTypeSymbol)
+		{
+			return;
+		}
+		var nodeType = nodeTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+
+		// 4. Find the parameter that has [NodeName]
+		var parameterAttributes = AttributeCollector.CollectAllParameterAttributes(methodSymbol);
+		int? nodeNameParameterIndex = null;
+		foreach (var kvp in parameterAttributes)
+		{
+			// This needs to be a loop, because "FirstOrDefault" on a <int,...> key value pair returns <0,...> as default, but 0 is a valid key.
+			var index = kvp.Key;
+			var attributes = kvp.Value;
+
+			if (
+				attributes.Any(attr =>
+					attr.AttributeClass?.Name == "NodeNameAttribute"
+					|| attr.AttributeClass?.ToDisplayString() == "NodeNameAttribute"
+				)
+			)
+			{
+				nodeNameParameterIndex = index;
+				break;
+			}
+		}
+		if (nodeNameParameterIndex == null)
+		{
+			return;
+		}
+		// Safely get the actual parameter symbol from the original method.
+		var nodeNameParameter = methodSymbol.Parameters[nodeNameParameterIndex.Value];
+		if (nodeNameParameter == null)
+		{
+			return;
+		}
+
+		// 5. Extract the argument value passed to the NodeName parameter
+		var operation = context.SemanticModel.GetOperation(invocation) as IInvocationOperation;
+		if (operation == null)
+		{
+			return;
+		}
+		var nodeNameArgument = operation.Arguments.FirstOrDefault(a =>
+			SymbolEqualityComparer.Default.Equals(a.Parameter, nodeNameParameter)
+		);
+		if (nodeNameArgument == null)
+		{
+			return;
+		}
+		var constant = nodeNameArgument.Value.ConstantValue;
+		if (!constant.HasValue || constant.Value is not string nodeName)
+		{
+			return;
+		}
+
+		// 6. Register the node in the context.
+		var formNode = new FormWrapperNode(nodeName, nodeType);
+		context.Node.Substructure.Add(formNode);
 	}
 }

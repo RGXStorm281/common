@@ -83,8 +83,8 @@ public class FormWrapperNode(string name, string type)
 	private string PrintFormNodeProperty()
 	{
 		var sb = new StringBuilder();
-		sb.Append($"public {NodeType} {GetNormalizedName()} =>");
-		sb.Append(@$"{_nodePropertyName}?.FindFirst(""{Name}"");");
+		sb.Append($"public {NodeType}? {GetNormalizedName()} => ");
+		sb.Append(@$"{_nodePropertyName}?.FindFirst(""{Name}"") as {NodeType};");
 		sb.AppendLine();
 		return sb.ToString();
 	}

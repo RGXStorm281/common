@@ -18,9 +18,22 @@ public partial class Wrappers
 	[GenerateFormWrapper(nameof(Form))]
 	private void BuildForm()
 	{
-		Form = new FormBuilder("Test").WithTextNode("Text").Build();
+		Form = new FormBuilder("Test")
+			.WithTextNode("Text")
+			.WithNumberNode("Number")
+			.WithBooleanNode("Boolean")
+			.WithTimestampNode("Timestamp")
+			.WithFileNode("File")
+			.Build();
 	}
 
 	[TestMethod]
-	public void GenerateFormWrapper_ShouldGeneratePropertiesForFields() { }
+	public void GenerateFormWrapper_ShouldGeneratePropertiesForFields()
+	{
+		Assert.IsTrue(FormWrapper.Text is ITextNode);
+		Assert.IsTrue(FormWrapper.Number is INumberNode);
+		Assert.IsTrue(FormWrapper.Boolean is IBooleanNode);
+		Assert.IsTrue(FormWrapper.Timestamp is ITimestampNode);
+		Assert.IsTrue(FormWrapper.File is IFileNode);
+	}
 }

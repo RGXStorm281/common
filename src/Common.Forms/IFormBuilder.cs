@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms;
 
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Forms.Wrappers.Abstractions;
 
 public interface IFormBuilder : INodeBuilder<IFormBuilder>
 {
@@ -95,7 +96,8 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithTextNode(string name, TextFieldBuilder? configure = null);
+	[AddsFormNode(typeof(ITextNode))]
+	public IFormBuilder WithTextNode([NodeName] string name, TextFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="INumberNode"/> to the form.
@@ -103,7 +105,8 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithNumberNode(string name, NumberFieldBuilder? configure = null);
+	[AddsFormNode(typeof(INumberNode))]
+	public IFormBuilder WithNumberNode([NodeName] string name, NumberFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="ITimestampNode"/> to the form.
@@ -111,7 +114,8 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithTimestampNode(string name, TimestampFieldBuilder? configure = null);
+	[AddsFormNode(typeof(ITimestampNode))]
+	public IFormBuilder WithTimestampNode([NodeName] string name, TimestampFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="IBooleanNode"/> to the form.
@@ -119,7 +123,8 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithBooleanNode(string name, BooleanFieldBuilder? configure = null);
+	[AddsFormNode(typeof(IBooleanNode))]
+	public IFormBuilder WithBooleanNode([NodeName] string name, BooleanFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="IFileNode"/> to the form.
@@ -127,7 +132,8 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the field.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithFileNode(string name, FileFieldBuilder? configure = null);
+	[AddsFormNode(typeof(IFileNode))]
+	public IFormBuilder WithFileNode([NodeName] string name, FileFieldBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="ICollectionNode"/> to the form.
@@ -135,7 +141,8 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the collection.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithCollectionNode(string name, CollectionBuilder? configure = null);
+	[AddsFormNode(typeof(ICollectionNode))]
+	public IFormBuilder WithCollectionNode([NodeName] string name, CollectionBuilder? configure = null);
 
 	/// <summary>
 	/// Adds a <see cref="ITemplateNode"/> to the form.
@@ -143,7 +150,8 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the node. This should be unique.</param>
 	/// <param name="configure">A function to configure the template section.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithTemplatedSection(string name, TemplatedSectionBuilder? configure = null);
+	[AddsFormNode(typeof(ITemplateNode))]
+	public IFormBuilder WithTemplatedSection([NodeName] string name, TemplatedSectionBuilder? configure = null);
 
 	/// <summary>
 	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>
