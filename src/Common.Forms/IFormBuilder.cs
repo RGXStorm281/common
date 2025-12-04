@@ -81,7 +81,11 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="name">The name of the sub form.</param>
 	/// <param name="configure">A function to configure the sub form.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
-	public IFormBuilder WithSection(string name, SubFormBuilder? configure = null);
+	[AddsFormNode(typeof(IForm))]
+	public IFormBuilder WithSection(
+		[NodeName] string name,
+		[SubstructureConfiguration] SubFormBuilder? configure = null
+	);
 
 	/// <summary>
 	/// Adds a sub form for grouping some nodes.

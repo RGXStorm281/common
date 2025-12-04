@@ -6,10 +6,19 @@ using Microsoft.CodeAnalysis.Operations;
 
 public class StaticFormStructureParser
 {
-	private class CollectionContext(SemanticModel semanticModel, string name, string type)
+	private class CollectionContext
 	{
-		public SemanticModel SemanticModel { get; } = semanticModel;
-		public FormWrapperNode Node { get; } = new FormWrapperNode(name, type);
+		public CollectionContext(SemanticModel semanticModel, FormWrapperNode node)
+		{
+			SemanticModel = semanticModel;
+			Node = node;
+		}
+
+		public CollectionContext(SemanticModel semanticModel, string name, string type)
+			: this(semanticModel, new FormWrapperNode(name, type)) { }
+
+		public SemanticModel SemanticModel { get; }
+		public FormWrapperNode Node { get; }
 	}
 
 	/// <summary>
@@ -35,7 +44,7 @@ public class StaticFormStructureParser
 		return context.Node;
 	}
 
-	private void ParseInternal(StatementSyntax? statement, CollectionContext context)
+	private static void ParseInternal(StatementSyntax? statement, CollectionContext context)
 	{
 		switch (statement)
 		{
@@ -139,7 +148,7 @@ public class StaticFormStructureParser
 		}
 	}
 
-	private void ParseInternal(ExpressionSyntax? expression, CollectionContext context)
+	private static void ParseInternal(ExpressionSyntax? expression, CollectionContext context)
 	{
 		if (expression == null)
 		{
@@ -254,12 +263,7 @@ public class StaticFormStructureParser
 	private static void ProcessInvocation(InvocationExpressionSyntax invocation, CollectionContext context)
 	{
 		// 1. Resolve the method being invoked
-		var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
-		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
-		if (methodSymbol == null && symbolInfo.CandidateSymbols.Length == 1)
-		{
-			methodSymbol = symbolInfo.CandidateSymbols[0] as IMethodSymbol;
-		}
+		var methodSymbol = GetMethodSymbol(invocation, context);
 		if (methodSymbol == null)
 		{
 			return;
@@ -290,30 +294,7 @@ public class StaticFormStructureParser
 
 		// 4. Find the parameter that has [NodeName]
 		var parameterAttributes = AttributeCollector.CollectAllParameterAttributes(methodSymbol);
-		int? nodeNameParameterIndex = null;
-		foreach (var kvp in parameterAttributes)
-		{
-			// This needs to be a loop, because "FirstOrDefault" on a <int,...> key value pair returns <0,...> as default, but 0 is a valid key.
-			var index = kvp.Key;
-			var attributes = kvp.Value;
-
-			if (
-				attributes.Any(attr =>
-					attr.AttributeClass?.Name == "NodeNameAttribute"
-					|| attr.AttributeClass?.ToDisplayString() == "NodeNameAttribute"
-				)
-			)
-			{
-				nodeNameParameterIndex = index;
-				break;
-			}
-		}
-		if (nodeNameParameterIndex == null)
-		{
-			return;
-		}
-		// Safely get the actual parameter symbol from the original method.
-		var nodeNameParameter = methodSymbol.Parameters[nodeNameParameterIndex.Value];
+		var nodeNameParameter = GetParameterForAttribute(methodSymbol, parameterAttributes, "NodeNameAttribute");
 		if (nodeNameParameter == null)
 		{
 			return;
@@ -339,7 +320,142 @@ public class StaticFormStructureParser
 		}
 
 		// 6. Register the node in the context.
-		var formNode = new FormWrapperNode(nodeName, nodeType);
-		context.Node.Substructure.Add(formNode);
+		var subNode = new FormWrapperNode(nodeName, nodeType);
+		context.Node.Substructure.Add(subNode);
+
+		// 7. Check for [SubstructureConfiguration] parameter and extract the configuration body.
+		var substructureParameter = GetParameterForAttribute(
+			methodSymbol,
+			parameterAttributes,
+			"SubstructureConfigurationAttribute"
+		);
+		if (substructureParameter == null)
+		{
+			return;
+		}
+		var substructureArgument = operation.Arguments.FirstOrDefault(a =>
+			SymbolEqualityComparer.Default.Equals(a.Parameter, substructureParameter)
+		);
+		if (substructureArgument == null)
+		{
+			return;
+		}
+
+		// A substructure argument was passed. Process it in a new context.
+		var substructureContext = new CollectionContext(context.SemanticModel, subNode);
+		var substructureExpression = substructureArgument.Value.Syntax as ExpressionSyntax;
+		if (substructureExpression == null)
+		{
+			return;
+		}
+		var configurationBody = TryGetExecutableBody(substructureExpression, context.SemanticModel);
+		switch (configurationBody)
+		{
+			case StatementSyntax statement:
+			{
+				ParseInternal(statement, substructureContext);
+				break;
+			}
+			case ExpressionSyntax expression:
+			{
+				ParseInternal(expression, substructureContext);
+				break;
+			}
+		}
+	}
+
+	private static IMethodSymbol? GetMethodSymbol(SyntaxNode syntax, CollectionContext context)
+	{
+		var symbolInfo = context.SemanticModel.GetSymbolInfo(syntax);
+		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
+		if (methodSymbol == null && symbolInfo.CandidateSymbols.Length == 1)
+		{
+			methodSymbol = symbolInfo.CandidateSymbols[0] as IMethodSymbol;
+		}
+		return methodSymbol;
+	}
+
+	private static IParameterSymbol? GetParameterForAttribute(
+		IMethodSymbol methodSymbol,
+		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
+		string parameterTypeName
+	)
+	{
+		var parameterIndex = GetParameterIndexForAttribute(parameterAttributes, parameterTypeName);
+		if (parameterIndex == null)
+		{
+			return null;
+		}
+		// Safely get the actual parameter symbol from the original method.
+		return methodSymbol.Parameters[parameterIndex.Value];
+	}
+
+	private static int? GetParameterIndexForAttribute(
+		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
+		string parameterTypeName
+	)
+	{
+		// This needs to be a loop, because "FirstOrDefault" on a <int,...> key value pair returns <0,...> as default, but 0 is a valid key.
+		foreach (var kvp in parameterAttributes)
+		{
+			if (
+				kvp.Value.Any(attr =>
+					attr.AttributeClass?.Name == parameterTypeName
+					|| attr.AttributeClass?.ToDisplayString() == parameterTypeName
+				)
+			)
+			{
+				return kvp.Key;
+			}
+		}
+		return null;
+	}
+
+	private static SyntaxNode? TryGetExecutableBody(ExpressionSyntax expression, SemanticModel semanticModel)
+	{
+		// Case 1: Lambda expressions
+		if (expression is LambdaExpressionSyntax lambda)
+		{
+			return lambda.Body; // Can be BlockSyntax or ExpressionSyntax
+		}
+
+		// Case 2: Anonymous delegate: delegate(...) { ... }
+		if (expression is AnonymousMethodExpressionSyntax anonymousMethod)
+		{
+			return anonymousMethod.Block;
+		}
+
+		// Case 3: Method group or named method reference (local, instance, static)
+		var symbolInfo = semanticModel.GetSymbolInfo(expression);
+		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
+
+		if (methodSymbol == null && symbolInfo.CandidateSymbols.Length == 1)
+		{
+			methodSymbol = symbolInfo.CandidateSymbols[0] as IMethodSymbol;
+		}
+
+		if (methodSymbol == null)
+		{
+			return null;
+		}
+
+		var syntaxRef = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault();
+		if (syntaxRef == null)
+		{
+			return null;
+		}
+
+		var methodSyntax = syntaxRef.GetSyntax();
+
+		switch (methodSyntax)
+		{
+			case MethodDeclarationSyntax method:
+				return method.Body ?? (SyntaxNode?)method.ExpressionBody?.Expression;
+
+			case LocalFunctionStatementSyntax localFunction:
+				return localFunction.Body ?? (SyntaxNode?)localFunction.ExpressionBody?.Expression;
+		}
+
+		return null;
 	}
 }

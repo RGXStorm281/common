@@ -132,11 +132,11 @@ public class FormWrapperNode(string name, string type)
 	private string PrintWrapperProperty(string wrapperTypeName, bool nodeIsTemplate)
 	{
 		var nodeAccessor = nodeIsTemplate
-			? @$"{_nodePropertyName}?.Templates.First(template => template.Name == ""{Name}"")"
-			: @$"{_nodePropertyName}?.FindFirst(""{Name}"")";
+			? @$"{_nodePropertyName}?.Templates.First(template => template.Name == ""{Name}"") as {NodeType}"
+			: @$"{_nodePropertyName}?.FindFirst(""{Name}"") as {NodeType}";
 
 		var sb = new StringBuilder();
-		sb.Append($"public {wrapperTypeName} {GetNormalizedName()} =>");
+		sb.Append($"public {wrapperTypeName} {GetNormalizedName()} => ");
 		sb.Append(@$"new {wrapperTypeName}({nodeAccessor});");
 		sb.AppendLine();
 		return sb.ToString();
