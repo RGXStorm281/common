@@ -163,7 +163,7 @@ public class FormWrapperGenerator : IIncrementalGenerator
 			sb.AppendLine("{");
 
 			var structure = new StaticFormStructureParser().ParseStaticFormStructure(methodDeclaration, semanticModel);
-			sb.Append(IndentHelper.Indent(structure.PrintWrapperType(wrapperTypeName)));
+			sb.Append(IndentHelper.Indent(structure.PrintWrapperType(wrapperTypeName, nodeIsFormWrapper: true)));
 			sb.AppendLine();
 			sb.AppendLine(
 				IndentHelper.Indent(

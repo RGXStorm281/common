@@ -268,20 +268,59 @@ public class StaticFormStructureParser
 		{
 			return;
 		}
-
-		// 2. Check for AddsFormNodeAttribute(Type nodeType)
-		var methodAttributes = AttributeCollector.CollectAllMethodAttributes(methodSymbol);
-		var addsFormNodeAttribute = methodAttributes.FirstOrDefault(attr =>
-			attr.AttributeClass?.Name == "AddsFormNodeAttribute"
-			|| attr.AttributeClass?.ToDisplayString() == "AddsFormNodeAttribute"
-		);
-		if (addsFormNodeAttribute == null)
+		var operation = context.SemanticModel.GetOperation(invocation) as IInvocationOperation;
+		if (operation == null)
 		{
 			return;
 		}
 
-		// 3. Extract fully qualified nodeType name
-		if (addsFormNodeAttribute.ConstructorArguments.Length < 1)
+		// 2. Handle different structure elements.
+		HandleFormNodes(methodSymbol, operation, context);
+		HandleTemplates(methodSymbol, operation, context);
+	}
+
+	private static IMethodSymbol? GetMethodSymbol(SyntaxNode syntax, CollectionContext context)
+	{
+		var symbolInfo = context.SemanticModel.GetSymbolInfo(syntax);
+		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
+		if (methodSymbol == null && symbolInfo.CandidateSymbols.Length == 1)
+		{
+			methodSymbol = symbolInfo.CandidateSymbols[0] as IMethodSymbol;
+		}
+		return methodSymbol;
+	}
+
+	private static bool TryGetAttribute(
+		IReadOnlyList<AttributeData?> attributes,
+		string attributeTypeName,
+		out AttributeData? attribute
+	)
+	{
+		attribute = attributes.FirstOrDefault(attr =>
+			attr != null
+			&& (
+				attr.AttributeClass?.Name == attributeTypeName
+				|| attr.AttributeClass?.ToDisplayString() == attributeTypeName
+			)
+		);
+		return attribute != null;
+	}
+
+	private static void HandleFormNodes(
+		IMethodSymbol methodSymbol,
+		IInvocationOperation operation,
+		CollectionContext context
+	)
+	{
+		// 1. Check for AddsFormNodeAttribute(Type nodeType)
+		var methodAttributes = AttributeCollector.CollectAllMethodAttributes(methodSymbol);
+		if (!TryGetAttribute(methodAttributes, "AddsFormNodeAttribute", out var addsFormNodeAttribute))
+		{
+			return;
+		}
+
+		// 2. Extract fully qualified nodeType name
+		if (addsFormNodeAttribute!.ConstructorArguments.Length < 1)
 		{
 			return;
 		}
@@ -292,20 +331,21 @@ public class StaticFormStructureParser
 		}
 		var nodeType = nodeTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
-		// 4. Find the parameter that has [NodeName]
+		// 3. Find the parameter that has [NodeName]
 		var parameterAttributes = AttributeCollector.CollectAllParameterAttributes(methodSymbol);
-		var nodeNameParameter = GetParameterForAttribute(methodSymbol, parameterAttributes, "NodeNameAttribute");
-		if (nodeNameParameter == null)
+		if (
+			!TryGetParameterForAttribute(
+				methodSymbol,
+				parameterAttributes,
+				"NodeNameAttribute",
+				out var nodeNameParameter
+			)
+		)
 		{
 			return;
 		}
 
-		// 5. Extract the argument value passed to the NodeName parameter
-		var operation = context.SemanticModel.GetOperation(invocation) as IInvocationOperation;
-		if (operation == null)
-		{
-			return;
-		}
+		// 4. Extract the argument value passed to the NodeName parameter
 		var nodeNameArgument = operation.Arguments.FirstOrDefault(a =>
 			SymbolEqualityComparer.Default.Equals(a.Parameter, nodeNameParameter)
 		);
@@ -319,17 +359,80 @@ public class StaticFormStructureParser
 			return;
 		}
 
-		// 6. Register the node in the context.
+		// 5. Register the node in the context.
 		var subNode = new FormWrapperNode(nodeName, nodeType);
 		context.Node.Substructure.Add(subNode);
 
-		// 7. Check for [SubstructureConfiguration] parameter and extract the configuration body.
-		var substructureParameter = GetParameterForAttribute(
-			methodSymbol,
-			parameterAttributes,
-			"SubstructureConfigurationAttribute"
+		// 5. Handle substructure if provided.
+		HandleSubstructureConfiguration(methodSymbol, parameterAttributes, operation, context, subNode);
+	}
+
+	private static void HandleTemplates(
+		IMethodSymbol methodSymbol,
+		IInvocationOperation operation,
+		CollectionContext context
+	)
+	{
+		// 1. Check for AddsTemplateAttribute
+		var methodAttributes = AttributeCollector.CollectAllMethodAttributes(methodSymbol);
+		if (!TryGetAttribute(methodAttributes, "AddsTemplateAttribute", out var addsTemplateAttribute))
+		{
+			return;
+		}
+
+		// 2. Find the parameter that has [NodeName]
+		var parameterAttributes = AttributeCollector.CollectAllParameterAttributes(methodSymbol);
+		if (
+			!TryGetParameterForAttribute(
+				methodSymbol,
+				parameterAttributes,
+				"NodeNameAttribute",
+				out var nodeNameParameter
+			)
+		)
+		{
+			return;
+		}
+
+		// 3. Extract the argument value passed to the NodeName parameter
+		var nodeNameArgument = operation.Arguments.FirstOrDefault(a =>
+			SymbolEqualityComparer.Default.Equals(a.Parameter, nodeNameParameter)
 		);
-		if (substructureParameter == null)
+		if (nodeNameArgument == null)
+		{
+			return;
+		}
+		var constant = nodeNameArgument.Value.ConstantValue;
+		if (!constant.HasValue || constant.Value is not string nodeName)
+		{
+			return;
+		}
+
+		// 4. Register the node in the context.
+		var templateNode = new FormWrapperNode(nodeName, "RobinEpple.Common.Forms.Nodes.IForm");
+		context.Node.Templates.Add(templateNode);
+
+		// 5. Handle substructure if provided.
+		HandleSubstructureConfiguration(methodSymbol, parameterAttributes, operation, context, templateNode);
+	}
+
+	private static void HandleSubstructureConfiguration(
+		IMethodSymbol methodSymbol,
+		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
+		IInvocationOperation operation,
+		CollectionContext context,
+		FormWrapperNode newNode
+	)
+	{
+		// Check for [SubstructureConfiguration] parameter and extract the configuration body.
+		if (
+			!TryGetParameterForAttribute(
+				methodSymbol,
+				parameterAttributes,
+				"SubstructureConfigurationAttribute",
+				out var substructureParameter
+			)
+		)
 		{
 			return;
 		}
@@ -342,7 +445,7 @@ public class StaticFormStructureParser
 		}
 
 		// A substructure argument was passed. Process it in a new context.
-		var substructureContext = new CollectionContext(context.SemanticModel, subNode);
+		var substructureContext = new CollectionContext(context.SemanticModel, newNode);
 		var substructureExpression = substructureArgument.Value.Syntax as ExpressionSyntax;
 		if (substructureExpression == null)
 		{
@@ -364,46 +467,33 @@ public class StaticFormStructureParser
 		}
 	}
 
-	private static IMethodSymbol? GetMethodSymbol(SyntaxNode syntax, CollectionContext context)
-	{
-		var symbolInfo = context.SemanticModel.GetSymbolInfo(syntax);
-		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
-		if (methodSymbol == null && symbolInfo.CandidateSymbols.Length == 1)
-		{
-			methodSymbol = symbolInfo.CandidateSymbols[0] as IMethodSymbol;
-		}
-		return methodSymbol;
-	}
-
-	private static IParameterSymbol? GetParameterForAttribute(
+	private static bool TryGetParameterForAttribute(
 		IMethodSymbol methodSymbol,
 		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
-		string parameterTypeName
+		string parameterTypeName,
+		out IParameterSymbol? parameter
 	)
 	{
+		parameter = null;
 		var parameterIndex = GetParameterIndexForAttribute(parameterAttributes, parameterTypeName);
 		if (parameterIndex == null)
 		{
-			return null;
+			return false;
 		}
 		// Safely get the actual parameter symbol from the original method.
-		return methodSymbol.Parameters[parameterIndex.Value];
+		parameter = methodSymbol.Parameters[parameterIndex.Value];
+		return true;
 	}
 
 	private static int? GetParameterIndexForAttribute(
 		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
-		string parameterTypeName
+		string attributeTypeName
 	)
 	{
 		// This needs to be a loop, because "FirstOrDefault" on a <int,...> key value pair returns <0,...> as default, but 0 is a valid key.
 		foreach (var kvp in parameterAttributes)
 		{
-			if (
-				kvp.Value.Any(attr =>
-					attr.AttributeClass?.Name == parameterTypeName
-					|| attr.AttributeClass?.ToDisplayString() == parameterTypeName
-				)
-			)
+			if (TryGetAttribute(kvp.Value, attributeTypeName, out _))
 			{
 				return kvp.Key;
 			}

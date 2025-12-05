@@ -146,7 +146,11 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="configure">A function to configure the collection.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	[AddsFormNode(typeof(ICollectionNode))]
-	public IFormBuilder WithCollectionNode([NodeName] string name, CollectionBuilder? configure = null);
+	[NodeHasInstanceProperty(nameof(ICollectionNode.Instances), isCollection: true)]
+	public IFormBuilder WithCollectionNode(
+		[NodeName] string name,
+		[SubstructureConfiguration] CollectionBuilder? configure = null
+	);
 
 	/// <summary>
 	/// Adds a <see cref="ITemplateNode"/> to the form.
@@ -155,7 +159,11 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// <param name="configure">A function to configure the template section.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	[AddsFormNode(typeof(ITemplateNode))]
-	public IFormBuilder WithTemplatedSection([NodeName] string name, TemplatedSectionBuilder? configure = null);
+	[NodeHasInstanceProperty(nameof(ITemplateNode.Instance), isCollection: false)]
+	public IFormBuilder WithTemplatedSection(
+		[NodeName] string name,
+		[SubstructureConfiguration] TemplatedSectionBuilder? configure = null
+	);
 
 	/// <summary>
 	/// Registers a factory method, that creates a new model object for each instance of this form.<br/>

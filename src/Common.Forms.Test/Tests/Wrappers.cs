@@ -11,6 +11,7 @@ public partial class Wrappers
 	{
 		BuildFields();
 		BuildSubstructure();
+		BuildTemplates();
 	}
 
 	public IForm Fields { get; private set; }
@@ -67,5 +68,26 @@ public partial class Wrappers
 		Assert.IsTrue(SubstructureWrapper.Section.Boolean is IBooleanNode);
 		Assert.IsTrue(SubstructureWrapper.Section.Timestamp is ITimestampNode);
 		Assert.IsTrue(SubstructureWrapper.Section.File is IFileNode);
+	}
+
+	public IForm Templates { get; private set; }
+
+	[MemberNotNull(nameof(Templates))]
+	[GenerateFormWrapper(nameof(Templates))]
+	private void BuildTemplates()
+	{
+		Templates = new FormBuilder("Test")
+			.WithTemplatedSection(
+				"TemplatedSection",
+				(templates, _) =>
+					templates.UseTemplate("First", firstTemplate => firstTemplate.WithBooleanNode("BooleanNode"))
+			)
+			.Build();
+	}
+
+	[TestMethod]
+	public void GenerateFormWrapper_ShouldHandleTemplatesAndInstances()
+	{
+		Assert.IsTrue(TemplatesWrapper.TemplatedSection.FirstTemplate.BooleanNode is IBooleanNode);
 	}
 }
