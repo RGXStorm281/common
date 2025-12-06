@@ -15,6 +15,8 @@ public class FormWrapperNode(string name, string type)
 	// --------------- collections and templated sections ---------------
 	public List<FormWrapperNode> Templates { get; set; } = [];
 	public bool HasTemplates => Templates.Any();
+	public List<InstanceProperty> InstanceProperties { get; } = [];
+	public bool HasInstanceProperties => InstanceProperties.Any();
 
 	// --------------- form nodes with inner structure ---------------
 	public List<FormWrapperNode> Substructure { get; set; } = [];
@@ -60,6 +62,8 @@ public class FormWrapperNode(string name, string type)
 		return normalizedName.ToString();
 	}
 
+	public string GetTypeName() => GetNormalizedName() + "Wrapper";
+
 	public string GetSource(bool nodeIsTemplate)
 	{
 		if (!nodeIsTemplate && !HasTemplates && !HasSubstructure)
@@ -71,7 +75,7 @@ public class FormWrapperNode(string name, string type)
 
 		// Otherwise we need to build a wrapper type.
 		var source = new StringBuilder();
-		var wrapperTypeName = GetNormalizedName() + "Wrapper";
+		var wrapperTypeName = GetTypeName();
 
 		source.Append(PrintWrapperType(wrapperTypeName, nodeIsTemplate));
 		source.AppendLine();
@@ -103,7 +107,25 @@ public class FormWrapperNode(string name, string type)
 		{
 			type.AppendLine();
 			type.Append(IndentHelper.Indent(template.GetSource(true)));
+			if (HasInstanceProperties)
+			{
+				type.AppendLine();
+				type.Append(IndentHelper.Indent(PrintInstantiationFunction(template)));
+			}
 		}
+
+		if (HasInstanceProperties)
+		{
+			type.AppendLine();
+			type.Append(IndentHelper.Indent(PrintInstanceWrapperFunction()));
+
+			foreach (var instanceProperty in InstanceProperties)
+			{
+				type.AppendLine();
+				type.Append(IndentHelper.Indent(PrintInstanceProperty(instanceProperty)));
+			}
+		}
+
 		foreach (var subNode in Substructure)
 		{
 			type.AppendLine();
@@ -111,6 +133,79 @@ public class FormWrapperNode(string name, string type)
 		}
 		type.AppendLine("}");
 		return type.ToString();
+	}
+
+	private string PrintInstanceWrapperFunction()
+	{
+		var sb = new StringBuilder();
+		sb.AppendLine(
+			"private RobinEpple.Common.Forms.IFormWrapper? WrapInstance(RobinEpple.Common.Forms.Nodes.IForm? instance)"
+		);
+		sb.AppendLine("{");
+		sb.AppendLine(IndentHelper.Indent("switch(instance?.Name)"));
+		sb.AppendLine(IndentHelper.Indent("{"));
+		foreach (var template in Templates)
+		{
+			sb.AppendLine(IndentHelper.Indent(@$"case ""{template.Name}"":", 2));
+			sb.AppendLine(IndentHelper.Indent("{", 2));
+			sb.AppendLine(IndentHelper.Indent($"return new {template.GetTypeName()}(instance);", 3));
+			sb.AppendLine(IndentHelper.Indent("}", 2));
+		}
+		sb.AppendLine(IndentHelper.Indent("default:", 2));
+		sb.AppendLine(IndentHelper.Indent("{", 2));
+		sb.AppendLine(IndentHelper.Indent("return null;", 3));
+		sb.AppendLine(IndentHelper.Indent("}", 2));
+		sb.AppendLine(IndentHelper.Indent("}"));
+		sb.AppendLine("}");
+
+		return sb.ToString();
+	}
+
+	private string PrintInstantiationFunction(FormWrapperNode template)
+	{
+		var templateName = template.GetNormalizedName();
+		var sb = new StringBuilder();
+		sb.AppendLine($"public bool TryInstantiate{templateName}(out {template.GetTypeName()}? newInstance)");
+		sb.AppendLine("{");
+		sb.AppendLine(IndentHelper.Indent("newInstance = null;"));
+		sb.AppendLine(IndentHelper.Indent("if ("));
+		sb.AppendLine(IndentHelper.Indent($"{_nodePropertyName} is {{ }} node", 2));
+		sb.AppendLine(IndentHelper.Indent($"&& {templateName}Template.Node is {{ }} template", 2));
+		sb.AppendLine(IndentHelper.Indent(")"));
+		sb.AppendLine(IndentHelper.Indent("{"));
+		sb.AppendLine(
+			IndentHelper.Indent($"newInstance = new {template.GetTypeName()}(node.Instantiate(template));", 2)
+		);
+		sb.AppendLine(IndentHelper.Indent("return true;", 2));
+		sb.AppendLine(IndentHelper.Indent("}"));
+		sb.AppendLine(IndentHelper.Indent("return false;"));
+		sb.AppendLine("}");
+		return sb.ToString();
+	}
+
+	private string PrintInstanceProperty(InstanceProperty instanceProperty)
+	{
+		if (instanceProperty.IsCollection)
+		{
+			var sb = new StringBuilder();
+			sb.Append($"public IEnumerable<RobinEpple.Common.Forms.IFormWrapper> {instanceProperty.Name} => ");
+			sb.Append(
+				$"({_nodePropertyName}?.{instanceProperty.Name} ?? []).OfType<RobinEpple.Common.Forms.Nodes.IForm>()"
+			);
+			sb.Append($".Select(WrapInstance).OfType<RobinEpple.Common.Forms.IFormWrapper>();");
+			sb.AppendLine();
+			return sb.ToString();
+		}
+		else
+		{
+			var sb = new StringBuilder();
+			sb.Append($"public RobinEpple.Common.Forms.IFormWrapper? {instanceProperty.Name} => ");
+			sb.Append(
+				$"WrapInstance({_nodePropertyName}?.{instanceProperty.Name} as RobinEpple.Common.Forms.Nodes.IForm);"
+			);
+			sb.AppendLine();
+			return sb.ToString();
+		}
 	}
 
 	private string PrintWrapperProperty(string wrapperTypeName, bool nodeIsTemplate)

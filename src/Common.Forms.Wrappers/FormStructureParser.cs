@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Wrappers;
 
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
@@ -8,16 +9,18 @@ public class StaticFormStructureParser
 {
 	private class CollectionContext
 	{
-		public CollectionContext(SemanticModel semanticModel, FormWrapperNode node)
+		public CollectionContext(SemanticModel semanticModel, MessageLogger logger, FormWrapperNode node)
 		{
 			SemanticModel = semanticModel;
+			Logger = logger;
 			Node = node;
 		}
 
-		public CollectionContext(SemanticModel semanticModel, string name, string type)
-			: this(semanticModel, new FormWrapperNode(name, type)) { }
+		public CollectionContext(SemanticModel semanticModel, MessageLogger logger, string name, string type)
+			: this(semanticModel, logger, new FormWrapperNode(name, type)) { }
 
 		public SemanticModel SemanticModel { get; }
+		public MessageLogger Logger { get; }
 		public FormWrapperNode Node { get; }
 	}
 
@@ -29,10 +32,11 @@ public class StaticFormStructureParser
 	/// <returns>The root node of the form structure.</returns>
 	public FormWrapperNode ParseStaticFormStructure(
 		MethodDeclarationSyntax methodDeclaration,
-		SemanticModel semanticModel
+		SemanticModel semanticModel,
+		MessageLogger logger
 	)
 	{
-		var context = new CollectionContext(semanticModel, string.Empty, "RobinEpple.Common.Forms.Nodes.IForm");
+		var context = new CollectionContext(semanticModel, logger, string.Empty, "RobinEpple.Common.Forms.Nodes.IForm");
 		if (methodDeclaration.Body != null)
 		{
 			ParseInternal(methodDeclaration.Body, context);
@@ -306,6 +310,24 @@ public class StaticFormStructureParser
 		return attribute != null;
 	}
 
+	private static IEnumerable<AttributeData> GetAttributes(
+		IReadOnlyList<AttributeData?> attributes,
+		string attributeTypeName
+	)
+	{
+		var matches = attributes
+			.Where(attr =>
+				attr != null
+				&& (
+					attr.AttributeClass?.Name == attributeTypeName
+					|| attr.AttributeClass?.ToDisplayString() == attributeTypeName
+				)
+			)
+			.OfType<AttributeData>()
+			.ToList();
+		return matches;
+	}
+
 	private static void HandleFormNodes(
 		IMethodSymbol methodSymbol,
 		IInvocationOperation operation,
@@ -365,6 +387,28 @@ public class StaticFormStructureParser
 
 		// 5. Handle substructure if provided.
 		HandleSubstructureConfiguration(methodSymbol, parameterAttributes, operation, context, subNode);
+
+		// 6. Handle instance properties if specified.
+		var instanceAttributes = GetAttributes(methodAttributes, "NodeHasInstancePropertyAttribute");
+		foreach (var instanceAttribute in instanceAttributes)
+		{
+			// Extract instance property name and whether it is a collection or single instance
+			if (instanceAttribute!.ConstructorArguments.Length < 2)
+			{
+				continue;
+			}
+			var instancePropertyNameArgument = instanceAttribute.ConstructorArguments[0];
+			if (instancePropertyNameArgument.Value is not string instancePropertyName)
+			{
+				continue;
+			}
+			var isCollectionArgument = instanceAttribute.ConstructorArguments[1];
+			if (isCollectionArgument.Value is not bool isCollection)
+			{
+				continue;
+			}
+			subNode.InstanceProperties.Add(new InstanceProperty(instancePropertyName, isCollection));
+		}
 	}
 
 	private static void HandleTemplates(
@@ -445,7 +489,7 @@ public class StaticFormStructureParser
 		}
 
 		// A substructure argument was passed. Process it in a new context.
-		var substructureContext = new CollectionContext(context.SemanticModel, newNode);
+		var substructureContext = new CollectionContext(context.SemanticModel, context.Logger, newNode);
 		var substructureExpression = substructureArgument.Value.Syntax as ExpressionSyntax;
 		if (substructureExpression == null)
 		{

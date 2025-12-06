@@ -115,6 +115,7 @@ public class FormWrapperGenerator : IIncrementalGenerator
 	/// <param name="generatorInformation">The list of method declarations and the compilation for interpretation of their semantics.</param>
 	private static void Generate(SourceProductionContext context, FormWrapperGenerationTask? generationTask)
 	{
+		var logger = new MessageLogger(context);
 		if (generationTask == null)
 		{
 			// skip.
@@ -162,7 +163,11 @@ public class FormWrapperGenerator : IIncrementalGenerator
 			sb.AppendLine(BuildClassDeclarationHeader(typeDeclaration));
 			sb.AppendLine("{");
 
-			var structure = new StaticFormStructureParser().ParseStaticFormStructure(methodDeclaration, semanticModel);
+			var structure = new StaticFormStructureParser().ParseStaticFormStructure(
+				methodDeclaration,
+				semanticModel,
+				logger
+			);
 			sb.Append(IndentHelper.Indent(structure.PrintWrapperType(wrapperTypeName, nodeIsFormWrapper: true)));
 			sb.AppendLine();
 			sb.AppendLine(

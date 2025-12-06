@@ -80,7 +80,16 @@ public partial class Wrappers
 			.WithTemplatedSection(
 				"TemplatedSection",
 				(templates, _) =>
-					templates.UseTemplate("First", firstTemplate => firstTemplate.WithBooleanNode("BooleanNode"))
+					templates
+						.UseTemplate("First", firstTemplate => firstTemplate.WithBooleanNode("BooleanNode"))
+						.UseTemplate("Second", firstTemplate => firstTemplate.WithTextNode("TextNode"))
+			)
+			.WithCollectionNode(
+				"Collection",
+				(collection, _) =>
+					collection
+						.UseTemplate("First", firstTemplate => firstTemplate.WithBooleanNode("BooleanNode"))
+						.UseTemplate("Second", firstTemplate => firstTemplate.WithTextNode("TextNode"))
 			)
 			.Build();
 	}
@@ -88,6 +97,32 @@ public partial class Wrappers
 	[TestMethod]
 	public void GenerateFormWrapper_ShouldHandleTemplatesAndInstances()
 	{
-		Assert.IsTrue(TemplatesWrapper.TemplatedSection.FirstTemplate.BooleanNode is IBooleanNode);
+		TemplatesWrapper.TemplatedSection.TryInstantiateFirst(out _);
+
+		Assert.IsTrue(
+			TemplatesWrapper.TemplatedSection.Instance
+				is TemplatesWrapperType.TemplatedSectionWrapper.FirstWrapper { BooleanNode: IBooleanNode }
+		);
+
+		TemplatesWrapper.TemplatedSection.TryInstantiateSecond(out _);
+
+		Assert.IsTrue(
+			TemplatesWrapper.TemplatedSection.Instance
+				is TemplatesWrapperType.TemplatedSectionWrapper.SecondWrapper { TextNode: ITextNode }
+		);
+
+		TemplatesWrapper.Collection.TryInstantiateFirst(out _);
+
+		Assert.IsTrue(
+			TemplatesWrapper.Collection.Instances.First()
+				is TemplatesWrapperType.CollectionWrapper.FirstWrapper { BooleanNode: IBooleanNode }
+		);
+
+		TemplatesWrapper.Collection.TryInstantiateSecond(out _);
+
+		Assert.IsTrue(
+			TemplatesWrapper.Collection.Instances.Skip(1).First()
+				is TemplatesWrapperType.CollectionWrapper.SecondWrapper { TextNode: ITextNode }
+		);
 	}
 }
