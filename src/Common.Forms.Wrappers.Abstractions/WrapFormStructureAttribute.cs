@@ -5,14 +5,14 @@ namespace RobinEpple.Common.Forms.Wrappers.Abstractions;
 /// fields, collections etc. that are created using the form builder flow api within the method.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-public class GenerateFormWrapperAttribute : Attribute
+public class WrapFormStructureAttribute : Attribute
 {
 	public string FormMemberName { get; }
 	public string? WrapperMemberName { get; }
 
 	/// <param name="formMemberName">The name of the member containing the IForm, that will be wrapped by the generated code.</param>
 	/// <param name="wrapperMemberName">Optional name of the generated member containing the wrapper. Default is <paramref name="formMemberName"/>Wrapper</param>
-	public GenerateFormWrapperAttribute(string formMemberName, string? wrapperMemberName = null)
+	public WrapFormStructureAttribute(string formMemberName, string? wrapperMemberName = null)
 	{
 		FormMemberName = formMemberName;
 		WrapperMemberName = wrapperMemberName;

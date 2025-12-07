@@ -17,7 +17,7 @@ public partial class Wrappers
 	public IForm Fields { get; private set; }
 
 	[MemberNotNull(nameof(Fields))]
-	[GenerateFormWrapper(nameof(Fields))]
+	[WrapFormStructure(nameof(Fields))]
 	private void BuildFields()
 	{
 		Fields = new FormBuilder("Test")
@@ -42,7 +42,7 @@ public partial class Wrappers
 	public IForm Substructure { get; private set; }
 
 	[MemberNotNull(nameof(Substructure))]
-	[GenerateFormWrapper(nameof(Substructure))]
+	[WrapFormStructure(nameof(Substructure))]
 	private void BuildSubstructure()
 	{
 		Substructure = new FormBuilder("Test")
@@ -73,7 +73,7 @@ public partial class Wrappers
 	public IForm Templates { get; private set; }
 
 	[MemberNotNull(nameof(Templates))]
-	[GenerateFormWrapper(nameof(Templates))]
+	[WrapFormStructure(nameof(Templates))]
 	private void BuildTemplates()
 	{
 		Templates = new FormBuilder("Test")
@@ -101,28 +101,28 @@ public partial class Wrappers
 
 		Assert.IsTrue(
 			TemplatesWrapper.TemplatedSection.Instance
-				is TemplatesWrapperType.TemplatedSectionWrapper.FirstWrapper { BooleanNode: IBooleanNode }
+				is TemplatesWrapperStruct.TemplatedSectionStruct.FirstStruct { BooleanNode: IBooleanNode }
 		);
 
 		TemplatesWrapper.TemplatedSection.TryInstantiateSecond(out _);
 
 		Assert.IsTrue(
 			TemplatesWrapper.TemplatedSection.Instance
-				is TemplatesWrapperType.TemplatedSectionWrapper.SecondWrapper { TextNode: ITextNode }
+				is TemplatesWrapperStruct.TemplatedSectionStruct.SecondStruct { TextNode: ITextNode }
 		);
 
 		TemplatesWrapper.Collection.TryInstantiateFirst(out _);
 
 		Assert.IsTrue(
 			TemplatesWrapper.Collection.Instances.First()
-				is TemplatesWrapperType.CollectionWrapper.FirstWrapper { BooleanNode: IBooleanNode }
+				is TemplatesWrapperStruct.CollectionStruct.FirstStruct { BooleanNode: IBooleanNode }
 		);
 
 		TemplatesWrapper.Collection.TryInstantiateSecond(out _);
 
 		Assert.IsTrue(
 			TemplatesWrapper.Collection.Instances.Skip(1).First()
-				is TemplatesWrapperType.CollectionWrapper.SecondWrapper { TextNode: ITextNode }
+				is TemplatesWrapperStruct.CollectionStruct.SecondStruct { TextNode: ITextNode }
 		);
 	}
 }

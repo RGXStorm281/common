@@ -52,7 +52,7 @@ public class FormWrapperGenerator : IIncrementalGenerator
 		node is MethodDeclarationSyntax m && m.AttributeLists.Count > 0;
 
 	/// <summary>
-	/// Checks whether the given method has an <see cref="GenerateFormWrapperAttribute"/> and if so,<br/>
+	/// Checks whether the given method has an <see cref="WrapFormStructureAttribute"/> and if so,<br/>
 	/// casts the method declaration syntax for further processing.
 	/// </summary>
 	private static FormWrapperGenerationTask? GetGenerationTaskForTarget(GeneratorSyntaxContext context)
@@ -65,11 +65,11 @@ public class FormWrapperGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		// Check that the method is actually decorated with the GenerateFormWrapperAttribute and not any other attribute.
+		// Check that the method is actually decorated with the WrapFormStructureAttribute and not any other attribute.
 		var formWrapperAttribute = methodSymbol
 			.GetAttributes()
 			.FirstOrDefault(attr =>
-				attr.AttributeClass?.ToDisplayString() == typeof(GenerateFormWrapperAttribute).FullName
+				attr.AttributeClass?.ToDisplayString() == typeof(WrapFormStructureAttribute).FullName
 			);
 		if (formWrapperAttribute == null)
 		{
@@ -128,7 +128,6 @@ public class FormWrapperGenerator : IIncrementalGenerator
 			var semanticModel = generationTask.SemanticModel;
 			var formPropertyName = generationTask.FormPropertyName;
 			var wrapperPropertyName = generationTask.WrapperPropertyName;
-			var wrapperTypeName = generationTask.WrapperPropertyName + "Type";
 
 			// Ground the method in its context:
 			// Get the class name and namespace for the new partial class.
@@ -166,10 +165,12 @@ public class FormWrapperGenerator : IIncrementalGenerator
 			var structure = new StaticFormStructureParser().ParseStaticFormStructure(
 				methodDeclaration,
 				semanticModel,
-				logger
+				logger,
+				typeSymbol,
+				wrapperPropertyName
 			);
-			sb.Append(IndentHelper.Indent(structure.PrintWrapperType(wrapperTypeName, nodeIsFormWrapper: true)));
-			sb.AppendLine();
+			var wrapperTypeName = structure.GetFullyQualifiedTypeName();
+			sb.Append(IndentHelper.Indent(structure.PrintWrapperType()));
 			sb.AppendLine(
 				IndentHelper.Indent(
 					$"public {wrapperTypeName} {wrapperPropertyName} => new {wrapperTypeName}({formPropertyName});"

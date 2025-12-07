@@ -16,9 +16,6 @@ public class StaticFormStructureParser
 			Node = node;
 		}
 
-		public CollectionContext(SemanticModel semanticModel, MessageLogger logger, string name, string type)
-			: this(semanticModel, logger, new FormWrapperNode(name, type)) { }
-
 		public SemanticModel SemanticModel { get; }
 		public MessageLogger Logger { get; }
 		public FormWrapperNode Node { get; }
@@ -33,10 +30,19 @@ public class StaticFormStructureParser
 	public FormWrapperNode ParseStaticFormStructure(
 		MethodDeclarationSyntax methodDeclaration,
 		SemanticModel semanticModel,
-		MessageLogger logger
+		MessageLogger logger,
+		INamedTypeSymbol declaringType,
+		string wrapperPropertyName
 	)
 	{
-		var context = new CollectionContext(semanticModel, logger, string.Empty, "RobinEpple.Common.Forms.Nodes.IForm");
+		var rootNode = new FormWrapperNode(
+			wrapperPropertyName,
+			"RobinEpple.Common.Forms.Nodes.IForm",
+			declaringType,
+			nodeIsFormWrapper: true
+		);
+		var context = new CollectionContext(semanticModel, logger, rootNode);
+
 		if (methodDeclaration.Body != null)
 		{
 			ParseInternal(methodDeclaration.Body, context);
@@ -382,7 +388,7 @@ public class StaticFormStructureParser
 		}
 
 		// 5. Register the node in the context.
-		var subNode = new FormWrapperNode(nodeName, nodeType);
+		var subNode = new FormWrapperNode(nodeName, nodeType, context.Node.DeclaringType, false, context.Node);
 		context.Node.Substructure.Add(subNode);
 
 		// 5. Handle substructure if provided.
@@ -453,7 +459,13 @@ public class StaticFormStructureParser
 		}
 
 		// 4. Register the node in the context.
-		var templateNode = new FormWrapperNode(nodeName, "RobinEpple.Common.Forms.Nodes.IForm");
+		var templateNode = new FormWrapperNode(
+			nodeName,
+			"RobinEpple.Common.Forms.Nodes.IForm",
+			context.Node.DeclaringType,
+			true,
+			context.Node
+		);
 		context.Node.Templates.Add(templateNode);
 
 		// 5. Handle substructure if provided.

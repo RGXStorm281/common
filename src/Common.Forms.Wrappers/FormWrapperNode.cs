@@ -4,15 +4,27 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using RobinEpple.Common.Forms.Wrappers.Abstractions;
 
-public class FormWrapperNode(string name, string type)
+public class FormWrapperNode(
+	string name,
+	string type,
+	INamedTypeSymbol declaringType,
+	bool nodeIsFormWrapper,
+	FormWrapperNode? parentNode = null
+)
 {
 	private const string _nodePropertyName = "Node";
+	private readonly bool _nodeIsFormWrapper = nodeIsFormWrapper;
 
 	// --------------- name and type of the form node ---------------
+
+
 	public string Name { get; set; } = name;
 	public string NodeType { get; } = type;
+	public INamedTypeSymbol DeclaringType { get; } = declaringType;
+	public FormWrapperNode? ParentNode { get; } = parentNode;
 
 	// --------------- collections and templated sections ---------------
+
 	public List<FormWrapperNode> Templates { get; set; } = [];
 	public bool HasTemplates => Templates.Any();
 	public List<InstanceProperty> InstanceProperties { get; } = [];
@@ -62,7 +74,17 @@ public class FormWrapperNode(string name, string type)
 		return normalizedName.ToString();
 	}
 
-	public string GetTypeName() => GetNormalizedName() + "Wrapper";
+	public string GetTypeName() => GetNormalizedName() + "Struct";
+
+	public string GetFullyQualifiedTypeName()
+	{
+		if (ParentNode != null)
+		{
+			return $"{ParentNode.GetFullyQualifiedTypeName()}.{GetTypeName()}";
+		}
+
+		return $"{DeclaringType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}.{GetTypeName()}";
+	}
 
 	public string GetSource(bool nodeIsTemplate)
 	{
@@ -75,11 +97,10 @@ public class FormWrapperNode(string name, string type)
 
 		// Otherwise we need to build a wrapper type.
 		var source = new StringBuilder();
-		var wrapperTypeName = GetTypeName();
 
-		source.Append(PrintWrapperType(wrapperTypeName, nodeIsTemplate));
+		source.Append(PrintWrapperType());
 		source.AppendLine();
-		source.Append(PrintWrapperProperty(wrapperTypeName, nodeIsTemplate));
+		source.Append(PrintWrapperProperty(nodeIsTemplate));
 		return source.ToString();
 	}
 
@@ -92,11 +113,11 @@ public class FormWrapperNode(string name, string type)
 		return sb.ToString();
 	}
 
-	public string PrintWrapperType(string wrapperTypeName, bool nodeIsFormWrapper)
+	public string PrintWrapperType()
 	{
 		var type = new StringBuilder();
-		type.Append($"public class {wrapperTypeName}({NodeType}? node)");
-		if (nodeIsFormWrapper)
+		type.Append($"public struct {GetTypeName()}({NodeType}? node)");
+		if (_nodeIsFormWrapper)
 		{
 			type.Append($" : RobinEpple.Common.Forms.IFormWrapper");
 		}
@@ -208,7 +229,7 @@ public class FormWrapperNode(string name, string type)
 		}
 	}
 
-	private string PrintWrapperProperty(string wrapperTypeName, bool nodeIsTemplate)
+	private string PrintWrapperProperty(bool nodeIsTemplate)
 	{
 		var nodeAccessor = @$"{_nodePropertyName}?.FindFirst(""{Name}"") as {NodeType}";
 		var propertyName = GetNormalizedName();
@@ -220,8 +241,9 @@ public class FormWrapperNode(string name, string type)
 		}
 
 		var sb = new StringBuilder();
-		sb.Append($"public {wrapperTypeName} {propertyName} => ");
-		sb.Append(@$"new {wrapperTypeName}({nodeAccessor});");
+		var typeName = GetFullyQualifiedTypeName();
+		sb.Append($"public {typeName} {propertyName} => ");
+		sb.Append(@$"new {typeName}({nodeAccessor});");
 		sb.AppendLine();
 		return sb.ToString();
 	}
