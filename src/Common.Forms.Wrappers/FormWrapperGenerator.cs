@@ -166,8 +166,7 @@ public class FormWrapperGenerator : IIncrementalGenerator
 				methodDeclaration,
 				semanticModel,
 				logger,
-				typeSymbol,
-				wrapperPropertyName
+				typeSymbol
 			);
 			var wrapperTypeName = structure.GetFullyQualifiedTypeName();
 			sb.Append(IndentHelper.Indent(structure.PrintWrapperType()));

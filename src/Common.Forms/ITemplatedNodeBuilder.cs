@@ -28,5 +28,6 @@ public interface ITemplatedNodeBuilder<TSpecificNodeBuilder> : INodeBuilder<TSpe
 	/// </summary>
 	/// <param name="template">The template, that is configured externally.</param>
 	/// <returns>The collection builder to add further configurations.</returns>
-	public TSpecificNodeBuilder UsePreConfiguredTemplate(IForm template);
+	[AddsTemplate]
+	public TSpecificNodeBuilder UsePreConfiguredTemplate([TakesParentNodeReference] IForm template);
 }

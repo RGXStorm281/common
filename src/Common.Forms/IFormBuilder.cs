@@ -46,21 +46,27 @@ public interface IFormBuilder : INodeBuilder<IFormBuilder>
 	/// </summary>
 	/// <param name="builder">The builder to configure the collection.</param>
 	/// <param name="parentRecursionTemplate">A template that can be used to construct recursive structures by referencing this nodes parent.</param>
-	public delegate void CollectionBuilder(ICollectionNodeBuilder builder, IForm parentRecursionTemplate);
+	public delegate void CollectionBuilder(
+		ICollectionNodeBuilder builder,
+		[ParentNodeReference] IForm parentRecursionTemplate
+	);
 
 	/// <summary>
 	/// A delegate to configure an added templated section.
 	/// </summary>
 	/// <param name="builder">The builder to configure the templated section.</param>
 	/// <param name="parentRecursionTemplate">A template that can be used to construct recursive structures by referencing this nodes parent.</param>
-	public delegate void TemplatedSectionBuilder(ITemplateNodeBuilder builder, IForm parentRecursionTemplate);
+	public delegate void TemplatedSectionBuilder(
+		ITemplateNodeBuilder builder,
+		[ParentNodeReference] IForm parentRecursionTemplate
+	);
 
 	/// <summary>
 	/// A delegate to configure an added sub form.
 	/// </summary>
 	/// <param name="builder">The builder to configure the sub form.</param>
 	/// <param name="parentRecursionTemplate">A template that can be used to construct recursive structures by referencing this form as parent.</param>
-	public delegate void SubFormBuilder(IFormBuilder builder, IForm parentRecursionTemplate);
+	public delegate void SubFormBuilder(IFormBuilder builder, [ParentNodeReference] IForm parentRecursionTemplate);
 
 	/// <summary>
 	/// Finishes the form building process and returns the finished form structure.

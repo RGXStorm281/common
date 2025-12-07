@@ -1,24 +1,30 @@
 namespace RobinEpple.Common.Forms.Wrappers;
 
-using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 
 public class StaticFormStructureParser
 {
-	private class CollectionContext
+	private class ParseContext
 	{
-		public CollectionContext(SemanticModel semanticModel, MessageLogger logger, FormWrapperNode node)
+		public ParseContext(
+			SemanticModel semanticModel,
+			MessageLogger logger,
+			FormWrapperNode node,
+			IEnumerable<AvailableParentNode> availableParentNodes
+		)
 		{
 			SemanticModel = semanticModel;
 			Logger = logger;
 			Node = node;
+			AvailableParentNodes = availableParentNodes.ToList();
 		}
 
 		public SemanticModel SemanticModel { get; }
 		public MessageLogger Logger { get; }
 		public FormWrapperNode Node { get; }
+		public List<AvailableParentNode> AvailableParentNodes { get; }
 	}
 
 	/// <summary>
@@ -31,17 +37,22 @@ public class StaticFormStructureParser
 		MethodDeclarationSyntax methodDeclaration,
 		SemanticModel semanticModel,
 		MessageLogger logger,
-		INamedTypeSymbol declaringType,
-		string wrapperPropertyName
+		INamedTypeSymbol declaringType
 	)
 	{
+		if (!TryGetFormName(methodDeclaration, semanticModel, logger, out var formName))
+		{
+			throw new InvalidOperationException(
+				$"The form needs to contain a FormBuilder instantiation with a constant name."
+			);
+		}
 		var rootNode = new FormWrapperNode(
-			wrapperPropertyName,
+			formName!,
 			"RobinEpple.Common.Forms.Nodes.IForm",
 			declaringType,
 			nodeIsFormWrapper: true
 		);
-		var context = new CollectionContext(semanticModel, logger, rootNode);
+		var context = new ParseContext(semanticModel, logger, rootNode, []);
 
 		if (methodDeclaration.Body != null)
 		{
@@ -54,7 +65,61 @@ public class StaticFormStructureParser
 		return context.Node;
 	}
 
-	private static void ParseInternal(StatementSyntax? statement, CollectionContext context)
+	public static bool TryGetFormName(
+		MethodDeclarationSyntax methodDeclaration,
+		SemanticModel semanticModel,
+		MessageLogger logger,
+		out string? formName
+	)
+	{
+		formName = null;
+
+		// Find all object creations in the method
+		var objectCreations = methodDeclaration.DescendantNodes().OfType<ObjectCreationExpressionSyntax>().ToList();
+
+		// Filter to only FormBuilder constructions
+		var formBuilderCreations = objectCreations
+			.Where(o =>
+			{
+				var typeInfo = semanticModel.GetTypeInfo(o);
+				return typeInfo.Type is INamedTypeSymbol named && named.Name == "FormBuilder";
+			})
+			.ToList();
+
+		// There needs to be at least one.
+		if (formBuilderCreations.Count < 1)
+		{
+			return false;
+		}
+		// Warn if there are multiple.
+		if (formBuilderCreations.Count > 1)
+		{
+			logger.Warn($"Multiple FormBuilder instantiations found. Only the first one will be processed.");
+		}
+
+		var creation = formBuilderCreations[0];
+
+		// Ensure it has at least one argument
+		if (creation.ArgumentList == null || creation.ArgumentList.Arguments.Count == 0)
+		{
+			return false;
+		}
+
+		var firstArgument = creation.ArgumentList.Arguments[0];
+
+		// Extract constant string value
+		var constantValue = semanticModel.GetConstantValue(firstArgument.Expression);
+
+		if (!constantValue.HasValue || constantValue.Value is not string name)
+		{
+			return false;
+		}
+
+		formName = name;
+		return true;
+	}
+
+	private static void ParseInternal(StatementSyntax? statement, ParseContext context)
 	{
 		switch (statement)
 		{
@@ -158,7 +223,7 @@ public class StaticFormStructureParser
 		}
 	}
 
-	private static void ParseInternal(ExpressionSyntax? expression, CollectionContext context)
+	private static void ParseInternal(ExpressionSyntax? expression, ParseContext context)
 	{
 		if (expression == null)
 		{
@@ -270,7 +335,7 @@ public class StaticFormStructureParser
 	/// <param name="invocation">The method invocation in the current syntax context.</param>
 	/// <param name="semanticModel">The semantic model to look up method definitions.</param>
 	/// <param name="context">The context to add the structure elements to.</param>
-	private static void ProcessInvocation(InvocationExpressionSyntax invocation, CollectionContext context)
+	private static void ProcessInvocation(InvocationExpressionSyntax invocation, ParseContext context)
 	{
 		// 1. Resolve the method being invoked
 		var methodSymbol = GetMethodSymbol(invocation, context);
@@ -289,7 +354,7 @@ public class StaticFormStructureParser
 		HandleTemplates(methodSymbol, operation, context);
 	}
 
-	private static IMethodSymbol? GetMethodSymbol(SyntaxNode syntax, CollectionContext context)
+	private static IMethodSymbol? GetMethodSymbol(SyntaxNode syntax, ParseContext context)
 	{
 		var symbolInfo = context.SemanticModel.GetSymbolInfo(syntax);
 		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
@@ -337,7 +402,7 @@ public class StaticFormStructureParser
 	private static void HandleFormNodes(
 		IMethodSymbol methodSymbol,
 		IInvocationOperation operation,
-		CollectionContext context
+		ParseContext context
 	)
 	{
 		// 1. Check for AddsFormNodeAttribute(Type nodeType)
@@ -420,18 +485,69 @@ public class StaticFormStructureParser
 	private static void HandleTemplates(
 		IMethodSymbol methodSymbol,
 		IInvocationOperation operation,
-		CollectionContext context
+		ParseContext context
 	)
 	{
-		// 1. Check for AddsTemplateAttribute
+		// Check for AddsTemplateAttribute
 		var methodAttributes = AttributeCollector.CollectAllMethodAttributes(methodSymbol);
-		if (!TryGetAttribute(methodAttributes, "AddsTemplateAttribute", out var addsTemplateAttribute))
+		if (!TryGetAttribute(methodAttributes, "AddsTemplateAttribute", out _))
 		{
 			return;
 		}
 
-		// 2. Find the parameter that has [NodeName]
+		// Handle recursive and locally configured templates.
 		var parameterAttributes = AttributeCollector.CollectAllParameterAttributes(methodSymbol);
+		HandleParentReferenceTemplates(methodSymbol, operation, parameterAttributes, context);
+		HandleLocallyConfiguredTemplates(methodSymbol, operation, parameterAttributes, context);
+	}
+
+	private static void HandleParentReferenceTemplates(
+		IMethodSymbol methodSymbol,
+		IInvocationOperation operation,
+		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
+		ParseContext context
+	)
+	{
+		// Check for a parameter that may reference a parent.
+		if (
+			!TryGetParameterForAttribute(
+				methodSymbol,
+				parameterAttributes,
+				"TakesParentNodeReferenceAttribute",
+				out var parentNodeReferenceParameter
+			)
+		)
+		{
+			return;
+		}
+
+		var parentReferenceArgument = operation.Arguments.FirstOrDefault(a =>
+			SymbolEqualityComparer.Default.Equals(a.Parameter, parentNodeReferenceParameter)
+		);
+		if (parentReferenceArgument == null)
+		{
+			return;
+		}
+
+		// Check if the actual argument is a parent reference.
+		if (!TryMatchRegisteredParentReference(parentReferenceArgument, context, out var parentReference))
+		{
+			return;
+		}
+
+		// Register if so.
+		context.Node.ParentReferenceTemplates.Add(parentReference!.ParentNode);
+		return;
+	}
+
+	private static void HandleLocallyConfiguredTemplates(
+		IMethodSymbol methodSymbol,
+		IInvocationOperation operation,
+		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
+		ParseContext context
+	)
+	{
+		// Find the parameter that has [NodeName]
 		if (
 			!TryGetParameterForAttribute(
 				methodSymbol,
@@ -472,11 +588,38 @@ public class StaticFormStructureParser
 		HandleSubstructureConfiguration(methodSymbol, parameterAttributes, operation, context, templateNode);
 	}
 
+	private static bool TryMatchRegisteredParentReference(
+		IArgumentOperation argumentOperation,
+		ParseContext context,
+		out AvailableParentNode? parentNode
+	)
+	{
+		parentNode = null;
+		var value = argumentOperation.Value;
+
+		// Strip implicit conversions (very important)
+		while (value is IConversionOperation conversion)
+		{
+			value = conversion.Operand;
+		}
+
+		if (value is IParameterReferenceOperation paramRef)
+		{
+			var usedParameter = paramRef.Parameter;
+
+			parentNode = context.AvailableParentNodes.FirstOrDefault(parent =>
+				SymbolEqualityComparer.Default.Equals(parent.ParameterSymbol, usedParameter)
+			);
+		}
+
+		return parentNode != null;
+	}
+
 	private static void HandleSubstructureConfiguration(
 		IMethodSymbol methodSymbol,
 		IReadOnlyDictionary<int, IReadOnlyList<AttributeData>> parameterAttributes,
 		IInvocationOperation operation,
-		CollectionContext context,
+		ParseContext context,
 		FormWrapperNode newNode
 	)
 	{
@@ -501,13 +644,31 @@ public class StaticFormStructureParser
 		}
 
 		// A substructure argument was passed. Process it in a new context.
-		var substructureContext = new CollectionContext(context.SemanticModel, context.Logger, newNode);
-		var substructureExpression = substructureArgument.Value.Syntax as ExpressionSyntax;
-		if (substructureExpression == null)
+		var substructureContext = new ParseContext(
+			context.SemanticModel,
+			context.Logger,
+			newNode,
+			context.AvailableParentNodes
+		);
+		if (
+			!TryGetConfigurationBodyAndParentParameter(
+				substructureArgument,
+				context,
+				out var configurationBody,
+				out var parentParameter
+			)
+		)
 		{
 			return;
 		}
-		var configurationBody = TryGetExecutableBody(substructureExpression, context.SemanticModel);
+
+		// Register the parent parameter if available.
+		if (parentParameter != null)
+		{
+			substructureContext.AvailableParentNodes.Add(new AvailableParentNode(context.Node, parentParameter));
+		}
+
+		// Then process the body.
 		switch (configurationBody)
 		{
 			case StatementSyntax statement:
@@ -557,51 +718,98 @@ public class StaticFormStructureParser
 		return null;
 	}
 
-	private static SyntaxNode? TryGetExecutableBody(ExpressionSyntax expression, SemanticModel semanticModel)
+	private static bool TryGetConfigurationBodyAndParentParameter(
+		IArgumentOperation substructureArgument,
+		ParseContext context,
+		out SyntaxNode? configurationBody,
+		out IParameterSymbol? parentParameter
+	)
 	{
-		// Case 1: Lambda expressions
-		if (expression is LambdaExpressionSyntax lambda)
+		configurationBody = null;
+		parentParameter = null;
+
+		IOperation delegateValue = substructureArgument.Value;
+
+		// If the argument is a defined delegate type, check if there is a parameter decorated with [ParentNodeReference].
+		int? parentParameterIndex = null;
+		if (delegateValue.Type is INamedTypeSymbol { DelegateInvokeMethod: { } methodDefinition })
 		{
-			return lambda.Body; // Can be BlockSyntax or ExpressionSyntax
+			var delegateParameterAttributes = AttributeCollector.CollectAllParameterAttributes(methodDefinition);
+			parentParameterIndex = GetParameterIndexForAttribute(
+				delegateParameterAttributes,
+				"ParentNodeReferenceAttribute"
+			);
 		}
 
-		// Case 2: Anonymous delegate: delegate(...) { ... }
-		if (expression is AnonymousMethodExpressionSyntax anonymousMethod)
+		if (delegateValue is IDelegateCreationOperation delegateCreation)
 		{
-			return anonymousMethod.Block;
+			delegateValue = delegateCreation.Target;
 		}
 
-		// Case 3: Method group or named method reference (local, instance, static)
-		var symbolInfo = semanticModel.GetSymbolInfo(expression);
-		var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
-
-		if (methodSymbol == null && symbolInfo.CandidateSymbols.Length == 1)
+		// Extract the executable body of the passed delegate.
+		switch (delegateValue)
 		{
-			methodSymbol = symbolInfo.CandidateSymbols[0] as IMethodSymbol;
+			// lambda or anonymous delegate
+			case IAnonymousFunctionOperation lambda:
+			{
+				// Get the body.
+				configurationBody = lambda.Syntax switch
+				{
+					LambdaExpressionSyntax l => l.Body,
+					AnonymousMethodExpressionSyntax a => a.Block,
+					_ => null,
+				};
+
+				if (configurationBody == null)
+				{
+					return false;
+				}
+
+				// If a parent parameter was defined, map to the parameter of the implementation.
+				if (parentParameterIndex != null && lambda.Symbol.Parameters.Length >= parentParameterIndex)
+				{
+					parentParameter = lambda.Symbol.Parameters[parentParameterIndex.Value];
+				}
+
+				// Always return true when a body was found, the parameter is not mandatory.
+				return true;
+			}
+
+			// method group / local function
+			case IMethodReferenceOperation methodGroup:
+			{
+				var method = methodGroup.Method;
+
+				// Get the body.
+				var syntaxRef = method.DeclaringSyntaxReferences.FirstOrDefault();
+				if (syntaxRef == null)
+				{
+					return false;
+				}
+
+				configurationBody = syntaxRef.GetSyntax() switch
+				{
+					MethodDeclarationSyntax m => m.Body ?? (SyntaxNode?)m.ExpressionBody?.Expression,
+					LocalFunctionStatementSyntax l => l.Body ?? (SyntaxNode?)l.ExpressionBody?.Expression,
+					_ => null,
+				};
+
+				if (configurationBody == null)
+				{
+					return false;
+				}
+
+				// If a parent parameter was defined, map to the parameter of the implementation.
+				if (parentParameterIndex != null && method.Parameters.Length >= parentParameterIndex)
+				{
+					parentParameter = method.Parameters[parentParameterIndex.Value];
+				}
+
+				// Always return true when a body was found, the parameter is not mandatory.
+				return true;
+			}
 		}
 
-		if (methodSymbol == null)
-		{
-			return null;
-		}
-
-		var syntaxRef = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault();
-		if (syntaxRef == null)
-		{
-			return null;
-		}
-
-		var methodSyntax = syntaxRef.GetSyntax();
-
-		switch (methodSyntax)
-		{
-			case MethodDeclarationSyntax method:
-				return method.Body ?? (SyntaxNode?)method.ExpressionBody?.Expression;
-
-			case LocalFunctionStatementSyntax localFunction:
-				return localFunction.Body ?? (SyntaxNode?)localFunction.ExpressionBody?.Expression;
-		}
-
-		return null;
+		return false;
 	}
 }

@@ -26,7 +26,8 @@ public class FormWrapperNode(
 	// --------------- collections and templated sections ---------------
 
 	public List<FormWrapperNode> Templates { get; set; } = [];
-	public bool HasTemplates => Templates.Any();
+	public List<FormWrapperNode> ParentReferenceTemplates { get; set; } = [];
+	public bool HasTemplates => Templates.Any() || ParentReferenceTemplates.Any();
 	public List<InstanceProperty> InstanceProperties { get; } = [];
 	public bool HasInstanceProperties => InstanceProperties.Any();
 
@@ -135,6 +136,18 @@ public class FormWrapperNode(
 			}
 		}
 
+		foreach (var parentReference in ParentReferenceTemplates)
+		{
+			// Print only the property, not the type for parent references.
+			type.AppendLine();
+			type.Append(IndentHelper.Indent(parentReference.PrintWrapperProperty(true)));
+			if (HasInstanceProperties)
+			{
+				type.AppendLine();
+				type.Append(IndentHelper.Indent(PrintInstantiationFunction(parentReference)));
+			}
+		}
+
 		if (HasInstanceProperties)
 		{
 			type.AppendLine();
@@ -165,7 +178,7 @@ public class FormWrapperNode(
 		sb.AppendLine("{");
 		sb.AppendLine(IndentHelper.Indent("switch(instance?.Name)"));
 		sb.AppendLine(IndentHelper.Indent("{"));
-		foreach (var template in Templates)
+		foreach (var template in Templates.Concat(ParentReferenceTemplates))
 		{
 			sb.AppendLine(IndentHelper.Indent(@$"case ""{template.Name}"":", 2));
 			sb.AppendLine(IndentHelper.Indent("{", 2));

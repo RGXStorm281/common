@@ -20,7 +20,7 @@ public partial class Wrappers
 	[WrapFormStructure(nameof(Fields))]
 	private void BuildFields()
 	{
-		Fields = new FormBuilder("Test")
+		Fields = new FormBuilder(nameof(Fields))
 			.WithTextNode("Text")
 			.WithNumberNode("Number", textNode => textNode.UseLabel("Please insert some number"))
 			.WithBooleanNode("Boolean")
@@ -45,7 +45,7 @@ public partial class Wrappers
 	[WrapFormStructure(nameof(Substructure))]
 	private void BuildSubstructure()
 	{
-		Substructure = new FormBuilder("Test")
+		Substructure = new FormBuilder(nameof(Substructure))
 			.WithSection(
 				"Section",
 				(sectionBuilder, recursiveTemplate) =>
@@ -72,18 +72,20 @@ public partial class Wrappers
 
 	public IForm Templates { get; private set; }
 
+	void Configure(ITemplateNodeBuilder templates, IForm parent)
+	{
+		templates
+			.UseTemplate("First", firstTemplate => firstTemplate.WithBooleanNode("BooleanNode"))
+			.UseTemplate("Second", firstTemplate => firstTemplate.WithTextNode("TextNode"))
+			.UsePreConfiguredTemplate(parent);
+	}
+
 	[MemberNotNull(nameof(Templates))]
 	[WrapFormStructure(nameof(Templates))]
 	private void BuildTemplates()
 	{
-		Templates = new FormBuilder("Test")
-			.WithTemplatedSection(
-				"TemplatedSection",
-				(templates, _) =>
-					templates
-						.UseTemplate("First", firstTemplate => firstTemplate.WithBooleanNode("BooleanNode"))
-						.UseTemplate("Second", firstTemplate => firstTemplate.WithTextNode("TextNode"))
-			)
+		Templates = new FormBuilder(nameof(Templates))
+			.WithTemplatedSection("TemplatedSection", Configure)
 			.WithCollectionNode(
 				"Collection",
 				(collection, _) =>
@@ -101,28 +103,32 @@ public partial class Wrappers
 
 		Assert.IsTrue(
 			TemplatesWrapper.TemplatedSection.Instance
-				is TemplatesWrapperStruct.TemplatedSectionStruct.FirstStruct { BooleanNode: IBooleanNode }
+				is TemplatesStruct.TemplatedSectionStruct.FirstStruct { BooleanNode: IBooleanNode }
 		);
 
 		TemplatesWrapper.TemplatedSection.TryInstantiateSecond(out _);
 
 		Assert.IsTrue(
 			TemplatesWrapper.TemplatedSection.Instance
-				is TemplatesWrapperStruct.TemplatedSectionStruct.SecondStruct { TextNode: ITextNode }
+				is TemplatesStruct.TemplatedSectionStruct.SecondStruct { TextNode: ITextNode }
 		);
+
+		TemplatesWrapper.TemplatedSection.TryInstantiateTemplates(out _);
+
+		Assert.IsTrue(TemplatesWrapper.TemplatedSection.Instance is TemplatesStruct);
 
 		TemplatesWrapper.Collection.TryInstantiateFirst(out _);
 
 		Assert.IsTrue(
 			TemplatesWrapper.Collection.Instances.First()
-				is TemplatesWrapperStruct.CollectionStruct.FirstStruct { BooleanNode: IBooleanNode }
+				is TemplatesStruct.CollectionStruct.FirstStruct { BooleanNode: IBooleanNode }
 		);
 
 		TemplatesWrapper.Collection.TryInstantiateSecond(out _);
 
 		Assert.IsTrue(
 			TemplatesWrapper.Collection.Instances.Skip(1).First()
-				is TemplatesWrapperStruct.CollectionStruct.SecondStruct { TextNode: ITextNode }
+				is TemplatesStruct.CollectionStruct.SecondStruct { TextNode: ITextNode }
 		);
 	}
 }
