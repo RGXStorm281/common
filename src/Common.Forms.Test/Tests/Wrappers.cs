@@ -10,6 +10,7 @@ public partial class Wrappers
 	public Wrappers()
 	{
 		BuildFields();
+		BuildNamed();
 		BuildBoundFields();
 		BuildSubstructure();
 		BuildTemplates();
@@ -42,6 +43,21 @@ public partial class Wrappers
 		Assert.IsTrue(FieldsWrapper.Boolean is IBooleanNode);
 		Assert.IsTrue(FieldsWrapper.Timestamp is ITimestampNode);
 		Assert.IsTrue(FieldsWrapper.File is IFileNode);
+	}
+
+	public IForm Named { get; private set; }
+
+	[MemberNotNull(nameof(Named))]
+	[WrapFormStructure(nameof(Named), "RenamedWrapper")]
+	private void BuildNamed()
+	{
+		Named = new FormBuilder(nameof(Named)).WithTextNode("Text").Build();
+	}
+
+	[TestMethod]
+	public void WrapFormStructure_ShouldUseExplicitNameIfProvided()
+	{
+		Assert.IsNotNull(RenamedWrapper.Text);
 	}
 
 	public string Email { get; set; } = string.Empty;
