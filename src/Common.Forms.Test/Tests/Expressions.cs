@@ -3,7 +3,6 @@ namespace RobinEpple.Common.Forms.Test.Tests;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 using static RobinEpple.Common.Forms.Expressions.FormExpression;
-using static RobinEpple.Common.Forms.Expressions.FormExpressionExtensions;
 
 [TestClass]
 public class Expressions
@@ -137,10 +136,10 @@ public class Expressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(AreEqual(StaticValue("Test"), StaticValue("test")).EvaluateOn(form));
-		Assert.IsTrue(AreEqual(StaticValue("Test"), StaticValue("Test")).EvaluateOn(form));
-		Assert.IsFalse(AreEqual(StaticValue(1), StaticValue(-1)).EvaluateOn(form));
-		Assert.IsTrue(AreEqual(StaticValue(1), StaticValue(1)).EvaluateOn(form));
+		Assert.IsFalse(StaticValue("Test").IsEqualTo(StaticValue("test")).EvaluateOn(form));
+		Assert.IsTrue(StaticValue("Test").IsEqualTo(StaticValue("Test")).EvaluateOn(form));
+		Assert.IsFalse(StaticValue(1).IsEqualTo(StaticValue(-1)).EvaluateOn(form));
+		Assert.IsTrue(StaticValue(1).IsEqualTo(StaticValue(1)).EvaluateOn(form));
 	}
 
 	[TestMethod]
@@ -148,9 +147,9 @@ public class Expressions
 	{
 		var form = new FormBuilder("Test").Build();
 
-		Assert.IsFalse(AreEqual(StaticValue("Test"), StaticValue("test"), StringComparer.Ordinal).EvaluateOn(form));
+		Assert.IsFalse(StaticValue("Test").IsEqualTo(StaticValue("test"), StringComparer.Ordinal).EvaluateOn(form));
 		Assert.IsTrue(
-			AreEqual(StaticValue("Test"), StaticValue("test"), StringComparer.OrdinalIgnoreCase).EvaluateOn(form)
+			StaticValue("Test").IsEqualTo(StaticValue("test"), StringComparer.OrdinalIgnoreCase).EvaluateOn(form)
 		);
 	}
 

@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Expressions;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
 /// <summary>
 /// This interface represents an expression tree evaluating to the specified value type.<br/>
@@ -8,15 +9,13 @@ using RobinEpple.Common.Forms.Nodes;
 /// The node provides the context (which nodes are visible and what state they are in).
 /// </summary>
 /// <typeparam name="TValue">The value type, this expression evaluates to.</typeparam>
-public interface IFormExpression<TValue>
+public partial interface IFormExpression<TValue>
 {
 	/// <summary>
 	/// Evaluates this expression on the given node.
 	/// </summary>
 	/// <param name="node">The node the expression is evaluated on.</param>
 	/// <returns>The result of the evaluation.</returns>
+	[GenerateAsyncOverload]
 	public TValue EvaluateOn(IFormNode node);
-
-	/// <inheritdoc cref="EvaluateOn"/>
-	public Task<TValue> EvaluateOnAsync(IFormNode node);
 }

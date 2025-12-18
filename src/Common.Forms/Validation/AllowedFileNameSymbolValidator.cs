@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using System.Text.RegularExpressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -11,7 +12,7 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="characterWhitelist">The whitelist of symbols that are allowed to occur in a filename.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid characters.</param>
-public class AllowedFileNameSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null)
+public partial class AllowedFileNameSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null)
 	: INodeValidator
 {
 	public const string ErrorKey = nameof(AllowedFileNameSymbolValidator);
@@ -23,6 +24,7 @@ public class AllowedFileNameSymbolValidator(string characterWhitelist, string? e
 		errorMessageTemplate ?? Resources.TheFollowingCharactersAreNotAllowedInAFileName_;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not IFileNode fileNode)
@@ -51,12 +53,5 @@ public class AllowedFileNameSymbolValidator(string characterWhitelist, string? e
 			invalidCharacterMatches.Select(match => match.ToString()).Distinct()
 		);
 		fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(invalidCharacters));
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 }

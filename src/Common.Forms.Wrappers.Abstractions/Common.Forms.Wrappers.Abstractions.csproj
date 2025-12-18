@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+
+        <AssemblyName>RobinEpple.Common.Forms.Wrappers.Abstractions</AssemblyName>
+        <PackageId>RobinEpple.Common.Forms.Wrappers.Abstractions</PackageId>
+        <RootNamespace>RobinEpple.Common.Forms.Wrappers.Abstractions</RootNamespace>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>Some marker attributes for the source generators.</Title>
+    </PropertyGroup>
+
+</Project>

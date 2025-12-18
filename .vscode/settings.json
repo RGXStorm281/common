@@ -7,33 +7,25 @@
 	"[xml]": {
 		"editor.defaultFormatter": "DotJoshJohnson.xml"
 	},
-	"[aspnetcorerazor]": {
-		"editor.defaultFormatter": "ms-dotnettools.csharp"
-	},
 	"cSpell.words": [
 		"aabbcc",
 		"abcdabc",
 		"abcdabcd",
 		"accessibilities",
-		"appsettings",
-		"autoplay",
 		"Cloneable",
-		"colgroup",
 		"Enumerables",
 		"Epple",
-		"fencedframe",
 		"Iban",
+		"Incrementors",
 		"inhertidoc",
-		"jquery",
 		"libmagic",
 		"Memberwise",
-		"noscript",
+		"REASYNCGEN",
+		"REFWRAPGEN",
 		"resetted",
 		"resheader",
 		"resmimetype",
 		"resx",
-		"Samp",
-		"stylesheet",
 		"summands"
 	],
 	"files.eol": "\n",

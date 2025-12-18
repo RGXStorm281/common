@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -11,8 +12,10 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="maxLength">The expression defining the (inclusive) upper bound for the file name length.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the maximum length.</param>
-public class FileNameMaxLengthValidator(IFormExpression<decimal?> maxLength, string? errorMessageTemplate = null)
-	: INodeValidator
+public partial class FileNameMaxLengthValidator(
+	IFormExpression<decimal?> maxLength,
+	string? errorMessageTemplate = null
+) : INodeValidator
 {
 	public const string ErrorKey = nameof(FileNameMaxLengthValidator);
 	private readonly IFormExpression<decimal?> _maxLength = maxLength;
@@ -20,6 +23,7 @@ public class FileNameMaxLengthValidator(IFormExpression<decimal?> maxLength, str
 		errorMessageTemplate ?? Resources.TheField_AllowsAMaximumFileNameLengthOf_;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not IFileNode fileNode)
@@ -36,30 +40,6 @@ public class FileNameMaxLengthValidator(IFormExpression<decimal?> maxLength, str
 		}
 
 		var maxLength = _maxLength.EvaluateOn(fileNode);
-		if (fileNode.Value.FileName.Length > maxLength)
-		{
-			// Invalid.
-			fileNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(fileNode.Label, maxLength));
-		}
-	}
-
-	/// <inheritdoc />
-	public async Task ValidateAsync(IFormNode node)
-	{
-		if (node is not IFileNode fileNode)
-		{
-			throw new InvalidOperationException(
-				$"A {nameof(FileNameMaxLengthValidator)} can only be used on file nodes and not on '{node.GetType().FullName}'."
-			);
-		}
-
-		if (fileNode.Value.FileName == null)
-		{
-			// Do not validate empty, this is the task of the required validation.
-			return;
-		}
-
-		var maxLength = await _maxLength.EvaluateOnAsync(fileNode);
 		if (fileNode.Value.FileName.Length > maxLength)
 		{
 			// Invalid.

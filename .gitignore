@@ -401,3 +401,6 @@ FodyWeavers.xsd
 .DS_Store
 lines_of_code.md
 *.bkp
+src/Common.SourceGenerators.Test/Generated
+src/Common.Forms/_generated
+src/Common.Forms.Test/Generated

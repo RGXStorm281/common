@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using PhoneNumbers;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -10,7 +11,8 @@ using RobinEpple.Common.Util;
 /// Requires the field value to be a valid phone number format.
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
-public class PhoneNumberValidator(string? errorMessageTemplate = null, string defaultRegion = "DE") : INodeValidator
+public partial class PhoneNumberValidator(string? errorMessageTemplate = null, string defaultRegion = "DE")
+	: INodeValidator
 {
 	public const string ErrorKey = nameof(PhoneNumberValidator);
 	private readonly string _errorMessageTemplate =
@@ -20,6 +22,7 @@ public class PhoneNumberValidator(string? errorMessageTemplate = null, string de
 	private readonly PhoneNumberUtil _util = PhoneNumberUtil.GetInstance();
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not ITextNode textNode)
@@ -40,13 +43,6 @@ public class PhoneNumberValidator(string? errorMessageTemplate = null, string de
 			// Invalid.
 			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Value));
 		}
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 
 	private bool IsValidPhoneNumber(string number)

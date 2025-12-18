@@ -1,12 +1,14 @@
 namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
 using System.Globalization;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-public class LocalizedNumberFormatter(CultureInfo culture) : IValueFormatter
+public partial class LocalizedNumberFormatter(CultureInfo culture) : IValueFormatter
 {
 	private readonly CultureInfo _culture = culture;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public string? Format(object? value)
 	{
 		if (value is not decimal number)
@@ -18,9 +20,7 @@ public class LocalizedNumberFormatter(CultureInfo culture) : IValueFormatter
 	}
 
 	/// <inheritdoc />
-	public Task<string?> FormatAsync(object? value) => Task.FromResult(Format(value));
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public object? Parse(string? textInput)
 	{
 		if (!decimal.TryParse(textInput, _culture, out var number))
@@ -30,7 +30,4 @@ public class LocalizedNumberFormatter(CultureInfo culture) : IValueFormatter
 
 		return number;
 	}
-
-	/// <inheritdoc />
-	public Task<object?> ParseAsync(string? textInput) => Task.FromResult(Parse(textInput));
 }
