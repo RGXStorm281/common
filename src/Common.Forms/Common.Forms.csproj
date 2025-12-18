@@ -22,6 +22,7 @@
         <PackageReference Include="Mime" />
         <PackageReference Include="RobinEpple.Common.Util" />
         <PackageReference Include="RobinEpple.Common.SourceGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
+        <PackageReference Include="RobinEpple.Common.Forms.Wrappers.Abstractions" />
     </ItemGroup>
 
 </Project>

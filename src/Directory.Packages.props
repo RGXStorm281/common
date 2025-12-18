@@ -8,6 +8,8 @@
         <PackageVersion Include="libphonenumber-csharp" Version="9.0.3" />
         <PackageVersion Include="Mime" Version="3.7.0" />
         <PackageVersion Include="RobinEpple.Common.Forms" Version="$(Version)" />
+        <PackageVersion Include="RobinEpple.Common.Forms.Wrappers" Version="$(Version)" />
+        <PackageVersion Include="RobinEpple.Common.Forms.Wrappers.Abstractions" Version="$(Version)" />
         <PackageVersion Include="RobinEpple.Common.SourceGenerators" Version="$(Version)" />
         <PackageVersion Include="RobinEpple.Common.SourceGenerators.Abstractions" Version="$(Version)" />
         <PackageVersion Include="RobinEpple.Common.Util" Version="$(Version)" />
