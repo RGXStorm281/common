@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -10,7 +11,8 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="maxCount">The expression determining the (inclusive) upper bound for the instance count.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for field name and {1} for the maximum count.</param>
-public class MaxCountValidator(IFormExpression<decimal?> maxCount, string? errorMessageTemplate = null) : INodeValidator
+public partial class MaxCountValidator(IFormExpression<decimal?> maxCount, string? errorMessageTemplate = null)
+	: INodeValidator
 {
 	public const string ErrorKey = nameof(MaxCountValidator);
 	private readonly IFormExpression<decimal?> _maxCount = maxCount;
@@ -18,6 +20,7 @@ public class MaxCountValidator(IFormExpression<decimal?> maxCount, string? error
 		errorMessageTemplate ?? Resources.TheField_AllowsAMaximumOf_Instances;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not ICollectionNode collectionNode)
@@ -28,24 +31,6 @@ public class MaxCountValidator(IFormExpression<decimal?> maxCount, string? error
 		}
 
 		var maxCount = _maxCount.EvaluateOn(collectionNode);
-		if (collectionNode.Instances.Count() > maxCount)
-		{
-			// Invalid.
-			collectionNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(collectionNode.Label, maxCount));
-		}
-	}
-
-	/// <inheritdoc />
-	public async Task ValidateAsync(IFormNode node)
-	{
-		if (node is not ICollectionNode collectionNode)
-		{
-			throw new InvalidOperationException(
-				$"A {nameof(MaxCountValidator)} can only be used on collection nodes and not on '{node.GetType().FullName}'."
-			);
-		}
-
-		var maxCount = await _maxCount.EvaluateOnAsync(collectionNode);
 		if (collectionNode.Instances.Count() > maxCount)
 		{
 			// Invalid.

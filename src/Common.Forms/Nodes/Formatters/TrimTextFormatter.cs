@@ -1,10 +1,11 @@
 namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
-using System.Threading.Tasks;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-public class TrimTextFormatter : IValueFormatter
+public partial class TrimTextFormatter : IValueFormatter
 {
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public string? Format(object? value)
 	{
 		if (value is not string text)
@@ -16,9 +17,7 @@ public class TrimTextFormatter : IValueFormatter
 	}
 
 	/// <inheritdoc />
-	public Task<string?> FormatAsync(object? value) => Task.FromResult(Format(value));
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public object? Parse(string? textInput)
 	{
 		if (textInput is not string text)
@@ -28,7 +27,4 @@ public class TrimTextFormatter : IValueFormatter
 
 		return text.Trim();
 	}
-
-	/// <inheritdoc />
-	public Task<object?> ParseAsync(string? textInput) => Task.FromResult(Parse(textInput));
 }

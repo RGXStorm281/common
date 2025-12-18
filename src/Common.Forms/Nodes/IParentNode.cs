@@ -28,4 +28,10 @@ public interface IParentNode : IFormNode
 	/// <exception cref="InvalidOperationException">If the given <paramref name="index"/> is negative.</exception>
 	/// <exception cref="IndexOutOfRangeException">If the given <paramref name="index"/> is greater than the actual parent stack.</exception>
 	public IParentNode GetParentAt(int index);
+
+	/// <summary>
+	/// Returns all immediate children held by this parent node.
+	/// </summary>
+	/// <returns>The list of children.</returns>
+	public IEnumerable<IFormNode> GetChildren();
 }

@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -9,13 +10,15 @@ using RobinEpple.Common.Util;
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
 /// <param name="acceptWhitespace">Whether empty string or whitespace should be considered a valid value. Default is <see cref="false"/> .</param>
-public class TextRequiredValidator(string? errorMessageTemplate = null, bool acceptWhitespace = false) : INodeValidator
+public partial class TextRequiredValidator(string? errorMessageTemplate = null, bool acceptWhitespace = false)
+	: INodeValidator
 {
 	public const string ErrorKey = nameof(TextRequiredValidator);
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresAnInput;
 	private readonly bool _acceptWhitespace = acceptWhitespace;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not ITextNode textNode)
@@ -49,12 +52,5 @@ public class TextRequiredValidator(string? errorMessageTemplate = null, bool acc
 		}
 
 		// Some non-whitespace text => valid.
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 }

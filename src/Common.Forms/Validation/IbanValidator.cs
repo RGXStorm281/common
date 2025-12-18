@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Validation;
 
 using IbanNet;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
@@ -10,7 +11,7 @@ using RobinEpple.Common.Util;
 /// Requires the field value to be a valid IBAN.
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
-public class IbanValidator(string? errorMessageTemplate = null) : INodeValidator
+public partial class IbanValidator(string? errorMessageTemplate = null) : INodeValidator
 {
 	public const string ErrorKey = nameof(IbanValidator);
 	private readonly string _errorMessageTemplate =
@@ -18,6 +19,7 @@ public class IbanValidator(string? errorMessageTemplate = null) : INodeValidator
 	private readonly IbanParser _parser = new IbanParser(new IbanNet.IbanValidator());
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node)
 	{
 		if (node is not ITextNode textNode)
@@ -38,13 +40,6 @@ public class IbanValidator(string? errorMessageTemplate = null) : INodeValidator
 			// Invalid.
 			textNode.SetValidationError(ErrorKey, _errorMessageTemplate.Format(textNode.Value));
 		}
-	}
-
-	/// <inheritdoc />
-	public Task ValidateAsync(IFormNode node)
-	{
-		Validate(node);
-		return Task.CompletedTask;
 	}
 
 	private bool IsValidIban(string iban)

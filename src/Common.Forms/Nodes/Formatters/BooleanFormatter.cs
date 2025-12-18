@@ -1,12 +1,15 @@
 namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
-public class BooleanFormatter(string trueText, string falseText) : IValueFormatter
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
+public partial class BooleanFormatter(string trueText, string falseText) : IValueFormatter
 {
 	private readonly string _trueText = trueText;
 
 	private readonly string _falseText = falseText;
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public string? Format(object? value)
 	{
 		if (value is not bool isTrue)
@@ -18,9 +21,7 @@ public class BooleanFormatter(string trueText, string falseText) : IValueFormatt
 	}
 
 	/// <inheritdoc />
-	public Task<string?> FormatAsync(object? value) => Task.FromResult(Format(value));
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public object? Parse(string? textInput)
 	{
 		if (_trueText.Equals(textInput))
@@ -34,7 +35,4 @@ public class BooleanFormatter(string trueText, string falseText) : IValueFormatt
 
 		return null;
 	}
-
-	/// <inheritdoc />
-	public Task<object?> ParseAsync(string? textInput) => Task.FromResult(Parse(textInput));
 }

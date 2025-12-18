@@ -1,11 +1,12 @@
 namespace RobinEpple.Common.Forms.Validation;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
 /// <summary>
 /// This interface defines an API for a single validation step in the <see cref="IFormNode.Update"/> pipeline.
 /// </summary>
-public interface INodeValidator
+public partial interface INodeValidator
 {
 	/// <summary>
 	/// Validates this node.<br/>
@@ -13,8 +14,6 @@ public interface INodeValidator
 	/// if the node is not valid or removed otherwise.
 	/// </summary>
 	/// <param name="node">The node to validate.</param>
+	[GenerateAsyncOverload]
 	public void Validate(IFormNode node);
-
-	/// <inheritdoc cref="Validate"/>
-	public Task ValidateAsync(IFormNode node);
 }

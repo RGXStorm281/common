@@ -1,11 +1,11 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Search;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class Form : NodeBase, IForm
+internal partial class Form : NodeBase, IForm
 {
 	public Form(string name, IParentNode? parent)
 #pragma warning disable CS8604 // Possible null reference argument.
@@ -145,6 +145,7 @@ internal class Form : NodeBase, IForm
 	}
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public override void Reset()
 	{
 		base.Reset();
@@ -155,16 +156,7 @@ internal class Form : NodeBase, IForm
 	}
 
 	/// <inheritdoc />
-	public override async Task ResetAsync()
-	{
-		await base.ResetAsync();
-		foreach (var node in _nodesByName.Values)
-		{
-			await node.ResetAsync();
-		}
-	}
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public override void Update()
 	{
 		base.Update();
@@ -176,13 +168,5 @@ internal class Form : NodeBase, IForm
 	}
 
 	/// <inheritdoc />
-	public override async Task UpdateAsync()
-	{
-		await base.UpdateAsync();
-		foreach (var node in _nodesByName.Values)
-		{
-			await node.UpdateAsync();
-			IsValid = IsValid && node.IsValid;
-		}
-	}
+	public IEnumerable<IFormNode> GetChildren() => Nodes;
 }

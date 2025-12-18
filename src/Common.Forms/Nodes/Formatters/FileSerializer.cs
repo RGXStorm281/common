@@ -1,11 +1,14 @@
 namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
-public class FileSerializer : IValueFormatter
+using RobinEpple.Common.SourceGenerators.Abstractions;
+
+public partial class FileSerializer : IValueFormatter
 {
 	public const char Separator = ':';
 	public const string AllowedFileNameCharacters = "ABCDEFGHIKLMNOPQRSTUVXYZ abcdefghiklmnopqrstuvxyz0123456789()-_.";
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public string? Format(object? value)
 	{
 		if (value is not FileValue file)
@@ -21,9 +24,7 @@ public class FileSerializer : IValueFormatter
 	}
 
 	/// <inheritdoc />
-	public Task<string?> FormatAsync(object? value) => Task.FromResult(Format(value));
-
-	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public object? Parse(string? textInput)
 	{
 		if (textInput is not string text)
@@ -54,7 +55,4 @@ public class FileSerializer : IValueFormatter
 
 		return new FileValue() { FileName = fileName, FileContents = fileContents };
 	}
-
-	/// <inheritdoc />
-	public Task<object?> ParseAsync(string? textInput) => Task.FromResult(Parse(textInput));
 }

@@ -1,8 +1,9 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal class FileNode : FieldNode, IFileNode
+internal partial class FileNode : FieldNode, IFileNode
 {
 	public FileNode(string name, IParentNode parent)
 		: base(name, parent, new FileSerializer())
@@ -22,16 +23,10 @@ internal class FileNode : FieldNode, IFileNode
 	internal void ReplaceDefaultValue(FileValue newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
+	[GenerateAsyncOverload]
 	public override void Reset()
 	{
 		base.Reset();
-		_value.Reset();
-	}
-
-	/// <inheritdoc />
-	public override async Task ResetAsync()
-	{
-		await base.ResetAsync();
 		_value.Reset();
 	}
 
