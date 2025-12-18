@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms;
 
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Forms.Wrappers.Abstractions;
 
 public interface ITemplatedNodeBuilder<TSpecificNodeBuilder> : INodeBuilder<TSpecificNodeBuilder>
 {
@@ -16,12 +17,17 @@ public interface ITemplatedNodeBuilder<TSpecificNodeBuilder> : INodeBuilder<TSpe
 	/// <param name="name">The name of the template.</param>
 	/// <param name="configure">The function to configure the inner workings of the template.</param>
 	/// <returns>The collection builder to add further configurations.</returns>
-	public TSpecificNodeBuilder UseTemplate(string name, TemplateBuilder? configure = null);
+	[AddsTemplate]
+	public TSpecificNodeBuilder UseTemplate(
+		[NodeName] string name,
+		[SubstructureConfiguration] TemplateBuilder? configure = null
+	);
 
 	/// <summary>
 	/// Adds a template to this collection, that can be instantiated.
 	/// </summary>
 	/// <param name="template">The template, that is configured externally.</param>
 	/// <returns>The collection builder to add further configurations.</returns>
-	public TSpecificNodeBuilder UsePreConfiguredTemplate(IForm template);
+	[AddsTemplate]
+	public TSpecificNodeBuilder UsePreConfiguredTemplate([TakesParentNodeReference] IForm template);
 }
