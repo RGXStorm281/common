@@ -1,4 +1,4 @@
-namespace RobinEpple.Common.WebUi.Components;
+namespace RobinEpple.Common.Html.Components;
 
 using System.IO;
 using System.Text.Encodings.Web;

@@ -1,7 +1,7 @@
 namespace RobinEpple.Common.WebUi.DSL;
 
 using Microsoft.AspNetCore.Html;
-using RobinEpple.Common.WebUi.Components;
+using RobinEpple.Common.Html.Components;
 using static RobinEpple.Common.WebUi.DSL.Helper;
 
 /// <summary>

@@ -30,4 +30,9 @@ rm -f /local-nuget/RobinEpple.Common.Forms.Wrappers.[0-9]*.nupkg
 dotnet build /workspaces/common/src/Common.Forms.Wrappers/Common.Forms.Wrappers.csproj --configuration="Release"
 dotnet pack /workspaces/common/src/Common.Forms.Wrappers/Common.Forms.Wrappers.csproj -o /local-nuget
 
+dotnet restore /workspaces/common/src/Common.Html/Common.Html.csproj
+rm -f /local-nuget/RobinEpple.Common.Html.[0-9]*.nupkg
+dotnet build /workspaces/common/src/Common.Html/Common.Html.csproj --configuration="Release"
+dotnet pack /workspaces/common/src/Common.Html/Common.Html.csproj -o /local-nuget
+
 dotnet restore src

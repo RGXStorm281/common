@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>RobinEpple.Common.Html</AssemblyName>
+        <PackageId>RobinEpple.Common.Html</PackageId>
+        <RootNamespace>RobinEpple.Common.Html</RootNamespace>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>A html rendering library offering a declarative-functional api based on the MDN documentation.</Title>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" />
+    </ItemGroup>
+
+</Project>
