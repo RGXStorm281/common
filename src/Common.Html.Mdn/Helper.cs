@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Html.Mdn;
 
 using System.Text;
+using HtmlAgilityPack;
 
 public class Helper
 {
@@ -69,5 +70,42 @@ public class Helper
 		}
 
 		return normalizedName.ToString();
+	}
+
+	public static string GetPlainText(HtmlNode node)
+	{
+		var sb = new StringBuilder();
+		AppendPlainText(node, sb);
+		var text = HtmlEntity.DeEntitize(sb.ToString());
+		return text.Replace("  ", " ").Replace(" .", ".").Replace(" ,", ",").Trim();
+	}
+
+	private static void AppendPlainText(HtmlNode node, StringBuilder sb)
+	{
+		if (node == null)
+		{
+			return;
+		}
+
+		if (node is HtmlTextNode { Text: { } text })
+		{
+			if (!string.IsNullOrWhiteSpace(text))
+			{
+				sb.Append(text);
+				sb.Append(' ');
+			}
+			return;
+		}
+
+		// Ignore script/style entirely
+		if (node.Name == "script" || node.Name == "style")
+		{
+			return;
+		}
+
+		foreach (var child in node.ChildNodes)
+		{
+			AppendPlainText(child, sb);
+		}
 	}
 }

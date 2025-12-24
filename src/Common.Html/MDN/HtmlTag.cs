@@ -32,7 +32,7 @@ public partial class HtmlTag
 
 	/// <summary>
 	/// Controls whether input text is automatically corrected for spelling errors.
-	/// This can be applied to elements that have editable text except for <input> elements with the attribute: type="password" , type="email" , or type="url".
+	/// This can be applied to elements that have editable text except for <input> elements with the attribute: type="password", type="email", or type="url".
 	/// </summary>
 	public HtmlTag Autocorrect(string value)
 	{
@@ -200,7 +200,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Roles define the semantic meaning of content, allowing screen readers and other tools to present and support interaction with an object in a way that is consistent with user expectations of that type of object. roles are added to HTML elements using role="role_type" , where role_type is the name of a role in the ARIA specification.
+	/// Roles define the semantic meaning of content, allowing screen readers and other tools to present and support interaction with an object in a way that is consistent with user expectations of that type of object. roles are added to HTML elements using role="role_type", where role_type is the name of a role in the ARIA specification.
 	/// </summary>
 	public HtmlTag Role(string value)
 	{

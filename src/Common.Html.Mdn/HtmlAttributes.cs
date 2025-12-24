@@ -5,12 +5,16 @@ using HtmlAgilityPack;
 
 public static class HtmlAttributes
 {
-	public static List<HtmlAttribute> Fetch(string url)
+	public static IEnumerable<HtmlAttribute> Fetch(string url)
 	{
-		var results = new List<HtmlAttribute>();
-
 		var web = new HtmlWeb();
 		var doc = web.Load(url);
+		return ParseFrom(doc);
+	}
+
+	public static IEnumerable<HtmlAttribute> ParseFrom(HtmlDocument doc)
+	{
+		var results = new List<HtmlAttribute>();
 
 		// Find all <dt> elements that have an id attribute
 		var dtNodes = doc.DocumentNode.SelectNodes("//dt[@id]");
@@ -42,49 +46,12 @@ public static class HtmlAttributes
 			}
 
 			// Remove decorative tags but keep their inner text
-			var description = GetPlainText(p);
+			var description = Helper.GetPlainText(p);
 
 			results.Add(new HtmlAttribute(name, description));
 		}
 
 		return results;
-	}
-
-	private static string GetPlainText(HtmlNode node)
-	{
-		var sb = new StringBuilder();
-		AppendPlainText(node, sb);
-		var text = HtmlEntity.DeEntitize(sb.ToString());
-		return text.Replace("  ", " ").Replace(" .", ".").Trim();
-	}
-
-	private static void AppendPlainText(HtmlNode node, StringBuilder sb)
-	{
-		if (node == null)
-		{
-			return;
-		}
-
-		if (node is HtmlTextNode { Text: { } text })
-		{
-			if (!string.IsNullOrWhiteSpace(text))
-			{
-				sb.Append(text);
-				sb.Append(' ');
-			}
-			return;
-		}
-
-		// Ignore script/style entirely
-		if (node.Name == "script" || node.Name == "style")
-		{
-			return;
-		}
-
-		foreach (var child in node.ChildNodes)
-		{
-			AppendPlainText(child, sb);
-		}
 	}
 
 	public static string Render(HtmlAttribute attribute, string parentClass)
