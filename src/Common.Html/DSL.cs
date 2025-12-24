@@ -34,4 +34,18 @@ public static partial class DSL
 		tag.Attributes.Remove(name);
 		return tag;
 	}
+
+	public static TTag Data<TTag>(this TTag tag, string name, string value)
+		where TTag : HtmlTag
+	{
+		tag.Attributes["data-" + name] = value;
+		return tag;
+	}
+
+	public static TTag RemoveData<TTag>(this TTag tag, string name)
+		where TTag : HtmlTag
+	{
+		tag.Attributes.Remove("data-" + name);
+		return tag;
+	}
 }

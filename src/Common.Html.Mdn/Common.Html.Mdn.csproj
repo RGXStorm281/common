@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+
+        <AssemblyName>RobinEpple.Common.Html.Mdn</AssemblyName>
+        <PackageId>RobinEpple.Common.Html.Mdn</PackageId>
+        <RootNamespace>RobinEpple.Common.Html.Mdn</RootNamespace>
+        <Title>A helper task that fetches the documentation from MDN and generates classes.</Title>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HtmlAgilityPack" />
+    </ItemGroup>
+
+</Project>
