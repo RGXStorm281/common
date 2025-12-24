@@ -5,13 +5,13 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 
 /// <summary>
-/// A helper record to concatenate a list of html contents.
+/// A helper class to concatenate a list of html contents.
 /// </summary>
-public record class Concat : IHtmlContent
+public partial class Concat : IHtmlContent
 {
 	private readonly IEnumerable<IHtmlContent> _parts;
 
-	public Concat(IEnumerable<IHtmlContent> parts)
+	public Concat(params IEnumerable<IHtmlContent> parts)
 	{
 		_parts = parts;
 	}

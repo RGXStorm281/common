@@ -5,11 +5,12 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 
 /// <summary>
-/// A helper record to print raw, unencoded text.
+/// A helper class to print raw, unencoded text.
 /// </summary>
-/// <param name="Text"></param>
-public record class Raw(string Text) : IHtmlContent
+public partial class Raw(string text) : IHtmlContent
 {
+	public string Text { get; } = text;
+
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		var builder = new HtmlContentBuilder();

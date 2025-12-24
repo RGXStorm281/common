@@ -5,11 +5,12 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 
 /// <summary>
-/// A helper record to html encode text.
+/// A helper class to html encode text.
 /// </summary>
-/// <param name="Text"></param>
-public record class Encode(string Text) : IHtmlContent
+public partial class Encode(string text) : IHtmlContent
 {
+	public string Text { get; } = text;
+
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		var builder = new HtmlContentBuilder();

@@ -1,33 +1,34 @@
 namespace RobinEpple.Common.Html.Components;
 
-using System.Collections.Immutable;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 
 /// <summary>
-/// A record representing an html tag.
+/// A class representing an html tag.
 /// </summary>
-public record class HtmlTag : IHtmlContent
+public partial class HtmlTag : IHtmlContent
 {
 	public HtmlTag(string tag, bool selfClosing)
-		: this(tag, selfClosing, new HtmlString(string.Empty), [], []) { }
+		: this(tag, selfClosing, new HtmlString(string.Empty), [], [], []) { }
 
 	public HtmlTag(string tag, bool selfClosing, IHtmlContent content)
-		: this(tag, selfClosing, content, [], []) { }
+		: this(tag, selfClosing, content, [], [], []) { }
 
 	public HtmlTag(
 		string tag,
 		bool selfClosing,
 		IHtmlContent content,
 		IEnumerable<string> classes,
-		IEnumerable<KeyValuePair<string, string>> attributes
+		IEnumerable<KeyValuePair<string, string>> attributes,
+		IEnumerable<KeyValuePair<string, string>> styles
 	)
 	{
 		Tag = tag;
 		SelfClosing = selfClosing;
 		Content = content;
-		Classes = classes.ToImmutableHashSet();
-		Attributes = attributes.ToImmutableDictionary();
+		Classes = classes.ToList();
+		Attributes = attributes.ToDictionary();
+		Styles = styles.ToDictionary();
 	}
 
 	/// <summary>
@@ -48,17 +49,26 @@ public record class HtmlTag : IHtmlContent
 	/// <summary>
 	/// The css classes to render in the tag.
 	/// </summary>
-	public IImmutableSet<string> Classes { get; set; }
+	public IList<string> Classes { get; set; }
+
+	/// <summary>
+	/// Contents of the style attribute.
+	/// </summary>
+	public IDictionary<string, string> Styles { get; set; }
 
 	/// <summary>
 	/// Additional attributes to render in the tag.
 	/// </summary>
-	public IImmutableDictionary<string, string> Attributes { get; set; }
+	public IDictionary<string, string> Attributes { get; set; }
 
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		var builder = new HtmlContentBuilder();
 
+		var styles =
+			Styles.Count > 0
+				? $"style=\"{string.Join(" ", Styles.Select(style => $"{style.Key}: {style.Value};"))}\""
+				: string.Empty;
 		var classes = Classes.Count > 0 ? $"class=\"{string.Join(" ", Classes)}\"" : string.Empty;
 		var attributeList = Attributes.Select(attribute => $"{attribute.Key}=\"{attribute.Value}\"");
 		var attributes = string.Join(" ", attributeList);

@@ -2,7 +2,7 @@ namespace RobinEpple.Common.WebUi.DSL;
 
 using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.Html.Components;
-using static RobinEpple.Common.WebUi.DSL.Helper;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// Provides rendering functions for the html tags defined in
