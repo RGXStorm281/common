@@ -21,6 +21,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// Color of text for hyperlinks when selected.
 	/// Use the CSS color property in conjunction with the :active and :focus pseudo-classes instead.
 	/// </summary>
+	[Obsolete]
 	public Body Alink(string value)
 	{
 		return this.Attribute("alink", value);
@@ -30,6 +31,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// URI of an image to use as a background.
 	/// Use the CSS background-image property instead.
 	/// </summary>
+	[Obsolete]
 	public Body Background(string value)
 	{
 		return this.Attribute("background", value);
@@ -39,6 +41,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// Background color for the document.
 	/// Use the CSS background-color property instead.
 	/// </summary>
+	[Obsolete]
 	public Body Bgcolor(string value)
 	{
 		return this.Attribute("bgcolor", value);
@@ -48,6 +51,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// The margin of the bottom of the body.
 	/// Use the CSS margin-bottom property (or the logical margin-block-end property) instead.
 	/// </summary>
+	[Obsolete]
 	public Body Bottommargin(string value)
 	{
 		return this.Attribute("bottommargin", value);
@@ -57,6 +61,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// The margin of the left of the body.
 	/// Use the CSS margin-left property (or the logical margin-inline-start property) instead.
 	/// </summary>
+	[Obsolete]
 	public Body Leftmargin(string value)
 	{
 		return this.Attribute("leftmargin", value);
@@ -66,6 +71,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// Color of text for unvisited hypertext links.
 	/// Use the CSS color property in conjunction with the :link pseudo-class instead.
 	/// </summary>
+	[Obsolete]
 	public Body Link(string value)
 	{
 		return this.Attribute("link", value);
@@ -250,6 +256,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Function to call when the document is going away.
 	/// </summary>
+	[Obsolete]
 	public Body Onunload(string value)
 	{
 		return this.Attribute("onunload", value);
@@ -259,6 +266,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// The margin of the right of the body.
 	/// Use the CSS margin-right property or the logical margin-inline-end property) instead.
 	/// </summary>
+	[Obsolete]
 	public Body Rightmargin(string value)
 	{
 		return this.Attribute("rightmargin", value);
@@ -268,6 +276,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// Foreground color of text.
 	/// Use the CSS color property instead.
 	/// </summary>
+	[Obsolete]
 	public Body Text(string value)
 	{
 		return this.Attribute("text", value);
@@ -277,6 +286,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// The margin of the top of the body.
 	/// Use the CSS margin-top property (or the logical margin-block-start property) instead.
 	/// </summary>
+	[Obsolete]
 	public Body Topmargin(string value)
 	{
 		return this.Attribute("topmargin", value);
@@ -286,6 +296,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	/// Color of text for visited hypertext links.
 	/// Use the CSS color property in conjunction with the :visited pseudo-class instead.
 	/// </summary>
+	[Obsolete]
 	public Body Vlink(string value)
 	{
 		return this.Attribute("vlink", value);

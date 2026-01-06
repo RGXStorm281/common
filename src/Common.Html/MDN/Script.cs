@@ -48,6 +48,7 @@ public partial class Script(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies that you want the browser to send an Attribution-Reporting-Eligible header along with the script resource request. On the server-side this is used to trigger sending an Attribution-Reporting-Register-Source or Attribution-Reporting-Register-Trigger header in the response, to register a JavaScript-based attribution source or attribution trigger, respectively. Which response header should be sent back depends on the value of the Attribution-Reporting-Eligible header that triggered the registration.
 	/// </summary>
+	[Obsolete]
 	public Script Attributionsrc(string value)
 	{
 		return this.Attribute("attributionsrc", value);
@@ -74,6 +75,7 @@ public partial class Script(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// If present, its value must be an ASCII case-insensitive match for utf-8. It's unnecessary to specify the charset attribute, because documents must use UTF-8, and the script element inherits its character encoding from the document.
 	/// </summary>
+	[Obsolete]
 	public Script Charset(string value)
 	{
 		return this.Attribute("charset", value);
@@ -131,6 +133,7 @@ public partial class Script(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Like the type attribute, this attribute identifies the scripting language in use. Unlike the type attribute, however, this attribute's possible values were never standardized. The type attribute should be used instead.
 	/// </summary>
+	[Obsolete]
 	public Script Language(string value)
 	{
 		return this.Attribute("language", value);

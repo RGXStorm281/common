@@ -11,12 +11,14 @@ using static RobinEpple.Common.Html.DSL;
 /// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <param> HTML element defines parameters for an <object> element. Note: 
 /// Use the <object> element with a data attribute to set the URL of an external resource.
 /// </summary>
+[Obsolete]
 public partial class Param()
 	: HtmlTag("param", true)
 {
 	/// <summary>
 	/// Name of the parameter.
 	/// </summary>
+	[Obsolete]
 	public Param Name(string value)
 	{
 		return this.Attribute("name", value);
@@ -25,6 +27,7 @@ public partial class Param()
 	/// <summary>
 	/// Only used if the valuetype is set to ref. Specifies the MIME type of values found at the URI specified by value.
 	/// </summary>
+	[Obsolete]
 	public Param Type(string value)
 	{
 		return this.Attribute("type", value);
@@ -33,6 +36,7 @@ public partial class Param()
 	/// <summary>
 	/// Specifies the value of the parameter.
 	/// </summary>
+	[Obsolete]
 	public Param Value(string value)
 	{
 		return this.Attribute("value", value);
@@ -41,6 +45,7 @@ public partial class Param()
 	/// <summary>
 	/// Specifies the type of the value attribute. Possible values are:
 	/// </summary>
+	[Obsolete]
 	public Param Valuetype(string value)
 	{
 		return this.Attribute("valuetype", value);

@@ -20,6 +20,7 @@ public partial class Pre(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Contains the preferred count of characters that a line should have. Though technically still implemented, this attribute has no visual effect; to achieve such an effect, use CSS width instead.
 	/// </summary>
+	[Obsolete]
 	public Pre Width(string value)
 	{
 		return this.Attribute("width", value);
@@ -28,6 +29,7 @@ public partial class Pre(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Is a hint indicating how the overflow must happen. In modern browser this hint is ignored and no visual effect results in its present; to achieve such an effect, use CSS white-space instead.
 	/// </summary>
+	[Obsolete]
 	public Pre Wrap(string value)
 	{
 		return this.Attribute("wrap", value);

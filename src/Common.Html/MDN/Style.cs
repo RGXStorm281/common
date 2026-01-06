@@ -52,6 +52,7 @@ public partial class Style(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// This attribute should not be provided: if it is, the only permitted values are the empty string or a case-insensitive match for text/css.
 	/// </summary>
+	[Obsolete]
 	public Style Type(string value)
 	{
 		return this.Attribute("type", value);

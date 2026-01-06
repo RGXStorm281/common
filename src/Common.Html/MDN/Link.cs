@@ -55,6 +55,7 @@ public partial class Link()
 	/// The value is a space- and/or comma-delimited list of character sets as defined in RFC 2045.
 	/// The default value is iso-8859-1.
 	/// </summary>
+	[Obsolete]
 	public Link Charset(string value)
 	{
 		return this.Attribute("charset", value);
@@ -180,6 +181,7 @@ public partial class Link()
 	/// The attribute thus defines the reverse relationship compared to the value of the rel attribute.
 	///  Link type values for the attribute are similar to the possible values for rel.
 	/// </summary>
+	[Obsolete]
 	public Link Rev(string value)
 	{
 		return this.Attribute("rev", value);
@@ -198,6 +200,7 @@ public partial class Link()
 	/// <summary>
 	/// Defines the frame or window name that has the defined linking relationship or that will show the rendering of any linked resource.
 	/// </summary>
+	[Obsolete]
 	public Link Target(string value)
 	{
 		return this.Attribute("target", value);

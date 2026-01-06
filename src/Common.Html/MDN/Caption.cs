@@ -20,6 +20,7 @@ public partial class Caption(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies on which side of the table the caption should be displayed. The possible enumerated values are left, top, right, or bottom. Use the caption-side and text-align CSS properties instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Caption Align(string value)
 	{
 		return this.Attribute("align", value);

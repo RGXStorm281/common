@@ -20,6 +20,7 @@ public partial class Head(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The URI s of one or more metadata profiles, separated by white space.
 	/// </summary>
+	[Obsolete]
 	public Head Profile(string value)
 	{
 		return this.Attribute("profile", value);

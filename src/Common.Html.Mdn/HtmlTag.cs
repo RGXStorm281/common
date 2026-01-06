@@ -5,5 +5,6 @@ public record class HtmlTag(
 	string ClassName,
 	string TagName,
 	string Documentation,
-	IEnumerable<HtmlAttribute> Attributes
+	IEnumerable<HtmlAttribute> Attributes,
+	bool IsDeprecated
 );

@@ -28,6 +28,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The input buffer of a ScriptProcessorNode is ready to be processed.
 	/// </summary>
+	[Obsolete]
 	public Video Audioprocess(string value)
 	{
 		return this.Attribute("audioprocess", value);

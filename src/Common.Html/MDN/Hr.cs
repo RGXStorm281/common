@@ -16,6 +16,7 @@ public partial class Hr()
 	/// <summary>
 	/// Sets the alignment of the rule on the page. If no value is specified, the default value is left.
 	/// </summary>
+	[Obsolete]
 	public Hr Align(string value)
 	{
 		return this.Attribute("align", value);
@@ -24,6 +25,7 @@ public partial class Hr()
 	/// <summary>
 	/// Sets the color of the rule through color name or hexadecimal value.
 	/// </summary>
+	[Obsolete]
 	public Hr Color(string value)
 	{
 		return this.Attribute("color", value);
@@ -32,6 +34,7 @@ public partial class Hr()
 	/// <summary>
 	/// Sets the rule to have no shading.
 	/// </summary>
+	[Obsolete]
 	public Hr Noshade(string value)
 	{
 		return this.Attribute("noshade", value);
@@ -40,6 +43,7 @@ public partial class Hr()
 	/// <summary>
 	/// Sets the height, in pixels, of the rule.
 	/// </summary>
+	[Obsolete]
 	public Hr Size(string value)
 	{
 		return this.Attribute("size", value);
@@ -48,6 +52,7 @@ public partial class Hr()
 	/// <summary>
 	/// Sets the length of the rule on the page through a pixel or percentage value.
 	/// </summary>
+	[Obsolete]
 	public Hr Width(string value)
 	{
 		return this.Attribute("width", value);

@@ -20,6 +20,7 @@ public partial class Li(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// This character attribute indicates the numbering type:
 	/// </summary>
+	[Obsolete]
 	public Li Type(string value)
 	{
 		return this.Attribute("type", value);

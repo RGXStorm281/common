@@ -16,6 +16,7 @@ public partial class Br()
 	/// <summary>
 	/// Indicates where to begin the next line after the break.
 	/// </summary>
+	[Obsolete]
 	public Br Clear(string value)
 	{
 		return this.Attribute("clear", value);

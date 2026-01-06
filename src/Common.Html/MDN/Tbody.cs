@@ -20,6 +20,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the horizontal alignment of each body cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Tbody Align(string value)
 	{
 		return this.Attribute("align", value);
@@ -28,6 +29,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines the background color of each body cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Tbody Bgcolor(string value)
 	{
 		return this.Attribute("bgcolor", value);
@@ -36,6 +38,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the alignment of the content to a character of each body cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
 	/// </summary>
+	[Obsolete]
 	public Tbody Char(string value)
 	{
 		return this.Attribute("char", value);
@@ -44,6 +47,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the number of characters to offset the body cell content from the alignment character specified by the char attribute.
 	/// </summary>
+	[Obsolete]
 	public Tbody Charoff(string value)
 	{
 		return this.Attribute("charoff", value);
@@ -52,6 +56,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the vertical alignment of each body cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Tbody Valign(string value)
 	{
 		return this.Attribute("valign", value);

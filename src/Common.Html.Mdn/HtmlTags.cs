@@ -74,11 +74,14 @@ public static class HtmlTags
 		var web = new HtmlWeb();
 		var doc = web.Load(url);
 
+		// Get deprecated information.
+
+		var deprecatedSection = doc.DocumentNode.SelectSingleNode("//div[contains(@class, 'deprecated')]");
+		var isDeprecated = deprecatedSection != null;
+
 		// Find the first content section -> contains the element documentation.
 		var documentation = string.Empty;
-		var docSection = doc.DocumentNode.SelectSingleNode(
-			"//section[contains(concat(' ', normalize-space(@class), ' '), ' content-section ')]"
-		);
+		var docSection = doc.DocumentNode.SelectSingleNode("//section[contains(@class, 'content-section')]");
 		if (docSection != null)
 		{
 			documentation = Helper.GetPlainText(docSection);
@@ -87,7 +90,7 @@ public static class HtmlTags
 		// Fetch attributes.
 		var attributes = HtmlAttributes.ParseFrom(doc);
 
-		return new HtmlTag(classNamespace, className, tagName, documentation, attributes);
+		return new HtmlTag(classNamespace, className, tagName, documentation, attributes, isDeprecated);
 	}
 
 	public static string Render(
@@ -115,6 +118,10 @@ public static class HtmlTags
 		sb.AppendLine("/// <summary>");
 		sb.AppendLine(Helper.Indent(tag.Documentation, indentPattern: "/// "));
 		sb.AppendLine("/// </summary>");
+		if (tag.IsDeprecated)
+		{
+			sb.AppendLine($"[Obsolete]");
+		}
 		if (isVoidElement)
 		{
 			sb.AppendLine($"public partial class {tag.ClassName}()");

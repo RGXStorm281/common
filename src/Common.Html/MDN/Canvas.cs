@@ -28,6 +28,7 @@ public partial class Canvas(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Lets the canvas know whether translucency will be a factor. If the canvas knows there's no translucency, painting performance can be optimized. This is only supported by Mozilla-based browsers; use the standardized canvas.getContext('2d', { alpha: false }) instead.
 	/// </summary>
+	[Obsolete]
 	public Canvas MozOpaque(string value)
 	{
 		return this.Attribute("moz-opaque", value);

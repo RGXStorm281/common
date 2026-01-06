@@ -20,6 +20,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Contains a short abbreviated description of the data cell's content. Some user-agents, such as speech readers, may present this description before the content itself. Put the abbreviated content inside the cell and place the (longer) description in the title attribute, as this attribute is deprecated. Or, preferably, include the content within the data cell, and use CSS to visually clip overflowing text.
 	/// </summary>
+	[Obsolete]
 	public Td Abbr(string value)
 	{
 		return this.Attribute("abbr", value);
@@ -28,6 +29,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the horizontal alignment of the data cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Td Align(string value)
 	{
 		return this.Attribute("align", value);
@@ -36,6 +38,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Contains a list of space-separated strings, each corresponding to the id attribute of a group of cells that the data cell applies to.
 	/// </summary>
+	[Obsolete]
 	public Td Axis(string value)
 	{
 		return this.Attribute("axis", value);
@@ -44,6 +47,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines the background color of the data cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Td Bgcolor(string value)
 	{
 		return this.Attribute("bgcolor", value);
@@ -52,6 +56,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Does nothing. It was originally intended to specify the alignment of the content to a character of the data cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
 	/// </summary>
+	[Obsolete]
 	public Td Char(string value)
 	{
 		return this.Attribute("char", value);
@@ -60,6 +65,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Does nothing. It was originally intended to specify the number of characters to offset the data cell content from the alignment character specified by the char attribute.
 	/// </summary>
+	[Obsolete]
 	public Td Charoff(string value)
 	{
 		return this.Attribute("charoff", value);
@@ -84,6 +90,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines a recommended data cell height. Use the height CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Td Height(string value)
 	{
 		return this.Attribute("height", value);
@@ -100,6 +107,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines the cells that the header (defined in the <th> ) element relates to. The possible enumerated values are row, col, rowgroup, and colgroup. Only use this attribute with the <th> element to define the row or column for which it is a header, as this attribute is deprecated for the <td> element.
 	/// </summary>
+	[Obsolete]
 	public Td Scope(string value)
 	{
 		return this.Attribute("scope", value);
@@ -108,6 +116,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the vertical alignment of the data cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Td Valign(string value)
 	{
 		return this.Attribute("valign", value);
@@ -116,6 +125,7 @@ public partial class Td(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines a recommended data cell width. Use the width CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Td Width(string value)
 	{
 		return this.Attribute("width", value);

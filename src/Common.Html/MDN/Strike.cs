@@ -11,6 +11,7 @@ using static RobinEpple.Common.Html.DSL;
 /// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <strike> HTML element places a strikethrough (horizontal line) over text. Warning: 
 /// This element is deprecated in HTML 4 and XHTML 1, and obsoleted in the HTML Living Standard. If semantically appropriate, i.e., if it represents deleted content, use <del> instead. In all other cases use <s>.
 /// </summary>
+[Obsolete]
 public partial class Strike(params IEnumerable<IHtmlContent> contents)
 	: HtmlTag("strike", false, contents)
 {

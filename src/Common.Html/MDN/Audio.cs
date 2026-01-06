@@ -29,6 +29,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The input buffer of a ScriptProcessorNode is ready to be processed.
 	/// </summary>
+	[Obsolete]
 	public Audio Audioprocess(string value)
 	{
 		return this.Attribute("audioprocess", value);

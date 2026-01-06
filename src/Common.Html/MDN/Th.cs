@@ -28,6 +28,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the horizontal alignment of the header cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Th Align(string value)
 	{
 		return this.Attribute("align", value);
@@ -36,6 +37,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Contains a list of space-separated strings, each corresponding to the id attribute of a group of cells that the header cell applies to. Use the scope attribute instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Th Axis(string value)
 	{
 		return this.Attribute("axis", value);
@@ -44,6 +46,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines the background color of the header cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Th Bgcolor(string value)
 	{
 		return this.Attribute("bgcolor", value);
@@ -52,6 +55,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Does nothing. It was originally intended to specify the alignment of the content to a character of the header cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
 	/// </summary>
+	[Obsolete]
 	public Th Char(string value)
 	{
 		return this.Attribute("char", value);
@@ -60,6 +64,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Does nothing. It was originally intended to specify the number of characters to offset the header cell content from the alignment character specified by the char attribute.
 	/// </summary>
+	[Obsolete]
 	public Th Charoff(string value)
 	{
 		return this.Attribute("charoff", value);
@@ -84,6 +89,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines a recommended header cell height. Use the height CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Th Height(string value)
 	{
 		return this.Attribute("height", value);
@@ -108,6 +114,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the vertical alignment of the header cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Th Valign(string value)
 	{
 		return this.Attribute("valign", value);
@@ -116,6 +123,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines a recommended header cell width. Use the width CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Th Width(string value)
 	{
 		return this.Attribute("width", value);

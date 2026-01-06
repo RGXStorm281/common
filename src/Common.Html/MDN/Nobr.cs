@@ -14,6 +14,7 @@ using static RobinEpple.Common.Html.DSL;
 ///  white-space: nowrap;
 /// }
 /// </summary>
+[Obsolete]
 public partial class Nobr(params IEnumerable<IHtmlContent> contents)
 	: HtmlTag("nobr", false, contents)
 {

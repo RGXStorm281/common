@@ -20,6 +20,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The alignment of this element with respect to the surrounding context.
 	/// </summary>
+	[Obsolete]
 	public Iframe Align(string value)
 	{
 		return this.Attribute("align", value);
@@ -156,6 +157,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Set to true if a cross-origin <iframe> should be allowed to invoke the Payment Request API.
 	/// </summary>
+	[Obsolete]
 	public Iframe Allowpaymentrequest(string value)
 	{
 		return this.Attribute("allowpaymentrequest", value);
@@ -172,6 +174,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// A boolean attribute that, if present, specifies that the selected topics for the current user should be sent with the request for the <iframe> 's source. See Using the Topics API for more details.
 	/// </summary>
+	[Obsolete]
 	public Iframe Browsingtopics(string value)
 	{
 		return this.Attribute("browsingtopics", value);
@@ -204,6 +207,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The value 1 (the default) draws a border around this frame. The value 0 removes the border around this frame, but you should instead use the CSS property border to control <iframe> borders.
 	/// </summary>
+	[Obsolete]
 	public Iframe Frameborder(string value)
 	{
 		return this.Attribute("frameborder", value);
@@ -238,6 +242,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// A URL of a long description of the frame's content. Due to widespread misuse, this is not helpful for non-visual browsers.
 	/// </summary>
+	[Obsolete]
 	public Iframe Longdesc(string value)
 	{
 		return this.Attribute("longdesc", value);
@@ -246,6 +251,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The amount of space in pixels between the frame's content and its top and bottom borders.
 	/// </summary>
+	[Obsolete]
 	public Iframe Marginheight(string value)
 	{
 		return this.Attribute("marginheight", value);
@@ -254,6 +260,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The amount of space in pixels between the frame's content and its left and right borders.
 	/// </summary>
+	[Obsolete]
 	public Iframe Marginwidth(string value)
 	{
 		return this.Attribute("marginwidth", value);
@@ -342,6 +349,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Indicates when the browser should provide a scrollbar for the frame:
 	/// </summary>
+	[Obsolete]
 	public Iframe Scrolling(string value)
 	{
 		return this.Attribute("scrolling", value);

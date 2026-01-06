@@ -16,6 +16,7 @@ public partial class Img()
 	/// <summary>
 	/// Aligns the image with its surrounding context. Use the float and/or vertical-align CSS properties instead of this attribute. Allowed values:
 	/// </summary>
+	[Obsolete]
 	public Img Align(string value)
 	{
 		return this.Attribute("align", value);
@@ -48,6 +49,7 @@ public partial class Img()
 	/// <summary>
 	/// Specifies that you want the browser to send an Attribution-Reporting-Eligible header along with the image request.
 	/// </summary>
+	[Obsolete]
 	public Img Attributionsrc(string value)
 	{
 		return this.Attribute("attributionsrc", value);
@@ -74,6 +76,7 @@ public partial class Img()
 	/// <summary>
 	/// The width of a border around the image. Use the border CSS property instead.
 	/// </summary>
+	[Obsolete]
 	public Img Border(string value)
 	{
 		return this.Attribute("border", value);
@@ -146,6 +149,7 @@ public partial class Img()
 	/// <summary>
 	/// The number of pixels of white space on the left and right of the image. Use the margin CSS property instead.
 	/// </summary>
+	[Obsolete]
 	public Img Hspace(string value)
 	{
 		return this.Attribute("hspace", value);
@@ -186,6 +190,7 @@ public partial class Img()
 	/// <summary>
 	/// A link to a more detailed description of the image. Possible values are a URL or an element id.
 	/// </summary>
+	[Obsolete]
 	public Img Longdesc(string value)
 	{
 		return this.Attribute("longdesc", value);
@@ -210,6 +215,7 @@ public partial class Img()
 	/// <summary>
 	/// A name for the element. Use the id attribute instead.
 	/// </summary>
+	[Obsolete]
 	public Img Name(string value)
 	{
 		return this.Attribute("name", value);
@@ -290,6 +296,7 @@ public partial class Img()
 	/// <summary>
 	/// The number of pixels of white space above and below the image. Use the margin CSS property instead.
 	/// </summary>
+	[Obsolete]
 	public Img Vspace(string value)
 	{
 		return this.Attribute("vspace", value);

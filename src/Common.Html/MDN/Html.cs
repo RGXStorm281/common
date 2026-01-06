@@ -20,6 +20,7 @@ public partial class Html(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the version of the HTML Document Type Definition that governs the current document. This attribute is not needed, because it is redundant with the version information in the document type declaration.
 	/// </summary>
+	[Obsolete]
 	public Html Version(string value)
 	{
 		return this.Attribute("version", value);

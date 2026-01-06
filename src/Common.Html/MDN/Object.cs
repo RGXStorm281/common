@@ -20,6 +20,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// A space-separated list of URIs for archives of resources for the object.
 	/// </summary>
+	[Obsolete]
 	public Object Archive(string value)
 	{
 		return this.Attribute("archive", value);
@@ -28,6 +29,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The width of a border around the control, in pixels.
 	/// </summary>
+	[Obsolete]
 	public Object Border(string value)
 	{
 		return this.Attribute("border", value);
@@ -36,6 +38,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The URI of the object's implementation. It can be used together with, or in place of, the data attribute.
 	/// </summary>
+	[Obsolete]
 	public Object Classid(string value)
 	{
 		return this.Attribute("classid", value);
@@ -44,6 +47,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The base path used to resolve relative URIs specified by classid, data, or archive. If not specified, the default is the base URI of the current document.
 	/// </summary>
+	[Obsolete]
 	public Object Codebase(string value)
 	{
 		return this.Attribute("codebase", value);
@@ -52,6 +56,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The content type of the data specified by classid.
 	/// </summary>
+	[Obsolete]
 	public Object Codetype(string value)
 	{
 		return this.Attribute("codetype", value);
@@ -68,6 +73,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The presence of this Boolean attribute makes this element a declaration only. The object must be instantiated by a subsequent <object> element. Repeat the <object> element completely each time the resource is reused.
 	/// </summary>
+	[Obsolete]
 	public Object Declare(string value)
 	{
 		return this.Attribute("declare", value);
@@ -100,6 +106,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// A message that the browser can show while loading the object's implementation and data.
 	/// </summary>
+	[Obsolete]
 	public Object Standby(string value)
 	{
 		return this.Attribute("standby", value);
@@ -116,6 +123,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// A hash-name reference to a <map> element; that is a '#' followed by the value of a name of a map element.
 	/// </summary>
+	[Obsolete]
 	public Object Usemap(string value)
 	{
 		return this.Attribute("usemap", value);

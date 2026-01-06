@@ -31,6 +31,9 @@ public static class HtmlAttributes
 				continue;
 			}
 
+			var deprecatedIcon = dt.SelectSingleNode(".//abbr[contains(@class, 'icon-deprecated')]");
+			var isDeprecated = deprecatedIcon != null;
+
 			// Find the directly following <dd>
 			var dd = dt.SelectSingleNode("following-sibling::dd[1]");
 			if (dd == null)
@@ -48,7 +51,7 @@ public static class HtmlAttributes
 			// Remove decorative tags but keep their inner text
 			var description = Helper.GetPlainText(p);
 
-			results.Add(new HtmlAttribute(name, description));
+			results.Add(new HtmlAttribute(name, description, isDeprecated));
 		}
 
 		return results;
@@ -61,6 +64,10 @@ public static class HtmlAttributes
 		sb.AppendLine(Helper.Indent(attribute.Documentation, indentPattern: "/// "));
 		sb.AppendLine("/// </summary>");
 		var newKeyword = isGlobalOverride ? " new" : string.Empty;
+		if (attribute.IsDeprecated)
+		{
+			sb.AppendLine("[Obsolete]");
+		}
 		sb.AppendLine($"public{newKeyword} {parentClass} {Helper.PascalCase(attribute.Name)}(string value)");
 		sb.AppendLine("{");
 		sb.AppendLine(Helper.Indent($"return this.Attribute(\"{attribute.Name}\", value);"));

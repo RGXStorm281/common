@@ -20,6 +20,7 @@ public partial class Dl(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>
+	[Obsolete]
 	public Dl Compact(string value)
 	{
 		return this.Attribute("compact", value);

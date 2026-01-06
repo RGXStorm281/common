@@ -20,6 +20,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies that you want the browser to send an Attribution-Reporting-Eligible header. On the server-side this is used to trigger sending an Attribution-Reporting-Register-Source header in the response, to register a navigation-based attribution source.
 	/// </summary>
+	[Obsolete]
 	public A Attributionsrc(string value)
 	{
 		return this.Attribute("attributionsrc", value);
@@ -28,6 +29,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Hinted at the character encoding of the linked URL.
 	/// </summary>
+	[Obsolete]
 	public A Charset(string value)
 	{
 		return this.Attribute("charset", value);
@@ -36,6 +38,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Used with the shape attribute. A comma-separated list of coordinates.
 	/// </summary>
+	[Obsolete]
 	public A Coords(string value)
 	{
 		return this.Attribute("coords", value);
@@ -76,6 +79,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Was required to define a possible target location in a page. In HTML 4.01, id and name could both be used on <a>, as long as they had identical values.
 	/// </summary>
+	[Obsolete]
 	public A Name(string value)
 	{
 		return this.Attribute("name", value);
@@ -108,6 +112,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specified a reverse link; the opposite of the rel attribute. Deprecated for being very confusing.
 	/// </summary>
+	[Obsolete]
 	public A Rev(string value)
 	{
 		return this.Attribute("rev", value);
@@ -116,6 +121,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// The shape of the hyperlink's region in an image map.
 	/// </summary>
+	[Obsolete]
 	public A Shape(string value)
 	{
 		return this.Attribute("shape", value);

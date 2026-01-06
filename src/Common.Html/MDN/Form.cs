@@ -20,6 +20,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Comma-separated content types the server accepts.
 	/// </summary>
+	[Obsolete]
 	public Form Accept(string value)
 	{
 		return this.Attribute("accept", value);

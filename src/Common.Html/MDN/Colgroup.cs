@@ -20,6 +20,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the horizontal alignment of each column group cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Note that the descendant <col> elements may override this value using their own align attribute. Use the text-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Colgroup Align(string value)
 	{
 		return this.Attribute("align", value);
@@ -28,6 +29,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Defines the background color of each column group cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Colgroup Bgcolor(string value)
 	{
 		return this.Attribute("bgcolor", value);
@@ -36,6 +38,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Does nothing. It was originally intended to specify the alignment of the content to a character of each column group cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored, though it will still be used as the default value for the align of the <col> elements which are members of this column group.
 	/// </summary>
+	[Obsolete]
 	public Colgroup Char(string value)
 	{
 		return this.Attribute("char", value);
@@ -44,6 +47,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Does nothing. It was originally intended to specify the number of characters to offset the column group cell content from the alignment character specified by the char attribute.
 	/// </summary>
+	[Obsolete]
 	public Colgroup Charoff(string value)
 	{
 		return this.Attribute("charoff", value);
@@ -60,6 +64,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies the vertical alignment of each column group cell. The possible enumerated values are baseline, bottom, middle, and top. Note that the descendant <col> elements may override this value using their own valign attribute. Use the vertical-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Colgroup Valign(string value)
 	{
 		return this.Attribute("valign", value);
@@ -68,6 +73,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	/// <summary>
 	/// Specifies a default width for each column in the current column group. In addition to the standard pixel and percentage values, this attribute can take the special form 0*, which means that the width of each column spanned should be the minimum width necessary to hold the column's contents. Relative widths such as 5* can also be used. Note that the descendant <col> elements may override this value using their own width attribute. Use the width CSS property instead, as this attribute is deprecated.
 	/// </summary>
+	[Obsolete]
 	public Colgroup Width(string value)
 	{
 		return this.Attribute("width", value);
