@@ -1,11 +1,17 @@
 namespace RobinEpple.Common.Html.Mdn;
 
 using System.Text;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 public static class HtmlTags
 {
-	public static IEnumerable<HtmlTag> FetchAll(string overviewUrl, string tagBaseUrl, string classNamespace)
+	public static IEnumerable<HtmlTag> FetchAll(
+		string overviewUrl,
+		string tagBaseUrl,
+		string classNamespace,
+		IDictionary<string, IEnumerable<string>> groupedTags
+	)
 	{
 		var results = new List<HtmlTag>();
 		var domain = overviewUrl.Split("/", StringSplitOptions.RemoveEmptyEntries)[1];
@@ -59,13 +65,17 @@ public static class HtmlTags
 		// Then fetch the documentation for each tag.
 		foreach (var tagUrl in tagUrls)
 		{
-			results.Add(Fetch(tagUrl, classNamespace));
+			results.AddRange(Fetch(tagUrl, classNamespace, groupedTags));
 		}
 
 		return results;
 	}
 
-	public static HtmlTag Fetch(string url, string classNamespace)
+	public static IEnumerable<HtmlTag> Fetch(
+		string url,
+		string classNamespace,
+		IDictionary<string, IEnumerable<string>> groupedTags
+	)
 	{
 		Console.WriteLine($"Fetching {url}");
 		var tagName = url.Split("/").Last();
@@ -90,7 +100,21 @@ public static class HtmlTags
 		// Fetch attributes.
 		var attributes = HtmlAttributes.ParseFrom(doc);
 
-		return new HtmlTag(classNamespace, className, tagName, documentation, attributes, isDeprecated);
+		if (!groupedTags.TryGetValue(tagName, out var groupedTagNames))
+		{
+			return [new HtmlTag(classNamespace, className, tagName, documentation, attributes, isDeprecated)];
+		}
+
+		var documentationAppendix =
+			$"This is one variant of the following tag group: {string.Join(", ", groupedTagNames)}.\n";
+		return groupedTagNames.Select(groupedTag => new HtmlTag(
+			classNamespace,
+			Helper.PascalCase(groupedTag),
+			groupedTag,
+			documentationAppendix + documentation,
+			attributes,
+			isDeprecated
+		));
 	}
 
 	public static string Render(

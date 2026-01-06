@@ -10,6 +10,10 @@ const string voidElementsUrl = "https://developer.mozilla.org/en-US/docs/Glossar
 const string elementsRootUrl = "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements";
 const string tagBaseUrl = "/en-US/docs/Web/HTML/Reference/Elements/";
 var excludeAttributes = new HashSet<string> { "class", "style", "data-" };
+var groupedTags = new Dictionary<string, IEnumerable<string>>
+{
+	{ "Heading_Elements", ["h1", "h2", "h3", "h4", "h5", "h6"] },
+};
 
 // -------------------------------
 // Cleanup
@@ -63,7 +67,7 @@ var voidElements = VoidElements.Fetch(voidElementsUrl).ToHashSet();
 // HTML tags
 // -------------------------------
 Console.WriteLine("Fetching html tags...");
-var tags = HtmlTags.FetchAll(elementsRootUrl, tagBaseUrl, targetNamespace);
+var tags = HtmlTags.FetchAll(elementsRootUrl, tagBaseUrl, targetNamespace, groupedTags);
 var globalAttributeNames = globalAttributes.Select(attribute => attribute.Name).ToHashSet();
 foreach (var tag in tags)
 {
