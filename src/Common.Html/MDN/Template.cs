@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <template> HTML element serves as a mechanism for holding HTML fragments, which can either be used later via JavaScript or generated immediately into shadow DOM.
 /// </summary>
-public partial class Template(IHtmlContent content)
-	: HtmlTag("template", false, content)
+public partial class Template(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("template", false, contents)
 {
+	public Template(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Hides the internal shadow root DOM from JavaScript.
 	/// </summary>

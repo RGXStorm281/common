@@ -5,6 +5,7 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <nobr> HTML element prevents the text it contains from automatically wrapping across multiple lines, potentially resulting in the user having to scroll horizontally to see the entire width of the text. Warning: 
@@ -13,7 +14,11 @@ using Microsoft.AspNetCore.Html;
 ///  white-space: nowrap;
 /// }
 /// </summary>
-public partial class Nobr(IHtmlContent content)
-	: HtmlTag("nobr", false, content)
+public partial class Nobr(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("nobr", false, contents)
 {
+	public Nobr(string text)
+		: this(Encode(text))
+	{
+	}
 }

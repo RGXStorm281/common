@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <figcaption> HTML element represents a caption or legend describing the rest of the contents of its parent <figure> element, providing the <figure> an accessible name.
 /// </summary>
-public partial class Figcaption(IHtmlContent content)
-	: HtmlTag("figcaption", false, content)
+public partial class Figcaption(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("figcaption", false, contents)
 {
+	public Figcaption(string text)
+		: this(Encode(text))
+	{
+	}
 }

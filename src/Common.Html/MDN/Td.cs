@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <td> HTML element defines a cell of a table that contains data and may be used as a child of the <tr> element.
 /// </summary>
-public partial class Td(IHtmlContent content)
-	: HtmlTag("td", false, content)
+public partial class Td(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("td", false, contents)
 {
+	public Td(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Contains a short abbreviated description of the data cell's content. Some user-agents, such as speech readers, may present this description before the content itself. Put the abbreviated content inside the cell and place the (longer) description in the title attribute, as this attribute is deprecated. Or, preferably, include the content within the data cell, and use CSS to visually clip overflowing text.
 	/// </summary>

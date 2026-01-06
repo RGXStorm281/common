@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <html> HTML element represents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element. There can be only one <html> element in a document.
 /// </summary>
-public partial class Html(IHtmlContent content)
-	: HtmlTag("html", false, content)
+public partial class Html(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("html", false, contents)
 {
+	public Html(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies the version of the HTML Document Type Definition that governs the current document. This attribute is not needed, because it is redundant with the version information in the document type declaration.
 	/// </summary>

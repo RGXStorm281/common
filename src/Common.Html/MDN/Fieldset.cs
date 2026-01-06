@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <fieldset> HTML element is used to group several controls as well as labels ( <label> ) within a web form.
 /// </summary>
-public partial class Fieldset(IHtmlContent content)
-	: HtmlTag("fieldset", false, content)
+public partial class Fieldset(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("fieldset", false, contents)
 {
+	public Fieldset(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// If this Boolean attribute is set, all form controls that are descendants of the <fieldset>, are disabled, meaning they are not editable and won't be submitted along with the <form>. They won't receive any browsing events, like mouse clicks or focus-related events. By default browsers display such controls grayed out. Note that form elements inside the <legend> element won't be disabled.
 	/// </summary>

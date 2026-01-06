@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <details> HTML element creates a disclosure widget in which information is visible only when the widget is toggled into an open state. A summary or label must be provided using the <summary> element. A disclosure widget is typically presented onscreen using a small triangle that rotates (or twists) to indicate open/closed state, with a label next to the triangle. The contents of the <summary> element are used as the label for the disclosure widget. The contents of the <details> provide the accessible description for the <summary>.
 /// </summary>
-public partial class Details(IHtmlContent content)
-	: HtmlTag("details", false, content)
+public partial class Details(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("details", false, contents)
 {
+	public Details(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This attribute enables multiple <details> elements to be connected, with only one open at a time. This allows developers to easily create UI features such as accordions without scripting.
 	/// </summary>

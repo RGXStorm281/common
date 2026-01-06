@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <i> HTML element represents a range of text that is set off from the normal text for some reason, such as idiomatic text, technical terms, taxonomical designations, among others. Historically, these have been presented using italicized type, which is the original source of the <i> naming of this element.
 /// </summary>
-public partial class I(IHtmlContent content)
-	: HtmlTag("i", false, content)
+public partial class I(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("i", false, contents)
 {
+	public I(string text)
+		: this(Encode(text))
+	{
+	}
 }

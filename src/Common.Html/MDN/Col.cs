@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <col> HTML element defines one or more columns in a column group represented by its parent <colgroup> element. The <col> element is only valid as a child of a <colgroup> element that has no span attribute defined.
 /// </summary>
-public partial class Col(IHtmlContent content)
-	: HtmlTag("col", false, content)
+public partial class Col()
+	: HtmlTag("col", true)
 {
 	/// <summary>
 	/// Specifies the horizontal alignment of each column cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Note that this attribute overrides the specified align of its <colgroup> parent element. Use the text-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.

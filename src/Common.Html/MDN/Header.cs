@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <header> HTML element represents introductory content, typically a group of introductory or navigational aids. It may contain some heading elements but also a logo, a search form, an author name, and other elements.
 /// </summary>
-public partial class Header(IHtmlContent content)
-	: HtmlTag("header", false, content)
+public partial class Header(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("header", false, contents)
 {
+	public Header(string text)
+		: this(Encode(text))
+	{
+	}
 }

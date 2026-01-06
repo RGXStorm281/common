@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <meter> HTML element represents either a scalar value within a known range or a fractional value.
 /// </summary>
-public partial class Meter(IHtmlContent content)
-	: HtmlTag("meter", false, content)
+public partial class Meter(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("meter", false, contents)
 {
+	public Meter(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// The lower numeric bound of the high end of the measured range. This must be less than the maximum value ( max attribute), and it also must be greater than the low value and minimum value ( low attribute and min attribute, respectively), if any are specified. If unspecified, or if greater than the maximum value, the high value is equal to the maximum value.
 	/// </summary>

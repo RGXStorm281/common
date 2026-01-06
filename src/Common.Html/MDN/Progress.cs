@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <progress> HTML element displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
 /// </summary>
-public partial class Progress(IHtmlContent content)
-	: HtmlTag("progress", false, content)
+public partial class Progress(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("progress", false, contents)
 {
+	public Progress(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This attribute describes how much work the task indicated by the progress element requires. The max attribute, if present, must have a value greater than 0 and be a valid floating point number. The default value is 1.
 	/// </summary>

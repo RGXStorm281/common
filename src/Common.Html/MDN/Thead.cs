@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <thead> HTML element encapsulates a set of table rows ( <tr> elements), indicating that they comprise the head of a table with information about the table's columns. This is usually in the form of column headers ( <th> elements).
 /// </summary>
-public partial class Thead(IHtmlContent content)
-	: HtmlTag("thead", false, content)
+public partial class Thead(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("thead", false, contents)
 {
+	public Thead(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies the horizontal alignment of each head cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>

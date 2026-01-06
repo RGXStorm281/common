@@ -5,17 +5,22 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <textarea> HTML element represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text, for example a comment on a review or feedback form.
 /// </summary>
-public partial class Textarea(IHtmlContent content)
-	: HtmlTag("textarea", false, content)
+public partial class Textarea(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("textarea", false, contents)
 {
+	public Textarea(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Controls whether inputted text is automatically capitalized and, if so, in what manner.
 	/// </summary>
-	public Textarea Autocapitalize(string value)
+	public new Textarea Autocapitalize(string value)
 	{
 		return this.Attribute("autocapitalize", value);
 	}
@@ -32,7 +37,7 @@ public partial class Textarea(IHtmlContent content)
 	/// Controls whether automatic spelling correction and processing of text is enabled while the user is editing this textarea.
 	/// Permitted values are:
 	/// </summary>
-	public Textarea Autocorrect(string value)
+	public new Textarea Autocorrect(string value)
 	{
 		return this.Attribute("autocorrect", value);
 	}
@@ -40,7 +45,7 @@ public partial class Textarea(IHtmlContent content)
 	/// <summary>
 	/// This Boolean attribute lets you specify that a form control should have input focus when the page loads. Only one form-associated element in a document can have this attribute specified.
 	/// </summary>
-	public Textarea Autofocus(string value)
+	public new Textarea Autofocus(string value)
 	{
 		return this.Attribute("autofocus", value);
 	}
@@ -153,7 +158,7 @@ public partial class Textarea(IHtmlContent content)
 	/// <summary>
 	/// Specifies whether the <textarea> is subject to spell-checking by the underlying browser/OS. The value can be:
 	/// </summary>
-	public Textarea Spellcheck(string value)
+	public new Textarea Spellcheck(string value)
 	{
 		return this.Attribute("spellcheck", value);
 	}

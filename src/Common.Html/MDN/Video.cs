@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <video> HTML element embeds a media player which supports video playback into the document. You can use <video> for audio content as well, but the <audio> element may provide a more appropriate user experience.
 /// </summary>
-public partial class Video(IHtmlContent content)
-	: HtmlTag("video", false, content)
+public partial class Video(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("video", false, contents)
 {
+	public Video(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Sends a cross-origin request without a credential. In other words, it sends the Origin: HTTP header without a cookie, X.509 certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin: HTTP header), the resource will be tainted, and its usage restricted.
 	/// </summary>

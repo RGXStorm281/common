@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <caption> HTML element specifies the caption (or title) of a table, providing the table an accessible name or accessible description.
 /// </summary>
-public partial class Caption(IHtmlContent content)
-	: HtmlTag("caption", false, content)
+public partial class Caption(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("caption", false, contents)
 {
+	public Caption(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies on which side of the table the caption should be displayed. The possible enumerated values are left, top, right, or bottom. Use the caption-side and text-align CSS properties instead, as this attribute is deprecated.
 	/// </summary>

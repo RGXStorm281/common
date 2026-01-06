@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <base> HTML element specifies the base URL to use for all relative URLs in a document. There can be only one <base> element in a document. A document's used base URL can be accessed by scripts with Node.baseURI. If the document has no <base> elements, then baseURI defaults to location.href.
 /// </summary>
-public partial class Base(IHtmlContent content)
-	: HtmlTag("base", false, content)
+public partial class Base()
+	: HtmlTag("base", true)
 {
 	/// <summary>
 	/// The base URL to be used throughout the document for relative URLs.

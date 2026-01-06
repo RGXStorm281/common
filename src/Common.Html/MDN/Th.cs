@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <th> HTML element defines a cell as the header of a group of table cells and may be used as a child of the <tr> element. The exact nature of this group is defined by the scope and headers attributes.
 /// </summary>
-public partial class Th(IHtmlContent content)
-	: HtmlTag("th", false, content)
+public partial class Th(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("th", false, contents)
 {
+	public Th(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// A short, abbreviated description of the header cell's content provided as an alternative label to use for the header cell when referencing the cell in other contexts. Some user-agents, such as screen readers, may present this description before the content itself.
 	/// </summary>

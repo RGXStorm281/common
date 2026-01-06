@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <code> HTML element displays its contents styled in a fashion intended to indicate that the text is a short fragment of computer code. By default, the content text is displayed using the user agent's default monospace font.
 /// </summary>
-public partial class Code(IHtmlContent content)
-	: HtmlTag("code", false, content)
+public partial class Code(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("code", false, contents)
 {
+	public Code(string text)
+		: this(Encode(text))
+	{
+	}
 }

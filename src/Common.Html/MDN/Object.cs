@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <object> HTML element represents an external resource, which can be treated as an image, a nested browsing context, or a resource to be handled by a plugin.
 /// </summary>
-public partial class Object(IHtmlContent content)
-	: HtmlTag("object", false, content)
+public partial class Object(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("object", false, contents)
 {
+	public Object(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// A space-separated list of URIs for archives of resources for the object.
 	/// </summary>

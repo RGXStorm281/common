@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <a> HTML element (or anchor element), with its href attribute, creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address. Content within each <a> should indicate the link's destination. If the href attribute is present, pressing the enter key while focused on the <a> element will activate it.
 /// </summary>
-public partial class A(IHtmlContent content)
-	: HtmlTag("a", false, content)
+public partial class A(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("a", false, contents)
 {
+	public A(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies that you want the browser to send an Attribution-Reporting-Eligible header. On the server-side this is used to trigger sending an Attribution-Reporting-Register-Source header in the response, to register a navigation-based attribution source.
 	/// </summary>

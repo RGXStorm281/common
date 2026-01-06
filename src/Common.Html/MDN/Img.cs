@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <img> HTML element embeds an image into the document.
 /// </summary>
-public partial class Img(IHtmlContent content)
-	: HtmlTag("img", false, content)
+public partial class Img()
+	: HtmlTag("img", true)
 {
 	/// <summary>
 	/// Aligns the image with its surrounding context. Use the float and/or vertical-align CSS properties instead of this attribute. Allowed values:

@@ -5,17 +5,22 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <bdo> HTML element overrides the current directionality of text, so that the text within is rendered in a different direction.
 /// </summary>
-public partial class Bdo(IHtmlContent content)
-	: HtmlTag("bdo", false, content)
+public partial class Bdo(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("bdo", false, contents)
 {
+	public Bdo(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// The direction in which text should be rendered in this element's contents. Possible values are:
 	/// </summary>
-	public Bdo Dir(string value)
+	public new Bdo Dir(string value)
 	{
 		return this.Attribute("dir", value);
 	}

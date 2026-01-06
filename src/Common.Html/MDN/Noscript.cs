@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <noscript> HTML element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser.
 /// </summary>
-public partial class Noscript(IHtmlContent content)
-	: HtmlTag("noscript", false, content)
+public partial class Noscript(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("noscript", false, contents)
 {
+	public Noscript(string text)
+		: this(Encode(text))
+	{
+	}
 }

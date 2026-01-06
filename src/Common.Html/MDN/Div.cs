@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <div> HTML element is the generic container for flow content. It has no effect on the content or layout until styled in some way using CSS (e.g., styling is directly applied to it, or some kind of layout model like Flexbox is applied to its parent element).
 /// </summary>
-public partial class Div(IHtmlContent content)
-	: HtmlTag("div", false, content)
+public partial class Div(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("div", false, contents)
 {
+	public Div(string text)
+		: this(Encode(text))
+	{
+	}
 }

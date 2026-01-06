@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest. By default, all heading elements create a block-level box in the layout, starting on a new line and taking up the full width available in their containing block.
 /// </summary>
-public partial class HeadingElements(IHtmlContent content)
-	: HtmlTag("Heading_Elements", false, content)
+public partial class HeadingElements(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("Heading_Elements", false, contents)
 {
+	public HeadingElements(string text)
+		: this(Encode(text))
+	{
+	}
 }

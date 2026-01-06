@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <embed> HTML element embeds external content at the specified point in the document. This content is provided by an external application or other source of interactive content such as a browser plug-in.
 /// </summary>
-public partial class Embed(IHtmlContent content)
-	: HtmlTag("embed", false, content)
+public partial class Embed()
+	: HtmlTag("embed", true)
 {
 	/// <summary>
 	/// The displayed height of the resource, in CSS pixels. This must be an absolute value; percentages are not allowed.

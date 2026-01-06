@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Html.Components;
 
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// A class representing an html tag.
@@ -25,11 +26,17 @@ public partial class HtmlTag : IHtmlContent
 	{
 		Tag = tag;
 		SelfClosing = selfClosing;
-		Content = content;
+		InnerContent = content;
 		Classes = classes.ToList();
 		Attributes = attributes.ToDictionary();
 		Styles = styles.ToDictionary();
 	}
+
+	public HtmlTag(string tag, bool selfClosing, params IEnumerable<IHtmlContent> contents)
+		: this(tag, selfClosing, Concat(contents), [], [], []) { }
+
+	public HtmlTag(string tag, bool selfClosing, string text)
+		: this(tag, selfClosing, Encode(text), [], [], []) { }
 
 	/// <summary>
 	/// The name of the tag.
@@ -37,14 +44,14 @@ public partial class HtmlTag : IHtmlContent
 	public string Tag { get; }
 
 	/// <summary>
-	/// Whether the tag is self closing. If set to <see langword="true"/> the <see cref="Content"/> is ignored.
+	/// Whether the tag is self closing. If set to <see langword="true"/> the <see cref="InnerContent"/> is ignored.
 	/// </summary>
 	public bool SelfClosing { get; }
 
 	/// <summary>
 	/// The content to render within the tag.
 	/// </summary>
-	public IHtmlContent Content { get; set; }
+	public IHtmlContent InnerContent { get; set; }
 
 	/// <summary>
 	/// The css classes to render in the tag.
@@ -80,7 +87,7 @@ public partial class HtmlTag : IHtmlContent
 		else
 		{
 			builder.AppendHtml($"<{Tag} {classes} {attributes}>");
-			builder.AppendHtml(Content);
+			builder.AppendHtml(InnerContent);
 			builder.AppendHtml($"</{Tag}>");
 		}
 		builder.WriteTo(writer, encoder);

@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <var> HTML element represents the name of a variable in a mathematical expression or a programming context. It's typically presented using an italicized version of the current typeface, although that behavior is browser-dependent.
 /// </summary>
-public partial class Var(IHtmlContent content)
-	: HtmlTag("var", false, content)
+public partial class Var(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("var", false, contents)
 {
+	public Var(string text)
+		: this(Encode(text))
+	{
+	}
 }

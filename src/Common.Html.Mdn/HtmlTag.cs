@@ -6,10 +6,4 @@ public record class HtmlTag(
 	string TagName,
 	string Documentation,
 	IEnumerable<HtmlAttribute> Attributes
-)
-{
-	public string GetSource()
-	{
-		return string.Empty;
-	}
-}
+);

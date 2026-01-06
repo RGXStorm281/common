@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <datalist> HTML element contains a set of <option> elements that represent the permissible or recommended options available to choose from within other controls.
 /// </summary>
-public partial class Datalist(IHtmlContent content)
-	: HtmlTag("datalist", false, content)
+public partial class Datalist(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("datalist", false, contents)
 {
+	public Datalist(string text)
+		: this(Encode(text))
+	{
+	}
 }

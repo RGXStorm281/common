@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <rt> HTML element specifies the ruby text component of a ruby annotation, which is used to provide pronunciation, translation, or transliteration information for East Asian typography. The <rt> element must always be contained within a <ruby> element.
 /// </summary>
-public partial class Rt(IHtmlContent content)
-	: HtmlTag("rt", false, content)
+public partial class Rt(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("rt", false, contents)
 {
+	public Rt(string text)
+		: this(Encode(text))
+	{
+	}
 }

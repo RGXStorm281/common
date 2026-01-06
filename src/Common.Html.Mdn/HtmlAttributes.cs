@@ -54,13 +54,14 @@ public static class HtmlAttributes
 		return results;
 	}
 
-	public static string Render(HtmlAttribute attribute, string parentClass)
+	public static string Render(HtmlAttribute attribute, string parentClass, bool isGlobalOverride = false)
 	{
 		var sb = new StringBuilder();
 		sb.AppendLine("/// <summary>");
 		sb.AppendLine(Helper.Indent(attribute.Documentation, indentPattern: "/// "));
 		sb.AppendLine("/// </summary>");
-		sb.AppendLine($"public {parentClass} {Helper.PascalCase(attribute.Name)}(string value)");
+		var newKeyword = isGlobalOverride ? " new" : string.Empty;
+		sb.AppendLine($"public{newKeyword} {parentClass} {Helper.PascalCase(attribute.Name)}(string value)");
 		sb.AppendLine("{");
 		sb.AppendLine(Helper.Indent($"return this.Attribute(\"{attribute.Name}\", value);"));
 		sb.AppendLine("}");

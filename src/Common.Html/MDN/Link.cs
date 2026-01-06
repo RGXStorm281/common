@@ -5,13 +5,14 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <link> HTML element specifies relationships between the current document and an external resource.
 /// This element is most commonly used to link to stylesheets, but is also used to establish site icons (both "favicon" style icons and icons for the home screen and apps on mobile devices) among other things.
 /// </summary>
-public partial class Link(IHtmlContent content)
-	: HtmlTag("link", false, content)
+public partial class Link()
+	: HtmlTag("link", true)
 {
 	/// <summary>
 	/// A cross-origin request (i.e., with an Origin HTTP header) is performed, but no credential is sent (i.e., no cookie, X.509 certificate, or HTTP Basic authentication).
@@ -206,7 +207,7 @@ public partial class Link(IHtmlContent content)
 	/// The title attribute has special semantics on the <link> element.
 	/// When used on a <link rel="stylesheet"> it defines a default or an alternate stylesheet.
 	/// </summary>
-	public Link Title(string value)
+	public new Link Title(string value)
 	{
 		return this.Attribute("title", value);
 	}

@@ -5,14 +5,19 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <audio> HTML element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the <source> element: the browser will choose the most suitable one.
 /// It can also be the destination for streamed media, using a MediaStream.
 /// </summary>
-public partial class Audio(IHtmlContent content)
-	: HtmlTag("audio", false, content)
+public partial class Audio(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("audio", false, contents)
 {
+	public Audio(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Sends a cross-origin request without a credential. In other words, it sends the Origin: HTTP header without a cookie, X.509 certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin: HTTP header), the resource will be tainted, and its usage restricted.
 	/// </summary>

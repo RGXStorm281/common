@@ -98,7 +98,7 @@ public class Helper
 		}
 
 		// Ignore script/style entirely
-		if (node.Name == "script" || node.Name == "style")
+		if (node.Name == "script" || node.Name == "style" || node.HasClass("icon-deprecated"))
 		{
 			return;
 		}

@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <cite> HTML element is used to mark up the title of a creative work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata.
 /// </summary>
-public partial class Cite(IHtmlContent content)
-	: HtmlTag("cite", false, content)
+public partial class Cite(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("cite", false, contents)
 {
+	public Cite(string text)
+		: this(Encode(text))
+	{
+	}
 }

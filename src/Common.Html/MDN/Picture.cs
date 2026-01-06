@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <picture> HTML element contains zero or more <source> elements and one <img> element to offer alternative versions of an image for different display/device scenarios. The browser will consider each child <source> element and choose the best match among them. If no matches are foundâor the browser doesn't support the <picture> elementâthe URL of the <img> element's src attribute is selected. The selected image is then presented in the space occupied by the <img> element.
 /// </summary>
-public partial class Picture(IHtmlContent content)
-	: HtmlTag("picture", false, content)
+public partial class Picture(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("picture", false, contents)
 {
+	public Picture(string text)
+		: this(Encode(text))
+	{
+	}
 }

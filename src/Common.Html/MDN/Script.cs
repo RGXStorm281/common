@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <script> HTML element is used to embed executable code or data; this is typically used to embed or refer to JavaScript code. The <script> element can also be used with other languages, such as WebGL 's GLSL shader programming language and JSON.
 /// </summary>
-public partial class Script(IHtmlContent content)
-	: HtmlTag("script", false, content)
+public partial class Script(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("script", false, contents)
 {
+	public Script(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// The embedded content is treated as a data block, and won't be processed by the browser.
 	/// Developers must use a valid MIME type that is not a JavaScript MIME type to denote data blocks.
@@ -162,7 +167,7 @@ public partial class Script(IHtmlContent content)
 	/// <summary>
 	/// A cryptographic nonce (number used once) to allow scripts in a script-src Content-Security-Policy. The server must generate a unique nonce value each time it transmits a policy. It is critical to provide a nonce that cannot be guessed as bypassing a resource's policy is otherwise trivial.
 	/// </summary>
-	public Script Nonce(string value)
+	public new Script Nonce(string value)
 	{
 		return this.Attribute("nonce", value);
 	}

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <ul> HTML element represents an unordered list of items, typically rendered as a bulleted list.
 /// </summary>
-public partial class Ul(IHtmlContent content)
-	: HtmlTag("ul", false, content)
+public partial class Ul(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("ul", false, contents)
 {
+	public Ul(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>

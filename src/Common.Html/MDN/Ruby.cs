@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <ruby> HTML element represents small annotations that are rendered above, below, or next to base text, usually used for showing the pronunciation of East Asian characters. It can also be used for annotating other kinds of text, but this usage is less common. The term ruby originated as a unit of measurement used by typesetters, representing the smallest size that text can be printed on newsprint while remaining legible.
 /// </summary>
-public partial class Ruby(IHtmlContent content)
-	: HtmlTag("ruby", false, content)
+public partial class Ruby(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("ruby", false, contents)
 {
+	public Ruby(string text)
+		: this(Encode(text))
+	{
+	}
 }

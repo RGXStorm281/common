@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <area> HTML element defines an area inside an image map that has predefined clickable areas. An image map allows geometric areas on an image to be associated with hypertext links. This element is used only within a <map> element.
 /// </summary>
-public partial class Area(IHtmlContent content)
-	: HtmlTag("area", false, content)
+public partial class Area()
+	: HtmlTag("area", true)
 {
 	/// <summary>
 	/// A text string alternative to display on browsers that do not display images.

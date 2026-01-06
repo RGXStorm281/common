@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <select> HTML element represents a control that provides a menu of options.
 /// </summary>
-public partial class Select(IHtmlContent content)
-	: HtmlTag("select", false, content)
+public partial class Select(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("select", false, contents)
 {
+	public Select(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// A string providing a hint for a user agent's autocomplete feature. See The HTML autocomplete attribute for a complete list of values and details on how to use autocomplete.
 	/// </summary>
@@ -23,7 +28,7 @@ public partial class Select(IHtmlContent content)
 	/// <summary>
 	/// This Boolean attribute lets you specify that a form control should have input focus when the page loads. Only one form element in a document can have the autofocus attribute.
 	/// </summary>
-	public Select Autofocus(string value)
+	public new Select Autofocus(string value)
 	{
 		return this.Attribute("autofocus", value);
 	}

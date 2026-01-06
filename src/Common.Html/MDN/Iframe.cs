@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <iframe> HTML element represents a nested browsing context, embedding another HTML page into the current one.
 /// </summary>
-public partial class Iframe(IHtmlContent content)
-	: HtmlTag("iframe", false, content)
+public partial class Iframe(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("iframe", false, contents)
 {
+	public Iframe(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// The alignment of this element with respect to the surrounding context.
 	/// </summary>

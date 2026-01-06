@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <style> HTML element contains style information for a document, or part of a document. It contains CSS, which is applied to the contents of the document containing the <style> element.
 /// </summary>
-public partial class Style(IHtmlContent content)
-	: HtmlTag("style", false, content)
+public partial class Style(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("style", false, contents)
 {
+	public Style(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This attribute explicitly indicates that certain operations should be blocked on the fetching of critical subresources and the application of the stylesheet to the document. @import -ed stylesheets are generally considered as critical subresources, whereas background-image and fonts are not. The operations that are to be blocked must be a space-separated list of blocking tokens listed below. Currently there is only one token:
 	/// </summary>
@@ -31,7 +36,7 @@ public partial class Style(IHtmlContent content)
 	/// <summary>
 	/// A cryptographic nonce (number used once) used to allow inline styles in a style-src Content-Security-Policy. The server must generate a unique nonce value each time it transmits a policy. It is critical to provide a nonce that cannot be guessed as bypassing a resource's policy is otherwise trivial.
 	/// </summary>
-	public Style Nonce(string value)
+	public new Style Nonce(string value)
 	{
 		return this.Attribute("nonce", value);
 	}
@@ -39,7 +44,7 @@ public partial class Style(IHtmlContent content)
 	/// <summary>
 	/// This attribute specifies alternative style sheet sets.
 	/// </summary>
-	public Style Title(string value)
+	public new Style Title(string value)
 	{
 		return this.Attribute("title", value);
 	}

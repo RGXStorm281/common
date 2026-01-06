@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <optgroup> HTML element creates a grouping of options within a <select> element. In customizable <select> elements, the <legend> element is allowed as a child of <optgroup>, to provide a label that is easy to target and style. This replaces any text set in the <optgroup> element's label attribute, and it has the same semantics.
 /// </summary>
-public partial class Optgroup(IHtmlContent content)
-	: HtmlTag("optgroup", false, content)
+public partial class Optgroup(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("optgroup", false, contents)
 {
+	public Optgroup(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// If this Boolean attribute is set, none of the items in this option group is selectable. Often browsers grey out such control and it won't receive any browsing events, like mouse clicks or focus-related ones.
 	/// </summary>

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <ins> HTML element represents a range of text that has been added to a document. You can use the <del> element to similarly represent a range of text that has been deleted from the document.
 /// </summary>
-public partial class Ins(IHtmlContent content)
-	: HtmlTag("ins", false, content)
+public partial class Ins(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("ins", false, contents)
 {
+	public Ins(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This attribute defines the URI of a resource that explains the change, such as a link to meeting minutes or a ticket in a troubleshooting system.
 	/// </summary>

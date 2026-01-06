@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <sup> HTML element specifies inline text which is to be displayed as superscript for solely typographical reasons. Superscripts are usually rendered with a raised baseline using smaller text.
 /// </summary>
-public partial class Sup(IHtmlContent content)
-	: HtmlTag("sup", false, content)
+public partial class Sup(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("sup", false, contents)
 {
+	public Sup(string text)
+		: this(Encode(text))
+	{
+	}
 }

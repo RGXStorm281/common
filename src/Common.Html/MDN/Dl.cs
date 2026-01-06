@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <dl> HTML element represents a description list. The element encloses a list of groups of terms (specified using the <dt> element) and descriptions (provided by <dd> elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs).
 /// </summary>
-public partial class Dl(IHtmlContent content)
-	: HtmlTag("dl", false, content)
+public partial class Dl(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("dl", false, contents)
 {
+	public Dl(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>

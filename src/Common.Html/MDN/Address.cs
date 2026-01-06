@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <address> HTML element indicates that the enclosed HTML provides contact information for a person or people, or for an organization.
 /// </summary>
-public partial class Address(IHtmlContent content)
-	: HtmlTag("address", false, content)
+public partial class Address(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("address", false, contents)
 {
+	public Address(string text)
+		: this(Encode(text))
+	{
+	}
 }

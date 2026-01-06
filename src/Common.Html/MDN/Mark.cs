@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <mark> HTML element represents text which is marked or highlighted for reference or notation purposes due to the marked passage's relevance in the enclosing context.
 /// </summary>
-public partial class Mark(IHtmlContent content)
-	: HtmlTag("mark", false, content)
+public partial class Mark(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("mark", false, contents)
 {
+	public Mark(string text)
+		: this(Encode(text))
+	{
+	}
 }

@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <s> HTML element renders text with a strikethrough, or a line through it. Use the <s> element to represent things that are no longer relevant or no longer accurate. However, <s> is not appropriate when indicating document edits; for that, use the <del> and <ins> elements, as appropriate.
 /// </summary>
-public partial class S(IHtmlContent content)
-	: HtmlTag("s", false, content)
+public partial class S(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("s", false, contents)
 {
+	public S(string text)
+		: this(Encode(text))
+	{
+	}
 }

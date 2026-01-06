@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <hr> HTML element represents a thematic break between paragraph-level elements: for example, a change of scene in a story, or a shift of topic within a section.
 /// </summary>
-public partial class Hr(IHtmlContent content)
-	: HtmlTag("hr", false, content)
+public partial class Hr()
+	: HtmlTag("hr", true)
 {
 	/// <summary>
 	/// Sets the alignment of the rule on the page. If no value is specified, the default value is left.

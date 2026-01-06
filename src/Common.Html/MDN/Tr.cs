@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <tr> HTML element defines a row of cells in a table. The row's cells can then be established using a mix of <td> (data cell) and <th> (header cell) elements.
 /// </summary>
-public partial class Tr(IHtmlContent content)
-	: HtmlTag("tr", false, content)
+public partial class Tr(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("tr", false, contents)
 {
+	public Tr(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies the horizontal alignment of each row cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>

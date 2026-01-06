@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <form> HTML element represents a document section containing interactive controls for submitting information.
 /// </summary>
-public partial class Form(IHtmlContent content)
-	: HtmlTag("form", false, content)
+public partial class Form(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("form", false, contents)
 {
+	public Form(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Comma-separated content types the server accepts.
 	/// </summary>
@@ -40,7 +45,7 @@ public partial class Form(IHtmlContent content)
 	/// <summary>
 	/// Controls whether inputted text is automatically capitalized and, if so, in what manner. See the autocapitalize global attribute page for more information.
 	/// </summary>
-	public Form Autocapitalize(string value)
+	public new Form Autocapitalize(string value)
 	{
 		return this.Attribute("autocapitalize", value);
 	}

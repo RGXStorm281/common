@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <summary> HTML element specifies a summary, caption, or legend for a <details> element's disclosure box. Clicking the <summary> element toggles the state of the parent <details> element open and closed.
 /// </summary>
-public partial class Summary(IHtmlContent content)
-	: HtmlTag("summary", false, content)
+public partial class Summary(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("summary", false, contents)
 {
+	public Summary(string text)
+		: this(Encode(text))
+	{
+	}
 }

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <output> HTML element is a container element into which a site or app can inject the results of a calculation or the outcome of a user action.
 /// </summary>
-public partial class Output(IHtmlContent content)
-	: HtmlTag("output", false, content)
+public partial class Output(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("output", false, contents)
 {
+	public Output(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// A space-separated list of other elements' id s, indicating that those elements contributed input values to (or otherwise affected) the calculation.
 	/// </summary>

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <option> HTML element is used to define an item contained in a <select>, an <optgroup>, or a <datalist> element. As such, <option> can represent menu items in popups and other lists of items in an HTML document.
 /// </summary>
-public partial class Option(IHtmlContent content)
-	: HtmlTag("option", false, content)
+public partial class Option(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("option", false, contents)
 {
+	public Option(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// If this Boolean attribute is set, this option is not checkable. Often browsers grey out such control and it won't receive any browsing event, like mouse clicks or focus-related ones. If this attribute is not set, the element can still be disabled if one of its ancestors is a disabled <optgroup> element.
 	/// </summary>

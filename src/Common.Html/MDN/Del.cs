@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <del> HTML element represents a range of text that has been deleted from a document. This can be used when rendering "track changes" or source code diff information, for example. The <ins> element can be used for the opposite purpose: to indicate text that has been added to the document.
 /// </summary>
-public partial class Del(IHtmlContent content)
-	: HtmlTag("del", false, content)
+public partial class Del(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("del", false, contents)
 {
+	public Del(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// A URI for a resource that explains the change (for example, meeting minutes).
 	/// </summary>

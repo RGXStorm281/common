@@ -6,9 +6,10 @@ Console.WriteLine("Starting MDN Fetch task...");
 const string targetFolder = "/workspaces/common/src/Common.Html/MDN";
 const string targetNamespace = "RobinEpple.Common.Html.Components";
 const string globalAttributesUrl = "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes";
+const string voidElementsUrl = "https://developer.mozilla.org/en-US/docs/Glossary/Void_element";
 const string elementsRootUrl = "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements";
 const string tagBaseUrl = "/en-US/docs/Web/HTML/Reference/Elements/";
-var excludeAttributes = new string[] { "class", "style", "data-" };
+var excludeAttributes = new HashSet<string> { "class", "style", "data-" };
 
 // -------------------------------
 // Cleanup
@@ -54,13 +55,19 @@ File.WriteAllText(Path.Combine(targetFolder, "HtmlTag.cs"), globalAttributesSour
 Console.WriteLine($"Fetching {globalAttributes.Count()} global attributes succeeded.");
 
 // -------------------------------
+// Void Elements
+// -------------------------------
+var voidElements = VoidElements.Fetch(voidElementsUrl).ToHashSet();
+
+// -------------------------------
 // HTML tags
 // -------------------------------
 Console.WriteLine("Fetching html tags...");
 var tags = HtmlTags.FetchAll(elementsRootUrl, tagBaseUrl, targetNamespace);
+var globalAttributeNames = globalAttributes.Select(attribute => attribute.Name).ToHashSet();
 foreach (var tag in tags)
 {
-	var tagSource = HtmlTags.Render(tag, excludeAttributes);
+	var tagSource = HtmlTags.Render(tag, excludeAttributes, globalAttributeNames, voidElements);
 	File.WriteAllText(Path.Combine(targetFolder, $"{tag.ClassName}.cs"), tagSource);
 }
 Console.WriteLine($"Fetching {tags.Count()} html tags succeeded.");

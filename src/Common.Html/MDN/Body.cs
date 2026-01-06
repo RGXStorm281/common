@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <body> HTML element represents the content of an HTML document. There can be only one <body> element in a document.
 /// </summary>
-public partial class Body(IHtmlContent content)
-	: HtmlTag("body", false, content)
+public partial class Body(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("body", false, contents)
 {
+	public Body(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Color of text for hyperlinks when selected.
 	/// Use the CSS color property in conjunction with the :active and :focus pseudo-classes instead.

@@ -5,11 +5,12 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <wbr> HTML element represents a word break opportunityâa position within text where the browser may optionally break a line, though its line-breaking rules would not otherwise create a break at that location.
 /// </summary>
-public partial class Wbr(IHtmlContent content)
-	: HtmlTag("wbr", false, content)
+public partial class Wbr()
+	: HtmlTag("wbr", true)
 {
 }

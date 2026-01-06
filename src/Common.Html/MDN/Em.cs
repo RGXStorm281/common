@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <em> HTML element marks text that has stress emphasis. The <em> element can be nested, with each level of nesting indicating a greater degree of emphasis.
 /// </summary>
-public partial class Em(IHtmlContent content)
-	: HtmlTag("em", false, content)
+public partial class Em(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("em", false, contents)
 {
+	public Em(string text)
+		: this(Encode(text))
+	{
+	}
 }

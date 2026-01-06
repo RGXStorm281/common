@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <marquee> HTML element is used to insert a scrolling area of text. You can control what happens when the text reaches the edges of its content area using its attributes. The HTML <marquee> element is deprecated and its use is strongly discouraged. If you must create the effect of scrolling text or continuous elements, consider using CSS animations with CSS transforms instead of <marquee> elements to smoothly animate content. Additionally, include the prefers-reduced-motion CSS @media query to stop the animation based on user preference, thereby improving user experience and accessibility.
 /// </summary>
-public partial class Marquee(IHtmlContent content)
-	: HtmlTag("marquee", false, content)
+public partial class Marquee(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("marquee", false, contents)
 {
+	public Marquee(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Sets how the text is scrolled within the marquee. Possible values are scroll, slide and alternate. If no value is specified, the default value is scroll.
 	/// </summary>

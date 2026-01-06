@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <table> HTML element represents tabular dataâthat is, information presented in a two-dimensional table comprised of rows and columns of cells containing data.
 /// </summary>
-public partial class Table(IHtmlContent content)
-	: HtmlTag("table", false, content)
+public partial class Table(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("table", false, contents)
 {
+	public Table(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies the horizontal alignment of the table within its parent element. The possible enumerated values are left, center, and right. Use the margin-inline-start and margin-inline-end CSS properties instead, as this attribute is deprecated.
 	/// </summary>

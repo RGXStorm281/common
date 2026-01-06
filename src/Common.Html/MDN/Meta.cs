@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <meta> HTML element represents metadata that cannot be represented by other meta-related elements, such as <base>, <link>, <script>, <style>, or <title>. The type of metadata provided by the <meta> element can be one of the following: If the name attribute is set, the <meta> element provides document-level metadata that applies to the whole page. If the http-equiv attribute is set, the <meta> element acts as a pragma directive to simulate directives that could otherwise be given by an HTTP header. If the charset attribute is set, the <meta> element is a charset declaration, giving the character encoding in which the document is encoded. If the itemprop attribute is set, the <meta> element provides user-defined metadata.
 /// </summary>
-public partial class Meta(IHtmlContent content)
-	: HtmlTag("meta", false, content)
+public partial class Meta()
+	: HtmlTag("meta", true)
 {
 	/// <summary>
 	/// This attribute declares the document's character encoding. If the attribute is present, its value must be an ASCII case-insensitive match for the string "utf-8", because UTF-8 is the only valid encoding for HTML5 documents. <meta> elements which declare a character encoding must be located entirely within the first 1024 bytes of the document.

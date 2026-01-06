@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <source> HTML element specifies one or more media resources for the <picture>, <audio>, and <video> elements. It is a void element, which means that it has no content and does not require a closing tag. This element is commonly used to offer the same media content in multiple file formats in order to provide compatibility with a broad range of browsers given their differing support for image file formats and media file formats.
 /// </summary>
-public partial class Source(IHtmlContent content)
-	: HtmlTag("source", false, content)
+public partial class Source()
+	: HtmlTag("source", true)
 {
 	/// <summary>
 	/// Specifies the intrinsic height of the image in pixels. Allowed if the parent of <source> is a <picture>. Not allowed if the parent is <audio> or <video>.

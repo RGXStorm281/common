@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <hgroup> HTML element represents a heading and related content. It groups a single <h1>â<h6> element with one or more <p>.
 /// </summary>
-public partial class Hgroup(IHtmlContent content)
-	: HtmlTag("hgroup", false, content)
+public partial class Hgroup(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("hgroup", false, contents)
 {
+	public Hgroup(string text)
+		: this(Encode(text))
+	{
+	}
 }

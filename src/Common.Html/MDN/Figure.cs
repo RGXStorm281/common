@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <figure> HTML element represents self-contained content, potentially with an optional caption, which is specified using the <figcaption> element. The figure, its caption, and its contents are referenced as a single unit.
 /// </summary>
-public partial class Figure(IHtmlContent content)
-	: HtmlTag("figure", false, content)
+public partial class Figure(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("figure", false, contents)
 {
+	public Figure(string text)
+		: this(Encode(text))
+	{
+	}
 }

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <colgroup> HTML element defines a group of columns within a table.
 /// </summary>
-public partial class Colgroup(IHtmlContent content)
-	: HtmlTag("colgroup", false, content)
+public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("colgroup", false, contents)
 {
+	public Colgroup(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies the horizontal alignment of each column group cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Note that the descendant <col> elements may override this value using their own align attribute. Use the text-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.
 	/// </summary>

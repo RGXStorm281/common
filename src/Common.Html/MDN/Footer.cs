@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <footer> HTML element represents a footer for its nearest ancestor sectioning content or sectioning root element. A <footer> typically contains information about the author of the section, copyright data or links to related documents.
 /// </summary>
-public partial class Footer(IHtmlContent content)
-	: HtmlTag("footer", false, content)
+public partial class Footer(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("footer", false, contents)
 {
+	public Footer(string text)
+		: this(Encode(text))
+	{
+	}
 }

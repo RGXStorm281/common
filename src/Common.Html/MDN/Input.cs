@@ -5,12 +5,13 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <input> HTML element is used to create interactive controls for web-based forms in order to accept data from the user; a wide variety of types of input data and control widgets are available, depending on the device and user agent. The <input> element is one of the most powerful and complex in all of HTML due to the sheer number of combinations of input types and attributes.
 /// </summary>
-public partial class Input(IHtmlContent content)
-	: HtmlTag("input", false, content)
+public partial class Input()
+	: HtmlTag("input", true)
 {
 	/// <summary>
 	/// Valid for the file input type only, the accept attribute defines which file types are selectable in a file upload control. See the file input type.
@@ -39,7 +40,7 @@ public partial class Input(IHtmlContent content)
 	/// <summary>
 	/// Controls whether inputted text is automatically capitalized and, if so, in what manner. See the autocapitalize global attribute page for more information.
 	/// </summary>
-	public Input Autocapitalize(string value)
+	public new Input Autocapitalize(string value)
 	{
 		return this.Attribute("autocapitalize", value);
 	}
@@ -55,7 +56,7 @@ public partial class Input(IHtmlContent content)
 	/// <summary>
 	/// A Boolean attribute which, if present, indicates that the input should automatically have focus when the page has finished loading (or when the <dialog> containing the element has been displayed).
 	/// </summary>
-	public Input Autofocus(string value)
+	public new Input Autofocus(string value)
 	{
 		return this.Attribute("autofocus", value);
 	}
@@ -175,7 +176,7 @@ public partial class Input(IHtmlContent content)
 	/// <summary>
 	/// Global attribute valid for all elements, including all the input types, it defines a unique identifier (ID) which must be unique in the whole document. Its purpose is to identify the element when linking. The value is used as the value of the <label> 's for attribute to link the label with the form control. See <label>.
 	/// </summary>
-	public Input Id(string value)
+	public new Input Id(string value)
 	{
 		return this.Attribute("id", value);
 	}
@@ -191,7 +192,7 @@ public partial class Input(IHtmlContent content)
 	/// <summary>
 	/// Global value valid for all elements, it provides a hint to browsers as to the type of virtual keyboard configuration to use when editing this element or its contents. Values include none, text, tel, url, email, numeric, decimal, and search.
 	/// </summary>
-	public Input Inputmode(string value)
+	public new Input Inputmode(string value)
 	{
 		return this.Attribute("inputmode", value);
 	}
@@ -415,7 +416,7 @@ public partial class Input(IHtmlContent content)
 	/// <summary>
 	/// Global attribute valid for all elements, including all the input types, an integer attribute indicating if the element can take input focus (is focusable), if it should participate to sequential keyboard navigation. As all input types except for input of type hidden are focusable, this attribute should not be used on form controls, because doing so would require the management of the focus order for all elements within the document with the risk of harming usability and accessibility if done incorrectly.
 	/// </summary>
-	public Input Tabindex(string value)
+	public new Input Tabindex(string value)
 	{
 		return this.Attribute("tabindex", value);
 	}
@@ -423,7 +424,7 @@ public partial class Input(IHtmlContent content)
 	/// <summary>
 	/// Global attribute valid for all elements, including all input types, containing a text representing advisory information related to the element it belongs to. Such information can typically, but not necessarily, be presented to the user as a tooltip. The title should NOT be used as the primary explanation of the purpose of the form control. Instead, use the <label> element with a for attribute set to the form control's id attribute. See Labels below.
 	/// </summary>
-	public Input Title(string value)
+	public new Input Title(string value)
 	{
 		return this.Attribute("title", value);
 	}

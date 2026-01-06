@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <strong> HTML element indicates that its contents have strong importance, seriousness, or urgency. Browsers typically render the contents in bold type.
 /// </summary>
-public partial class Strong(IHtmlContent content)
-	: HtmlTag("strong", false, content)
+public partial class Strong(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("strong", false, contents)
 {
+	public Strong(string text)
+		: this(Encode(text))
+	{
+	}
 }

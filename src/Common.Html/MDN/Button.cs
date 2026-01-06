@@ -5,17 +5,22 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <button> HTML element is an interactive element activated by a user with a mouse, keyboard, finger, voice command, or other assistive technology. Once activated, it then performs an action, such as submitting a form or opening a dialog. By default, HTML buttons are presented in a style resembling the platform the user agent runs on, but you can change buttons' appearance with CSS.
 /// </summary>
-public partial class Button(IHtmlContent content)
-	: HtmlTag("button", false, content)
+public partial class Button(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("button", false, contents)
 {
+	public Button(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This Boolean attribute specifies that the button should have input focus when the page loads. Only one element in a document can have this attribute.
 	/// </summary>
-	public Button Autofocus(string value)
+	public new Button Autofocus(string value)
 	{
 		return this.Attribute("autofocus", value);
 	}

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <ol> HTML element represents an ordered list of items â typically rendered as a numbered list.
 /// </summary>
-public partial class Ol(IHtmlContent content)
-	: HtmlTag("ol", false, content)
+public partial class Ol(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("ol", false, contents)
 {
+	public Ol(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>

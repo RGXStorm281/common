@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <tfoot> HTML element encapsulates a set of table rows ( <tr> elements), indicating that they comprise the foot of a table with information about the table's columns. This is usually a summary of the columns, e.g., a sum of the given numbers in a column.
 /// </summary>
-public partial class Tfoot(IHtmlContent content)
-	: HtmlTag("tfoot", false, content)
+public partial class Tfoot(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("tfoot", false, contents)
 {
+	public Tfoot(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies the horizontal alignment of each foot cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>

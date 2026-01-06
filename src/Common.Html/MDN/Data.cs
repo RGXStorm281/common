@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <data> HTML element links a given piece of content with a machine-readable translation. If the content is time- or date-related, the <time> element must be used.
 /// </summary>
-public partial class Data(IHtmlContent content)
-	: HtmlTag("data", false, content)
+public partial class Data(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("data", false, contents)
 {
+	public Data(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This attribute specifies the machine-readable translation of the content of the element.
 	/// </summary>

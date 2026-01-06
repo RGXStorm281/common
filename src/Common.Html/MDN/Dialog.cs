@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <dialog> HTML element represents a modal or non-modal dialog box or other interactive component, such as a dismissible alert, inspector, or subwindow. The HTML <dialog> element is used to create both modal and non-modal dialog boxes. Modal dialog boxes interrupt interaction with the rest of the page being inert, while non-modal dialog boxes allow interaction with the rest of the page. JavaScript should be used to display the <dialog> element. Use the.showModal() method to display a modal dialog and the.show() method to display a non-modal dialog. The dialog box can be closed using the.close() method or using the dialog method when submitting a <form> that is nested within the <dialog> element. Modal dialogs can also be closed by pressing the Esc key.
 /// </summary>
-public partial class Dialog(IHtmlContent content)
-	: HtmlTag("dialog", false, content)
+public partial class Dialog(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("dialog", false, contents)
 {
+	public Dialog(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// The dialog can be dismissed using any of the three methods.
 	/// </summary>

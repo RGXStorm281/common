@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <time> HTML element represents a specific period in time. It may include the datetime attribute to translate dates into machine-readable format, allowing for better search engine results or custom features such as reminders. It may represent one of the following: A time on a 24-hour clock. A precise date in the Gregorian calendar (with optional time and timezone information). A valid time duration.
 /// </summary>
-public partial class Time(IHtmlContent content)
-	: HtmlTag("time", false, content)
+public partial class Time(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("time", false, contents)
 {
+	public Time(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This attribute indicates the time and/or date of the element and must be in one of the formats described below.
 	/// </summary>

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <label> HTML element represents a caption for an item in a user interface.
 /// </summary>
-public partial class Label(IHtmlContent content)
-	: HtmlTag("label", false, content)
+public partial class Label(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("label", false, contents)
 {
+	public Label(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// The value is the id of the labelable form control in the same document, associating the <label> with that form control. Note that its JavaScript reflection property is htmlFor.
 	/// </summary>

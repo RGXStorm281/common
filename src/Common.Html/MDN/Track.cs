@@ -5,14 +5,15 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <track> HTML element is used as a child of the media elements, <audio> and <video>.
 /// Each track element lets you specify a timed text track (or time-based data) that can be displayed in parallel with the media element, for example to overlay subtitles or closed captions on top of a video or alongside audio tracks. Multiple tracks can be specified for a media element, containing different kinds of timed text data, or timed text data that has been translated for different locales.
 /// The data that is used will either be the track that has been set to be the default, or a kind and translation based on user preferences. The tracks are formatted in WebVTT format (.vtt files) â Web Video Text Tracks.
 /// </summary>
-public partial class Track(IHtmlContent content)
-	: HtmlTag("track", false, content)
+public partial class Track()
+	: HtmlTag("track", true)
 {
 	/// <summary>
 	/// Closed captions provide transcription or translation of the dialog, sound effects, relevant musical cues, and other relevant audio information, such as the cue's source (e.g., character, environment). They are suitable for when sound is unavailable or not clearly audible (e.g., because it is muted, drowned-out by ambient noise, or because the user is deaf).

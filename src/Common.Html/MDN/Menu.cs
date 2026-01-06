@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <menu> HTML element is described in the HTML specification as a semantic alternative to <ul>, but treated by browsers (and exposed through the accessibility tree) as no different than <ul>. It represents an unordered list of items (which are represented by <li> elements).
 /// </summary>
-public partial class Menu(IHtmlContent content)
-	: HtmlTag("menu", false, content)
+public partial class Menu(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("menu", false, contents)
 {
+	public Menu(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>

@@ -5,13 +5,18 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <tbody> HTML element encapsulates a set of table rows ( <tr> elements), indicating that they comprise the body of a table's (main) data.
 /// </summary>
-public partial class Tbody(IHtmlContent content)
-	: HtmlTag("tbody", false, content)
+public partial class Tbody(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("tbody", false, contents)
 {
+	public Tbody(string text)
+		: this(Encode(text))
+	{
+	}
 	/// <summary>
 	/// Specifies the horizontal alignment of each body cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>

@@ -5,11 +5,16 @@ namespace RobinEpple.Common.Html.Components;
 using RobinEpple.Common.Html;
 using RobinEpple.Common.Html.Components;
 using Microsoft.AspNetCore.Html;
+using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// The <rp> HTML element is used to provide fall-back parentheses for browsers that do not support display of ruby annotations using the <ruby> element. One <rp> element should enclose each of the opening and closing parentheses that wrap the <rt> element that contains the annotation's text.
 /// </summary>
-public partial class Rp(IHtmlContent content)
-	: HtmlTag("rp", false, content)
+public partial class Rp(params IEnumerable<IHtmlContent> contents)
+	: HtmlTag("rp", false, contents)
 {
+	public Rp(string text)
+		: this(Encode(text))
+	{
+	}
 }
