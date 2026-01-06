@@ -17,5 +17,10 @@
     Div(
         Input().Type("checkbox").Id("some-checkbox"),
         Label("I check this checkbox").For("some-checkbox")
+    ),
+    RenderIf(() => true, P("Optionally rendered")),
+    H2("Count to 10"),
+    Ul(RenderEach<int>(() => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], number => 
+        Li(number.ToString()))
     )
 )
