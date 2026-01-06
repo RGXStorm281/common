@@ -404,3 +404,4 @@ lines_of_code.md
 src/Common.SourceGenerators.Test/Generated
 src/Common.Forms/_generated
 src/Common.Forms.Test/Generated
+src/Common.Html/Generated

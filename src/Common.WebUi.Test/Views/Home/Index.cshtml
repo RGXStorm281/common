@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@Div(
+    H1((string)ViewBag.Title),
+    H2("Section Heading"),
+    H3("Subsection Heading"),
+    H4("Subsubsection Heading"),
+    H5("Paragraph Heading").Attribute("rarity", "legendary"),
+    H6(B("Who "), Encode("uses H6?")).Class("useless"),
+    Br(),
+    Div(
+        H1("Test").Class("Test 2"),
+        P("More Text")
+    ),
+    Div(
+        Input().Type("checkbox").Id("some-checkbox"),
+        Label("I check this checkbox").For("some-checkbox")
+    )
+)

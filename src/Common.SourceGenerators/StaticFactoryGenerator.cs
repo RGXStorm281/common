@@ -265,6 +265,13 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 
 			var methodName = GetFactoryMethodName(interfaceImplementation);
 
+			// Obsolete propagation.
+			var obsolete = GetObsoleteAttribute(constructor) ?? GetObsoleteAttribute(constructor.ContainingType);
+			if (obsolete != null)
+			{
+				sb.AppendLine(IndentHelper.Indent(obsolete));
+			}
+
 			sb.AppendLine(
 				IndentHelper.Indent(
 					$"{constructorAccessModifier} static {visibleType.ToDisplayString()} {methodName}{typeParameterString}({parameters})"
@@ -387,5 +394,40 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		}
 
 		return string.Join(", ", parameterStrings);
+	}
+
+	private static string? GetObsoleteAttribute(ISymbol symbol)
+	{
+		var obsolete = symbol
+			.GetAttributes()
+			.FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == "System.ObsoleteAttribute");
+
+		if (obsolete == null)
+		{
+			return null;
+		}
+
+		var args = obsolete.ConstructorArguments;
+
+		return args.Length switch
+		{
+			0 => "[Obsolete]",
+			1 => $"[Obsolete({Literal(args[0])})]",
+			2 => $"[Obsolete({Literal(args[0])}, {args[1].Value!.ToString()!.ToLower()})]",
+			_ => "[Obsolete]",
+		};
+	}
+
+	private static string Literal(TypedConstant c)
+	{
+		if (c.Value == null)
+		{
+			return "null";
+		}
+		if (c.Type?.SpecialType == SpecialType.System_String)
+		{
+			return "@\"" + c.Value.ToString()!.Replace("\"", "\"\"") + "\"";
+		}
+		return c.Value.ToString()!;
 	}
 }
