@@ -1,0 +1,21 @@
+﻿@model ErrorViewModel
+@inject IWebHostEnvironment Environment
+@{
+    ViewBag.Title = "Forbidden";
+}
+
+<h1 class="text-danger">@ViewBag.Title</h1>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+@if (Environment.IsDevelopment())
+{
+    <p>
+        <strong>Error Message:</strong> <code>@(Model.Error?.Message ?? "<null>")</code>
+    </p>
+}
