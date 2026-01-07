@@ -5,43 +5,39 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
-public class RenderSwitch<TValue>(Func<TValue> switchTarget) : IHtmlContent
+/// <summary>
+/// Renders only the case that matches the given value.
+/// Attention: This element receives the evaluated result, not the expression. So storing the resulting IHtmlContent will NOT reevaluate the expression as dependencies change!
+/// Like most of the rendering framework this element is designed to be constructed, rendered once and then discarded.
+/// If you need lazy evaluation at rendering time, use <see cref="Lazy"/> content and capture dependencies into the lambda.
+/// </summary>
+public class RenderSwitch<TValue>(TValue switchValue) : IHtmlContent
 {
-	private readonly Func<TValue> _switchTarget = switchTarget;
-
-	private record SwitchOption(TValue Option, IHtmlContent Content);
-
-	private List<SwitchOption> _switchOptions = [];
-	private IHtmlContent? _default = null;
+	private readonly TValue _switchValue = switchValue;
+	private RenderIf _content = RenderIf(false);
 
 	public RenderSwitch<TValue> Case(TValue option, params IEnumerable<IHtmlContent> contents)
 	{
-		_switchOptions.Add(new(option, Concat(contents)));
+		_content.ElseIf(CaseMatch(_switchValue, option), contents);
+		return this;
+	}
+
+	public RenderSwitch<TValue> Case<TTypeOption>(params IEnumerable<IHtmlContent> contents)
+		where TTypeOption : TValue
+	{
+		_content.ElseIf(_switchValue is TTypeOption, contents);
 		return this;
 	}
 
 	public IHtmlContent Default(params IEnumerable<IHtmlContent> contents)
 	{
-		_default = Concat(contents);
+		_content.Else(contents);
 		return this;
 	}
 
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
-		var currentValue = _switchTarget();
-		var activeCase = _switchOptions.FirstOrDefault(option => CaseMatch(option.Option, currentValue));
-
-		if (activeCase != null)
-		{
-			activeCase.Content.WriteTo(writer, encoder);
-			return;
-		}
-
-		if (_default != null)
-		{
-			_default.WriteTo(writer, encoder);
-			return;
-		}
+		_content.WriteTo(writer, encoder);
 	}
 
 	private bool CaseMatch(TValue option, TValue currentValue)
