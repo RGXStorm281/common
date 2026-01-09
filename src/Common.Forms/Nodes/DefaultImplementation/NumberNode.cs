@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Globalization;
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class NumberNode : FieldNode, INumberNode
@@ -20,6 +21,9 @@ internal partial class NumberNode : FieldNode, INumberNode
 		get => _value.CurrentValue;
 		set => _value.CurrentValue = value;
 	}
+
+	/// <inheritdoc />
+	public ISelectListSource<decimal?>? Suggestions { get; }
 
 	internal void ReplaceDefaultValue(decimal? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

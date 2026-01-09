@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Globalization;
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class TimestampNode : FieldNode, ITimestampNode
@@ -20,6 +21,9 @@ internal partial class TimestampNode : FieldNode, ITimestampNode
 		get => _value.CurrentValue;
 		set => _value.CurrentValue = value;
 	}
+
+	/// <inheritdoc />
+	public ISelectListSource<DateTime?>? Suggestions { get; }
 
 	internal void ReplaceDefaultValue(DateTime? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

@@ -7,5 +7,5 @@ namespace RobinEpple.Common.Forms.SelectLists;
 public interface ISelectListItem<TValue>
 {
 	public string Label { get; }
-	public TValue? Value { get; }
+	public TValue Value { get; }
 }

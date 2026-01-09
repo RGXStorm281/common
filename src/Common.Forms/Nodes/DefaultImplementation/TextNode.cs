@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class TextNode : FieldNode, ITextNode
@@ -19,6 +20,9 @@ internal partial class TextNode : FieldNode, ITextNode
 		get => _value.CurrentValue;
 		set => _value.CurrentValue = value;
 	}
+
+	/// <inheritdoc />
+	public ISelectListSource<string?>? Suggestions { get; }
 
 	internal void ReplaceDefaultValue(string? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

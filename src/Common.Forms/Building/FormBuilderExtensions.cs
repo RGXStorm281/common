@@ -121,45 +121,55 @@ public static class FormBuilderExtensions
 	/// Checks the field value against the available items in the select list.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="selectListSource">The source to load the select list from.</param>
-	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	public static IBooleanNodeBuilder UseSelectListValidator(
+		this IBooleanNodeBuilder builder,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new SelectListValidator<bool?>(errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against the available items in the select list.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static INumberNodeBuilder UseSelectListValidator(
 		this INumberNodeBuilder builder,
-		ISelectListSource<decimal> selectListSource,
-		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
-	) => builder.UseValidator(new NumberSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+	) => builder.UseValidator(new SelectListValidator<decimal?>(errorMessageTemplate));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against the available items in the select list.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="selectListSource">The source to load the select list from.</param>
-	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITextNodeBuilder UseSelectListValidator(
 		this ITextNodeBuilder builder,
-		ISelectListSource<string> selectListSource,
-		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
-	) => builder.UseValidator(new TextSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+	) => builder.UseValidator(new SelectListValidator<string?>(errorMessageTemplate));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against the available items in the select list.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="selectListSource">The source to load the select list from.</param>
-	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITimestampNodeBuilder UseSelectListValidator(
 		this ITimestampNodeBuilder builder,
-		ISelectListSource<DateTime> selectListSource,
-		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
-	) => builder.UseValidator(new TimestampSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+	) => builder.UseValidator(new SelectListValidator<DateTime?>(errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against the available items in the select list.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	public static IFileNodeBuilder UseSelectListValidator(
+		this IFileNodeBuilder builder,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new SelectListValidator<DateTime?>(errorMessageTemplate));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
