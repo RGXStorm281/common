@@ -23,7 +23,12 @@ internal partial class NumberNode : FieldNode, INumberNode
 	}
 
 	/// <inheritdoc />
-	public ISelectListSource<decimal?>? Suggestions { get; }
+	public ISelectListSource<decimal?>? SelectList { get; private set; }
+
+	public void UseSelectList(ISelectListSource<decimal?>? selectList)
+	{
+		SelectList = selectList;
+	}
 
 	internal void ReplaceDefaultValue(decimal? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

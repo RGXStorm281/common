@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
-public interface ITextNodeBuilder : IFieldNodeBuilder<ITextNodeBuilder>
+public interface ITextNodeBuilder : IFieldNodeBuilder<ITextNodeBuilder>, IValueNodeBuilder<string?, ITextNodeBuilder>
 {
 	/// <summary>
 	/// Sets a default value that the node starts with and is resetted to.

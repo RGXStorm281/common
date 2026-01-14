@@ -12,5 +12,5 @@ public interface IValueNode<TValue> : IFormNode
 	/// <summary>
 	/// A provider to load named value suggestions.
 	/// </summary>
-	public ISelectListSource<TValue>? Suggestions { get; }
+	public ISelectListSource<TValue>? SelectList { get; }
 }

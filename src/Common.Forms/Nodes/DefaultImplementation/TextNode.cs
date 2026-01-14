@@ -22,7 +22,12 @@ internal partial class TextNode : FieldNode, ITextNode
 	}
 
 	/// <inheritdoc />
-	public ISelectListSource<string?>? Suggestions { get; }
+	public ISelectListSource<string?>? SelectList { get; private set; }
+
+	public void UseSelectList(ISelectListSource<string?>? selectList)
+	{
+		SelectList = selectList;
+	}
 
 	internal void ReplaceDefaultValue(string? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

@@ -22,7 +22,12 @@ internal partial class FileNode : FieldNode, IFileNode
 	}
 
 	/// <inheritdoc />
-	public ISelectListSource<FileValue>? Suggestions { get; }
+	public ISelectListSource<FileValue>? SelectList { get; private set; }
+
+	public void UseSelectList(ISelectListSource<FileValue>? selectList)
+	{
+		SelectList = selectList;
+	}
 
 	internal void ReplaceDefaultValue(FileValue newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

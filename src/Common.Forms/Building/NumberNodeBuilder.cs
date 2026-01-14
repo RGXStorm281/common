@@ -3,6 +3,8 @@ namespace RobinEpple.Common.Forms.Building;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
+using RobinEpple.Common.Forms.SelectLists;
+using RobinEpple.Common.Forms.Validation;
 
 internal class NumberNodeBuilder : FieldNodeBuilder<INumberNodeBuilder, NumberNode>, INumberNodeBuilder
 {
@@ -152,4 +154,19 @@ internal class NumberNodeBuilder : FieldNodeBuilder<INumberNodeBuilder, NumberNo
 
 	/// <inheritdoc />
 	protected override NumberNodeBuilder CastThis() => this;
+
+	/// <inheritdoc />
+	public INumberNodeBuilder UseSelectList(
+		ISelectListSource<decimal?> source,
+		bool validate,
+		string? errorMessageTemplate = null
+	)
+	{
+		Node.UseSelectList(source);
+		if (validate)
+		{
+			Node.UseValidator(new SelectListValidator<decimal?>(errorMessageTemplate));
+		}
+		return this;
+	}
 }

@@ -3,7 +3,9 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
-public interface INumberNodeBuilder : IFieldNodeBuilder<INumberNodeBuilder>
+public interface INumberNodeBuilder
+	: IFieldNodeBuilder<INumberNodeBuilder>,
+		IValueNodeBuilder<decimal?, INumberNodeBuilder>
 {
 	/// <summary>
 	/// Sets a default value that the node starts with and is resetted to.

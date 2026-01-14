@@ -22,7 +22,12 @@ internal partial class BooleanNode : FieldNode, IBooleanNode
 	}
 
 	/// <inheritdoc />
-	public ISelectListSource<bool?>? Suggestions { get; }
+	public ISelectListSource<bool?>? SelectList { get; private set; }
+
+	public void UseSelectList(ISelectListSource<bool?>? selectList)
+	{
+		SelectList = selectList;
+	}
 
 	internal void ReplaceDefaultValue(bool? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

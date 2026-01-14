@@ -23,7 +23,12 @@ internal partial class TimestampNode : FieldNode, ITimestampNode
 	}
 
 	/// <inheritdoc />
-	public ISelectListSource<DateTime?>? Suggestions { get; }
+	public ISelectListSource<DateTime?>? SelectList { get; private set; }
+
+	public void UseSelectList(ISelectListSource<DateTime?>? selectList)
+	{
+		SelectList = selectList;
+	}
 
 	internal void ReplaceDefaultValue(DateTime? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 

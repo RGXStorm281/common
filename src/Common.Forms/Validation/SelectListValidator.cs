@@ -34,7 +34,7 @@ public partial class SelectListValidator<TValue>(string? errorMessageTemplate = 
 			return;
 		}
 
-		if (valueNode.Suggestions is not { } selectListSource)
+		if (valueNode.SelectList is not { } selectListSource)
 		{
 			throw new InvalidOperationException(
 				$"Node {node.GetId()}: A {ErrorKey} can only be used on nodes with suggestions (= list to validate against)."
