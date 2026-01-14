@@ -245,7 +245,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 
 			// Create the method signature.
 			var parameterList = GetParameterList(constructor);
-			var parameters = RenderParameters(parameterList);
+			var parameters = RenderParameters(semanticModel, parameterList);
 			var constructorAccessModifier = constructor.DeclaredAccessibility.ToString().ToLower();
 			var typeParameterString = string.Empty;
 			if (constructor.ContainingType.TypeParameters.ToList() is { Count: > 0 } typeParameters)
@@ -274,7 +274,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 
 			sb.AppendLine(
 				IndentHelper.Indent(
-					$"{constructorAccessModifier} static {visibleType.ToDisplayString()} {methodName}{typeParameterString}({parameters})"
+					$"{constructorAccessModifier} static {visibleType.ToDisplayString(_fullyQualifiedTypeFormat)} {methodName}{typeParameterString}({parameters})"
 				)
 			);
 
@@ -378,7 +378,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		return explicitName;
 	}
 
-	private static string RenderParameters(ParameterListSyntax? parameterList)
+	private static string RenderParameters(SemanticModel semanticModel, ParameterListSyntax? parameterList)
 	{
 		if (parameterList == null)
 		{
@@ -388,12 +388,99 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		var parameterStrings = new List<string>();
 		foreach (var parameter in parameterList.Parameters)
 		{
-			var parameterString = parameter.WithoutTrivia().ToFullString();
-			parameterString = parameterString.Replace("[StaticFactoryThis]", "this");
+			var parameterString = Print(semanticModel, parameter);
 			parameterStrings.Add(parameterString);
 		}
 
 		return string.Join(", ", parameterStrings);
+	}
+
+	private static readonly SymbolDisplayFormat _fullyQualifiedTypeFormat = new SymbolDisplayFormat(
+		globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Included,
+		typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+		genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+		miscellaneousOptions: SymbolDisplayMiscellaneousOptions.ExpandNullable
+			| SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier
+	);
+
+	private static string Print(SemanticModel model, ParameterSyntax parameter)
+	{
+		// Get the semantics.
+		var symbol = model.GetDeclaredSymbol(parameter)!;
+
+		// Preserve attributes.
+		bool isThis = false;
+		var attributes = new List<string>();
+		foreach (var attr in symbol.GetAttributes())
+		{
+			var attributeType = attr.AttributeClass!.ToDisplayString(_fullyQualifiedTypeFormat);
+			if (attributeType.EndsWith(".StaticFactoryThisAttribute", StringComparison.Ordinal))
+			{
+				// Convert [StaticFactoryThis] attributes to an extension method.
+				isThis = true;
+				continue;
+			}
+
+			var attributeArgs =
+				attr.ConstructorArguments.Length == 0
+					? ""
+					: "("
+						+ string.Join(
+							", ",
+							attr.ConstructorArguments.Select(a =>
+								a.Kind == TypedConstantKind.Primitive ? a.ToCSharpString() : a.ToString()
+							)
+						)
+						+ ")";
+
+			attributes.Add($"[{attributeType}{attributeArgs}]");
+		}
+
+		// Preserve modifiers.
+		var modifiers = "";
+
+		if (symbol.IsParams)
+			modifiers += "params ";
+
+		modifiers += symbol.RefKind switch
+		{
+			RefKind.Ref => "ref ",
+			RefKind.Out => "out ",
+			RefKind.In => "in ",
+			_ => "",
+		};
+
+		// Get fully qualified type name.
+		var type = symbol.Type.ToDisplayString(_fullyQualifiedTypeFormat);
+
+		// Preserve default value.
+		var defaultValue = symbol.HasExplicitDefaultValue
+			? " = " + DefaultValueToCSharp(symbol.ExplicitDefaultValue)
+			: "";
+
+		// And put it all together.
+		var full =
+			$"{string.Join(" ", attributes)} {(isThis ? "this " : modifiers)}{type} {symbol.Name}{defaultValue}".Trim();
+
+		return full;
+	}
+
+	private static string DefaultValueToCSharp(object? value)
+	{
+		if (value == null)
+			return "null";
+
+		return value switch
+		{
+			string s => $"\"{s.Replace("\"", "\\\"")}\"",
+			char c => $"'{c}'",
+			bool b => b ? "true" : "false",
+			float f => f.ToString(System.Globalization.CultureInfo.InvariantCulture) + "f",
+			double d => d.ToString(System.Globalization.CultureInfo.InvariantCulture),
+			decimal m => m.ToString(System.Globalization.CultureInfo.InvariantCulture) + "m",
+			Enum e => $"global::{e.GetType().FullName}.{e}",
+			_ => value.ToString(),
+		};
 	}
 
 	private static string? GetObsoleteAttribute(ISymbol symbol)
