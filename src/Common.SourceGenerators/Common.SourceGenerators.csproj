@@ -8,6 +8,7 @@
         <PackageId>RobinEpple.Common.SourceGenerators</PackageId>
         <RootNamespace>RobinEpple.Common.SourceGenerators</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>Some general purpose source generators to make coding life easier.</Title>
 
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>

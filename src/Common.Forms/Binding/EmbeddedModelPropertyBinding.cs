@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Binding;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 
-public class EmbeddedModelPropertyBinding<TModel, TFieldValue, TProperty> : IValueAccessor<TFieldValue>
+internal class EmbeddedModelPropertyBinding<TModel, TFieldValue, TProperty> : IValueAccessor<TFieldValue>
 {
 	private readonly string _instanceNodeName;
 	private readonly Func<TModel, TFieldValue> _getter;

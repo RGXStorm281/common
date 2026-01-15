@@ -20,7 +20,14 @@ public partial interface IFormNode : ICloneable
 	/// </summary>
 	public string Name { get; }
 
+	/// <summary>
+	/// The character separating nodes in a path.
+	/// </summary>
 	public const char PathSeparator = '-';
+
+	/// <summary>
+	/// The pattern used for representing an index in a collection node.
+	/// </summary>
 	public const string IndexIdentifier = "-{0}";
 
 	/// <summary>

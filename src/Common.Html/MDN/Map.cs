@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <map> HTML element is used with <area> elements to define an image map (a clickable link area).
+///The &lt;map&gt; HTML element is used with &lt;area&gt; elements to define an image map (a clickable link area).
 /// </summary>
-public partial class Map(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("map", false, contents)
+public partial class Map
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;map&gt; HTML element is used with &lt;area&gt; elements to define an image map (a clickable link area).
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Map(params IEnumerable<IHtmlContent> contents)
+		: base("map", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;map&gt; HTML element is used with &lt;area&gt; elements to define an image map (a clickable link area).
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Map(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The name attribute gives the map a name so that it can be referenced. The attribute must be present and must have a non-empty value with no space characters. The value of the name attribute must not be equal to the value of the name attribute of another <map> element in the same document. If the id attribute is also specified, both attributes must have the same value.
+	///The name attribute gives the map a name so that it can be referenced. The attribute must be present and must have a non-empty value with no space characters. The value of the name attribute must not be equal to the value of the name attribute of another &lt;map&gt; element in the same document. If the id attribute is also specified, both attributes must have the same value.
 	/// </summary>
 	public Map Name(string value)
 	{

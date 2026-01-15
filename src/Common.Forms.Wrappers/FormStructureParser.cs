@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 
-public class StaticFormStructureParser
+internal class StaticFormStructureParser
 {
 	private class ParseContext
 	{
@@ -32,6 +32,8 @@ public class StaticFormStructureParser
 	/// </summary>
 	/// <param name="methodDeclaration">The method to search.</param>
 	/// <param name="semanticModel">The semantic model, for resolving method information.</param>
+	/// <param name="logger">A logger to write errors to.</param>
+	/// <param name="declaringType">The declaring type of the method.</param>
 	/// <returns>The root node of the form structure.</returns>
 	public FormWrapperNode ParseStaticFormStructure(
 		MethodDeclarationSyntax methodDeclaration,
@@ -333,7 +335,6 @@ public class StaticFormStructureParser
 	/// Check whether the invocation configures an addition to the form structure and potentially add the new structure element to the model.
 	/// </summary>
 	/// <param name="invocation">The method invocation in the current syntax context.</param>
-	/// <param name="semanticModel">The semantic model to look up method definitions.</param>
 	/// <param name="context">The context to add the structure elements to.</param>
 	private static void ProcessInvocation(InvocationExpressionSyntax invocation, ParseContext context)
 	{

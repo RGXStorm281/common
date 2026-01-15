@@ -2,6 +2,9 @@ namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// Represents a model that is embedded into the form to bind to.
+/// </summary>
 public interface IEmbeddedModel
 {
 	/// <summary>

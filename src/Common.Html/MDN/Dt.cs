@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <dt> HTML element specifies a term in a description or definition list, and as such must be used inside a <dl> element. It is usually followed by a <dd> element; however, multiple <dt> elements in a row indicate several terms that are all defined by the immediate next <dd> element. The subsequent <dd> ( Description Details ) element provides the definition or other related text associated with the term specified using <dt>.
+///The &lt;dt&gt; HTML element specifies a term in a description or definition list, and as such must be used inside a &lt;dl&gt; element. It is usually followed by a &lt;dd&gt; element; however, multiple &lt;dt&gt; elements in a row indicate several terms that are all defined by the immediate next &lt;dd&gt; element. The subsequent &lt;dd&gt; ( Description Details ) element provides the definition or other related text associated with the term specified using &lt;dt&gt;.
 /// </summary>
-public partial class Dt(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("dt", false, contents)
+public partial class Dt
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;dt&gt; HTML element specifies a term in a description or definition list, and as such must be used inside a &lt;dl&gt; element. It is usually followed by a &lt;dd&gt; element; however, multiple &lt;dt&gt; elements in a row indicate several terms that are all defined by the immediate next &lt;dd&gt; element. The subsequent &lt;dd&gt; ( Description Details ) element provides the definition or other related text associated with the term specified using &lt;dt&gt;.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Dt(params IEnumerable<IHtmlContent> contents)
+		: base("dt", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;dt&gt; HTML element specifies a term in a description or definition list, and as such must be used inside a &lt;dl&gt; element. It is usually followed by a &lt;dd&gt; element; however, multiple &lt;dt&gt; elements in a row indicate several terms that are all defined by the immediate next &lt;dd&gt; element. The subsequent &lt;dd&gt; ( Description Details ) element provides the definition or other related text associated with the term specified using &lt;dt&gt;.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Dt(string text)
 		: this(Encode(text))
 	{

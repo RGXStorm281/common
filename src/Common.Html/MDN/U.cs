@@ -8,12 +8,31 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <u> HTML element represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation. This is rendered by default as a single solid underline, but may be altered using CSS. Warning: 
-/// This element used to be called the "Underline" element in older versions of HTML, and is still sometimes misused in this way. To underline text, you should instead apply a style that includes the CSS text-decoration property set to underline.
+///The &lt;u&gt; HTML element represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation. This is rendered by default as a single solid underline, but may be altered using CSS. Warning: 
+///This element used to be called the &quot;Underline&quot; element in older versions of HTML, and is still sometimes misused in this way. To underline text, you should instead apply a style that includes the CSS text-decoration property set to underline.
 /// </summary>
-public partial class U(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("u", false, contents)
+public partial class U
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;u&gt; HTML element represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation. This is rendered by default as a single solid underline, but may be altered using CSS. Warning: 
+	///This element used to be called the &quot;Underline&quot; element in older versions of HTML, and is still sometimes misused in this way. To underline text, you should instead apply a style that includes the CSS text-decoration property set to underline.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public U(params IEnumerable<IHtmlContent> contents)
+		: base("u", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;u&gt; HTML element represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation. This is rendered by default as a single solid underline, but may be altered using CSS. Warning: 
+	///This element used to be called the &quot;Underline&quot; element in older versions of HTML, and is still sometimes misused in this way. To underline text, you should instead apply a style that includes the CSS text-decoration property set to underline.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public U(string text)
 		: this(Encode(text))
 	{

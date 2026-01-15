@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <sup> HTML element specifies inline text which is to be displayed as superscript for solely typographical reasons. Superscripts are usually rendered with a raised baseline using smaller text.
+///The &lt;sup&gt; HTML element specifies inline text which is to be displayed as superscript for solely typographical reasons. Superscripts are usually rendered with a raised baseline using smaller text.
 /// </summary>
-public partial class Sup(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("sup", false, contents)
+public partial class Sup
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;sup&gt; HTML element specifies inline text which is to be displayed as superscript for solely typographical reasons. Superscripts are usually rendered with a raised baseline using smaller text.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Sup(params IEnumerable<IHtmlContent> contents)
+		: base("sup", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;sup&gt; HTML element specifies inline text which is to be displayed as superscript for solely typographical reasons. Superscripts are usually rendered with a raised baseline using smaller text.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Sup(string text)
 		: this(Encode(text))
 	{

@@ -1,8 +1,8 @@
-namespace RobinEpple.Common.Forms.Wrappers.Abstractions;
+namespace RobinEpple.Common.Forms.Wrappers;
 
 using System.Text;
 
-public class IndentHelper
+internal class IndentHelper
 {
 	/// <summary>
 	/// Indents each line of the given string by the specified depth.

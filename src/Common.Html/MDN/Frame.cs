@@ -8,18 +8,35 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <frame> HTML element defines a particular area in which another HTML document can be displayed. A frame should be used within a <frameset>. Using the <frame> element is not encouraged because of certain disadvantages such as performance problems and lack of accessibility for users with screen readers. Instead of the <frame> element, <iframe> may be preferred.
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;frame&gt; HTML element defines a particular area in which another HTML document can be displayed. A frame should be used within a &lt;frameset&gt;. Using the &lt;frame&gt; element is not encouraged because of certain disadvantages such as performance problems and lack of accessibility for users with screen readers. Instead of the &lt;frame&gt; element, &lt;iframe&gt; may be preferred.
 /// </summary>
 [Obsolete]
-public partial class Frame(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("frame", false, contents)
+public partial class Frame
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;frame&gt; HTML element defines a particular area in which another HTML document can be displayed. A frame should be used within a &lt;frameset&gt;. Using the &lt;frame&gt; element is not encouraged because of certain disadvantages such as performance problems and lack of accessibility for users with screen readers. Instead of the &lt;frame&gt; element, &lt;iframe&gt; may be preferred.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Frame(params IEnumerable<IHtmlContent> contents)
+		: base("frame", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;frame&gt; HTML element defines a particular area in which another HTML document can be displayed. A frame should be used within a &lt;frameset&gt;. Using the &lt;frame&gt; element is not encouraged because of certain disadvantages such as performance problems and lack of accessibility for users with screen readers. Instead of the &lt;frame&gt; element, &lt;iframe&gt; may be preferred.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Frame(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This attribute allows you to specify a frame's border.
+	///This attribute allows you to specify a frame&apos;s border.
 	/// </summary>
 	[Obsolete]
 	public Frame Frameborder(string value)
@@ -28,7 +45,7 @@ public partial class Frame(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute defines the height of the margin between frames.
+	///This attribute defines the height of the margin between frames.
 	/// </summary>
 	[Obsolete]
 	public Frame Marginheight(string value)
@@ -37,7 +54,7 @@ public partial class Frame(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute defines the width of the margin between frames.
+	///This attribute defines the width of the margin between frames.
 	/// </summary>
 	[Obsolete]
 	public Frame Marginwidth(string value)
@@ -46,7 +63,7 @@ public partial class Frame(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute is used for labeling frames. Without labeling, every link will open in the frame that it's in â the closest parent frame. See the target attribute for more information.
+	///This attribute is used for labeling frames. Without labeling, every link will open in the frame that it&apos;s in â the closest parent frame. See the target attribute for more information.
 	/// </summary>
 	[Obsolete]
 	public Frame Name(string value)
@@ -55,7 +72,7 @@ public partial class Frame(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute prevents resizing of frames by users.
+	///This attribute prevents resizing of frames by users.
 	/// </summary>
 	[Obsolete]
 	public Frame Noresize(string value)
@@ -64,7 +81,7 @@ public partial class Frame(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute defines the existence of a scrollbar. If this attribute is not used, the browser adds a scrollbar when necessary. There are two choices: "yes" for forcing a scrollbar even when it is not necessary and "no" for forcing no scrollbar even when it is necessary.
+	///This attribute defines the existence of a scrollbar. If this attribute is not used, the browser adds a scrollbar when necessary. There are two choices: &quot;yes&quot; for forcing a scrollbar even when it is not necessary and &quot;no&quot; for forcing no scrollbar even when it is necessary.
 	/// </summary>
 	[Obsolete]
 	public Frame Scrolling(string value)
@@ -73,7 +90,7 @@ public partial class Frame(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute specifies the document that will be displayed by the frame.
+	///This attribute specifies the document that will be displayed by the frame.
 	/// </summary>
 	[Obsolete]
 	public Frame Src(string value)

@@ -8,18 +8,35 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <body> HTML element represents the content of an HTML document. There can be only one <body> element in a document.
+///The &lt;body&gt; HTML element represents the content of an HTML document. There can be only one &lt;body&gt; element in a document.
 /// </summary>
-public partial class Body(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("body", false, contents)
+public partial class Body
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;body&gt; HTML element represents the content of an HTML document. There can be only one &lt;body&gt; element in a document.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Body(params IEnumerable<IHtmlContent> contents)
+		: base("body", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;body&gt; HTML element represents the content of an HTML document. There can be only one &lt;body&gt; element in a document.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Body(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Color of text for hyperlinks when selected.
-	/// Use the CSS color property in conjunction with the :active and :focus pseudo-classes instead.
+	///Color of text for hyperlinks when selected.
+	///Use the CSS color property in conjunction with the :active and :focus pseudo-classes instead.
 	/// </summary>
 	[Obsolete]
 	public Body Alink(string value)
@@ -28,8 +45,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// URI of an image to use as a background.
-	/// Use the CSS background-image property instead.
+	///URI of an image to use as a background.
+	///Use the CSS background-image property instead.
 	/// </summary>
 	[Obsolete]
 	public Body Background(string value)
@@ -38,8 +55,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Background color for the document.
-	/// Use the CSS background-color property instead.
+	///Background color for the document.
+	///Use the CSS background-color property instead.
 	/// </summary>
 	[Obsolete]
 	public Body Bgcolor(string value)
@@ -48,8 +65,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The margin of the bottom of the body.
-	/// Use the CSS margin-bottom property (or the logical margin-block-end property) instead.
+	///The margin of the bottom of the body.
+	///Use the CSS margin-bottom property (or the logical margin-block-end property) instead.
 	/// </summary>
 	[Obsolete]
 	public Body Bottommargin(string value)
@@ -58,8 +75,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The margin of the left of the body.
-	/// Use the CSS margin-left property (or the logical margin-inline-start property) instead.
+	///The margin of the left of the body.
+	///Use the CSS margin-left property (or the logical margin-inline-start property) instead.
 	/// </summary>
 	[Obsolete]
 	public Body Leftmargin(string value)
@@ -68,8 +85,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Color of text for unvisited hypertext links.
-	/// Use the CSS color property in conjunction with the :link pseudo-class instead.
+	///Color of text for unvisited hypertext links.
+	///Use the CSS color property in conjunction with the :link pseudo-class instead.
 	/// </summary>
 	[Obsolete]
 	public Body Link(string value)
@@ -78,7 +95,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call after the user has printed the document.
+	///Function to call after the user has printed the document.
 	/// </summary>
 	public Body Onafterprint(string value)
 	{
@@ -86,7 +103,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the user requests printing of the document.
+	///Function to call when the user requests printing of the document.
 	/// </summary>
 	public Body Onbeforeprint(string value)
 	{
@@ -94,7 +111,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document is about to be unloaded.
+	///Function to call when the document is about to be unloaded.
 	/// </summary>
 	public Body Onbeforeunload(string value)
 	{
@@ -102,7 +119,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document loses focus.
+	///Function to call when the document loses focus.
 	/// </summary>
 	public Body Onblur(string value)
 	{
@@ -110,7 +127,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document fails to load properly.
+	///Function to call when the document fails to load properly.
 	/// </summary>
 	public Body Onerror(string value)
 	{
@@ -118,7 +135,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document receives focus.
+	///Function to call when the document receives focus.
 	/// </summary>
 	public Body Onfocus(string value)
 	{
@@ -126,7 +143,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the fragment identifier part (starting with the hash ( '#' ) character) of the document's current address has changed.
+	///Function to call when the fragment identifier part (starting with the hash ( &apos;#&apos; ) character) of the document&apos;s current address has changed.
 	/// </summary>
 	public Body Onhashchange(string value)
 	{
@@ -134,7 +151,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the preferred languages changed.
+	///Function to call when the preferred languages changed.
 	/// </summary>
 	public Body Onlanguagechange(string value)
 	{
@@ -142,7 +159,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document has finished loading.
+	///Function to call when the document has finished loading.
 	/// </summary>
 	public Body Onload(string value)
 	{
@@ -150,7 +167,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document has received a message.
+	///Function to call when the document has received a message.
 	/// </summary>
 	public Body Onmessage(string value)
 	{
@@ -158,7 +175,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document has received a message that cannot be deserialized.
+	///Function to call when the document has received a message that cannot be deserialized.
 	/// </summary>
 	public Body Onmessageerror(string value)
 	{
@@ -166,7 +183,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when network communication has failed.
+	///Function to call when network communication has failed.
 	/// </summary>
 	public Body Onoffline(string value)
 	{
@@ -174,7 +191,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when network communication has been restored.
+	///Function to call when network communication has been restored.
 	/// </summary>
 	public Body Ononline(string value)
 	{
@@ -182,7 +199,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the browser hides the current page in the process of presenting a different page from the session's history.
+	///Function to call when the browser hides the current page in the process of presenting a different page from the session&apos;s history.
 	/// </summary>
 	public Body Onpagehide(string value)
 	{
@@ -190,7 +207,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when a document is first rendered, either when loading a fresh document from the network or activating a document.
+	///Function to call when a document is first rendered, either when loading a fresh document from the network or activating a document.
 	/// </summary>
 	public Body Onpagereveal(string value)
 	{
@@ -198,7 +215,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the browser displays the window's document due to navigation.
+	///Function to call when the browser displays the window&apos;s document due to navigation.
 	/// </summary>
 	public Body Onpageshow(string value)
 	{
@@ -206,7 +223,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when you navigate across documents, when the previous document is about to unload.
+	///Function to call when you navigate across documents, when the previous document is about to unload.
 	/// </summary>
 	public Body Onpageswap(string value)
 	{
@@ -214,7 +231,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the user has navigated session history.
+	///Function to call when the user has navigated session history.
 	/// </summary>
 	public Body Onpopstate(string value)
 	{
@@ -222,7 +239,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when a JavaScript Promise is handled late.
+	///Function to call when a JavaScript Promise is handled late.
 	/// </summary>
 	public Body Onrejectionhandled(string value)
 	{
@@ -230,7 +247,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document has been resized.
+	///Function to call when the document has been resized.
 	/// </summary>
 	public Body Onresize(string value)
 	{
@@ -238,7 +255,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the storage area has changed.
+	///Function to call when the storage area has changed.
 	/// </summary>
 	public Body Onstorage(string value)
 	{
@@ -246,7 +263,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when a JavaScript Promise that has no rejection handler is rejected.
+	///Function to call when a JavaScript Promise that has no rejection handler is rejected.
 	/// </summary>
 	public Body Onunhandledrejection(string value)
 	{
@@ -254,7 +271,7 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Function to call when the document is going away.
+	///Function to call when the document is going away.
 	/// </summary>
 	[Obsolete]
 	public Body Onunload(string value)
@@ -263,8 +280,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The margin of the right of the body.
-	/// Use the CSS margin-right property or the logical margin-inline-end property) instead.
+	///The margin of the right of the body.
+	///Use the CSS margin-right property or the logical margin-inline-end property) instead.
 	/// </summary>
 	[Obsolete]
 	public Body Rightmargin(string value)
@@ -273,8 +290,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Foreground color of text.
-	/// Use the CSS color property instead.
+	///Foreground color of text.
+	///Use the CSS color property instead.
 	/// </summary>
 	[Obsolete]
 	public Body Text(string value)
@@ -283,8 +300,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The margin of the top of the body.
-	/// Use the CSS margin-top property (or the logical margin-block-start property) instead.
+	///The margin of the top of the body.
+	///Use the CSS margin-top property (or the logical margin-block-start property) instead.
 	/// </summary>
 	[Obsolete]
 	public Body Topmargin(string value)
@@ -293,8 +310,8 @@ public partial class Body(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Color of text for visited hypertext links.
-	/// Use the CSS color property in conjunction with the :visited pseudo-class instead.
+	///Color of text for visited hypertext links.
+	///Use the CSS color property in conjunction with the :visited pseudo-class instead.
 	/// </summary>
 	[Obsolete]
 	public Body Vlink(string value)

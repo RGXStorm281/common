@@ -8,18 +8,37 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <audio> HTML element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the <source> element: the browser will choose the most suitable one.
-/// It can also be the destination for streamed media, using a MediaStream.
+///The &lt;audio&gt; HTML element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the &lt;source&gt; element: the browser will choose the most suitable one.
+///It can also be the destination for streamed media, using a MediaStream.
 /// </summary>
-public partial class Audio(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("audio", false, contents)
+public partial class Audio
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;audio&gt; HTML element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the &lt;source&gt; element: the browser will choose the most suitable one.
+	///It can also be the destination for streamed media, using a MediaStream.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Audio(params IEnumerable<IHtmlContent> contents)
+		: base("audio", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;audio&gt; HTML element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the &lt;source&gt; element: the browser will choose the most suitable one.
+	///It can also be the destination for streamed media, using a MediaStream.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Audio(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Sends a cross-origin request without a credential. In other words, it sends the Origin: HTTP header without a cookie, X.509 certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin: HTTP header), the resource will be tainted, and its usage restricted.
+	///Sends a cross-origin request without a credential. In other words, it sends the Origin: HTTP header without a cookie, X.509 certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin: HTTP header), the resource will be tainted, and its usage restricted.
 	/// </summary>
 	public Audio Anonymous(string value)
 	{
@@ -27,7 +46,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The input buffer of a ScriptProcessorNode is ready to be processed.
+	///The input buffer of a ScriptProcessorNode is ready to be processed.
 	/// </summary>
 	[Obsolete]
 	public Audio Audioprocess(string value)
@@ -36,7 +55,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so, without waiting for the entire audio file to finish downloading.
+	///A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so, without waiting for the entire audio file to finish downloading.
 	/// </summary>
 	public Audio Autoplay(string value)
 	{
@@ -44,7 +63,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The browser can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content.
+	///The browser can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content.
 	/// </summary>
 	public Audio Canplay(string value)
 	{
@@ -52,7 +71,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The browser estimates it can play the media up to its end without stopping for content buffering.
+	///The browser estimates it can play the media up to its end without stopping for content buffering.
 	/// </summary>
 	public Audio Canplaythrough(string value)
 	{
@@ -60,7 +79,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The rendering of an OfflineAudioContext is terminated.
+	///The rendering of an OfflineAudioContext is terminated.
 	/// </summary>
 	public Audio Complete(string value)
 	{
@@ -68,7 +87,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If this attribute is present, the browser will offer controls to allow the user to control audio playback, including volume, seeking, and pause/resume playback.
+	///If this attribute is present, the browser will offer controls to allow the user to control audio playback, including volume, seeking, and pause/resume playback.
 	/// </summary>
 	public Audio Controls(string value)
 	{
@@ -76,7 +95,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The controlslist attribute, when specified, helps the browser select what controls to show for the audio element whenever the browser shows its own set of controls (that is, when the controls attribute is specified).
+	///The controlslist attribute, when specified, helps the browser select what controls to show for the audio element whenever the browser shows its own set of controls (that is, when the controls attribute is specified).
 	/// </summary>
 	public Audio Controlslist(string value)
 	{
@@ -84,7 +103,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This enumerated attribute indicates whether to use CORS to fetch the related audio file. CORS-enabled resources can be reused in the <canvas> element without being tainted. The allowed values are:
+	///This enumerated attribute indicates whether to use CORS to fetch the related audio file. CORS-enabled resources can be reused in the &lt;canvas&gt; element without being tainted. The allowed values are:
 	/// </summary>
 	public Audio Crossorigin(string value)
 	{
@@ -92,7 +111,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired (HDMI, DVI, etc.) and wireless technologies (Miracast, Chromecast, DLNA, AirPlay, etc.). See the proposed Remote Playback API specification for more information.
+	///A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired (HDMI, DVI, etc.) and wireless technologies (Miracast, Chromecast, DLNA, AirPlay, etc.). See the proposed Remote Playback API specification for more information.
 	/// </summary>
 	public Audio Disableremoteplayback(string value)
 	{
@@ -100,7 +119,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The duration attribute has been updated.
+	///The duration attribute has been updated.
 	/// </summary>
 	public Audio Durationchange(string value)
 	{
@@ -108,7 +127,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the HTMLMediaElement.load method is called to reload it.
+	///The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the HTMLMediaElement.load method is called to reload it.
 	/// </summary>
 	public Audio Emptied(string value)
 	{
@@ -116,7 +135,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has stopped because the end of the media was reached.
+	///Playback has stopped because the end of the media was reached.
 	/// </summary>
 	public Audio Ended(string value)
 	{
@@ -124,7 +143,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// An AudioTrackList containing all of the media element's audio tracks. You can add a listener for addtrack to this object to be alerted when new audio tracks are added to the element.
+	///An AudioTrackList containing all of the media element&apos;s audio tracks. You can add a listener for addtrack to this object to be alerted when new audio tracks are added to the element.
 	/// </summary>
 	public Audio HtmlmediaelementAudiotracks(string value)
 	{
@@ -132,7 +151,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Add an addtrack event listener to this TextTrackList to be notified when new text tracks are added to the element.
+	///Add an addtrack event listener to this TextTrackList to be notified when new text tracks are added to the element.
 	/// </summary>
 	public Audio HtmlmediaelementTexttracks(string value)
 	{
@@ -140,7 +159,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Add an addtrack listener to this VideoTrackList object to be informed when video tracks are added to the element.
+	///Add an addtrack listener to this VideoTrackList object to be informed when video tracks are added to the element.
 	/// </summary>
 	public Audio HtmlmediaelementVideotracks(string value)
 	{
@@ -148,7 +167,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The first frame of the media has finished loading.
+	///The first frame of the media has finished loading.
 	/// </summary>
 	public Audio Loadeddata(string value)
 	{
@@ -156,7 +175,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The metadata has been loaded.
+	///The metadata has been loaded.
 	/// </summary>
 	public Audio Loadedmetadata(string value)
 	{
@@ -164,7 +183,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Fired when the browser has started to load the resource.
+	///Fired when the browser has started to load the resource.
 	/// </summary>
 	public Audio Loadstart(string value)
 	{
@@ -172,7 +191,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio.
+	///A Boolean attribute: if specified, the audio player will automatically seek back to the start upon reaching the end of the audio.
 	/// </summary>
 	public Audio Loop(string value)
 	{
@@ -180,7 +199,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute that indicates whether the audio will be initially silenced. Its default value is false.
+	///A Boolean attribute that indicates whether the audio will be initially silenced. Its default value is false.
 	/// </summary>
 	public Audio Muted(string value)
 	{
@@ -188,7 +207,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has been paused.
+	///Playback has been paused.
 	/// </summary>
 	public Audio Pause(string value)
 	{
@@ -196,7 +215,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has begun.
+	///Playback has begun.
 	/// </summary>
 	public Audio Play(string value)
 	{
@@ -204,7 +223,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback is ready to start after having been paused or delayed due to lack of data.
+	///Playback is ready to start after having been paused or delayed due to lack of data.
 	/// </summary>
 	public Audio Playing(string value)
 	{
@@ -212,7 +231,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience. It may have one of the following values:
+	///This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience. It may have one of the following values:
 	/// </summary>
 	public Audio Preload(string value)
 	{
@@ -220,7 +239,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The playback rate has changed.
+	///The playback rate has changed.
 	/// </summary>
 	public Audio Ratechange(string value)
 	{
@@ -228,7 +247,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A seek operation completed.
+	///A seek operation completed.
 	/// </summary>
 	public Audio Seeked(string value)
 	{
@@ -236,7 +255,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A seek operation began.
+	///A seek operation began.
 	/// </summary>
 	public Audio Seeking(string value)
 	{
@@ -244,7 +263,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The URL of the audio to embed. This is subject to HTTP access controls. This is optional; you may instead use the <source> element within the audio block to specify the audio to embed.
+	///The URL of the audio to embed. This is subject to HTTP access controls. This is optional; you may instead use the &lt;source&gt; element within the audio block to specify the audio to embed.
 	/// </summary>
 	public Audio Src(string value)
 	{
@@ -252,7 +271,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The user agent is trying to fetch media data, but data is unexpectedly not forthcoming.
+	///The user agent is trying to fetch media data, but data is unexpectedly not forthcoming.
 	/// </summary>
 	public Audio Stalled(string value)
 	{
@@ -260,7 +279,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Media data loading has been suspended.
+	///Media data loading has been suspended.
 	/// </summary>
 	public Audio Suspend(string value)
 	{
@@ -268,7 +287,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The time indicated by the currentTime attribute has been updated.
+	///The time indicated by the currentTime attribute has been updated.
 	/// </summary>
 	public Audio Timeupdate(string value)
 	{
@@ -276,7 +295,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Sends a cross-origin request with a credential. In other words, it sends the Origin: HTTP header with a cookie, a certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (through Access-Control-Allow-Credentials: HTTP header), the resource will be tainted and its usage restricted.
+	///Sends a cross-origin request with a credential. In other words, it sends the Origin: HTTP header with a cookie, a certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (through Access-Control-Allow-Credentials: HTTP header), the resource will be tainted and its usage restricted.
 	/// </summary>
 	public Audio UseCredentials(string value)
 	{
@@ -284,7 +303,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The volume has changed.
+	///The volume has changed.
 	/// </summary>
 	public Audio Volumechange(string value)
 	{
@@ -292,7 +311,7 @@ public partial class Audio(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has stopped because of a temporary lack of data.
+	///Playback has stopped because of a temporary lack of data.
 	/// </summary>
 	public Audio Waiting(string value)
 	{

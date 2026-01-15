@@ -8,16 +8,41 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <nobr> HTML element prevents the text it contains from automatically wrapping across multiple lines, potentially resulting in the user having to scroll horizontally to see the entire width of the text. Warning: 
-/// Although this element is widely supported, it was never standard HTML, so you shouldn't use it. Instead, use the CSS property white-space like this: html <span class="nobr">Long line with no breaks</span>
-///  css.nobr {
-///  white-space: nowrap;
-/// }
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;nobr&gt; HTML element prevents the text it contains from automatically wrapping across multiple lines, potentially resulting in the user having to scroll horizontally to see the entire width of the text. Warning: 
+///Although this element is widely supported, it was never standard HTML, so you shouldn&apos;t use it. Instead, use the CSS property white-space like this: html &lt;span class=&quot;nobr&quot;&gt;Long line with no breaks&lt;/span&gt;
+/// css.nobr {
+/// white-space: nowrap;
+///}
 /// </summary>
 [Obsolete]
-public partial class Nobr(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("nobr", false, contents)
+public partial class Nobr
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;nobr&gt; HTML element prevents the text it contains from automatically wrapping across multiple lines, potentially resulting in the user having to scroll horizontally to see the entire width of the text. Warning: 
+	///Although this element is widely supported, it was never standard HTML, so you shouldn&apos;t use it. Instead, use the CSS property white-space like this: html &lt;span class=&quot;nobr&quot;&gt;Long line with no breaks&lt;/span&gt;
+	/// css.nobr {
+	/// white-space: nowrap;
+	///}
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Nobr(params IEnumerable<IHtmlContent> contents)
+		: base("nobr", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;nobr&gt; HTML element prevents the text it contains from automatically wrapping across multiple lines, potentially resulting in the user having to scroll horizontally to see the entire width of the text. Warning: 
+	///Although this element is widely supported, it was never standard HTML, so you shouldn&apos;t use it. Instead, use the CSS property white-space like this: html &lt;span class=&quot;nobr&quot;&gt;Long line with no breaks&lt;/span&gt;
+	/// css.nobr {
+	/// white-space: nowrap;
+	///}
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Nobr(string text)
 		: this(Encode(text))
 	{

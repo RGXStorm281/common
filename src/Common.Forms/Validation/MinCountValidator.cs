@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="ICollectionNode">.<br/>
+/// Can only be applied to <see cref="ICollectionNode"/>.<br/>
 /// Checks the collection for having a minimum of <paramref name="minCount"/> instances.
 /// </summary>
 /// <param name="minCount">The expression determining the (inclusive) lower bound for the instance count.</param>
@@ -14,6 +14,9 @@ using RobinEpple.Common.Util;
 public partial class MinCountValidator(IFormExpression<decimal?> minCount, string? errorMessageTemplate = null)
 	: INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(MinCountValidator);
 	private readonly IFormExpression<decimal?> _minCount = minCount;
 	private readonly string _errorMessageTemplate =

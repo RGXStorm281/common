@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <address> HTML element indicates that the enclosed HTML provides contact information for a person or people, or for an organization.
+///The &lt;address&gt; HTML element indicates that the enclosed HTML provides contact information for a person or people, or for an organization.
 /// </summary>
-public partial class Address(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("address", false, contents)
+public partial class Address
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;address&gt; HTML element indicates that the enclosed HTML provides contact information for a person or people, or for an organization.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Address(params IEnumerable<IHtmlContent> contents)
+		: base("address", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;address&gt; HTML element indicates that the enclosed HTML provides contact information for a person or people, or for an organization.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Address(string text)
 		: this(Encode(text))
 	{

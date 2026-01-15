@@ -6,13 +6,16 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="IValueNode{TValue}">.<br/>
+/// Can only be applied to <see cref="IValueNode{TValue}"/>.<br/>
 /// Only active on non-<see langword="null"/> values.<br/>
 /// Checks the field value against the available items in the select list.
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 public partial class SelectListValidator<TValue>(string? errorMessageTemplate = null) : INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(SelectListValidator<TValue>);
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions;

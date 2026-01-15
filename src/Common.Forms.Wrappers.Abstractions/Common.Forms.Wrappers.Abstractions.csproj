@@ -7,6 +7,7 @@
         <PackageId>RobinEpple.Common.Forms.Wrappers.Abstractions</PackageId>
         <RootNamespace>RobinEpple.Common.Forms.Wrappers.Abstractions</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>Some marker attributes for the source generators.</Title>
     </PropertyGroup>
 

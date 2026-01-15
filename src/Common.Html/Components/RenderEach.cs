@@ -16,6 +16,9 @@ public class RenderEach<TItem>(IEnumerable<TItem> items, Func<TItem, IHtmlConten
 	private readonly IEnumerable<TItem> _items = items;
 	private readonly Func<TItem, IHtmlContent> _render = render;
 
+	/// <summary>
+	/// Writes the html text to the writer.
+	/// </summary>
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		var content = Concat(_items.Select(_render));

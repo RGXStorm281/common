@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <slot> HTML elementâpart of the Web Components technology suiteâis a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together.
+///The &lt;slot&gt; HTML elementâpart of the Web Components technology suiteâis a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together.
 /// </summary>
-public partial class Slot(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("slot", false, contents)
+public partial class Slot
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;slot&gt; HTML elementâpart of the Web Components technology suiteâis a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Slot(params IEnumerable<IHtmlContent> contents)
+		: base("slot", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;slot&gt; HTML elementâpart of the Web Components technology suiteâis a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Slot(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The slot's name. When the slot's containing component gets rendered, the slot is rendered with the custom element's child that has a matching slot attribute. A named slot is a <slot> element with a name attribute. Unnamed slots have the name default to the empty string. Names should be unique per shadow root: if you have two slots with the same name, all of the elements with a matching slot attribute will be assigned to the first slot with that name.
+	///The slot&apos;s name. When the slot&apos;s containing component gets rendered, the slot is rendered with the custom element&apos;s child that has a matching slot attribute. A named slot is a &lt;slot&gt; element with a name attribute. Unnamed slots have the name default to the empty string. Names should be unique per shadow root: if you have two slots with the same name, all of the elements with a matching slot attribute will be assigned to the first slot with that name.
 	/// </summary>
 	public Slot Name(string value)
 	{

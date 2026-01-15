@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <aside> HTML element represents a portion of a document whose content is only indirectly related to the document's main content. Asides are frequently presented as sidebars or call-out boxes.
+///The &lt;aside&gt; HTML element represents a portion of a document whose content is only indirectly related to the document&apos;s main content. Asides are frequently presented as sidebars or call-out boxes.
 /// </summary>
-public partial class Aside(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("aside", false, contents)
+public partial class Aside
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;aside&gt; HTML element represents a portion of a document whose content is only indirectly related to the document&apos;s main content. Asides are frequently presented as sidebars or call-out boxes.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Aside(params IEnumerable<IHtmlContent> contents)
+		: base("aside", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;aside&gt; HTML element represents a portion of a document whose content is only indirectly related to the document&apos;s main content. Asides are frequently presented as sidebars or call-out boxes.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Aside(string text)
 		: this(Encode(text))
 	{

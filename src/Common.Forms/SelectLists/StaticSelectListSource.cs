@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// A static collection as select list.
+/// </summary>
 public partial class StaticSelectListSource<TValue>(IEnumerable<SelectListItem<TValue>> items)
 	: ISelectListSource<TValue>
 {

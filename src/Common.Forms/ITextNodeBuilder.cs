@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
+/// <summary>
+/// A builder for a text node.
+/// </summary>
 public interface ITextNodeBuilder : IFieldNodeBuilder<ITextNodeBuilder>, IValueNodeBuilder<string?, ITextNodeBuilder>
 {
 	/// <summary>

@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <object> HTML element represents an external resource, which can be treated as an image, a nested browsing context, or a resource to be handled by a plugin.
+///The &lt;object&gt; HTML element represents an external resource, which can be treated as an image, a nested browsing context, or a resource to be handled by a plugin.
 /// </summary>
-public partial class Object(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("object", false, contents)
+public partial class Object
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;object&gt; HTML element represents an external resource, which can be treated as an image, a nested browsing context, or a resource to be handled by a plugin.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Object(params IEnumerable<IHtmlContent> contents)
+		: base("object", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;object&gt; HTML element represents an external resource, which can be treated as an image, a nested browsing context, or a resource to be handled by a plugin.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Object(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// A space-separated list of URIs for archives of resources for the object.
+	///A space-separated list of URIs for archives of resources for the object.
 	/// </summary>
 	[Obsolete]
 	public Object Archive(string value)
@@ -27,7 +44,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The width of a border around the control, in pixels.
+	///The width of a border around the control, in pixels.
 	/// </summary>
 	[Obsolete]
 	public Object Border(string value)
@@ -36,7 +53,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The URI of the object's implementation. It can be used together with, or in place of, the data attribute.
+	///The URI of the object&apos;s implementation. It can be used together with, or in place of, the data attribute.
 	/// </summary>
 	[Obsolete]
 	public Object Classid(string value)
@@ -45,7 +62,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The base path used to resolve relative URIs specified by classid, data, or archive. If not specified, the default is the base URI of the current document.
+	///The base path used to resolve relative URIs specified by classid, data, or archive. If not specified, the default is the base URI of the current document.
 	/// </summary>
 	[Obsolete]
 	public Object Codebase(string value)
@@ -54,7 +71,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The content type of the data specified by classid.
+	///The content type of the data specified by classid.
 	/// </summary>
 	[Obsolete]
 	public Object Codetype(string value)
@@ -63,7 +80,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The address of the resource as a valid URL. At least one of data and type must be defined.
+	///The address of the resource as a valid URL. At least one of data and type must be defined.
 	/// </summary>
 	public Object Data(string value)
 	{
@@ -71,7 +88,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The presence of this Boolean attribute makes this element a declaration only. The object must be instantiated by a subsequent <object> element. Repeat the <object> element completely each time the resource is reused.
+	///The presence of this Boolean attribute makes this element a declaration only. The object must be instantiated by a subsequent &lt;object&gt; element. Repeat the &lt;object&gt; element completely each time the resource is reused.
 	/// </summary>
 	[Obsolete]
 	public Object Declare(string value)
@@ -80,7 +97,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The form element, if any, that the object element is associated with (its form owner ). The value of the attribute must be an ID of a <form> element in the same document.
+	///The form element, if any, that the object element is associated with (its form owner ). The value of the attribute must be an ID of a &lt;form&gt; element in the same document.
 	/// </summary>
 	public Object Form(string value)
 	{
@@ -88,7 +105,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The height of the displayed resource, as in <integer> in CSS pixels.
+	///The height of the displayed resource, as in &lt;integer&gt; in CSS pixels.
 	/// </summary>
 	public Object Height(string value)
 	{
@@ -96,7 +113,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The name of valid browsing context (HTML5), or the name of the control (HTML 4). The name becomes a property of the Window and Document objects, containing a reference to the embedded window or the element itself.
+	///The name of valid browsing context (HTML5), or the name of the control (HTML 4). The name becomes a property of the Window and Document objects, containing a reference to the embedded window or the element itself.
 	/// </summary>
 	public Object Name(string value)
 	{
@@ -104,7 +121,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A message that the browser can show while loading the object's implementation and data.
+	///A message that the browser can show while loading the object&apos;s implementation and data.
 	/// </summary>
 	[Obsolete]
 	public Object Standby(string value)
@@ -113,7 +130,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The content type of the resource specified by data. At least one of data and type must be defined.
+	///The content type of the resource specified by data. At least one of data and type must be defined.
 	/// </summary>
 	public Object Type(string value)
 	{
@@ -121,7 +138,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A hash-name reference to a <map> element; that is a '#' followed by the value of a name of a map element.
+	///A hash-name reference to a &lt;map&gt; element; that is a &apos;#&apos; followed by the value of a name of a map element.
 	/// </summary>
 	[Obsolete]
 	public Object Usemap(string value)
@@ -130,7 +147,7 @@ public partial class Object(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The width of the display resource, as in <integer> in CSS pixels.
+	///The width of the display resource, as in &lt;integer&gt; in CSS pixels.
 	/// </summary>
 	public Object Width(string value)
 	{

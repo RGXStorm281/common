@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <dd> HTML element provides the description, definition, or value for the preceding term ( <dt> ) in a description list ( <dl> ).
+///The &lt;dd&gt; HTML element provides the description, definition, or value for the preceding term ( &lt;dt&gt; ) in a description list ( &lt;dl&gt; ).
 /// </summary>
-public partial class Dd(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("dd", false, contents)
+public partial class Dd
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;dd&gt; HTML element provides the description, definition, or value for the preceding term ( &lt;dt&gt; ) in a description list ( &lt;dl&gt; ).
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Dd(params IEnumerable<IHtmlContent> contents)
+		: base("dd", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;dd&gt; HTML element provides the description, definition, or value for the preceding term ( &lt;dt&gt; ) in a description list ( &lt;dl&gt; ).
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Dd(string text)
 		: this(Encode(text))
 	{

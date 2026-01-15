@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <noscript> HTML element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser.
+///The &lt;noscript&gt; HTML element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser.
 /// </summary>
-public partial class Noscript(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("noscript", false, contents)
+public partial class Noscript
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;noscript&gt; HTML element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Noscript(params IEnumerable<IHtmlContent> contents)
+		: base("noscript", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;noscript&gt; HTML element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Noscript(string text)
 		: this(Encode(text))
 	{

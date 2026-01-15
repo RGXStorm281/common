@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <data> HTML element links a given piece of content with a machine-readable translation. If the content is time- or date-related, the <time> element must be used.
+///The &lt;data&gt; HTML element links a given piece of content with a machine-readable translation. If the content is time- or date-related, the &lt;time&gt; element must be used.
 /// </summary>
-public partial class Data(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("data", false, contents)
+public partial class Data
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;data&gt; HTML element links a given piece of content with a machine-readable translation. If the content is time- or date-related, the &lt;time&gt; element must be used.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Data(params IEnumerable<IHtmlContent> contents)
+		: base("data", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;data&gt; HTML element links a given piece of content with a machine-readable translation. If the content is time- or date-related, the &lt;time&gt; element must be used.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Data(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This attribute specifies the machine-readable translation of the content of the element.
+	///This attribute specifies the machine-readable translation of the content of the element.
 	/// </summary>
 	public Data Value(string value)
 	{

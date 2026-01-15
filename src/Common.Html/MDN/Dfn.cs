@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <dfn> HTML element indicates a term to be defined. The <dfn> element should be used in a complete definition statement, where the full definition of the term can be one of the following: The ancestor paragraph (a block of text, sometimes marked by a <p> element) The <dt> / <dd> pairing The nearest section ancestor of the <dfn> element,
+///The &lt;dfn&gt; HTML element indicates a term to be defined. The &lt;dfn&gt; element should be used in a complete definition statement, where the full definition of the term can be one of the following: The ancestor paragraph (a block of text, sometimes marked by a &lt;p&gt; element) The &lt;dt&gt; / &lt;dd&gt; pairing The nearest section ancestor of the &lt;dfn&gt; element,
 /// </summary>
-public partial class Dfn(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("dfn", false, contents)
+public partial class Dfn
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;dfn&gt; HTML element indicates a term to be defined. The &lt;dfn&gt; element should be used in a complete definition statement, where the full definition of the term can be one of the following: The ancestor paragraph (a block of text, sometimes marked by a &lt;p&gt; element) The &lt;dt&gt; / &lt;dd&gt; pairing The nearest section ancestor of the &lt;dfn&gt; element,
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Dfn(params IEnumerable<IHtmlContent> contents)
+		: base("dfn", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;dfn&gt; HTML element indicates a term to be defined. The &lt;dfn&gt; element should be used in a complete definition statement, where the full definition of the term can be one of the following: The ancestor paragraph (a block of text, sometimes marked by a &lt;p&gt; element) The &lt;dt&gt; / &lt;dd&gt; pairing The nearest section ancestor of the &lt;dfn&gt; element,
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Dfn(string text)
 		: this(Encode(text))
 	{

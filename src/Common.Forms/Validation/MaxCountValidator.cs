@@ -6,14 +6,17 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="ICollectionNode">.<br/>
-/// Checks the collection for having a maximum of <paramref name="minCount"/> instances.
+/// Can only be applied to <see cref="ICollectionNode"/>.<br/>
+/// Checks the collection for having a maximum of <paramref name="maxCount"/> instances.
 /// </summary>
 /// <param name="maxCount">The expression determining the (inclusive) upper bound for the instance count.</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for field name and {1} for the maximum count.</param>
 public partial class MaxCountValidator(IFormExpression<decimal?> maxCount, string? errorMessageTemplate = null)
 	: INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(MaxCountValidator);
 	private readonly IFormExpression<decimal?> _maxCount = maxCount;
 	private readonly string _errorMessageTemplate =

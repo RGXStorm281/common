@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <section> HTML element represents a generic standalone section of a document, which doesn't have a more specific semantic element to represent it. Sections should always have a heading, with very few exceptions.
+///The &lt;section&gt; HTML element represents a generic standalone section of a document, which doesn&apos;t have a more specific semantic element to represent it. Sections should always have a heading, with very few exceptions.
 /// </summary>
-public partial class Section(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("section", false, contents)
+public partial class Section
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;section&gt; HTML element represents a generic standalone section of a document, which doesn&apos;t have a more specific semantic element to represent it. Sections should always have a heading, with very few exceptions.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Section(params IEnumerable<IHtmlContent> contents)
+		: base("section", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;section&gt; HTML element represents a generic standalone section of a document, which doesn&apos;t have a more specific semantic element to represent it. Sections should always have a heading, with very few exceptions.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Section(string text)
 		: this(Encode(text))
 	{

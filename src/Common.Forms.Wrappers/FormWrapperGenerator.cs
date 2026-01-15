@@ -1,3 +1,4 @@
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace RobinEpple.Common.Forms.Wrappers;
 
 using System.Linq;
@@ -112,7 +113,7 @@ public class FormWrapperGenerator : IIncrementalGenerator
 	/// Generates each async overload in a dedicated partial class.
 	/// </summary>
 	/// <param name="context">The source production context to register the generated partial classes.</param>
-	/// <param name="generatorInformation">The list of method declarations and the compilation for interpretation of their semantics.</param>
+	/// <param name="generationTask">The generation task for a single form wrapper.</param>
 	private static void Generate(SourceProductionContext context, FormWrapperGenerationTask? generationTask)
 	{
 		var logger = new MessageLogger(context);

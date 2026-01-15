@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <bdo> HTML element overrides the current directionality of text, so that the text within is rendered in a different direction.
+///The &lt;bdo&gt; HTML element overrides the current directionality of text, so that the text within is rendered in a different direction.
 /// </summary>
-public partial class Bdo(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("bdo", false, contents)
+public partial class Bdo
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;bdo&gt; HTML element overrides the current directionality of text, so that the text within is rendered in a different direction.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Bdo(params IEnumerable<IHtmlContent> contents)
+		: base("bdo", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;bdo&gt; HTML element overrides the current directionality of text, so that the text within is rendered in a different direction.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Bdo(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The direction in which text should be rendered in this element's contents. Possible values are:
+	///The direction in which text should be rendered in this element&apos;s contents. Possible values are:
 	/// </summary>
 	public new Bdo Dir(string value)
 	{

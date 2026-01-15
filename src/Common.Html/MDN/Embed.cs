@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <embed> HTML element embeds external content at the specified point in the document. This content is provided by an external application or other source of interactive content such as a browser plug-in.
+///The &lt;embed&gt; HTML element embeds external content at the specified point in the document. This content is provided by an external application or other source of interactive content such as a browser plug-in.
 /// </summary>
-public partial class Embed()
-	: HtmlTag("embed", true)
+public partial class Embed
+	: HtmlTag
 {
 	/// <summary>
-	/// The displayed height of the resource, in CSS pixels. This must be an absolute value; percentages are not allowed.
+	///The &lt;embed&gt; HTML element embeds external content at the specified point in the document. This content is provided by an external application or other source of interactive content such as a browser plug-in.
+	/// </summary>
+	public Embed()
+		: base("embed", true)
+	{
+	}
+	/// <summary>
+	///The displayed height of the resource, in CSS pixels. This must be an absolute value; percentages are not allowed.
 	/// </summary>
 	public Embed Height(string value)
 	{
@@ -22,7 +29,7 @@ public partial class Embed()
 	}
 
 	/// <summary>
-	/// The URL of the resource being embedded.
+	///The URL of the resource being embedded.
 	/// </summary>
 	public Embed Src(string value)
 	{
@@ -30,7 +37,7 @@ public partial class Embed()
 	}
 
 	/// <summary>
-	/// The MIME type to use to select the plug-in to instantiate.
+	///The MIME type to use to select the plug-in to instantiate.
 	/// </summary>
 	public Embed Type(string value)
 	{
@@ -38,7 +45,7 @@ public partial class Embed()
 	}
 
 	/// <summary>
-	/// The displayed width of the resource, in CSS pixels. This must be an absolute value; percentages are not allowed.
+	///The displayed width of the resource, in CSS pixels. This must be an absolute value; percentages are not allowed.
 	/// </summary>
 	public Embed Width(string value)
 	{

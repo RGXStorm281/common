@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
+/// <summary>
+/// A builder for a boolean node.
+/// </summary>
 public interface IBooleanNodeBuilder
 	: IFieldNodeBuilder<IBooleanNodeBuilder>,
 		IValueNodeBuilder<bool?, IBooleanNodeBuilder>

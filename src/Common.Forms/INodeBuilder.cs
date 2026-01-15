@@ -5,6 +5,9 @@ using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Validation;
 
+/// <summary>
+/// A builder for a form node.
+/// </summary>
 public interface INodeBuilder<TSpecificNodeBuilder>
 {
 	/// <summary>

@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <table> HTML element represents tabular dataâthat is, information presented in a two-dimensional table comprised of rows and columns of cells containing data.
+///The &lt;table&gt; HTML element represents tabular dataâthat is, information presented in a two-dimensional table comprised of rows and columns of cells containing data.
 /// </summary>
-public partial class Table(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("table", false, contents)
+public partial class Table
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;table&gt; HTML element represents tabular dataâthat is, information presented in a two-dimensional table comprised of rows and columns of cells containing data.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Table(params IEnumerable<IHtmlContent> contents)
+		: base("table", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;table&gt; HTML element represents tabular dataâthat is, information presented in a two-dimensional table comprised of rows and columns of cells containing data.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Table(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies the horizontal alignment of the table within its parent element. The possible enumerated values are left, center, and right. Use the margin-inline-start and margin-inline-end CSS properties instead, as this attribute is deprecated.
+	///Specifies the horizontal alignment of the table within its parent element. The possible enumerated values are left, center, and right. Use the margin-inline-start and margin-inline-end CSS properties instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Table Align(string value)
@@ -27,7 +44,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the background color of the table. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
+	///Defines the background color of the table. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS &lt;color&gt; values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Table Bgcolor(string value)
@@ -36,7 +53,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines, as a non-negative integer value (in pixels), the size of the frame surrounding the table. If set to 0, the frame attribute is set to void. Use the border CSS property instead, as this attribute is deprecated.
+	///Defines, as a non-negative integer value (in pixels), the size of the frame surrounding the table. If set to 0, the frame attribute is set to void. Use the border CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Table Border(string value)
@@ -45,7 +62,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the space between the content of a cell and its border. This attribute is obsolete: instead of using it, apply the padding CSS property to the <th> and <td> elements.
+	///Defines the space between the content of a cell and its border. This attribute is obsolete: instead of using it, apply the padding CSS property to the &lt;th&gt; and &lt;td&gt; elements.
 	/// </summary>
 	[Obsolete]
 	public Table Cellpadding(string value)
@@ -54,7 +71,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the size of the space between two cells. This attribute is obsolete: instead of using it, set the border-spacing CSS property on the <table> element. Note that this has no effect if the <table> element's border-collapse CSS property is set to collapse.
+	///Defines the size of the space between two cells. This attribute is obsolete: instead of using it, set the border-spacing CSS property on the &lt;table&gt; element. Note that this has no effect if the &lt;table&gt; element&apos;s border-collapse CSS property is set to collapse.
 	/// </summary>
 	[Obsolete]
 	public Table Cellspacing(string value)
@@ -63,7 +80,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines which side of the frame surrounding the table must be displayed. The possible enumerated values are void, above, below, hsides, vsides, lhs, rhs, box and border. Use the border-style and border-width CSS properties instead, as this attribute is deprecated.
+	///Defines which side of the frame surrounding the table must be displayed. The possible enumerated values are void, above, below, hsides, vsides, lhs, rhs, box and border. Use the border-style and border-width CSS properties instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Table Frame(string value)
@@ -72,7 +89,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines where rules (borders) are displayed in the table. The possible enumerated values are none (default value), groups ( <thead>, <tbody>, and <tfoot> elements), rows (horizontal lines), cols (vertical lines), and all (border around every cell). Use the border CSS property on the appropriate table-related elements, as well as on the <table> itself, instead, as this attribute is deprecated.
+	///Defines where rules (borders) are displayed in the table. The possible enumerated values are none (default value), groups ( &lt;thead&gt;, &lt;tbody&gt;, and &lt;tfoot&gt; elements), rows (horizontal lines), cols (vertical lines), and all (border around every cell). Use the border CSS property on the appropriate table-related elements, as well as on the &lt;table&gt; itself, instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Table Rules(string value)
@@ -81,7 +98,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines an alternative text that summarizes the content of the table. Use the <caption> element instead, as this attribute is deprecated.
+	///Defines an alternative text that summarizes the content of the table. Use the &lt;caption&gt; element instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Table Summary(string value)
@@ -90,7 +107,7 @@ public partial class Table(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the width of the table. Use the width CSS property instead, as this attribute is deprecated.
+	///Specifies the width of the table. Use the width CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Table Width(string value)

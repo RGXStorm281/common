@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="IFileNode">.<br/>
+/// Can only be applied to <see cref="IFileNode"/>.<br/>
 /// Only active on non-<see langword="null"/> file contents.<br/>
 /// Estimates the mime type of a given byte string and checks it against a list of valid extensions.
 /// </summary>
@@ -15,6 +15,9 @@ using RobinEpple.Common.Util;
 public partial class FileExtensionValidator(string[] allowedExtensions, string? errorMessageTemplate = null)
 	: INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(TemplateRequiredValidator);
 	private readonly string[] _allowedExtensions = allowedExtensions;
 	private readonly string _errorMessageTemplate =

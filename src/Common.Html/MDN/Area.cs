@@ -8,15 +8,22 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <area> HTML element defines an area inside an image map that has predefined clickable areas. An image map allows geometric areas on an image to be associated with hypertext links. This element is used only within a <map> element.
+///The &lt;area&gt; HTML element defines an area inside an image map that has predefined clickable areas. An image map allows geometric areas on an image to be associated with hypertext links. This element is used only within a &lt;map&gt; element.
 /// </summary>
-public partial class Area()
-	: HtmlTag("area", true)
+public partial class Area
+	: HtmlTag
 {
 	/// <summary>
-	/// A text string alternative to display on browsers that do not display images.
-	/// The text should be phrased so that it presents the user with the same kind of choice as the image would offer when displayed without the alternative text.
-	/// This attribute is required only if the href attribute is used.
+	///The &lt;area&gt; HTML element defines an area inside an image map that has predefined clickable areas. An image map allows geometric areas on an image to be associated with hypertext links. This element is used only within a &lt;map&gt; element.
+	/// </summary>
+	public Area()
+		: base("area", true)
+	{
+	}
+	/// <summary>
+	///A text string alternative to display on browsers that do not display images.
+	///The text should be phrased so that it presents the user with the same kind of choice as the image would offer when displayed without the alternative text.
+	///This attribute is required only if the href attribute is used.
 	/// </summary>
 	public Area Alt(string value)
 	{
@@ -24,8 +31,8 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// The coords attribute details the coordinates of the shape attribute in size, shape, and placement of an <area>.
-	/// This attribute must not be used if shape is set to default.
+	///The coords attribute details the coordinates of the shape attribute in size, shape, and placement of an &lt;area&gt;.
+	///This attribute must not be used if shape is set to default.
 	/// </summary>
 	public Area Coords(string value)
 	{
@@ -33,8 +40,8 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// This attribute, if present, indicates that the linked resource is intended to be downloaded rather than displayed in the browser.
-	/// See <a> for a full description of the download attribute.
+	///This attribute, if present, indicates that the linked resource is intended to be downloaded rather than displayed in the browser.
+	///See &lt;a&gt; for a full description of the download attribute.
 	/// </summary>
 	public Area Download(string value)
 	{
@@ -42,9 +49,9 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// The hyperlink target for the area.
-	/// Its value is a valid URL.
-	/// This attribute may be omitted; if so, the <area> element does not represent a hyperlink.
+	///The hyperlink target for the area.
+	///Its value is a valid URL.
+	///This attribute may be omitted; if so, the &lt;area&gt; element does not represent a hyperlink.
 	/// </summary>
 	public Area Href(string value)
 	{
@@ -52,7 +59,7 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// Defines the <area> element as an interest invoker. Its value is the id of the target element, which will be affected in some way (normally shown or hidden) when interest is shown or lost on the invoker element (for example, by hovering/unhovering or focusing/blurring it). See Using interest invokers for more details and examples.
+	///Defines the &lt;area&gt; element as an interest invoker. Its value is the id of the target element, which will be affected in some way (normally shown or hidden) when interest is shown or lost on the invoker element (for example, by hovering/unhovering or focusing/blurring it). See Using interest invokers for more details and examples.
 	/// </summary>
 	public Area Interestfor(string value)
 	{
@@ -60,8 +67,8 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// Contains a space-separated list of URLs to which, when the hyperlink is followed, POST requests with the body PING will be sent by the browser (in the background).
-	/// Typically used for tracking.
+	///Contains a space-separated list of URLs to which, when the hyperlink is followed, POST requests with the body PING will be sent by the browser (in the background).
+	///Typically used for tracking.
 	/// </summary>
 	public Area Ping(string value)
 	{
@@ -69,7 +76,7 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// A string indicating which referrer to use when fetching the resource:
+	///A string indicating which referrer to use when fetching the resource:
 	/// </summary>
 	public Area Referrerpolicy(string value)
 	{
@@ -77,10 +84,10 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// For anchors containing the href attribute, this attribute specifies the relationship of the target object to the link object.
-	/// The value is a space-separated list of link types.
-	/// The values and their semantics will be registered by some authority that might have meaning to the document author.
-	/// The default relationship, if no other is given, is void. Use this attribute only if the href attribute is present.
+	///For anchors containing the href attribute, this attribute specifies the relationship of the target object to the link object.
+	///The value is a space-separated list of link types.
+	///The values and their semantics will be registered by some authority that might have meaning to the document author.
+	///The default relationship, if no other is given, is void. Use this attribute only if the href attribute is present.
 	/// </summary>
 	public Area Rel(string value)
 	{
@@ -88,7 +95,7 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// The shape of the associated hot spot. The specifications for HTML defines the values rect, which defines a rectangular region; circle, which defines a circular region; poly, which defines a polygon; and default, which indicates the entire region beyond any defined shapes.
+	///The shape of the associated hot spot. The specifications for HTML defines the values rect, which defines a rectangular region; circle, which defines a circular region; poly, which defines a polygon; and default, which indicates the entire region beyond any defined shapes.
 	/// </summary>
 	public Area Shape(string value)
 	{
@@ -96,8 +103,8 @@ public partial class Area()
 	}
 
 	/// <summary>
-	/// A keyword or author-defined name of the browsing context to display the linked resource.
-	/// The following keywords have special meanings:
+	///A keyword or author-defined name of the browsing context to display the linked resource.
+	///The following keywords have special meanings:
 	/// </summary>
 	public Area Target(string value)
 	{

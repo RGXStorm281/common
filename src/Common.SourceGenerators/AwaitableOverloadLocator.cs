@@ -454,7 +454,7 @@ internal class AwaitableOverloadLocator
 	/// <summary>
 	/// Try to find a matching async overload for an invocation.
 	/// </summary>
-	/// <param name="invocation">The call expression (e.g. Foo(x, y))</param>
+	/// <param name="originalMethod">The original method that is called in the synchronous method body.</param>
 	/// <param name="semanticModel">The semantic model for the syntax tree</param>
 	/// <returns>The async method symbol if found, else null</returns>
 	public static IMethodSymbol? FindAsyncOverload(IMethodSymbol originalMethod, SemanticModel semanticModel)

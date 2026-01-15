@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <tr> HTML element defines a row of cells in a table. The row's cells can then be established using a mix of <td> (data cell) and <th> (header cell) elements.
+///The &lt;tr&gt; HTML element defines a row of cells in a table. The row&apos;s cells can then be established using a mix of &lt;td&gt; (data cell) and &lt;th&gt; (header cell) elements.
 /// </summary>
-public partial class Tr(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("tr", false, contents)
+public partial class Tr
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;tr&gt; HTML element defines a row of cells in a table. The row&apos;s cells can then be established using a mix of &lt;td&gt; (data cell) and &lt;th&gt; (header cell) elements.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Tr(params IEnumerable<IHtmlContent> contents)
+		: base("tr", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;tr&gt; HTML element defines a row of cells in a table. The row&apos;s cells can then be established using a mix of &lt;td&gt; (data cell) and &lt;th&gt; (header cell) elements.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Tr(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies the horizontal alignment of each row cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
+	///Specifies the horizontal alignment of each row cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Tr Align(string value)
@@ -27,7 +44,7 @@ public partial class Tr(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the background color of each row cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
+	///Defines the background color of each row cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS &lt;color&gt; values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Tr Bgcolor(string value)
@@ -36,7 +53,7 @@ public partial class Tr(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the alignment of the content to a character of each row cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
+	///Specifies the alignment of the content to a character of each row cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
 	/// </summary>
 	[Obsolete]
 	public Tr Char(string value)
@@ -45,7 +62,7 @@ public partial class Tr(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the number of characters to offset the row cell content from the alignment character specified by the char attribute.
+	///Specifies the number of characters to offset the row cell content from the alignment character specified by the char attribute.
 	/// </summary>
 	[Obsolete]
 	public Tr Charoff(string value)
@@ -54,7 +71,7 @@ public partial class Tr(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the vertical alignment of each row cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
+	///Specifies the vertical alignment of each row cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Tr Valign(string value)

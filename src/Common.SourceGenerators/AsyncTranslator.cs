@@ -9,31 +9,25 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 /// Translates a syntax tree into an async counterpart, translating each <br/>
 /// method call into an async call when possible.
 /// </summary>
-public class AsyncTranslator
+internal class AsyncTranslator
 {
 	/// <summary>
 	/// Prints out the syntax tree with some rough formatting, replacing every method call that has an awaitable overload available <br/>
 	/// with the corresponding async call.
 	/// </summary>
-	/// <param name="methodDeclaration">The method to translate.</param>
-	/// <param name="semanticModel">The semantic model, for semantically identifying methods.</param>
-	/// <param name="awaitableOverloads">A dictionary for resolving available async overload names for synchronous methods in the given syntax tree.</param>
-	/// <returns>A dictionary, containing the name of the awaitable overload method for each replaceable method invocation in the body.</returns>
-	public string TranslateMethodBody(AsyncOverloadGenerationTask context)
+	/// <param name="task">The generation task for one method.</param>
+	/// <returns>The rendered async method body.</returns>
+	public string TranslateMethodBody(AsyncOverloadGenerationTask task)
 	{
 		// Translate the body if there is one.
-		if (context.MethodDeclaration.Body is { } blockBody)
+		if (task.MethodDeclaration.Body is { } blockBody)
 		{
-			var translatedBody = TranslateInternal(blockBody, context);
+			var translatedBody = TranslateInternal(blockBody, task);
 
 			// Edge case: If the original return type was void, the return statement at the end can be omitted.
 			// If the async translation then has no await calls, it needs to return Task.CompletedTask at the end.
 			// Therefore we need to add a return statement at the end.
-			if (
-				context.MethodSymbol.ReturnsVoid
-				&& !context.IsRunningAsync
-				&& !LastStatementIsThrowOrReturn(translatedBody)
-			)
+			if (task.MethodSymbol.ReturnsVoid && !task.IsRunningAsync && !LastStatementIsThrowOrReturn(translatedBody))
 			{
 				// Remove trailing spaces and the closing bracket.
 				translatedBody = translatedBody.TrimEnd().TrimEnd('}').TrimEnd();
@@ -41,7 +35,7 @@ public class AsyncTranslator
 				// Append the return statement.
 				var sb = new StringBuilder(translatedBody);
 				sb.AppendLine();
-				var returnStatement = TranslateInternal(SyntaxFactory.ReturnStatement(), context);
+				var returnStatement = TranslateInternal(SyntaxFactory.ReturnStatement(), task);
 				sb.Append(IndentHelper.Indent(returnStatement));
 
 				// Close the block again.
@@ -52,24 +46,24 @@ public class AsyncTranslator
 			return translatedBody;
 		}
 
-		if (context.MethodDeclaration.ExpressionBody is { } expressionBody)
+		if (task.MethodDeclaration.ExpressionBody is { } expressionBody)
 		{
-			var expression = TranslateWithoutParenthesesInternal(expressionBody.Expression, context);
-			if (!context.IsRunningAsync && expressionBody.Expression is not ThrowExpressionSyntax)
+			var expression = TranslateWithoutParenthesesInternal(expressionBody.Expression, task);
+			if (!task.IsRunningAsync && expressionBody.Expression is not ThrowExpressionSyntax)
 			{
-				if (context.MethodSymbol.ReturnsVoid)
+				if (task.MethodSymbol.ReturnsVoid)
 				{
 					// Special case, we need to make this method a block body now.
 					var sb = new StringBuilder();
 					sb.AppendLine("{");
 					sb.AppendLine(IndentHelper.Indent(expression + ";"));
-					sb.Append(IndentHelper.Indent(TranslateInternal(SyntaxFactory.ReturnStatement(), context)));
+					sb.Append(IndentHelper.Indent(TranslateInternal(SyntaxFactory.ReturnStatement(), task)));
 					sb.AppendLine("}");
 					return sb.ToString();
 				}
 				else
 				{
-					expression = $"Task.FromResult<{Print(context.MethodDeclaration.ReturnType)}>({expression})";
+					expression = $"Task.FromResult<{Print(task.MethodDeclaration.ReturnType)}>({expression})";
 				}
 			}
 			return IndentHelper.Indent($"=> {expression};");

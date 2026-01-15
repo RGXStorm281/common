@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <search> HTML element is a container representing the parts of the document or application with form controls or other content related to performing a search or filtering operation. The <search> element semantically identifies the purpose of the element's contents as having search or filtering capabilities. The search or filtering functionality can be for the website or application, the current web page or document, or the entire Internet or subsection thereof.
+///The &lt;search&gt; HTML element is a container representing the parts of the document or application with form controls or other content related to performing a search or filtering operation. The &lt;search&gt; element semantically identifies the purpose of the element&apos;s contents as having search or filtering capabilities. The search or filtering functionality can be for the website or application, the current web page or document, or the entire Internet or subsection thereof.
 /// </summary>
-public partial class Search(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("search", false, contents)
+public partial class Search
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;search&gt; HTML element is a container representing the parts of the document or application with form controls or other content related to performing a search or filtering operation. The &lt;search&gt; element semantically identifies the purpose of the element&apos;s contents as having search or filtering capabilities. The search or filtering functionality can be for the website or application, the current web page or document, or the entire Internet or subsection thereof.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Search(params IEnumerable<IHtmlContent> contents)
+		: base("search", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;search&gt; HTML element is a container representing the parts of the document or application with form controls or other content related to performing a search or filtering operation. The &lt;search&gt; element semantically identifies the purpose of the element&apos;s contents as having search or filtering capabilities. The search or filtering functionality can be for the website or application, the current web page or document, or the entire Internet or subsection thereof.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Search(string text)
 		: this(Encode(text))
 	{

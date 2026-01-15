@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The <selectedcontent> HTML is used inside a <select> element to display the contents of its currently selected <option> within its first child <button>. This enables you to style all parts of a <select> element, referred to as " customizable selects ".
+///Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The &lt;selectedcontent&gt; HTML is used inside a &lt;select&gt; element to display the contents of its currently selected &lt;option&gt; within its first child &lt;button&gt;. This enables you to style all parts of a &lt;select&gt; element, referred to as &quot; customizable selects &quot;.
 /// </summary>
-public partial class Selectedcontent(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("selectedcontent", false, contents)
+public partial class Selectedcontent
+	: HtmlTag
 {
+	/// <summary>
+	///Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The &lt;selectedcontent&gt; HTML is used inside a &lt;select&gt; element to display the contents of its currently selected &lt;option&gt; within its first child &lt;button&gt;. This enables you to style all parts of a &lt;select&gt; element, referred to as &quot; customizable selects &quot;.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Selectedcontent(params IEnumerable<IHtmlContent> contents)
+		: base("selectedcontent", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The &lt;selectedcontent&gt; HTML is used inside a &lt;select&gt; element to display the contents of its currently selected &lt;option&gt; within its first child &lt;button&gt;. This enables you to style all parts of a &lt;select&gt; element, referred to as &quot; customizable selects &quot;.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Selectedcontent(string text)
 		: this(Encode(text))
 	{

@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <progress> HTML element displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+///The &lt;progress&gt; HTML element displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
 /// </summary>
-public partial class Progress(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("progress", false, contents)
+public partial class Progress
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;progress&gt; HTML element displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Progress(params IEnumerable<IHtmlContent> contents)
+		: base("progress", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;progress&gt; HTML element displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Progress(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This attribute describes how much work the task indicated by the progress element requires. The max attribute, if present, must have a value greater than 0 and be a valid floating point number. The default value is 1.
+	///This attribute describes how much work the task indicated by the progress element requires. The max attribute, if present, must have a value greater than 0 and be a valid floating point number. The default value is 1.
 	/// </summary>
 	public Progress Max(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Progress(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute specifies how much of the task that has been completed. It must be a valid floating point number between 0 and max, or between 0 and 1 if max is omitted. If there is no value attribute, the progress bar is indeterminate; this indicates that an activity is ongoing with no indication of how long it is expected to take.
+	///This attribute specifies how much of the task that has been completed. It must be a valid floating point number between 0 and max, or between 0 and 1 if max is omitted. If there is no value attribute, the progress bar is indeterminate; this indicates that an activity is ongoing with no indication of how long it is expected to take.
 	/// </summary>
 	public Progress Value(string value)
 	{

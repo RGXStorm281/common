@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <head> HTML element contains machine-readable information ( metadata ) about the document, like its title, scripts, and style sheets. There can be only one <head> element in an HTML document. Note: <head> primarily holds information for machine processing, not human-readability. For human-visible information, like top-level headings and listed authors, see the <header> element.
+///The &lt;head&gt; HTML element contains machine-readable information ( metadata ) about the document, like its title, scripts, and style sheets. There can be only one &lt;head&gt; element in an HTML document. Note: &lt;head&gt; primarily holds information for machine processing, not human-readability. For human-visible information, like top-level headings and listed authors, see the &lt;header&gt; element.
 /// </summary>
-public partial class Head(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("head", false, contents)
+public partial class Head
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;head&gt; HTML element contains machine-readable information ( metadata ) about the document, like its title, scripts, and style sheets. There can be only one &lt;head&gt; element in an HTML document. Note: &lt;head&gt; primarily holds information for machine processing, not human-readability. For human-visible information, like top-level headings and listed authors, see the &lt;header&gt; element.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Head(params IEnumerable<IHtmlContent> contents)
+		: base("head", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;head&gt; HTML element contains machine-readable information ( metadata ) about the document, like its title, scripts, and style sheets. There can be only one &lt;head&gt; element in an HTML document. Note: &lt;head&gt; primarily holds information for machine processing, not human-readability. For human-visible information, like top-level headings and listed authors, see the &lt;header&gt; element.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Head(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The URI s of one or more metadata profiles, separated by white space.
+	///The URI s of one or more metadata profiles, separated by white space.
 	/// </summary>
 	[Obsolete]
 	public Head Profile(string value)

@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <img> HTML element embeds an image into the document.
+///The &lt;img&gt; HTML element embeds an image into the document.
 /// </summary>
-public partial class Img()
-	: HtmlTag("img", true)
+public partial class Img
+	: HtmlTag
 {
 	/// <summary>
-	/// Aligns the image with its surrounding context. Use the float and/or vertical-align CSS properties instead of this attribute. Allowed values:
+	///The &lt;img&gt; HTML element embeds an image into the document.
+	/// </summary>
+	public Img()
+		: base("img", true)
+	{
+	}
+	/// <summary>
+	///Aligns the image with its surrounding context. Use the float and/or vertical-align CSS properties instead of this attribute. Allowed values:
 	/// </summary>
 	[Obsolete]
 	public Img Align(string value)
@@ -23,7 +30,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Defines text that can replace the image in the page.
+	///Defines text that can replace the image in the page.
 	/// </summary>
 	public Img Alt(string value)
 	{
@@ -31,7 +38,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// A CORS request is sent with credentials omitted (that is, no cookies, X.509 certificates, or Authorization request header).
+	///A CORS request is sent with credentials omitted (that is, no cookies, X.509 certificates, or Authorization request header).
 	/// </summary>
 	public Img Anonymous(string value)
 	{
@@ -39,7 +46,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Decode the image asynchronously, after rendering and presenting the other DOM content.
+	///Decode the image asynchronously, after rendering and presenting the other DOM content.
 	/// </summary>
 	public Img Async(string value)
 	{
@@ -47,7 +54,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Specifies that you want the browser to send an Attribution-Reporting-Eligible header along with the image request.
+	///Specifies that you want the browser to send an Attribution-Reporting-Eligible header along with the image request.
 	/// </summary>
 	[Obsolete]
 	public Img Attributionsrc(string value)
@@ -56,7 +63,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// No preference for the decoding mode; the browser decides what is best for the user. This is the default value.
+	///No preference for the decoding mode; the browser decides what is best for the user. This is the default value.
 	/// </summary>
 	public Img Auto(string value)
 	{
@@ -64,9 +71,9 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Don't set a preference for the fetch priority.
-	/// This is the default.
-	/// It is used if no value or an invalid value is set.
+	///Don&apos;t set a preference for the fetch priority.
+	///This is the default.
+	///It is used if no value or an invalid value is set.
 	/// </summary>
 	public Img Auto2(string value)
 	{
@@ -74,7 +81,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The width of a border around the image. Use the border CSS property instead.
+	///The width of a border around the image. Use the border CSS property instead.
 	/// </summary>
 	[Obsolete]
 	public Img Border(string value)
@@ -83,7 +90,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The default, equivalent to vertical-align: unset or vertical-align: initial
+	///The default, equivalent to vertical-align: unset or vertical-align: initial
 	/// </summary>
 	public Img Bottom(string value)
 	{
@@ -91,7 +98,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Indicates if the fetching of the image must be done using a CORS request. Image data from a CORS-enabled image returned from a CORS request can be reused in the <canvas> element without being marked " tainted ".
+	///Indicates if the fetching of the image must be done using a CORS request. Image data from a CORS-enabled image returned from a CORS request can be reused in the &lt;canvas&gt; element without being marked &quot; tainted &quot;.
 	/// </summary>
 	public Img Crossorigin(string value)
 	{
@@ -99,7 +106,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// This attribute provides a hint to the browser as to whether it should perform image decoding along with rendering the other DOM content in a single presentation step that looks more "correct" ( sync ), or render and present the other DOM content first and then decode the image and present it later ( async ). In practice, async means that the next paint does not wait for the image to decode.
+	///This attribute provides a hint to the browser as to whether it should perform image decoding along with rendering the other DOM content in a single presentation step that looks more &quot;correct&quot; ( sync ), or render and present the other DOM content first and then decode the image and present it later ( async ). In practice, async means that the next paint does not wait for the image to decode.
 	/// </summary>
 	public Img Decoding(string value)
 	{
@@ -107,7 +114,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Loads the image immediately, regardless of whether or not the image is currently within the visible viewport (this is the default value).
+	///Loads the image immediately, regardless of whether or not the image is currently within the visible viewport (this is the default value).
 	/// </summary>
 	public Img Eager(string value)
 	{
@@ -115,7 +122,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Marks the image for observation by the PerformanceElementTiming API. The value given becomes an identifier for the observed image element. See also the elementtiming attribute page.
+	///Marks the image for observation by the PerformanceElementTiming API. The value given becomes an identifier for the observed image element. See also the elementtiming attribute page.
 	/// </summary>
 	public Img Elementtiming(string value)
 	{
@@ -123,7 +130,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Provides a hint of the relative priority to use when fetching the image. Allowed values:
+	///Provides a hint of the relative priority to use when fetching the image. Allowed values:
 	/// </summary>
 	public Img Fetchpriority(string value)
 	{
@@ -131,7 +138,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The intrinsic height of the image, in pixels. Must be an integer without a unit.
+	///The intrinsic height of the image, in pixels. Must be an integer without a unit.
 	/// </summary>
 	public Img Height(string value)
 	{
@@ -139,7 +146,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Fetch the image at a high priority relative to other images.
+	///Fetch the image at a high priority relative to other images.
 	/// </summary>
 	public Img High(string value)
 	{
@@ -147,7 +154,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The number of pixels of white space on the left and right of the image. Use the margin CSS property instead.
+	///The number of pixels of white space on the left and right of the image. Use the margin CSS property instead.
 	/// </summary>
 	[Obsolete]
 	public Img Hspace(string value)
@@ -156,7 +163,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// This Boolean attribute indicates that the image is part of a server-side map. If so, the coordinates where the user clicked on the image are sent to the server.
+	///This Boolean attribute indicates that the image is part of a server-side map. If so, the coordinates where the user clicked on the image are sent to the server.
 	/// </summary>
 	public Img Ismap(string value)
 	{
@@ -164,7 +171,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Defers loading the image until it reaches a calculated distance from the viewport, as defined by the browser. The intent is to avoid the network and storage bandwidth needed to handle the image until it's reasonably certain that it will be needed. This generally improves the performance of the content in most typical use cases.
+	///Defers loading the image until it reaches a calculated distance from the viewport, as defined by the browser. The intent is to avoid the network and storage bandwidth needed to handle the image until it&apos;s reasonably certain that it will be needed. This generally improves the performance of the content in most typical use cases.
 	/// </summary>
 	public Img Lazy(string value)
 	{
@@ -172,7 +179,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Equivalent to float: left
+	///Equivalent to float: left
 	/// </summary>
 	public Img Left(string value)
 	{
@@ -180,7 +187,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Indicates how the browser should load the image:
+	///Indicates how the browser should load the image:
 	/// </summary>
 	public Img Loading(string value)
 	{
@@ -188,7 +195,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// A link to a more detailed description of the image. Possible values are a URL or an element id.
+	///A link to a more detailed description of the image. Possible values are a URL or an element id.
 	/// </summary>
 	[Obsolete]
 	public Img Longdesc(string value)
@@ -197,7 +204,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Fetch the image at a low priority relative to other images.
+	///Fetch the image at a low priority relative to other images.
 	/// </summary>
 	public Img Low(string value)
 	{
@@ -205,7 +212,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Equivalent to vertical-align: -moz-middle-with-baseline
+	///Equivalent to vertical-align: -moz-middle-with-baseline
 	/// </summary>
 	public Img Middle(string value)
 	{
@@ -213,7 +220,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// A name for the element. Use the id attribute instead.
+	///A name for the element. Use the id attribute instead.
 	/// </summary>
 	[Obsolete]
 	public Img Name(string value)
@@ -222,7 +229,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// A string indicating which referrer to use when fetching the resource:
+	///A string indicating which referrer to use when fetching the resource:
 	/// </summary>
 	public Img Referrerpolicy(string value)
 	{
@@ -230,7 +237,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Equivalent to float: right
+	///Equivalent to float: right
 	/// </summary>
 	public Img Right(string value)
 	{
@@ -238,7 +245,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// One or more values separated by commas, which can be source sizes or the auto keyword. The spec requires that the sizes attribute to only be present when srcset uses width descriptors.
+	///One or more values separated by commas, which can be source sizes or the auto keyword. The spec requires that the sizes attribute to only be present when srcset uses width descriptors.
 	/// </summary>
 	public Img Sizes(string value)
 	{
@@ -246,7 +253,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The image URL. At least one of src and srcset is required for an <img> element. If srcset is specified, src is used in one of two ways:
+	///The image URL. At least one of src and srcset is required for an &lt;img&gt; element. If srcset is specified, src is used in one of two ways:
 	/// </summary>
 	public Img Src(string value)
 	{
@@ -254,7 +261,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// One or more strings separated by commas, indicating possible image sources for the user agent to use.
+	///One or more strings separated by commas, indicating possible image sources for the user agent to use.
 	/// </summary>
 	public Img Srcset(string value)
 	{
@@ -262,7 +269,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Decode the image synchronously along with rendering the other DOM content, and present everything together.
+	///Decode the image synchronously along with rendering the other DOM content, and present everything together.
 	/// </summary>
 	public Img Sync(string value)
 	{
@@ -270,7 +277,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// Equivalent to vertical-align: top or vertical-align: text-top
+	///Equivalent to vertical-align: top or vertical-align: text-top
 	/// </summary>
 	public Img Top(string value)
 	{
@@ -278,7 +285,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The CORS request is sent with any credentials included (that is, cookies, X.509 certificates, and the Authorization request header). If the server does not opt into sharing credentials with the origin site (by sending back the Access-Control-Allow-Credentials: true response header), then the browser marks the image as tainted and restricts access to its image data.
+	///The CORS request is sent with any credentials included (that is, cookies, X.509 certificates, and the Authorization request header). If the server does not opt into sharing credentials with the origin site (by sending back the Access-Control-Allow-Credentials: true response header), then the browser marks the image as tainted and restricts access to its image data.
 	/// </summary>
 	public Img UseCredentials(string value)
 	{
@@ -286,7 +293,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The partial URL (starting with # ) of an image map associated with the element.
+	///The partial URL (starting with # ) of an image map associated with the element.
 	/// </summary>
 	public Img Usemap(string value)
 	{
@@ -294,7 +301,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The number of pixels of white space above and below the image. Use the margin CSS property instead.
+	///The number of pixels of white space above and below the image. Use the margin CSS property instead.
 	/// </summary>
 	[Obsolete]
 	public Img Vspace(string value)
@@ -303,7 +310,7 @@ public partial class Img()
 	}
 
 	/// <summary>
-	/// The intrinsic width of the image in pixels. Must be an integer without a unit.
+	///The intrinsic width of the image in pixels. Must be an integer without a unit.
 	/// </summary>
 	public Img Width(string value)
 	{

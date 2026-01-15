@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <select> HTML element represents a control that provides a menu of options.
+///The &lt;select&gt; HTML element represents a control that provides a menu of options.
 /// </summary>
-public partial class Select(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("select", false, contents)
+public partial class Select
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;select&gt; HTML element represents a control that provides a menu of options.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Select(params IEnumerable<IHtmlContent> contents)
+		: base("select", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;select&gt; HTML element represents a control that provides a menu of options.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Select(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// A string providing a hint for a user agent's autocomplete feature. See The HTML autocomplete attribute for a complete list of values and details on how to use autocomplete.
+	///A string providing a hint for a user agent&apos;s autocomplete feature. See The HTML autocomplete attribute for a complete list of values and details on how to use autocomplete.
 	/// </summary>
 	public Select Autocomplete(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Select(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute lets you specify that a form control should have input focus when the page loads. Only one form element in a document can have the autofocus attribute.
+	///This Boolean attribute lets you specify that a form control should have input focus when the page loads. Only one form element in a document can have the autofocus attribute.
 	/// </summary>
 	public new Select Autofocus(string value)
 	{
@@ -34,7 +51,7 @@ public partial class Select(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute indicates that the user cannot interact with the control. If this attribute is not specified, the control inherits its setting from the containing element, for example <fieldset> ; if there is no containing element with the disabled attribute set, then the control is enabled.
+	///This Boolean attribute indicates that the user cannot interact with the control. If this attribute is not specified, the control inherits its setting from the containing element, for example &lt;fieldset&gt; ; if there is no containing element with the disabled attribute set, then the control is enabled.
 	/// </summary>
 	public Select Disabled(string value)
 	{
@@ -42,7 +59,7 @@ public partial class Select(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The <form> element to associate the <select> with (its form owner ). The value of this attribute must be the id of a <form> in the same document. (If this attribute is not set, the <select> is associated with its ancestor <form> element, if any.)
+	///The &lt;form&gt; element to associate the &lt;select&gt; with (its form owner ). The value of this attribute must be the id of a &lt;form&gt; in the same document. (If this attribute is not set, the &lt;select&gt; is associated with its ancestor &lt;form&gt; element, if any.)
 	/// </summary>
 	public Select Form(string value)
 	{
@@ -50,7 +67,7 @@ public partial class Select(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute indicates that multiple options can be selected in the list. If it is not specified, then only one option can be selected at a time. When multiple is specified, most browsers will show a scrolling list box instead of a single line dropdown. Multiple selected options are submitted using the URLSearchParams array convention, i.e., name=value1&name=value2.
+	///This Boolean attribute indicates that multiple options can be selected in the list. If it is not specified, then only one option can be selected at a time. When multiple is specified, most browsers will show a scrolling list box instead of a single line dropdown. Multiple selected options are submitted using the URLSearchParams array convention, i.e., name=value1&amp;name=value2.
 	/// </summary>
 	public Select Multiple(string value)
 	{
@@ -58,7 +75,7 @@ public partial class Select(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute is used to specify the name of the control.
+	///This attribute is used to specify the name of the control.
 	/// </summary>
 	public Select Name(string value)
 	{
@@ -66,7 +83,7 @@ public partial class Select(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute indicating that an option with a non-empty string value must be selected.
+	///A Boolean attribute indicating that an option with a non-empty string value must be selected.
 	/// </summary>
 	public Select Required(string value)
 	{
@@ -74,7 +91,7 @@ public partial class Select(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If the control is presented as a scrolling list box (e.g., when multiple is specified), this attribute represents the number of rows in the list that should be visible at one time. Browsers are not required to present a select element as a scrolled list box. The default value is 0.
+	///If the control is presented as a scrolling list box (e.g., when multiple is specified), this attribute represents the number of rows in the list that should be visible at one time. Browsers are not required to present a select element as a scrolled list box. The default value is 0.
 	/// </summary>
 	public Select Size(string value)
 	{

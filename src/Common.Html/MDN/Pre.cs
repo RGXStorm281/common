@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <pre> HTML element represents preformatted text which is to be presented exactly as written in the HTML file. The text is typically rendered using a non-proportional, or monospaced font. Whitespace inside this element is displayed as written, with one exception. If one or more leading newline characters are included immediately following the opening <pre> tag, the first newline character is stripped. <pre> elements' text content is parsed as HTML, so if you want to ensure that your text content stays as plain text, some syntax characters, such as <, may need to be escaped using their respective character references. See escaping ambiguous characters for more information. <pre> elements commonly contain <code>, <samp>, and <kbd> elements, to represent computer code, computer output, and user input, respectively. By default, <pre> is a block-level element, i.e., its default display value is block.
+///The &lt;pre&gt; HTML element represents preformatted text which is to be presented exactly as written in the HTML file. The text is typically rendered using a non-proportional, or monospaced font. Whitespace inside this element is displayed as written, with one exception. If one or more leading newline characters are included immediately following the opening &lt;pre&gt; tag, the first newline character is stripped. This transformation is done by the HTML parser and does not apply when using XHTML. &lt;pre&gt; elements&apos; text content is parsed as HTML, so if you want to ensure that your text content stays as plain text, some syntax characters, such as &lt;, may need to be escaped using their respective character references. See escaping ambiguous characters for more information. &lt;pre&gt; elements commonly contain &lt;code&gt;, &lt;samp&gt;, and &lt;kbd&gt; elements, to represent computer code, computer output, and user input, respectively. By default, &lt;pre&gt; is a block-level element, i.e., its default display value is block.
 /// </summary>
-public partial class Pre(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("pre", false, contents)
+public partial class Pre
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;pre&gt; HTML element represents preformatted text which is to be presented exactly as written in the HTML file. The text is typically rendered using a non-proportional, or monospaced font. Whitespace inside this element is displayed as written, with one exception. If one or more leading newline characters are included immediately following the opening &lt;pre&gt; tag, the first newline character is stripped. This transformation is done by the HTML parser and does not apply when using XHTML. &lt;pre&gt; elements&apos; text content is parsed as HTML, so if you want to ensure that your text content stays as plain text, some syntax characters, such as &lt;, may need to be escaped using their respective character references. See escaping ambiguous characters for more information. &lt;pre&gt; elements commonly contain &lt;code&gt;, &lt;samp&gt;, and &lt;kbd&gt; elements, to represent computer code, computer output, and user input, respectively. By default, &lt;pre&gt; is a block-level element, i.e., its default display value is block.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Pre(params IEnumerable<IHtmlContent> contents)
+		: base("pre", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;pre&gt; HTML element represents preformatted text which is to be presented exactly as written in the HTML file. The text is typically rendered using a non-proportional, or monospaced font. Whitespace inside this element is displayed as written, with one exception. If one or more leading newline characters are included immediately following the opening &lt;pre&gt; tag, the first newline character is stripped. This transformation is done by the HTML parser and does not apply when using XHTML. &lt;pre&gt; elements&apos; text content is parsed as HTML, so if you want to ensure that your text content stays as plain text, some syntax characters, such as &lt;, may need to be escaped using their respective character references. See escaping ambiguous characters for more information. &lt;pre&gt; elements commonly contain &lt;code&gt;, &lt;samp&gt;, and &lt;kbd&gt; elements, to represent computer code, computer output, and user input, respectively. By default, &lt;pre&gt; is a block-level element, i.e., its default display value is block.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Pre(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Contains the preferred count of characters that a line should have. Though technically still implemented, this attribute has no visual effect; to achieve such an effect, use CSS width instead.
+	///Contains the preferred count of characters that a line should have. Though technically still implemented, this attribute has no visual effect; to achieve such an effect, use CSS width instead.
 	/// </summary>
 	[Obsolete]
 	public Pre Width(string value)
@@ -27,7 +44,7 @@ public partial class Pre(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Is a hint indicating how the overflow must happen. In modern browser this hint is ignored and no visual effect results in its present; to achieve such an effect, use CSS white-space instead.
+	///Is a hint indicating how the overflow must happen. In modern browser this hint is ignored and no visual effect results in its present; to achieve such an effect, use CSS white-space instead.
 	/// </summary>
 	[Obsolete]
 	public Pre Wrap(string value)

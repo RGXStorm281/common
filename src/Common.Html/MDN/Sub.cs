@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <sub> HTML element specifies inline text which should be displayed as subscript for solely typographical reasons. Subscripts are typically rendered with a lowered baseline using smaller text.
+///The &lt;sub&gt; HTML element specifies inline text which should be displayed as subscript for solely typographical reasons. Subscripts are typically rendered with a lowered baseline using smaller text.
 /// </summary>
-public partial class Sub(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("sub", false, contents)
+public partial class Sub
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;sub&gt; HTML element specifies inline text which should be displayed as subscript for solely typographical reasons. Subscripts are typically rendered with a lowered baseline using smaller text.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Sub(params IEnumerable<IHtmlContent> contents)
+		: base("sub", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;sub&gt; HTML element specifies inline text which should be displayed as subscript for solely typographical reasons. Subscripts are typically rendered with a lowered baseline using smaller text.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Sub(string text)
 		: this(Encode(text))
 	{

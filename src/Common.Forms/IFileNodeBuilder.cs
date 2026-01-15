@@ -4,6 +4,9 @@ using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// A builder for a file node.
+/// </summary>
 public interface IFileNodeBuilder : IFieldNodeBuilder<IFileNodeBuilder>, IValueNodeBuilder<FileValue, IFileNodeBuilder>
 {
 	/// <summary>

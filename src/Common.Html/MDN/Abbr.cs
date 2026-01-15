@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <abbr> HTML element represents an abbreviation or acronym. When including an abbreviation or acronym, provide a full expansion of the term in plain text on first use, along with the <abbr> to mark up the abbreviation. This informs the user what the abbreviation or acronym means. The optional title attribute can provide an expansion for the abbreviation or acronym when a full expansion is not present. This provides a hint to user agents on how to announce/display the content while informing all users what the abbreviation means. If present, title must contain this full description and nothing else.
+///The &lt;abbr&gt; HTML element represents an abbreviation or acronym. When including an abbreviation or acronym, provide a full expansion of the term in plain text on first use, along with the &lt;abbr&gt; to mark up the abbreviation. This informs the user what the abbreviation or acronym means. The optional title attribute can provide an expansion for the abbreviation or acronym when a full expansion is not present. This provides a hint to user agents on how to announce/display the content while informing all users what the abbreviation means. If present, title must contain this full description and nothing else.
 /// </summary>
-public partial class Abbr(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("abbr", false, contents)
+public partial class Abbr
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;abbr&gt; HTML element represents an abbreviation or acronym. When including an abbreviation or acronym, provide a full expansion of the term in plain text on first use, along with the &lt;abbr&gt; to mark up the abbreviation. This informs the user what the abbreviation or acronym means. The optional title attribute can provide an expansion for the abbreviation or acronym when a full expansion is not present. This provides a hint to user agents on how to announce/display the content while informing all users what the abbreviation means. If present, title must contain this full description and nothing else.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Abbr(params IEnumerable<IHtmlContent> contents)
+		: base("abbr", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;abbr&gt; HTML element represents an abbreviation or acronym. When including an abbreviation or acronym, provide a full expansion of the term in plain text on first use, along with the &lt;abbr&gt; to mark up the abbreviation. This informs the user what the abbreviation or acronym means. The optional title attribute can provide an expansion for the abbreviation or acronym when a full expansion is not present. This provides a hint to user agents on how to announce/display the content while informing all users what the abbreviation means. If present, title must contain this full description and nothing else.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Abbr(string text)
 		: this(Encode(text))
 	{

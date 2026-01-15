@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
+/// <summary>
+/// A builder for a timestamp node.
+/// </summary>
 public interface ITimestampNodeBuilder
 	: IFieldNodeBuilder<ITimestampNodeBuilder>,
 		IValueNodeBuilder<DateTime?, ITimestampNodeBuilder>

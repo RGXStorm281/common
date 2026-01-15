@@ -50,7 +50,7 @@ public static class FormBuilderExtensions
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
-	/// <param name="acceptWhitespace">Whether empty string or whitespace should be considered a valid value. Default is <see cref="false"/> .</param>
+	/// <param name="acceptWhitespace">Whether empty string or whitespace should be considered a valid value. Default is <see langword="false"/> .</param>
 	public static ITextNodeBuilder UseRequiredValidator(
 		this ITextNodeBuilder builder,
 		string? errorMessageTemplate = null,
@@ -196,7 +196,7 @@ public static class FormBuilderExtensions
 	/// Checks the field value against defined maximum value.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="minValue">The expression defining the (inclusive) upper bound the field accepts.</param>
+	/// <param name="maxValue">The expression defining the (inclusive) upper bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static INumberNodeBuilder UseMaxValueValidator(
 		this INumberNodeBuilder builder,
@@ -236,7 +236,7 @@ public static class FormBuilderExtensions
 	/// Checks the field value against defined maximum value.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="minValue">The expression defining the (inclusive) upper bound the field accepts.</param>
+	/// <param name="maxValue">The expression defining the (inclusive) upper bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITimestampNodeBuilder UseMaxValueValidator(
 		this ITimestampNodeBuilder builder,
@@ -412,6 +412,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single boolean field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseBooleanNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -420,6 +421,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single file field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseFileNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -428,6 +430,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single number field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseNumberNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -436,6 +439,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single text field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseTextNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -444,6 +448,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single timestamp field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseTimestampNodeModel(this IFormBuilder builder, string fieldName) =>

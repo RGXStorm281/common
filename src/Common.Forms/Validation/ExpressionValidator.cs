@@ -14,6 +14,9 @@ using RobinEpple.Common.Util;
 public partial class ExpressionValidator(IFormExpression<bool> checkInvalid, string errorMessageTemplate)
 	: INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(ExpressionValidator);
 	private readonly IFormExpression<bool> _checkInvalid = checkInvalid;
 

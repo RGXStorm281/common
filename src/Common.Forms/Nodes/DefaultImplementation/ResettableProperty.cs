@@ -18,7 +18,7 @@ internal class ResettableProperty<TValue>(TValue initialDefault) : ICloneable
 	public TValue CurrentValue { get; set; } = initialDefault;
 
 	/// <summary>
-	/// Clones the property. If <see cref="TValue"/> is a reference type, only references are copied.
+	/// Clones the property. If TValue is a reference type, only references are copied.
 	/// </summary>
 	/// <returns>The cloned property.</returns>
 	public object Clone()

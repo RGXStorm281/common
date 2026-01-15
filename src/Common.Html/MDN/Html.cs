@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <html> HTML element represents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element. There can be only one <html> element in a document.
+///The &lt;html&gt; HTML element represents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element. There can be only one &lt;html&gt; element in a document.
 /// </summary>
-public partial class Html(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("html", false, contents)
+public partial class Html
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;html&gt; HTML element represents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element. There can be only one &lt;html&gt; element in a document.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Html(params IEnumerable<IHtmlContent> contents)
+		: base("html", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;html&gt; HTML element represents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element. There can be only one &lt;html&gt; element in a document.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Html(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies the version of the HTML Document Type Definition that governs the current document. This attribute is not needed, because it is redundant with the version information in the document type declaration.
+	///Specifies the version of the HTML Document Type Definition that governs the current document. This attribute is not needed, because it is redundant with the version information in the document type declaration.
 	/// </summary>
 	[Obsolete]
 	public Html Version(string value)
@@ -27,7 +44,7 @@ public partial class Html(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the XML Namespace of the document. Default value is "http://www.w3.org/1999/xhtml". This is required in documents parsed with XML parsers, and optional in text/html documents.
+	///Specifies the XML Namespace of the document. Default value is &quot;http://www.w3.org/1999/xhtml&quot;. This is required in documents parsed with XML parsers, and optional in text/html documents.
 	/// </summary>
 	public Html Xmlns(string value)
 	{

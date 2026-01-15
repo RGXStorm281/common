@@ -8,12 +8,31 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// This is one variant of the following tag group: h1, h2, h3, h4, h5, h6.
-/// The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest. By default, all heading elements create a block-level box in the layout, starting on a new line and taking up the full width available in their containing block.
+///This is one variant of the following tag group: h1, h2, h3, h4, h5, h6.
+///The &lt;h1&gt; to &lt;h6&gt; HTML elements represent six levels of section headings. &lt;h1&gt; is the highest section level and &lt;h6&gt; is the lowest. By default, all heading elements create a block-level box in the layout, starting on a new line and taking up the full width available in their containing block.
 /// </summary>
-public partial class H5(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("h5", false, contents)
+public partial class H5
+	: HtmlTag
 {
+	/// <summary>
+	///This is one variant of the following tag group: h1, h2, h3, h4, h5, h6.
+	///The &lt;h1&gt; to &lt;h6&gt; HTML elements represent six levels of section headings. &lt;h1&gt; is the highest section level and &lt;h6&gt; is the lowest. By default, all heading elements create a block-level box in the layout, starting on a new line and taking up the full width available in their containing block.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public H5(params IEnumerable<IHtmlContent> contents)
+		: base("h5", false, contents)
+	{
+	}
+
+	/// <summary>
+	///This is one variant of the following tag group: h1, h2, h3, h4, h5, h6.
+	///The &lt;h1&gt; to &lt;h6&gt; HTML elements represent six levels of section headings. &lt;h1&gt; is the highest section level and &lt;h6&gt; is the lowest. By default, all heading elements create a block-level box in the layout, starting on a new line and taking up the full width available in their containing block.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public H5(string text)
 		: this(Encode(text))
 	{

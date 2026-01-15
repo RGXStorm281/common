@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <legend> HTML element represents a caption for the content of its parent <fieldset>. In customizable <select> elements, the <legend> element is allowed as a child of <optgroup>, to provide a label that is easy to target and style. This replaces any text set in the <optgroup> element's label attribute, and it has the same semantics.
+///The &lt;legend&gt; HTML element represents a caption for the content of its parent &lt;fieldset&gt;. In customizable &lt;select&gt; elements, the &lt;legend&gt; element is allowed as a child of &lt;optgroup&gt;, to provide a label that is easy to target and style. This replaces any text set in the &lt;optgroup&gt; element&apos;s label attribute, and it has the same semantics.
 /// </summary>
-public partial class Legend(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("legend", false, contents)
+public partial class Legend
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;legend&gt; HTML element represents a caption for the content of its parent &lt;fieldset&gt;. In customizable &lt;select&gt; elements, the &lt;legend&gt; element is allowed as a child of &lt;optgroup&gt;, to provide a label that is easy to target and style. This replaces any text set in the &lt;optgroup&gt; element&apos;s label attribute, and it has the same semantics.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Legend(params IEnumerable<IHtmlContent> contents)
+		: base("legend", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;legend&gt; HTML element represents a caption for the content of its parent &lt;fieldset&gt;. In customizable &lt;select&gt; elements, the &lt;legend&gt; element is allowed as a child of &lt;optgroup&gt;, to provide a label that is easy to target and style. This replaces any text set in the &lt;optgroup&gt; element&apos;s label attribute, and it has the same semantics.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Legend(string text)
 		: this(Encode(text))
 	{

@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
   <diagram id="kuLKyUmen4m4xoFDr0VI" name="Page-1">
-    <mxGraphModel dx="2066" dy="1272" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="946" dy="732" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -31,7 +31,7 @@
         <mxCell id="10" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Components" vertex="1">
           <mxGeometry height="750" width="1420" x="150" y="180" as="geometry" />
         </mxCell>
-        <mxCell id="11" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="RadioButtons&amp;nbsp;&lt;i&gt;(requires SelectList rework: Need to be embedded in form field instead of validator)&lt;/i&gt;" vertex="1">
+        <mxCell id="11" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="RadioButtons&amp;nbsp;&lt;i&gt;(for each SelectList item)&lt;/i&gt;" vertex="1">
           <mxGeometry height="60" width="980" x="20" y="40" as="geometry" />
         </mxCell>
         <mxCell id="12" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="Checkbox" vertex="1">
@@ -55,7 +55,7 @@
         <mxCell id="21" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="NumberInput&amp;nbsp;&lt;i&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
           <mxGeometry height="60" width="180" x="420" y="250" as="geometry" />
         </mxCell>
-        <mxCell id="22" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="DropDown&amp;nbsp;&lt;i&gt;(requires SelectList rework: Need to be embedded in form field instead of validator)&lt;/i&gt;" vertex="1">
+        <mxCell id="22" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="DropDown&amp;nbsp;&lt;i&gt;(for each SelectList item)&lt;/i&gt;" vertex="1">
           <mxGeometry height="60" width="980" x="20" y="110" as="geometry" />
         </mxCell>
         <mxCell id="24" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="PasswordInput" vertex="1">

@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <var> HTML element represents the name of a variable in a mathematical expression or a programming context. It's typically presented using an italicized version of the current typeface, although that behavior is browser-dependent.
+///The &lt;var&gt; HTML element represents the name of a variable in a mathematical expression or a programming context. It&apos;s typically presented using an italicized version of the current typeface, although that behavior is browser-dependent.
 /// </summary>
-public partial class Var(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("var", false, contents)
+public partial class Var
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;var&gt; HTML element represents the name of a variable in a mathematical expression or a programming context. It&apos;s typically presented using an italicized version of the current typeface, although that behavior is browser-dependent.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Var(params IEnumerable<IHtmlContent> contents)
+		: base("var", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;var&gt; HTML element represents the name of a variable in a mathematical expression or a programming context. It&apos;s typically presented using an italicized version of the current typeface, although that behavior is browser-dependent.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Var(string text)
 		: this(Encode(text))
 	{

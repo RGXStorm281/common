@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <button> HTML element is an interactive element activated by a user with a mouse, keyboard, finger, voice command, or other assistive technology. Once activated, it then performs an action, such as submitting a form or opening a dialog. By default, HTML buttons are presented in a style resembling the platform the user agent runs on, but you can change buttons' appearance with CSS.
+///The &lt;button&gt; HTML element is an interactive element activated by a user with a mouse, keyboard, finger, voice command, or other assistive technology. Once activated, it then performs an action, such as submitting a form or opening a dialog. By default, HTML buttons are presented in a style resembling the platform the user agent runs on, but you can change buttons&apos; appearance with CSS.
 /// </summary>
-public partial class Button(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("button", false, contents)
+public partial class Button
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;button&gt; HTML element is an interactive element activated by a user with a mouse, keyboard, finger, voice command, or other assistive technology. Once activated, it then performs an action, such as submitting a form or opening a dialog. By default, HTML buttons are presented in a style resembling the platform the user agent runs on, but you can change buttons&apos; appearance with CSS.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Button(params IEnumerable<IHtmlContent> contents)
+		: base("button", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;button&gt; HTML element is an interactive element activated by a user with a mouse, keyboard, finger, voice command, or other assistive technology. Once activated, it then performs an action, such as submitting a form or opening a dialog. By default, HTML buttons are presented in a style resembling the platform the user agent runs on, but you can change buttons&apos; appearance with CSS.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Button(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This Boolean attribute specifies that the button should have input focus when the page loads. Only one element in a document can have this attribute.
+	///This Boolean attribute specifies that the button should have input focus when the page loads. Only one element in a document can have this attribute.
 	/// </summary>
 	public new Button Autofocus(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will close a <dialog> element. If the dialog is already closed, no action will be taken. This is a declarative equivalent of calling the HTMLDialogElement.close() method on the <dialog> element.
+	///The button will close a &lt;dialog&gt; element. If the dialog is already closed, no action will be taken. This is a declarative equivalent of calling the HTMLDialogElement.close() method on the &lt;dialog&gt; element.
 	/// </summary>
 	public Button Close(string value)
 	{
@@ -34,7 +51,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the action to be performed on an element being controlled by a control <button> specified via the commandfor attribute. The possible values are:
+	///Specifies the action to be performed on an element being controlled by a control &lt;button&gt; specified via the commandfor attribute. The possible values are:
 	/// </summary>
 	public Button Command(string value)
 	{
@@ -42,7 +59,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Turns a <button> element into a command button, controlling a given interactive element by issuing the command specified in the button's command attribute. The commandfor attribute takes the ID of the element to control as its value. This is a more general version of popovertarget.
+	///Turns a &lt;button&gt; element into a command button, controlling a given interactive element by issuing the command specified in the button&apos;s command attribute. The commandfor attribute takes the ID of the element to control as its value. This is a more general version of popovertarget.
 	/// </summary>
 	public Button Commandfor(string value)
 	{
@@ -50,7 +67,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute can represent custom values that are prefixed with a two hyphen characters ( -- ). Buttons with a custom value will dispatch the CommandEvent on the controlled element.
+	///This attribute can represent custom values that are prefixed with a two hyphen characters ( -- ). Buttons with a custom value will dispatch the CommandEvent on the controlled element.
 	/// </summary>
 	public Button CustomValues(string value)
 	{
@@ -58,7 +75,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute prevents the user from interacting with the button: it cannot be pressed or focused.
+	///This Boolean attribute prevents the user from interacting with the button: it cannot be pressed or focused.
 	/// </summary>
 	public Button Disabled(string value)
 	{
@@ -66,7 +83,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The <form> element to associate the button with (its form owner ). The value of this attribute must be the id of a <form> in the same document. (If this attribute is not set, the <button> is associated with its ancestor <form> element, if any.)
+	///The &lt;form&gt; element to associate the button with (its form owner ). The value of this attribute must be the id of a &lt;form&gt; in the same document. (If this attribute is not set, the &lt;button&gt; is associated with its ancestor &lt;form&gt; element, if any.)
 	/// </summary>
 	public Button Form(string value)
 	{
@@ -74,7 +91,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The URL that processes the information submitted by the button. Overrides the action attribute of the button's form owner. Does nothing if there is no form owner.
+	///The URL that processes the information submitted by the button. Overrides the action attribute of the button&apos;s form owner. Does nothing if there is no form owner.
 	/// </summary>
 	public Button Formaction(string value)
 	{
@@ -82,7 +99,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If the button is a submit button (it's inside/associated with a <form> and doesn't have type="button" ), specifies how to encode the form data that is submitted. Possible values:
+	///If the button is a submit button (it&apos;s inside/associated with a &lt;form&gt; and doesn&apos;t have type=&quot;button&quot; ), specifies how to encode the form data that is submitted. Possible values:
 	/// </summary>
 	public Button Formenctype(string value)
 	{
@@ -90,7 +107,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If the button is a submit button (it's inside/associated with a <form> and doesn't have type="button" ), this attribute specifies the HTTP method used to submit the form. Possible values:
+	///If the button is a submit button (it&apos;s inside/associated with a &lt;form&gt; and doesn&apos;t have type=&quot;button&quot; ), this attribute specifies the HTTP method used to submit the form. Possible values:
 	/// </summary>
 	public Button Formmethod(string value)
 	{
@@ -98,7 +115,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If the button is a submit button, this Boolean attribute specifies that the form is not to be validated when it is submitted. If this attribute is specified, it overrides the novalidate attribute of the button's form owner.
+	///If the button is a submit button, this Boolean attribute specifies that the form is not to be validated when it is submitted. If this attribute is specified, it overrides the novalidate attribute of the button&apos;s form owner.
 	/// </summary>
 	public Button Formnovalidate(string value)
 	{
@@ -106,7 +123,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If the button is a submit button, this attribute is an author-defined name or standardized, underscore-prefixed keyword indicating where to display the response from submitting the form. This is the name of, or keyword for, a browsing context (a tab, window, or <iframe> ). If this attribute is specified, it overrides the target attribute of the button's form owner. The following keywords have special meanings:
+	///If the button is a submit button, this attribute is an author-defined name or standardized, underscore-prefixed keyword indicating where to display the response from submitting the form. This is the name of, or keyword for, a browsing context (a tab, window, or &lt;iframe&gt; ). If this attribute is specified, it overrides the target attribute of the button&apos;s form owner. The following keywords have special meanings:
 	/// </summary>
 	public Button Formtarget(string value)
 	{
@@ -114,7 +131,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will hide a shown popover. If you try to hide an already hidden popover, no action will be taken.
+	///The button will hide a shown popover. If you try to hide an already hidden popover, no action will be taken.
 	/// </summary>
 	public Button Hide(string value)
 	{
@@ -122,7 +139,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will hide a showing popover. If you try to hide an already hidden popover, no action will be taken. See Popover API for more details. This is equivalent to setting a value of hide for the popovertargetaction attribute, and also provides a declarative equivalent to calling the HTMLElement.hidePopover() method on the popover element.
+	///The button will hide a showing popover. If you try to hide an already hidden popover, no action will be taken. See Popover API for more details. This is equivalent to setting a value of hide for the popovertargetaction attribute, and also provides a declarative equivalent to calling the HTMLElement.hidePopover() method on the popover element.
 	/// </summary>
 	public Button HidePopover(string value)
 	{
@@ -130,7 +147,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the <button> element as an interest invoker. Its value is the id of a target element, which will be affected in some way (normally shown or hidden) when interest is shown or lost on the invoker element (for example, by hovering/unhovering or focusing/blurring it). See Using interest invokers for more details and examples.
+	///Defines the &lt;button&gt; element as an interest invoker. Its value is the id of a target element, which will be affected in some way (normally shown or hidden) when interest is shown or lost on the invoker element (for example, by hovering/unhovering or focusing/blurring it). See Using interest invokers for more details and examples.
 	/// </summary>
 	public Button Interestfor(string value)
 	{
@@ -138,7 +155,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The name of the button, submitted as a pair with the button's value as part of the form data, when that button is used to submit the form.
+	///The name of the button, submitted as a pair with the button&apos;s value as part of the form data, when that button is used to submit the form.
 	/// </summary>
 	public Button Name(string value)
 	{
@@ -146,7 +163,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Turns a <button> element into a popover control button; takes the ID of the popover element to control as its value. Establishing a relationship between a popover and its invoker button using the popovertarget attribute has two additional useful effects:
+	///Turns a &lt;button&gt; element into a popover control button; takes the ID of the popover element to control as its value. Establishing a relationship between a popover and its invoker button using the popovertarget attribute has two additional useful effects:
 	/// </summary>
 	public Button Popovertarget(string value)
 	{
@@ -154,7 +171,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the action to be performed on a popover element being controlled by a control <button>. Possible values are:
+	///Specifies the action to be performed on a popover element being controlled by a control &lt;button&gt;. Possible values are:
 	/// </summary>
 	public Button Popovertargetaction(string value)
 	{
@@ -162,7 +179,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will trigger a cancel event on a <dialog> element to request that the browser dismiss it, followed by a close event. This differs from the close command in that authors can call Event.preventDefault() on the cancel event to prevent the <dialog> from closing. If the dialog is already closed, no action will be taken. This is a declarative equivalent of calling the HTMLDialogElement.requestClose() method on the <dialog> element.
+	///The button will trigger a cancel event on a &lt;dialog&gt; element to request that the browser dismiss it, followed by a close event. This differs from the close command in that authors can call Event.preventDefault() on the cancel event to prevent the &lt;dialog&gt; from closing. If the dialog is already closed, no action will be taken. This is a declarative equivalent of calling the HTMLDialogElement.requestClose() method on the &lt;dialog&gt; element.
 	/// </summary>
 	public Button RequestClose(string value)
 	{
@@ -170,7 +187,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will show a hidden popover. If you try to show an already showing popover, no action will be taken.
+	///The button will show a hidden popover. If you try to show an already showing popover, no action will be taken.
 	/// </summary>
 	public Button Show(string value)
 	{
@@ -178,7 +195,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will show a <dialog> as modal. If the dialog is already modal, no action will be taken. This is a declarative equivalent of calling the HTMLDialogElement.showModal() method on the <dialog> element.
+	///The button will show a &lt;dialog&gt; as modal. If the dialog is already modal, no action will be taken. This is a declarative equivalent of calling the HTMLDialogElement.showModal() method on the &lt;dialog&gt; element.
 	/// </summary>
 	public Button ShowModal(string value)
 	{
@@ -186,7 +203,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will show a hidden popover. If you try to show an already showing popover, no action will be taken. See Popover API for more details. This is equivalent to setting a value of show for the popovertargetaction attribute, and also provides a declarative equivalent to calling the HTMLElement.showPopover() method on the popover element.
+	///The button will show a hidden popover. If you try to show an already showing popover, no action will be taken. See Popover API for more details. This is equivalent to setting a value of show for the popovertargetaction attribute, and also provides a declarative equivalent to calling the HTMLElement.showPopover() method on the popover element.
 	/// </summary>
 	public Button ShowPopover(string value)
 	{
@@ -194,7 +211,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will toggle a popover between showing and hidden. If the popover is hidden, it will be shown; if the popover is showing, it will be hidden. If popovertargetaction is omitted, "toggle" is the default action that will be performed by the control button.
+	///The button will toggle a popover between showing and hidden. If the popover is hidden, it will be shown; if the popover is showing, it will be hidden. If popovertargetaction is omitted, &quot;toggle&quot; is the default action that will be performed by the control button.
 	/// </summary>
 	public Button Toggle(string value)
 	{
@@ -202,7 +219,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The button will toggle a popover between showing and hidden. If the popover is hidden, it will be shown; if the popover is showing, it will be hidden. See Popover API for more details. This is equivalent to setting a value of toggle for the popovertargetaction attribute, and also provides a declarative equivalent to calling the HTMLElement.togglePopover() method on the popover element.
+	///The button will toggle a popover between showing and hidden. If the popover is hidden, it will be shown; if the popover is showing, it will be hidden. See Popover API for more details. This is equivalent to setting a value of toggle for the popovertargetaction attribute, and also provides a declarative equivalent to calling the HTMLElement.togglePopover() method on the popover element.
 	/// </summary>
 	public Button TogglePopover(string value)
 	{
@@ -210,7 +227,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The default behavior of the button. Possible values are:
+	///The default behavior of the button. Possible values are:
 	/// </summary>
 	public Button Type(string value)
 	{
@@ -218,7 +235,7 @@ public partial class Button(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the value associated with the button's name when it's submitted with the form data. This value is passed to the server in params when the form is submitted using this button.
+	///Defines the value associated with the button&apos;s name when it&apos;s submitted with the form data. This value is passed to the server in params when the form is submitted using this button.
 	/// </summary>
 	public Button Value(string value)
 	{

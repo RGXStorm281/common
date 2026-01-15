@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Util;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+/// <summary>
+/// A utility class to unwrap types from nullable.
+/// </summary>
 public static class NullableUnwrappingTypeConverter
 {
 	/// <summary>

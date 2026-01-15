@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <datalist> HTML element contains a set of <option> elements that represent the permissible or recommended options available to choose from within other controls.
+///The &lt;datalist&gt; HTML element contains a set of &lt;option&gt; elements that represent the permissible or recommended options available to choose from within other controls.
 /// </summary>
-public partial class Datalist(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("datalist", false, contents)
+public partial class Datalist
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;datalist&gt; HTML element contains a set of &lt;option&gt; elements that represent the permissible or recommended options available to choose from within other controls.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Datalist(params IEnumerable<IHtmlContent> contents)
+		: base("datalist", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;datalist&gt; HTML element contains a set of &lt;option&gt; elements that represent the permissible or recommended options available to choose from within other controls.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Datalist(string text)
 		: this(Encode(text))
 	{

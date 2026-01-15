@@ -2,6 +2,9 @@ namespace RobinEpple.Common.Forms.Nodes;
 
 using RobinEpple.Common.Forms.SelectLists;
 
+/// <summary>
+/// A base interface for all nodes representing a single value.
+/// </summary>
 public interface IValueNode<TValue> : IFormNode
 {
 	/// <summary>

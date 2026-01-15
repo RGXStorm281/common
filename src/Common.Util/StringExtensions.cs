@@ -1,5 +1,8 @@
 ﻿namespace RobinEpple.Common.Util;
 
+/// <summary>
+/// A collection of useful methods on strings.
+/// </summary>
 public static class StringExtensions
 {
 	/// <summary>

@@ -3,10 +3,13 @@ namespace RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.SelectLists;
 
+/// <summary>
+/// A builder for a value node.
+/// </summary>
 public interface IValueNodeBuilder<TValue, TSpecificNodeBuilder>
 {
 	/// <summary>
-	/// Configures the <see cref="IValueNode.SelectList"/> for the value node.
+	/// Configures the <see cref="IValueNode{TValue}.SelectList"/> for the value node.
 	/// If <paramref name="validate"/> is <see langword="false"/>, the select items from the <paramref name="source"/> are only named value suggestions for the node that may or may not be used.
 	/// If <paramref name="validate"/> is <see langword="true"/>, the node will require the value to be in the list provided by the <paramref name="source"/>.
 	/// The validation will NOT raise errors for empty values, if this is wanted an additional required validation is needed.

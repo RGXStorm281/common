@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <col> HTML element defines one or more columns in a column group represented by its parent <colgroup> element. The <col> element is only valid as a child of a <colgroup> element that has no span attribute defined.
+///The &lt;col&gt; HTML element defines one or more columns in a column group represented by its parent &lt;colgroup&gt; element. The &lt;col&gt; element is only valid as a child of a &lt;colgroup&gt; element that has no span attribute defined.
 /// </summary>
-public partial class Col()
-	: HtmlTag("col", true)
+public partial class Col
+	: HtmlTag
 {
 	/// <summary>
-	/// Specifies the horizontal alignment of each column cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Note that this attribute overrides the specified align of its <colgroup> parent element. Use the text-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.
+	///The &lt;col&gt; HTML element defines one or more columns in a column group represented by its parent &lt;colgroup&gt; element. The &lt;col&gt; element is only valid as a child of a &lt;colgroup&gt; element that has no span attribute defined.
+	/// </summary>
+	public Col()
+		: base("col", true)
+	{
+	}
+	/// <summary>
+	///Specifies the horizontal alignment of each column cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Note that this attribute overrides the specified align of its &lt;colgroup&gt; parent element. Use the text-align CSS property on the &lt;td&gt; and &lt;th&gt; elements instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Col Align(string value)
@@ -23,7 +30,7 @@ public partial class Col()
 	}
 
 	/// <summary>
-	/// Defines the background color of each column cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
+	///Defines the background color of each column cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS &lt;color&gt; values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Col Bgcolor(string value)
@@ -32,7 +39,7 @@ public partial class Col()
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the alignment of the content to a character of each column cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored, though it will still override the specified char of its <colgroup> parent element.
+	///Does nothing. It was originally intended to specify the alignment of the content to a character of each column cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored, though it will still override the specified char of its &lt;colgroup&gt; parent element.
 	/// </summary>
 	[Obsolete]
 	public Col Char(string value)
@@ -41,7 +48,7 @@ public partial class Col()
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the number of characters to offset the column cell content from the alignment character specified by the char attribute.
+	///Does nothing. It was originally intended to specify the number of characters to offset the column cell content from the alignment character specified by the char attribute.
 	/// </summary>
 	[Obsolete]
 	public Col Charoff(string value)
@@ -50,7 +57,7 @@ public partial class Col()
 	}
 
 	/// <summary>
-	/// Specifies the number of consecutive columns the <col> element spans. The value must be a positive integer greater than zero. If not present, its default value is 1.
+	///Specifies the number of consecutive columns the &lt;col&gt; element spans. The value must be a positive integer greater than zero. If not present, its default value is 1.
 	/// </summary>
 	public Col Span(string value)
 	{
@@ -58,7 +65,7 @@ public partial class Col()
 	}
 
 	/// <summary>
-	/// Specifies the vertical alignment of each column cell. The possible enumerated values are baseline, bottom, middle, and top. Note that this attribute overrides the specified valign of its <colgroup> parent element. Use the vertical-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.
+	///Specifies the vertical alignment of each column cell. The possible enumerated values are baseline, bottom, middle, and top. Note that this attribute overrides the specified valign of its &lt;colgroup&gt; parent element. Use the vertical-align CSS property on the &lt;td&gt; and &lt;th&gt; elements instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Col Valign(string value)
@@ -67,7 +74,7 @@ public partial class Col()
 	}
 
 	/// <summary>
-	/// Specifies a default width for each column. In addition to the standard pixel and percentage values, this attribute can take the special form 0*, which means that the width of each column spanned should be the minimum width necessary to hold the column's contents. Relative widths such as 5* can also be used. Note that this attribute overrides the specified width of its <colgroup> parent element. Use the width CSS property instead, as this attribute is deprecated.
+	///Specifies a default width for each column. In addition to the standard pixel and percentage values, this attribute can take the special form 0*, which means that the width of each column spanned should be the minimum width necessary to hold the column&apos;s contents. Relative widths such as 5* can also be used. Note that this attribute overrides the specified width of its &lt;colgroup&gt; parent element. Use the width CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Col Width(string value)

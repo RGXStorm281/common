@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <iframe> HTML element represents a nested browsing context, embedding another HTML page into the current one.
+///The &lt;iframe&gt; HTML element represents a nested browsing context, embedding another HTML page into the current one.
 /// </summary>
-public partial class Iframe(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("iframe", false, contents)
+public partial class Iframe
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;iframe&gt; HTML element represents a nested browsing context, embedding another HTML page into the current one.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Iframe(params IEnumerable<IHtmlContent> contents)
+		: base("iframe", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;iframe&gt; HTML element represents a nested browsing context, embedding another HTML page into the current one.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Iframe(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The alignment of this element with respect to the surrounding context.
+	///The alignment of this element with respect to the surrounding context.
 	/// </summary>
 	[Obsolete]
 	public Iframe Align(string value)
@@ -27,7 +44,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies a Permissions Policy for the <iframe>. The policy defines what features are available to the <iframe> (for example, access to the microphone, camera, battery, web-share, etc.) based on the origin of the request.
+	///Specifies a Permissions Policy for the &lt;iframe&gt;. The policy defines what features are available to the &lt;iframe&gt; (for example, access to the microphone, camera, battery, web-share, etc.) based on the origin of the request.
 	/// </summary>
 	public Iframe Allow(string value)
 	{
@@ -35,7 +52,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows downloading files through an <a> or <area> element with the download attribute, as well as through the navigation that leads to a download of a file. This works regardless of whether the user clicked on the link, or JS code initiated it without user interaction.
+	///Allows downloading files through an &lt;a&gt; or &lt;area&gt; element with the download attribute, as well as through the navigation that leads to a download of a file. This works regardless of whether the user clicked on the link, or JS code initiated it without user interaction.
 	/// </summary>
 	public Iframe AllowDownloads(string value)
 	{
@@ -43,7 +60,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows the page to submit forms. If this keyword is not used, a form will be displayed as normal, but submitting it will not trigger input validation, send data to a web server, or close a dialog.
+	///Allows the page to submit forms. If this keyword is not used, a form will be displayed as normal, but submitting it will not trigger input validation, send data to a web server, or close a dialog.
 	/// </summary>
 	public Iframe AllowForms(string value)
 	{
@@ -51,7 +68,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows the page to open modal windows by Window.alert(), Window.confirm(), Window.print() and Window.prompt(), while opening a <dialog> is allowed regardless of this keyword. It also allows the page to receive BeforeUnloadEvent event.
+	///Allows the page to open modal windows by Window.alert(), Window.confirm(), Window.print() and Window.prompt(), while opening a &lt;dialog&gt; is allowed regardless of this keyword. It also allows the page to receive BeforeUnloadEvent event.
 	/// </summary>
 	public Iframe AllowModals(string value)
 	{
@@ -59,7 +76,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Lets the resource lock the screen orientation.
+	///Lets the resource lock the screen orientation.
 	/// </summary>
 	public Iframe AllowOrientationLock(string value)
 	{
@@ -67,7 +84,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows the page to use the Pointer Lock API.
+	///Allows the page to use the Pointer Lock API.
 	/// </summary>
 	public Iframe AllowPointerLock(string value)
 	{
@@ -75,7 +92,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows popups (created, for example, by Window.open() or target="_blank" ). If this keyword is not used, such functionality will silently fail.
+	///Allows popups (created, for example, by Window.open() or target=&quot;_blank&quot; ). If this keyword is not used, such functionality will silently fail.
 	/// </summary>
 	public Iframe AllowPopups(string value)
 	{
@@ -83,7 +100,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows a sandboxed document to open a new browsing context without forcing the sandboxing flags upon it. This will allow, for example, a third-party advertisement to be safely sandboxed without forcing the same restrictions upon the page the ad links to. If this flag is not included, a redirected page, popup window, or new tab will be subject to the same sandbox restrictions as the originating <iframe>.
+	///Allows a sandboxed document to open a new browsing context without forcing the sandboxing flags upon it. This will allow, for example, a third-party advertisement to be safely sandboxed without forcing the same restrictions upon the page the ad links to. If this flag is not included, a redirected page, popup window, or new tab will be subject to the same sandbox restrictions as the originating &lt;iframe&gt;.
 	/// </summary>
 	public Iframe AllowPopupsToEscapeSandbox(string value)
 	{
@@ -91,7 +108,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows embedders to have control over whether an iframe can start a presentation session.
+	///Allows embedders to have control over whether an iframe can start a presentation session.
 	/// </summary>
 	public Iframe AllowPresentation(string value)
 	{
@@ -99,7 +116,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If this token is not used, the resource is treated as being from a special origin that always fails the same-origin policy (potentially preventing access to data storage/cookies and some JavaScript APIs).
+	///If this token is not used, the resource is treated as being from a special origin that always fails the same-origin policy (potentially preventing access to data storage/cookies and some JavaScript APIs).
 	/// </summary>
 	public Iframe AllowSameOrigin(string value)
 	{
@@ -107,7 +124,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows the page to run scripts (but not create pop-up windows). If this keyword is not used, this operation is not allowed.
+	///Allows the page to run scripts (but not create pop-up windows). If this keyword is not used, this operation is not allowed.
 	/// </summary>
 	public Iframe AllowScripts(string value)
 	{
@@ -115,7 +132,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows a document loaded in the <iframe> to use the Storage Access API to request access to unpartitioned cookies.
+	///Allows a document loaded in the &lt;iframe&gt; to use the Storage Access API to request access to unpartitioned cookies.
 	/// </summary>
 	public Iframe AllowStorageAccessByUserActivation(string value)
 	{
@@ -123,7 +140,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Lets the resource navigate the top-level browsing context (the one named _top ).
+	///Lets the resource navigate the top-level browsing context (the one named _top ).
 	/// </summary>
 	public Iframe AllowTopNavigation(string value)
 	{
@@ -131,7 +148,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Lets the resource navigate the top-level browsing context, but only if initiated by a user gesture.
+	///Lets the resource navigate the top-level browsing context, but only if initiated by a user gesture.
 	/// </summary>
 	public Iframe AllowTopNavigationByUserActivation(string value)
 	{
@@ -139,7 +156,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Allows navigations to non- http protocols built into browser or registered by a website. This feature is also activated by allow-popups or allow-top-navigation keyword.
+	///Allows navigations to non- http protocols built into browser or registered by a website. This feature is also activated by allow-popups or allow-top-navigation keyword.
 	/// </summary>
 	public Iframe AllowTopNavigationToCustomProtocols(string value)
 	{
@@ -147,7 +164,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Set to true if the <iframe> can activate fullscreen mode by calling the requestFullscreen() method.
+	///Set to true if the &lt;iframe&gt; can activate fullscreen mode by calling the requestFullscreen() method.
 	/// </summary>
 	public Iframe Allowfullscreen(string value)
 	{
@@ -155,7 +172,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Set to true if a cross-origin <iframe> should be allowed to invoke the Payment Request API.
+	///Set to true if a cross-origin &lt;iframe&gt; should be allowed to invoke the Payment Request API.
 	/// </summary>
 	[Obsolete]
 	public Iframe Allowpaymentrequest(string value)
@@ -164,7 +181,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Only when the frame's content is larger than its dimensions.
+	///Only when the frame&apos;s content is larger than its dimensions.
 	/// </summary>
 	public Iframe Auto(string value)
 	{
@@ -172,7 +189,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A boolean attribute that, if present, specifies that the selected topics for the current user should be sent with the request for the <iframe> 's source. See Using the Topics API for more details.
+	///A boolean attribute that, if present, specifies that the selected topics for the current user should be sent with the request for the &lt;iframe&gt; &apos;s source. See Using the Topics API for more details.
 	/// </summary>
 	[Obsolete]
 	public Iframe Browsingtopics(string value)
@@ -181,7 +198,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Set to true to make the <iframe> credentialless, meaning that its content will be loaded in a new, ephemeral context. It doesn't have access to the network, cookies, and storage data associated with its origin. It uses a new context local to the top-level document lifetime. In return, the Cross-Origin-Embedder-Policy (COEP) embedding rules can be lifted, so documents with COEP set can embed third-party documents that do not. See IFrame credentialless for more details.
+	///Set to true to make the &lt;iframe&gt; credentialless, meaning that its content will be loaded in a new, ephemeral context. It doesn&apos;t have access to the network, cookies, and storage data associated with its origin. It uses a new context local to the top-level document lifetime. In return, the Cross-Origin-Embedder-Policy (COEP) embedding rules can be lifted, so documents with COEP set can embed third-party documents that do not. See IFrame credentialless for more details.
 	/// </summary>
 	public Iframe Credentialless(string value)
 	{
@@ -189,7 +206,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Content Security Policy enforced for the embedded resource. See HTMLIFrameElement.csp for details.
+	///A Content Security Policy enforced for the embedded resource. See HTMLIFrameElement.csp for details.
 	/// </summary>
 	public Iframe Csp(string value)
 	{
@@ -197,7 +214,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Load the iframe immediately on page load (this is the default value).
+	///Load the iframe immediately on page load (this is the default value).
 	/// </summary>
 	public Iframe Eager(string value)
 	{
@@ -205,7 +222,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The value 1 (the default) draws a border around this frame. The value 0 removes the border around this frame, but you should instead use the CSS property border to control <iframe> borders.
+	///The value 1 (the default) draws a border around this frame. The value 0 removes the border around this frame, but you should instead use the CSS property border to control &lt;iframe&gt; borders.
 	/// </summary>
 	[Obsolete]
 	public Iframe Frameborder(string value)
@@ -214,7 +231,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The height of the frame in CSS pixels. Default is 150.
+	///The height of the frame in CSS pixels. Default is 150.
 	/// </summary>
 	public Iframe Height(string value)
 	{
@@ -222,9 +239,9 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defer loading of the iframe until it reaches a calculated distance from the visual viewport, as defined by the browser.
-	/// The intent is to avoid using the network and storage bandwidth required to fetch the frame until the browser is reasonably certain that it will be needed.
-	/// This improves the performance and cost in most typical use cases, in particular by reducing initial page load times.
+	///Defer loading of the iframe until it reaches a calculated distance from the visual viewport, as defined by the browser.
+	///The intent is to avoid using the network and storage bandwidth required to fetch the frame until the browser is reasonably certain that it will be needed.
+	///This improves the performance and cost in most typical use cases, in particular by reducing initial page load times.
 	/// </summary>
 	public Iframe Lazy(string value)
 	{
@@ -232,7 +249,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Indicates when the browser should load the iframe:
+	///Indicates when the browser should load the iframe:
 	/// </summary>
 	public Iframe Loading(string value)
 	{
@@ -240,7 +257,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A URL of a long description of the frame's content. Due to widespread misuse, this is not helpful for non-visual browsers.
+	///A URL of a long description of the frame&apos;s content. Due to widespread misuse, this is not helpful for non-visual browsers.
 	/// </summary>
 	[Obsolete]
 	public Iframe Longdesc(string value)
@@ -249,7 +266,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The amount of space in pixels between the frame's content and its top and bottom borders.
+	///The amount of space in pixels between the frame&apos;s content and its top and bottom borders.
 	/// </summary>
 	[Obsolete]
 	public Iframe Marginheight(string value)
@@ -258,7 +275,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The amount of space in pixels between the frame's content and its left and right borders.
+	///The amount of space in pixels between the frame&apos;s content and its left and right borders.
 	/// </summary>
 	[Obsolete]
 	public Iframe Marginwidth(string value)
@@ -267,7 +284,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A targetable name for the embedded browsing context. This can be used in the target attribute of the <a>, <form>, or <base> elements; the formtarget attribute of the <input> or <button> elements; or the windowName parameter in the window.open() method. In addition, the name becomes a property of the Window and Document objects, containing a reference to the embedded window or the element itself.
+	///A targetable name for the embedded browsing context. This can be used in the target attribute of the &lt;a&gt;, &lt;form&gt;, or &lt;base&gt; elements; the formtarget attribute of the &lt;input&gt; or &lt;button&gt; elements; or the windowName parameter in the window.open() method. In addition, the name becomes a property of the Window and Document objects, containing a reference to the embedded window or the element itself.
 	/// </summary>
 	public Iframe Name(string value)
 	{
@@ -275,7 +292,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Never show a scrollbar.
+	///Never show a scrollbar.
 	/// </summary>
 	public Iframe No(string value)
 	{
@@ -283,7 +300,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The Referer header will not be sent.
+	///The Referer header will not be sent.
 	/// </summary>
 	public Iframe NoReferrer(string value)
 	{
@@ -291,7 +308,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The Referer header will not be sent to origin s without TLS ( HTTPS ).
+	///The Referer header will not be sent to origin s without TLS ( HTTPS ).
 	/// </summary>
 	public Iframe NoReferrerWhenDowngrade(string value)
 	{
@@ -299,7 +316,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The sent referrer will be limited to the origin of the referring page: its scheme, host, and port.
+	///The sent referrer will be limited to the origin of the referring page: its scheme, host, and port.
 	/// </summary>
 	public Iframe Origin(string value)
 	{
@@ -307,7 +324,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The referrer sent to other origins will be limited to the scheme, the host, and the port. Navigations on the same origin will still include the path.
+	///The referrer sent to other origins will be limited to the scheme, the host, and the port. Navigations on the same origin will still include the path.
 	/// </summary>
 	public Iframe OriginWhenCrossOrigin(string value)
 	{
@@ -315,7 +332,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Contains a string representation of an options object representing a private state token operation; this object has the same structure as the RequestInit dictionary's privateToken property. IFrames containing this attribute can initiate operations such as issuing or redeeming tokens when their embedded content is loaded.
+	///Contains a string representation of an options object representing a private state token operation; this object has the same structure as the RequestInit dictionary&apos;s privateToken property. IFrames containing this attribute can initiate operations such as issuing or redeeming tokens when their embedded content is loaded.
 	/// </summary>
 	public Iframe Privatetoken(string value)
 	{
@@ -323,7 +340,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Indicates which referrer to send when fetching the frame's resource:
+	///Indicates which referrer to send when fetching the frame&apos;s resource:
 	/// </summary>
 	public Iframe Referrerpolicy(string value)
 	{
@@ -331,7 +348,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A referrer will be sent for same origin, but cross-origin requests will contain no referrer information.
+	///A referrer will be sent for same origin, but cross-origin requests will contain no referrer information.
 	/// </summary>
 	public Iframe SameOrigin(string value)
 	{
@@ -339,7 +356,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Controls the restrictions applied to the content embedded in the <iframe>. The value of the attribute can either be empty to apply all restrictions, or space-separated tokens to lift particular restrictions:
+	///Controls the restrictions applied to the content embedded in the &lt;iframe&gt;. The value of the attribute can either be empty to apply all restrictions, or space-separated tokens to lift particular restrictions:
 	/// </summary>
 	public Iframe Sandbox(string value)
 	{
@@ -347,7 +364,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Indicates when the browser should provide a scrollbar for the frame:
+	///Indicates when the browser should provide a scrollbar for the frame:
 	/// </summary>
 	[Obsolete]
 	public Iframe Scrolling(string value)
@@ -356,7 +373,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The URL of the page to embed. Use a value of about:blank to embed an empty page that conforms to the same-origin policy. Also note that programmatically removing an <iframe> 's src attribute (e.g., via Element.removeAttribute() ) causes about:blank to be loaded in the frame in Firefox (from version 65), Chromium-based browsers, and Safari/iOS.
+	///The URL of the page to embed. Use a value of about:blank to embed an empty page that conforms to the same-origin policy. Also note that programmatically removing an &lt;iframe&gt; &apos;s src attribute (e.g., via Element.removeAttribute() ) causes about:blank to be loaded in the frame in Firefox (from version 65), Chromium-based browsers, and Safari/iOS.
 	/// </summary>
 	public Iframe Src(string value)
 	{
@@ -364,7 +381,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Inline HTML to embed, overriding the src attribute. Its content should follow the syntax of a full HTML document, which includes the doctype directive, <html>, <body> tags, etc., although most of them can be omitted, leaving only the body content. This doc will have about:srcdoc as its location. If a browser does not support the srcdoc attribute, it will fall back to the URL in the src attribute.
+	///Inline HTML to embed, overriding the src attribute. Its content should follow the syntax of a full HTML document, which includes the doctype directive, &lt;html&gt;, &lt;body&gt; tags, etc., although most of them can be omitted, leaving only the body content. This doc will have about:srcdoc as its location. If a browser does not support the srcdoc attribute, it will fall back to the URL in the src attribute.
 	/// </summary>
 	public Iframe Srcdoc(string value)
 	{
@@ -372,7 +389,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Only send the origin of the document as the referrer when the protocol security level stays the same (HTTPSâHTTPS), but don't send it to a less secure destination (HTTPSâHTTP).
+	///Only send the origin of the document as the referrer when the protocol security level stays the same (HTTPSâHTTPS), but don&apos;t send it to a less secure destination (HTTPSâHTTP).
 	/// </summary>
 	public Iframe StrictOrigin(string value)
 	{
@@ -380,7 +397,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Send a full URL when performing a same-origin request, only send the origin when the protocol security level stays the same (HTTPSâHTTPS), and send no header to a less secure destination (HTTPSâHTTP).
+	///Send a full URL when performing a same-origin request, only send the origin when the protocol security level stays the same (HTTPSâHTTPS), and send no header to a less secure destination (HTTPSâHTTP).
 	/// </summary>
 	public Iframe StrictOriginWhenCrossOrigin(string value)
 	{
@@ -388,7 +405,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The referrer will include the origin and the path (but not the fragment, password, or username ). This value is unsafe, because it leaks origins and paths from TLS-protected resources to insecure origins.
+	///The referrer will include the origin and the path (but not the fragment, password, or username ). This value is unsafe, because it leaks origins and paths from TLS-protected resources to insecure origins.
 	/// </summary>
 	public Iframe UnsafeUrl(string value)
 	{
@@ -396,7 +413,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The width of the frame in CSS pixels. Default is 300.
+	///The width of the frame in CSS pixels. Default is 300.
 	/// </summary>
 	public Iframe Width(string value)
 	{
@@ -404,7 +421,7 @@ public partial class Iframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Always show a scrollbar.
+	///Always show a scrollbar.
 	/// </summary>
 	public Iframe Yes(string value)
 	{

@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <main> HTML element represents the dominant content of the <body> of a document. The main content area consists of content that is directly related to or expands upon the central topic of a document, or the central functionality of an application.
+///The &lt;main&gt; HTML element represents the dominant content of the &lt;body&gt; of a document. The main content area consists of content that is directly related to or expands upon the central topic of a document, or the central functionality of an application.
 /// </summary>
-public partial class Main(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("main", false, contents)
+public partial class Main
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;main&gt; HTML element represents the dominant content of the &lt;body&gt; of a document. The main content area consists of content that is directly related to or expands upon the central topic of a document, or the central functionality of an application.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Main(params IEnumerable<IHtmlContent> contents)
+		: base("main", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;main&gt; HTML element represents the dominant content of the &lt;body&gt; of a document. The main content area consists of content that is directly related to or expands upon the central topic of a document, or the central functionality of an application.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Main(string text)
 		: this(Encode(text))
 	{

@@ -5,6 +5,7 @@
         <PackageId>RobinEpple.Common.Forms.Html</PackageId>
         <RootNamespace>RobinEpple.Common.Forms.Html</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>A html rendering library for the forms framework.</Title>
 
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
@@ -17,9 +18,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../Common.Forms/Common.Forms.csproj" />
-        <ProjectReference Include="../Common.Html/Common.Html.csproj" />
+        <PackageReference Include="RobinEpple.Common.Forms" />
+        <PackageReference Include="RobinEpple.Common.Html" />
         <PackageReference Include="RobinEpple.Common.SourceGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Inputs/" />
     </ItemGroup>
 
 </Project>

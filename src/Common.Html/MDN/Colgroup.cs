@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <colgroup> HTML element defines a group of columns within a table.
+///The &lt;colgroup&gt; HTML element defines a group of columns within a table.
 /// </summary>
-public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("colgroup", false, contents)
+public partial class Colgroup
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;colgroup&gt; HTML element defines a group of columns within a table.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Colgroup(params IEnumerable<IHtmlContent> contents)
+		: base("colgroup", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;colgroup&gt; HTML element defines a group of columns within a table.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Colgroup(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies the horizontal alignment of each column group cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Note that the descendant <col> elements may override this value using their own align attribute. Use the text-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.
+	///Specifies the horizontal alignment of each column group cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Note that the descendant &lt;col&gt; elements may override this value using their own align attribute. Use the text-align CSS property on the &lt;td&gt; and &lt;th&gt; elements instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Colgroup Align(string value)
@@ -27,7 +44,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the background color of each column group cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
+	///Defines the background color of each column group cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS &lt;color&gt; values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Colgroup Bgcolor(string value)
@@ -36,7 +53,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the alignment of the content to a character of each column group cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored, though it will still be used as the default value for the align of the <col> elements which are members of this column group.
+	///Does nothing. It was originally intended to specify the alignment of the content to a character of each column group cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored, though it will still be used as the default value for the align of the &lt;col&gt; elements which are members of this column group.
 	/// </summary>
 	[Obsolete]
 	public Colgroup Char(string value)
@@ -45,7 +62,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the number of characters to offset the column group cell content from the alignment character specified by the char attribute.
+	///Does nothing. It was originally intended to specify the number of characters to offset the column group cell content from the alignment character specified by the char attribute.
 	/// </summary>
 	[Obsolete]
 	public Colgroup Charoff(string value)
@@ -54,7 +71,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the number of consecutive columns the <colgroup> element spans. The value must be a positive integer greater than zero. If not present, its default value is 1.
+	///Specifies the number of consecutive columns the &lt;colgroup&gt; element spans. The value must be a positive integer greater than zero. If not present, its default value is 1.
 	/// </summary>
 	public Colgroup Span(string value)
 	{
@@ -62,7 +79,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the vertical alignment of each column group cell. The possible enumerated values are baseline, bottom, middle, and top. Note that the descendant <col> elements may override this value using their own valign attribute. Use the vertical-align CSS property on the <td> and <th> elements instead, as this attribute is deprecated.
+	///Specifies the vertical alignment of each column group cell. The possible enumerated values are baseline, bottom, middle, and top. Note that the descendant &lt;col&gt; elements may override this value using their own valign attribute. Use the vertical-align CSS property on the &lt;td&gt; and &lt;th&gt; elements instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Colgroup Valign(string value)
@@ -71,7 +88,7 @@ public partial class Colgroup(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies a default width for each column in the current column group. In addition to the standard pixel and percentage values, this attribute can take the special form 0*, which means that the width of each column spanned should be the minimum width necessary to hold the column's contents. Relative widths such as 5* can also be used. Note that the descendant <col> elements may override this value using their own width attribute. Use the width CSS property instead, as this attribute is deprecated.
+	///Specifies a default width for each column in the current column group. In addition to the standard pixel and percentage values, this attribute can take the special form 0*, which means that the width of each column spanned should be the minimum width necessary to hold the column&apos;s contents. Relative widths such as 5* can also be used. Note that the descendant &lt;col&gt; elements may override this value using their own width attribute. Use the width CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Colgroup Width(string value)

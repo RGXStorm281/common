@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <source> HTML element specifies one or more media resources for the <picture>, <audio>, and <video> elements. It is a void element, which means that it has no content and does not require a closing tag. This element is commonly used to offer the same media content in multiple file formats in order to provide compatibility with a broad range of browsers given their differing support for image file formats and media file formats.
+///The &lt;source&gt; HTML element specifies one or more media resources for the &lt;picture&gt;, &lt;audio&gt;, and &lt;video&gt; elements. It is a void element, which means that it has no content and does not require a closing tag. This element is commonly used to offer the same media content in multiple file formats in order to provide compatibility with a broad range of browsers given their differing support for image file formats and media file formats.
 /// </summary>
-public partial class Source()
-	: HtmlTag("source", true)
+public partial class Source
+	: HtmlTag
 {
 	/// <summary>
-	/// Specifies the intrinsic height of the image in pixels. Allowed if the parent of <source> is a <picture>. Not allowed if the parent is <audio> or <video>.
+	///The &lt;source&gt; HTML element specifies one or more media resources for the &lt;picture&gt;, &lt;audio&gt;, and &lt;video&gt; elements. It is a void element, which means that it has no content and does not require a closing tag. This element is commonly used to offer the same media content in multiple file formats in order to provide compatibility with a broad range of browsers given their differing support for image file formats and media file formats.
+	/// </summary>
+	public Source()
+		: base("source", true)
+	{
+	}
+	/// <summary>
+	///Specifies the intrinsic height of the image in pixels. Allowed if the parent of &lt;source&gt; is a &lt;picture&gt;. Not allowed if the parent is &lt;audio&gt; or &lt;video&gt;.
 	/// </summary>
 	public Source Height(string value)
 	{
@@ -22,7 +29,7 @@ public partial class Source()
 	}
 
 	/// <summary>
-	/// Specifies the media query for the resource's intended media.
+	///Specifies the media query for the resource&apos;s intended media.
 	/// </summary>
 	public Source Media(string value)
 	{
@@ -30,7 +37,7 @@ public partial class Source()
 	}
 
 	/// <summary>
-	/// Specifies a list of source sizes that describe the final rendered width of the image. Allowed if the parent of <source> is <picture>. Not allowed if the parent is <audio> or <video>.
+	///Specifies a list of source sizes that describe the final rendered width of the image. Allowed if the parent of &lt;source&gt; is &lt;picture&gt;. Not allowed if the parent is &lt;audio&gt; or &lt;video&gt;.
 	/// </summary>
 	public Source Sizes(string value)
 	{
@@ -38,7 +45,7 @@ public partial class Source()
 	}
 
 	/// <summary>
-	/// Specifies the URL of the media resource. Required if the parent of <source> is <audio> or <video>. Not allowed if the parent is <picture>.
+	///Specifies the URL of the media resource. Required if the parent of &lt;source&gt; is &lt;audio&gt; or &lt;video&gt;. Not allowed if the parent is &lt;picture&gt;.
 	/// </summary>
 	public Source Src(string value)
 	{
@@ -46,7 +53,7 @@ public partial class Source()
 	}
 
 	/// <summary>
-	/// Specifies a comma-separated list of one or more image URLs and their descriptors. Required if the parent of <source> is <picture>. Not allowed if the parent is <audio> or <video>.
+	///Specifies a comma-separated list of one or more image URLs and their descriptors. Required if the parent of &lt;source&gt; is &lt;picture&gt;. Not allowed if the parent is &lt;audio&gt; or &lt;video&gt;.
 	/// </summary>
 	public Source Srcset(string value)
 	{
@@ -54,7 +61,7 @@ public partial class Source()
 	}
 
 	/// <summary>
-	/// Specifies the MIME media type of the image or other media type, optionally including a codecs parameter.
+	///Specifies the MIME media type of the image or other media type, optionally including a codecs parameter.
 	/// </summary>
 	public Source Type(string value)
 	{
@@ -62,7 +69,7 @@ public partial class Source()
 	}
 
 	/// <summary>
-	/// Specifies the intrinsic width of the image in pixels. Allowed if the parent of <source> is a <picture>. Not allowed if the parent is <audio> or <video>.
+	///Specifies the intrinsic width of the image in pixels. Allowed if the parent of &lt;source&gt; is a &lt;picture&gt;. Not allowed if the parent is &lt;audio&gt; or &lt;video&gt;.
 	/// </summary>
 	public Source Width(string value)
 	{

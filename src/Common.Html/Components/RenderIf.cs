@@ -15,6 +15,9 @@ public class RenderIf : IHtmlContent
 {
 	private IHtmlContent? _content = null;
 
+	/// <inheritdoc cref="RenderIf"/>
+	/// <param name="conditionMet">The result of the first condition.</param>
+	/// <param name="contents">The content to render when the condition is met.</param>
 	public RenderIf(bool conditionMet, params IEnumerable<IHtmlContent> contents)
 	{
 		if (conditionMet)
@@ -24,6 +27,12 @@ public class RenderIf : IHtmlContent
 		}
 	}
 
+	/// <summary>
+	/// Renders a conditioned fallback in case the previous conditions all failed but this one is met.
+	/// </summary>
+	/// <param name="conditionMet">The result of the fallback condition.</param>
+	/// <param name="contents">The content to render when the condition is met.</param>
+	/// <returns>The render component for chaining.</returns>
 	public RenderIf ElseIf(bool conditionMet, params IEnumerable<IHtmlContent> contents)
 	{
 		if (_content != null)
@@ -41,6 +50,11 @@ public class RenderIf : IHtmlContent
 		return this;
 	}
 
+	/// <summary>
+	/// Renders an unconditioned fallback in case the previous conditions all failed.
+	/// </summary>
+	/// <param name="contents">The content to render.</param>
+	/// <returns>The finished HTML Component, no more chaining is possible after this function is called.</returns>
 	public IHtmlContent Else(params IEnumerable<IHtmlContent> contents)
 	{
 		if (_content != null)
@@ -54,6 +68,9 @@ public class RenderIf : IHtmlContent
 		return this;
 	}
 
+	/// <summary>
+	/// Writes the html text to the writer.
+	/// </summary>
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		if (_content != null)

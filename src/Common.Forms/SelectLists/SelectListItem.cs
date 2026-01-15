@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.SelectLists;
 
+/// <inheritdoc />
 public class SelectListItem<TValue>(string label, TValue value) : ISelectListItem<TValue>
 {
 	/// <inheritdoc />

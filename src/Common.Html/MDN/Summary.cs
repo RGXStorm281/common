@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <summary> HTML element specifies a summary, caption, or legend for a <details> element's disclosure box. Clicking the <summary> element toggles the state of the parent <details> element open and closed.
+///The &lt;summary&gt; HTML element specifies a summary, caption, or legend for a &lt;details&gt; element&apos;s disclosure box. Clicking the &lt;summary&gt; element toggles the state of the parent &lt;details&gt; element open and closed.
 /// </summary>
-public partial class Summary(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("summary", false, contents)
+public partial class Summary
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;summary&gt; HTML element specifies a summary, caption, or legend for a &lt;details&gt; element&apos;s disclosure box. Clicking the &lt;summary&gt; element toggles the state of the parent &lt;details&gt; element open and closed.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Summary(params IEnumerable<IHtmlContent> contents)
+		: base("summary", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;summary&gt; HTML element specifies a summary, caption, or legend for a &lt;details&gt; element&apos;s disclosure box. Clicking the &lt;summary&gt; element toggles the state of the parent &lt;details&gt; element open and closed.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Summary(string text)
 		: this(Encode(text))
 	{

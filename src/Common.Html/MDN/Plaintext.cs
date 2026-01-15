@@ -8,13 +8,32 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <plaintext> HTML element renders everything following the start tag as raw text, ignoring any following HTML. There is no closing tag, since everything after it is considered raw text. Warning: 
-/// Do not use this element. <plaintext> is deprecated since HTML 2, and not all browsers implemented it. Browsers that did implement it didn't do so consistently. <plaintext> is obsolete; browsers that accept it may instead treat it as a <pre> element that still interprets HTML within. If <plaintext> is the first element on the page (other than any non-displayed elements, like <head> ), do not use HTML at all. Instead serve a text file with the text/plain MIME-type. Instead of <plaintext>, use the <pre> element or, if semantically accurate (such as for inline text), the <code> element. Escape any <, > and & characters, to prevent browsers inadvertently parsing the element content as HTML. A monospaced font can be applied to any HTML element via a CSS font-family style with the monospace generic value.
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;plaintext&gt; HTML element renders everything following the start tag as raw text, ignoring any following HTML. There is no closing tag, since everything after it is considered raw text. Warning: 
+///Do not use this element. &lt;plaintext&gt; is deprecated since HTML 2, and not all browsers implemented it. Browsers that did implement it didn&apos;t do so consistently. &lt;plaintext&gt; is obsolete; browsers that accept it may instead treat it as a &lt;pre&gt; element that still interprets HTML within. If &lt;plaintext&gt; is the first element on the page (other than any non-displayed elements, like &lt;head&gt; ), do not use HTML at all. Instead serve a text file with the text/plain MIME-type. Instead of &lt;plaintext&gt;, use the &lt;pre&gt; element or, if semantically accurate (such as for inline text), the &lt;code&gt; element. Escape any &lt;, &gt; and &amp; characters, to prevent browsers inadvertently parsing the element content as HTML. A monospaced font can be applied to any HTML element via a CSS font-family style with the monospace generic value.
 /// </summary>
 [Obsolete]
-public partial class Plaintext(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("plaintext", false, contents)
+public partial class Plaintext
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;plaintext&gt; HTML element renders everything following the start tag as raw text, ignoring any following HTML. There is no closing tag, since everything after it is considered raw text. Warning: 
+	///Do not use this element. &lt;plaintext&gt; is deprecated since HTML 2, and not all browsers implemented it. Browsers that did implement it didn&apos;t do so consistently. &lt;plaintext&gt; is obsolete; browsers that accept it may instead treat it as a &lt;pre&gt; element that still interprets HTML within. If &lt;plaintext&gt; is the first element on the page (other than any non-displayed elements, like &lt;head&gt; ), do not use HTML at all. Instead serve a text file with the text/plain MIME-type. Instead of &lt;plaintext&gt;, use the &lt;pre&gt; element or, if semantically accurate (such as for inline text), the &lt;code&gt; element. Escape any &lt;, &gt; and &amp; characters, to prevent browsers inadvertently parsing the element content as HTML. A monospaced font can be applied to any HTML element via a CSS font-family style with the monospace generic value.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Plaintext(params IEnumerable<IHtmlContent> contents)
+		: base("plaintext", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;plaintext&gt; HTML element renders everything following the start tag as raw text, ignoring any following HTML. There is no closing tag, since everything after it is considered raw text. Warning: 
+	///Do not use this element. &lt;plaintext&gt; is deprecated since HTML 2, and not all browsers implemented it. Browsers that did implement it didn&apos;t do so consistently. &lt;plaintext&gt; is obsolete; browsers that accept it may instead treat it as a &lt;pre&gt; element that still interprets HTML within. If &lt;plaintext&gt; is the first element on the page (other than any non-displayed elements, like &lt;head&gt; ), do not use HTML at all. Instead serve a text file with the text/plain MIME-type. Instead of &lt;plaintext&gt;, use the &lt;pre&gt; element or, if semantically accurate (such as for inline text), the &lt;code&gt; element. Escape any &lt;, &gt; and &amp; characters, to prevent browsers inadvertently parsing the element content as HTML. A monospaced font can be applied to any HTML element via a CSS font-family style with the monospace generic value.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Plaintext(string text)
 		: this(Encode(text))
 	{

@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <textarea> HTML element represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text, for example a comment on a review or feedback form.
+///The &lt;textarea&gt; HTML element represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text, for example a comment on a review or feedback form.
 /// </summary>
-public partial class Textarea(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("textarea", false, contents)
+public partial class Textarea
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;textarea&gt; HTML element represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text, for example a comment on a review or feedback form.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Textarea(params IEnumerable<IHtmlContent> contents)
+		: base("textarea", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;textarea&gt; HTML element represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text, for example a comment on a review or feedback form.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Textarea(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Controls whether inputted text is automatically capitalized and, if so, in what manner.
+	///Controls whether inputted text is automatically capitalized and, if so, in what manner.
 	/// </summary>
 	public new Textarea Autocapitalize(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Controls whether entered text can be automatically completed by the browser. Possible values are:
+	///Controls whether entered text can be automatically completed by the browser. Possible values are:
 	/// </summary>
 	public Textarea Autocomplete(string value)
 	{
@@ -34,8 +51,8 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Controls whether automatic spelling correction and processing of text is enabled while the user is editing this textarea.
-	/// Permitted values are:
+	///Controls whether automatic spelling correction and processing of text is enabled while the user is editing this textarea.
+	///Permitted values are:
 	/// </summary>
 	public new Textarea Autocorrect(string value)
 	{
@@ -43,7 +60,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute lets you specify that a form control should have input focus when the page loads. Only one form-associated element in a document can have this attribute specified.
+	///This Boolean attribute lets you specify that a form control should have input focus when the page loads. Only one form-associated element in a document can have this attribute specified.
 	/// </summary>
 	public new Textarea Autofocus(string value)
 	{
@@ -51,7 +68,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. If it is not specified, the default value is 20.
+	///The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. If it is not specified, the default value is 20.
 	/// </summary>
 	public Textarea Cols(string value)
 	{
@@ -59,8 +76,8 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute is used to indicate the text directionality of the element contents.
-	/// For more information, see the dirname attribute.
+	///This attribute is used to indicate the text directionality of the element contents.
+	///For more information, see the dirname attribute.
 	/// </summary>
 	public Textarea Dirname(string value)
 	{
@@ -68,7 +85,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute indicates that the user cannot interact with the control. If this attribute is not specified, the control inherits its setting from the containing element, for example <fieldset> ; if there is no containing element when the disabled attribute is set, the control is enabled.
+	///This Boolean attribute indicates that the user cannot interact with the control. If this attribute is not specified, the control inherits its setting from the containing element, for example &lt;fieldset&gt; ; if there is no containing element when the disabled attribute is set, the control is enabled.
 	/// </summary>
 	public Textarea Disabled(string value)
 	{
@@ -76,7 +93,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The form element that the <textarea> element is associated with (its "form owner"). The value of the attribute must be the id of a form element in the same document. If this attribute is not specified, the <textarea> element must be a descendant of a form element. This attribute enables you to place <textarea> elements anywhere within a document, not just as descendants of form elements.
+	///The form element that the &lt;textarea&gt; element is associated with (its &quot;form owner&quot;). The value of the attribute must be the id of a form element in the same document. If this attribute is not specified, the &lt;textarea&gt; element must be a descendant of a form element. This attribute enables you to place &lt;textarea&gt; elements anywhere within a document, not just as descendants of form elements.
 	/// </summary>
 	public Textarea Form(string value)
 	{
@@ -84,7 +101,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The maximum string length (measured in UTF-16 code units ) that the user can enter. If this value isn't specified, the user can enter an unlimited number of characters.
+	///The maximum string length (measured in UTF-16 code units ) that the user can enter. If this value isn&apos;t specified, the user can enter an unlimited number of characters.
 	/// </summary>
 	public Textarea Maxlength(string value)
 	{
@@ -92,7 +109,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The minimum string length (measured in UTF-16 code units ) required that the user should enter.
+	///The minimum string length (measured in UTF-16 code units ) required that the user should enter.
 	/// </summary>
 	public Textarea Minlength(string value)
 	{
@@ -100,7 +117,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The name of the control.
+	///The name of the control.
 	/// </summary>
 	public Textarea Name(string value)
 	{
@@ -108,7 +125,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Disable automatic spelling correction and text substitutions.
+	///Disable automatic spelling correction and text substitutions.
 	/// </summary>
 	public Textarea Off(string value)
 	{
@@ -116,7 +133,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Enable automatic spelling correction and text substitutions.
+	///Enable automatic spelling correction and text substitutions.
 	/// </summary>
 	public Textarea On(string value)
 	{
@@ -124,7 +141,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A hint to the user of what can be entered in the control. Carriage returns or line-feeds within the placeholder text must be treated as line breaks when rendering the hint.
+	///A hint to the user of what can be entered in the control. Carriage returns or line-feeds within the placeholder text must be treated as line breaks when rendering the hint.
 	/// </summary>
 	public Textarea Placeholder(string value)
 	{
@@ -132,7 +149,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute indicates that the user cannot modify the value of the control. Unlike the disabled attribute, the readonly attribute does not prevent the user from clicking or selecting in the control. The value of a read-only control is still submitted with the form.
+	///This Boolean attribute indicates that the user cannot modify the value of the control. Unlike the disabled attribute, the readonly attribute does not prevent the user from clicking or selecting in the control. The value of a read-only control is still submitted with the form.
 	/// </summary>
 	public Textarea Readonly(string value)
 	{
@@ -140,7 +157,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute specifies that the user must fill in a value before submitting a form.
+	///This attribute specifies that the user must fill in a value before submitting a form.
 	/// </summary>
 	public Textarea Required(string value)
 	{
@@ -148,7 +165,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The number of visible text lines for the control. If it is specified, it must be a positive integer. If it is not specified, the default value is 2.
+	///The number of visible text lines for the control. If it is specified, it must be a positive integer. If it is not specified, the default value is 2.
 	/// </summary>
 	public Textarea Rows(string value)
 	{
@@ -156,7 +173,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies whether the <textarea> is subject to spell-checking by the underlying browser/OS. The value can be:
+	///Specifies whether the &lt;textarea&gt; is subject to spell-checking by the underlying browser/OS. The value can be:
 	/// </summary>
 	public new Textarea Spellcheck(string value)
 	{
@@ -164,7 +181,7 @@ public partial class Textarea(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Indicates how the control should wrap the value for form submission. Possible values are:
+	///Indicates how the control should wrap the value for form submission. Possible values are:
 	/// </summary>
 	public Textarea Wrap(string value)
 	{

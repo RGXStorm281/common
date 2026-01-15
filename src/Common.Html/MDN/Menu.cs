@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <menu> HTML element is described in the HTML specification as a semantic alternative to <ul>, but treated by browsers (and exposed through the accessibility tree) as no different than <ul>. It represents an unordered list of items (which are represented by <li> elements).
+///The &lt;menu&gt; HTML element is described in the HTML specification as a semantic alternative to &lt;ul&gt;, but treated by browsers (and exposed through the accessibility tree) as no different than &lt;ul&gt;. It represents an unordered list of items (which are represented by &lt;li&gt; elements).
 /// </summary>
-public partial class Menu(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("menu", false, contents)
+public partial class Menu
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;menu&gt; HTML element is described in the HTML specification as a semantic alternative to &lt;ul&gt;, but treated by browsers (and exposed through the accessibility tree) as no different than &lt;ul&gt;. It represents an unordered list of items (which are represented by &lt;li&gt; elements).
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Menu(params IEnumerable<IHtmlContent> contents)
+		: base("menu", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;menu&gt; HTML element is described in the HTML specification as a semantic alternative to &lt;ul&gt;, but treated by browsers (and exposed through the accessibility tree) as no different than &lt;ul&gt;. It represents an unordered list of items (which are represented by &lt;li&gt; elements).
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Menu(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
+	///This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>
 	[Obsolete]
 	public Menu Compact(string value)

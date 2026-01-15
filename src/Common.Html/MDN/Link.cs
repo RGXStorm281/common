@@ -8,15 +8,23 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <link> HTML element specifies relationships between the current document and an external resource.
-/// This element is most commonly used to link to stylesheets, but is also used to establish site icons (both "favicon" style icons and icons for the home screen and apps on mobile devices) among other things.
+///The &lt;link&gt; HTML element specifies relationships between the current document and an external resource.
+///This element is most commonly used to link to stylesheets, but is also used to establish site icons (both &quot;favicon&quot; style icons and icons for the home screen and apps on mobile devices) among other things.
 /// </summary>
-public partial class Link()
-	: HtmlTag("link", true)
+public partial class Link
+	: HtmlTag
 {
 	/// <summary>
-	/// A cross-origin request (i.e., with an Origin HTTP header) is performed, but no credential is sent (i.e., no cookie, X.509 certificate, or HTTP Basic authentication).
-	/// If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin HTTP header) the resource will be tainted and its usage restricted.
+	///The &lt;link&gt; HTML element specifies relationships between the current document and an external resource.
+	///This element is most commonly used to link to stylesheets, but is also used to establish site icons (both &quot;favicon&quot; style icons and icons for the home screen and apps on mobile devices) among other things.
+	/// </summary>
+	public Link()
+		: base("link", true)
+	{
+	}
+	/// <summary>
+	///A cross-origin request (i.e., with an Origin HTTP header) is performed, but no credential is sent (i.e., no cookie, X.509 certificate, or HTTP Basic authentication).
+	///If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin HTTP header) the resource will be tainted and its usage restricted.
 	/// </summary>
 	public Link Anonymous(string value)
 	{
@@ -24,8 +32,8 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute is required when rel="preload" has been set on the <link> element, optional when rel="modulepreload" has been set, and otherwise should not be used.
-	/// It specifies the type of content being loaded by the <link>, which is necessary for request matching, application of correct content security policy, and setting of correct Accept request header.
+	///This attribute is required when rel=&quot;preload&quot; has been set on the &lt;link&gt; element, optional when rel=&quot;modulepreload&quot; has been set, and otherwise should not be used.
+	///It specifies the type of content being loaded by the &lt;link&gt;, which is necessary for request matching, application of correct content security policy, and setting of correct Accept request header.
 	/// </summary>
 	public Link As(string value)
 	{
@@ -33,9 +41,9 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// Don't set a preference for the fetch priority.
-	/// This is the default.
-	/// It is used if no value or an invalid value is set.
+	///Don&apos;t set a preference for the fetch priority.
+	///This is the default.
+	///It is used if no value or an invalid value is set.
 	/// </summary>
 	public Link Auto(string value)
 	{
@@ -43,7 +51,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute explicitly indicates that certain operations should be blocked until specific conditions are met. It must only be used when the rel attribute contains the expect or stylesheet keywords. With rel="expect", it indicates that operations should be blocked until a specific DOM node has been parsed. With rel="stylesheet", it indicates that operations should be blocked until an external stylesheet and its critical subresources have been fetched and applied to the document. The operations that are to be blocked must be a space-separated list of blocking tokens listed below. Currently there is only one token:
+	///This attribute explicitly indicates that certain operations should be blocked until specific conditions are met. It must only be used when the rel attribute contains the expect or stylesheet keywords. With rel=&quot;expect&quot;, it indicates that operations should be blocked until a specific DOM node has been parsed. With rel=&quot;stylesheet&quot;, it indicates that operations should be blocked until an external stylesheet and its critical subresources have been fetched and applied to the document. The operations that are to be blocked must be a space-separated list of blocking tokens listed below. Currently there is only one token:
 	/// </summary>
 	public Link Blocking(string value)
 	{
@@ -51,9 +59,9 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute defines the character encoding of the linked resource.
-	/// The value is a space- and/or comma-delimited list of character sets as defined in RFC 2045.
-	/// The default value is iso-8859-1.
+	///This attribute defines the character encoding of the linked resource.
+	///The value is a space- and/or comma-delimited list of character sets as defined in RFC 2045.
+	///The default value is iso-8859-1.
 	/// </summary>
 	[Obsolete]
 	public Link Charset(string value)
@@ -62,9 +70,9 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This enumerated attribute indicates whether CORS must be used when fetching the resource.
-	///  CORS-enabled images can be reused in the <canvas> element without being tainted.
-	/// The allowed values are:
+	///This enumerated attribute indicates whether CORS must be used when fetching the resource.
+	/// CORS-enabled images can be reused in the &lt;canvas&gt; element without being tainted.
+	///The allowed values are:
 	/// </summary>
 	public Link Crossorigin(string value)
 	{
@@ -72,9 +80,9 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// For rel="stylesheet" only, the disabled Boolean attribute indicates whether the described stylesheet should be loaded and applied to the document.
-	/// If disabled is specified in the HTML when it is loaded, the stylesheet will not be loaded during page load.
-	/// Instead, the stylesheet will be loaded on-demand, if and when the disabled attribute is changed to false or removed.
+	///For rel=&quot;stylesheet&quot; only, the disabled Boolean attribute indicates whether the described stylesheet should be loaded and applied to the document.
+	///If disabled is specified in the HTML when it is loaded, the stylesheet will not be loaded during page load.
+	///Instead, the stylesheet will be loaded on-demand, if and when the disabled attribute is changed to false or removed.
 	/// </summary>
 	public Link Disabled(string value)
 	{
@@ -82,7 +90,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// Provides a hint of the relative priority to use when fetching a resource of a particular type. Allowed values:
+	///Provides a hint of the relative priority to use when fetching a resource of a particular type. Allowed values:
 	/// </summary>
 	public Link Fetchpriority(string value)
 	{
@@ -90,7 +98,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// Fetch the resource at a high priority relative to other resources of the same type.
+	///Fetch the resource at a high priority relative to other resources of the same type.
 	/// </summary>
 	public Link High(string value)
 	{
@@ -98,7 +106,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute specifies the URL of the linked resource. A URL can be absolute or relative.
+	///This attribute specifies the URL of the linked resource. A URL can be absolute or relative.
 	/// </summary>
 	public Link Href(string value)
 	{
@@ -106,10 +114,10 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute indicates the language of the linked resource.
-	/// It is purely advisory.
-	/// Values should be valid BCP 47 language tags.
-	/// Use this attribute only if the href attribute is present.
+	///This attribute indicates the language of the linked resource.
+	///It is purely advisory.
+	///Values should be valid BCP 47 language tags.
+	///Use this attribute only if the href attribute is present.
 	/// </summary>
 	public Link Hreflang(string value)
 	{
@@ -117,7 +125,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// For rel="preload" and as="image" only, the imagesizes attribute has similar syntax and semantics as the sizes attribute that indicates to preload the appropriate resource used by an img element with corresponding values for its srcset and sizes attributes.
+	///For rel=&quot;preload&quot; and as=&quot;image&quot; only, the imagesizes attribute has similar syntax and semantics as the sizes attribute that indicates to preload the appropriate resource used by an img element with corresponding values for its srcset and sizes attributes.
 	/// </summary>
 	public Link Imagesizes(string value)
 	{
@@ -125,7 +133,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// For rel="preload" and as="image" only, the imagesrcset attribute has similar syntax and semantics as the srcset attribute that indicates to preload the appropriate resource used by an img element with corresponding values for its srcset and sizes attributes.
+	///For rel=&quot;preload&quot; and as=&quot;image&quot; only, the imagesrcset attribute has similar syntax and semantics as the srcset attribute that indicates to preload the appropriate resource used by an img element with corresponding values for its srcset and sizes attributes.
 	/// </summary>
 	public Link Imagesrcset(string value)
 	{
@@ -133,10 +141,10 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// Contains inline metadata â a base64-encoded cryptographic hash of the resource (file) you're telling the browser to fetch.
-	/// The browser can use this to verify that the fetched resource has been delivered without unexpected manipulation.
-	/// The attribute must only be specified when the rel attribute is specified to stylesheet, preload, or modulepreload.
-	/// See Subresource Integrity.
+	///Contains inline metadata â a base64-encoded cryptographic hash of the resource (file) you&apos;re telling the browser to fetch.
+	///The browser can use this to verify that the fetched resource has been delivered without unexpected manipulation.
+	///The attribute must only be specified when the rel attribute is specified to stylesheet, preload, or modulepreload.
+	///See Subresource Integrity.
 	/// </summary>
 	public Link Integrity(string value)
 	{
@@ -144,7 +152,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// Fetch the resource at a low priority relative to other resources of the same type.
+	///Fetch the resource at a low priority relative to other resources of the same type.
 	/// </summary>
 	public Link Low(string value)
 	{
@@ -152,8 +160,8 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute specifies the media that the linked resource applies to. Its value must be a media type / media query.
-	/// This attribute is mainly useful when linking to external stylesheets â it allows the user agent to pick the best adapted one for the device it runs on.
+	///This attribute specifies the media that the linked resource applies to. Its value must be a media type / media query.
+	///This attribute is mainly useful when linking to external stylesheets â it allows the user agent to pick the best adapted one for the device it runs on.
 	/// </summary>
 	public Link Media(string value)
 	{
@@ -161,7 +169,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// A string indicating which referrer to use when fetching the resource:
+	///A string indicating which referrer to use when fetching the resource:
 	/// </summary>
 	public Link Referrerpolicy(string value)
 	{
@@ -169,7 +177,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute names a relationship of the linked document to the current document. The attribute must be a space-separated list of link type values.
+	///This attribute names a relationship of the linked document to the current document. The attribute must be a space-separated list of link type values.
 	/// </summary>
 	public Link Rel(string value)
 	{
@@ -177,9 +185,9 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// The value of this attribute shows the relationship of the current document to the linked document, as defined by the href attribute.
-	/// The attribute thus defines the reverse relationship compared to the value of the rel attribute.
-	///  Link type values for the attribute are similar to the possible values for rel.
+	///The value of this attribute shows the relationship of the current document to the linked document, as defined by the href attribute.
+	///The attribute thus defines the reverse relationship compared to the value of the rel attribute.
+	/// Link type values for the attribute are similar to the possible values for rel.
 	/// </summary>
 	[Obsolete]
 	public Link Rev(string value)
@@ -188,9 +196,9 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute defines the sizes of the icons for visual media contained in the resource.
-	/// It must be present only if the rel contains a value of icon or a non-standard type such as Apple's apple-touch-icon.
-	/// It may have the following values:
+	///This attribute defines the sizes of the icons for visual media contained in the resource.
+	///It must be present only if the rel contains a value of icon or a non-standard type such as Apple&apos;s apple-touch-icon.
+	///It may have the following values:
 	/// </summary>
 	public Link Sizes(string value)
 	{
@@ -198,7 +206,7 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// Defines the frame or window name that has the defined linking relationship or that will show the rendering of any linked resource.
+	///Defines the frame or window name that has the defined linking relationship or that will show the rendering of any linked resource.
 	/// </summary>
 	[Obsolete]
 	public Link Target(string value)
@@ -207,8 +215,8 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// The title attribute has special semantics on the <link> element.
-	/// When used on a <link rel="stylesheet"> it defines a default or an alternate stylesheet.
+	///The title attribute has special semantics on the &lt;link&gt; element.
+	///When used on a &lt;link rel=&quot;stylesheet&quot;&gt; it defines a default or an alternate stylesheet.
 	/// </summary>
 	public new Link Title(string value)
 	{
@@ -216,10 +224,10 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// This attribute is used to define the type of the content linked to.
-	/// The value of the attribute should be a MIME type such as text/html, text/css, and so on.
-	/// The common use of this attribute is to define the type of stylesheet being referenced (such as text/css ), but given that CSS is the only stylesheet language used on the web, not only is it possible to omit the type attribute, but is actually now recommended practice.
-	/// It is also used on rel="preload" link types, to make sure the browser only downloads file types that it supports.
+	///This attribute is used to define the type of the content linked to.
+	///The value of the attribute should be a MIME type such as text/html, text/css, and so on.
+	///The common use of this attribute is to define the type of stylesheet being referenced (such as text/css ), but given that CSS is the only stylesheet language used on the web, not only is it possible to omit the type attribute, but is actually now recommended practice.
+	///It is also used on rel=&quot;preload&quot; link types, to make sure the browser only downloads file types that it supports.
 	/// </summary>
 	public Link Type(string value)
 	{
@@ -227,8 +235,8 @@ public partial class Link()
 	}
 
 	/// <summary>
-	/// A cross-origin request (i.e., with an Origin HTTP header) is performed along with a credential sent (i.e., a cookie, certificate, and/or HTTP Basic authentication is performed).
-	/// If the server does not give credentials to the origin site (through Access-Control-Allow-Credentials HTTP header), the resource will be tainted and its usage restricted.
+	///A cross-origin request (i.e., with an Origin HTTP header) is performed along with a credential sent (i.e., a cookie, certificate, and/or HTTP Basic authentication is performed).
+	///If the server does not give credentials to the origin site (through Access-Control-Allow-Credentials HTTP header), the resource will be tainted and its usage restricted.
 	/// </summary>
 	public Link UseCredentials(string value)
 	{

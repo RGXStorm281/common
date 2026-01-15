@@ -5,12 +5,15 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="INumberNode">.<br/>
+/// Can only be applied to <see cref="INumberNode"/>.<br/>
 /// Requires the field to have a non <see langword="null"/> value.
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
 public partial class NumberRequiredValidator(string? errorMessageTemplate = null) : INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(NumberRequiredValidator);
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresAnInput;
 

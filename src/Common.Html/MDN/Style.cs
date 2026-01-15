@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <style> HTML element contains style information for a document, or part of a document. It contains CSS, which is applied to the contents of the document containing the <style> element.
+///The &lt;style&gt; HTML element contains style information for a document, or part of a document. It contains CSS, which is applied to the contents of the document containing the &lt;style&gt; element.
 /// </summary>
-public partial class Style(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("style", false, contents)
+public partial class Style
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;style&gt; HTML element contains style information for a document, or part of a document. It contains CSS, which is applied to the contents of the document containing the &lt;style&gt; element.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Style(params IEnumerable<IHtmlContent> contents)
+		: base("style", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;style&gt; HTML element contains style information for a document, or part of a document. It contains CSS, which is applied to the contents of the document containing the &lt;style&gt; element.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Style(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This attribute explicitly indicates that certain operations should be blocked on the fetching of critical subresources and the application of the stylesheet to the document. @import -ed stylesheets are generally considered as critical subresources, whereas background-image and fonts are not. The operations that are to be blocked must be a space-separated list of blocking tokens listed below. Currently there is only one token:
+	///This attribute explicitly indicates that certain operations should be blocked on the fetching of critical subresources and the application of the stylesheet to the document. @import -ed stylesheets are generally considered as critical subresources, whereas background-image and fonts are not. The operations that are to be blocked must be a space-separated list of blocking tokens listed below. Currently there is only one token:
 	/// </summary>
 	public Style Blocking(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Style(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute defines which media the style should be applied to. Its value is a media query, which defaults to all if the attribute is missing.
+	///This attribute defines which media the style should be applied to. Its value is a media query, which defaults to all if the attribute is missing.
 	/// </summary>
 	public Style Media(string value)
 	{
@@ -34,7 +51,7 @@ public partial class Style(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A cryptographic nonce (number used once) used to allow inline styles in a style-src Content-Security-Policy. The server must generate a unique nonce value each time it transmits a policy. It is critical to provide a nonce that cannot be guessed as bypassing a resource's policy is otherwise trivial.
+	///A cryptographic nonce (number used once) used to allow inline styles in a style-src Content-Security-Policy. The server must generate a unique nonce value each time it transmits a policy. It is critical to provide a nonce that cannot be guessed as bypassing a resource&apos;s policy is otherwise trivial.
 	/// </summary>
 	public new Style Nonce(string value)
 	{
@@ -42,7 +59,7 @@ public partial class Style(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute specifies alternative style sheet sets.
+	///This attribute specifies alternative style sheet sets.
 	/// </summary>
 	public new Style Title(string value)
 	{
@@ -50,7 +67,7 @@ public partial class Style(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute should not be provided: if it is, the only permitted values are the empty string or a case-insensitive match for text/css.
+	///This attribute should not be provided: if it is, the only permitted values are the empty string or a case-insensitive match for text/css.
 	/// </summary>
 	[Obsolete]
 	public Style Type(string value)

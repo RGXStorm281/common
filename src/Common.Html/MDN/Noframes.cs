@@ -8,13 +8,32 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <noframes> HTML element provides content to be presented in browsers that don't support (or have disabled support for) the <frame> element. Although most commonly-used browsers support frames, there are exceptions, including certain special-use browsers including some mobile browsers, as well as text-mode browsers. A <noframes> element can contain any HTML elements that are allowed within the body of an HTML document, except for the <frameset> and <frame> elements, since using frames when they aren't supported doesn't make sense. <noframes> can be used to present a message explaining that the user's browser doesn't support frames, but ideally should be used to present an alternate form of the site that doesn't use frames but still offers the same or similar functionality. Note: 
-/// This element is obsolete and shouldn't be used, since the <frame> and <frameset> elements are also obsolete. When frames are needed at all, they should be presented using the <iframe> element.
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;noframes&gt; HTML element provides content to be presented in browsers that don&apos;t support (or have disabled support for) the &lt;frame&gt; element. Although most commonly-used browsers support frames, there are exceptions, including certain special-use browsers including some mobile browsers, as well as text-mode browsers. A &lt;noframes&gt; element can contain any HTML elements that are allowed within the body of an HTML document, except for the &lt;frameset&gt; and &lt;frame&gt; elements, since using frames when they aren&apos;t supported doesn&apos;t make sense. &lt;noframes&gt; can be used to present a message explaining that the user&apos;s browser doesn&apos;t support frames, but ideally should be used to present an alternate form of the site that doesn&apos;t use frames but still offers the same or similar functionality. Note: 
+///This element is obsolete and shouldn&apos;t be used, since the &lt;frame&gt; and &lt;frameset&gt; elements are also obsolete. When frames are needed at all, they should be presented using the &lt;iframe&gt; element.
 /// </summary>
 [Obsolete]
-public partial class Noframes(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("noframes", false, contents)
+public partial class Noframes
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;noframes&gt; HTML element provides content to be presented in browsers that don&apos;t support (or have disabled support for) the &lt;frame&gt; element. Although most commonly-used browsers support frames, there are exceptions, including certain special-use browsers including some mobile browsers, as well as text-mode browsers. A &lt;noframes&gt; element can contain any HTML elements that are allowed within the body of an HTML document, except for the &lt;frameset&gt; and &lt;frame&gt; elements, since using frames when they aren&apos;t supported doesn&apos;t make sense. &lt;noframes&gt; can be used to present a message explaining that the user&apos;s browser doesn&apos;t support frames, but ideally should be used to present an alternate form of the site that doesn&apos;t use frames but still offers the same or similar functionality. Note: 
+	///This element is obsolete and shouldn&apos;t be used, since the &lt;frame&gt; and &lt;frameset&gt; elements are also obsolete. When frames are needed at all, they should be presented using the &lt;iframe&gt; element.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Noframes(params IEnumerable<IHtmlContent> contents)
+		: base("noframes", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;noframes&gt; HTML element provides content to be presented in browsers that don&apos;t support (or have disabled support for) the &lt;frame&gt; element. Although most commonly-used browsers support frames, there are exceptions, including certain special-use browsers including some mobile browsers, as well as text-mode browsers. A &lt;noframes&gt; element can contain any HTML elements that are allowed within the body of an HTML document, except for the &lt;frameset&gt; and &lt;frame&gt; elements, since using frames when they aren&apos;t supported doesn&apos;t make sense. &lt;noframes&gt; can be used to present a message explaining that the user&apos;s browser doesn&apos;t support frames, but ideally should be used to present an alternate form of the site that doesn&apos;t use frames but still offers the same or similar functionality. Note: 
+	///This element is obsolete and shouldn&apos;t be used, since the &lt;frame&gt; and &lt;frameset&gt; elements are also obsolete. When frames are needed at all, they should be presented using the &lt;iframe&gt; element.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Noframes(string text)
 		: this(Encode(text))
 	{

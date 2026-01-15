@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
-public class BindingWriter : BreadthFirstTraversal
+internal class BindingWriter : BreadthFirstTraversal
 {
 	/// <inheritdoc />
 	protected override void Visit(IFormNode node, TraversalContext context)
