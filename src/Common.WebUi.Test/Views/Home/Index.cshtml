@@ -1,28 +1,11 @@
-﻿@{
+﻿@using RobinEpple.Common.Html
+@using static RobinEpple.Common.Html.DSL;
+@{
     ViewBag.Title = "Home Page";
 }
 
-@Div(
-    H1((string)ViewBag.Title),
-    H2("Section Heading"),
-    H3("Subsection Heading"),
-    H4("Subsubsection Heading"),
-    H5("Paragraph Heading").Attribute("rarity", "legendary"),
-    H6(B("Who "), Encode("uses H6?")).Class("useless"),
-    Br(),
-    Div(
-        H1("Test").Class("Test 2"),
-        P("More Text")
-    ),
-    Div(
-        Input().Type("checkbox").Id("some-checkbox"),
-        Label("I check this checkbox").For("some-checkbox")
-    ),
-    RenderIf(true, P("If rendered"))
-        .ElseIf(true, P("Else if rendered"))
-        .Else(P("Else rendered")),
-    H2("Count to 10"),
-    Ul(RenderEach<int>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], number => 
-        Li(number.ToString()))
-    )
-)
+<h1>Welcome to the Test website for this WebUi library!</h1>
+
+<p>
+    Navigate through the test pages in the menu above.
+</p>

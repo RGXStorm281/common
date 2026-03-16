@@ -15,9 +15,12 @@
 		"Cloneable",
 		"Enumerables",
 		"Epple",
+		"htmx",
 		"Iban",
+		"importmap",
 		"Incrementors",
 		"inhertidoc",
+		"jquery",
 		"libmagic",
 		"Memberwise",
 		"REASYNCGEN",
@@ -26,7 +29,9 @@
 		"resheader",
 		"resmimetype",
 		"resx",
-		"summands"
+		"stylesheet",
+		"summands",
+		"toggleable"
 	],
 	"files.eol": "\n",
 	"xmlTools.enableXmlTreeView": false,

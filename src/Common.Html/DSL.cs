@@ -54,6 +54,24 @@ public static partial class DSL
 	}
 
 	/// <summary>
+	/// Calls the configuration function if the condition is met.
+	/// </summary>
+	/// <typeparam name="TTag">The HTML tag type.</typeparam>
+	/// <param name="tag">The tag configure the attribute for.</param>
+	/// <param name="conditionMet">A boolean indicating whether the configuration should be applied.</param>
+	/// <param name="configure">The configuration function to apply if the condition is met.</param>
+	/// <returns>The HTML tag for chaining.</returns>
+	public static TTag ConfigureIf<TTag>(this TTag tag, bool conditionMet, Func<TTag, TTag> configure)
+		where TTag : HtmlTag
+	{
+		if (conditionMet)
+		{
+			tag = configure(tag);
+		}
+		return tag;
+	}
+
+	/// <summary>
 	/// Removes an attribute from the HTML tag.
 	/// </summary>
 	/// <typeparam name="TTag">The HTML tag type.</typeparam>

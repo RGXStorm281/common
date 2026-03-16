@@ -13,14 +13,12 @@
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
         <PackageReference Include="RobinEpple.Common.Util" />
         <PackageReference Include="RobinEpple.Common.Forms" />
+        <PackageReference Include="RobinEpple.Common.Html" />
+        <PackageReference Include="RobinEpple.Common.Forms.Html" />
     </ItemGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="../Common.Html/Common.Html.csproj" />
     </ItemGroup>
 
 </Project>
