@@ -15,29 +15,52 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 {
 	private readonly IValueNode<TValue> _node = node;
 
-	private string GetId(int index) => $"{_node.Name}_{index}";
+	private string GetId(string nodeId, int index) => $"{nodeId}_{index}";
 
 	/// <inheritdoc />
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
+		var nodeId = _node.GetId();
+
+		if (!_node.IsVisible)
+		{
+			return;
+		}
+		if (_node.CurrentSelectListItems == null)
+		{
+			throw new InvalidOperationException($"Node with id '{nodeId}' does not have select list items defined.");
+		}
+
+		// Fieldset --------------------------------|
+		// | ( ) Option 1							|
+		// | ( ) Option 2							|
+		// | Error A								|
+		// | Error B								|
+		// |----------------------------------------|
 		var content = Fieldset(
-			RenderEach(
-				_node.CurrentSelectListItems ?? [],
-				(item, index) =>
-					Div(
-						Input()
-							.Type("radio")
-							.Name(_node.GetId())
-							.Id(GetId(index))
-							.Value(item.Value?.ToString() ?? string.Empty)
-							.ConfigureIf(
-								Equals(item.Value, _node.Value),
-								input => input.Attribute("checked", "checked")
-							),
-						Label(item.Label).For(GetId(index))
-					)
+				RenderEach(
+					_node.CurrentSelectListItems,
+					(item, index) =>
+						Div(
+								Input()
+									.Type("radio")
+									.Name(nodeId)
+									.Id(GetId(nodeId, index))
+									.Value(item.Value?.ToString() ?? string.Empty)
+									.ConfigureIf(
+										Equals(item.Value, _node.Value),
+										input => input.Attribute("checked", "checked")
+									)
+									.ConfigureIf(_node.IsReadonly, input => input.Attribute("disabled", "disabled")),
+								Label(item.Label).For(GetId(nodeId, index))
+							)
+							.Class("radio-option")
+							.Id($"{GetId(nodeId, index)}_option")
+				),
+				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
 			)
-		);
+			.Class("radio-buttons")
+			.Id($"{nodeId}_container");
 		content.WriteTo(writer, encoder);
 	}
 }
