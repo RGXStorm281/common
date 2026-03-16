@@ -311,7 +311,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 	private static string BuildConstructorInheritdoc(IMethodSymbol constructor)
 	{
 		var typeRef = constructor
-			.ContainingType.ToDisplayString(_fullyQualifiedTypeFormat)
+			.ContainingType.ToDisplayString(_fullyQualifiedInheritdocFormat)
 			.Replace('<', '{')
 			.Replace('>', '}');
 		var constructorRef = constructor
@@ -409,8 +409,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
 		memberOptions: SymbolDisplayMemberOptions.IncludeParameters,
 		parameterOptions: SymbolDisplayParameterOptions.IncludeType,
-		miscellaneousOptions: SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier
-			| SymbolDisplayMiscellaneousOptions.UseSpecialTypes
+		miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
 	);
 
 	private static string Print(SemanticModel model, ParameterSyntax parameter)

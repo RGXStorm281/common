@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RobinEpple.Common.Util;
 
+/// <summary>
+/// Contains convenience methods for adding the services defined in this library to the dependency injection container.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
 	/// <summary>
