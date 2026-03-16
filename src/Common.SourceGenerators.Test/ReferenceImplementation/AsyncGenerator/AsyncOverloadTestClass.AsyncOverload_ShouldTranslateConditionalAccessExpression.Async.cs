@@ -11,7 +11,7 @@ public partial class AsyncOverloadTestClass
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateConditionalAccessExpression()"/>
 	public async Task AsyncOverload_ShouldTranslateConditionalAccessExpressionAsync()
 	{
-		var result = await ((await GetInstanceUnsureAsync())?.GetOneAsync() ?? Task.FromResult<int>(default));
+		var result = (await GetInstanceUnsureAsync())?.GetOneAsync() is { } task1 ? (int?)(await task1) : null;
 	}
 
 }

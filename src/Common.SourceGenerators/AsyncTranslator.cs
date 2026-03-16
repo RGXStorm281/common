@@ -11,6 +11,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 /// </summary>
 internal class AsyncTranslator
 {
+	private int _inlineTaskVariableCounter;
+
 	/// <summary>
 	/// Prints out the syntax tree with some rough formatting, replacing every method call that has an awaitable overload available <br/>
 	/// with the corresponding async call.
@@ -649,10 +651,11 @@ internal class AsyncTranslator
 				{
 					isAwaitedMethodCall = true;
 					var typeInfo = context.SemanticModel.GetTypeInfo(conditionalAccessExpressionSyntax.WhenNotNull);
-					if (typeInfo.Type is { } type)
+					if (typeInfo.Type is { } returnType)
 					{
+						var taskVarName = $"task{++_inlineTaskVariableCounter}";
 						conditionalAccess =
-							"await (" + conditionalAccess + $" ?? Task.FromResult<{type.ToDisplayString()}>(default))";
+							$"{conditionalAccess} is {{ }} {taskVarName} ? ({returnType.ToDisplayString(DisplayFormats.FullyQualifiedTypeFormat)}?)(await {taskVarName}) : null";
 					}
 					else
 					{

@@ -273,7 +273,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 
 			sb.AppendLine(
 				IndentHelper.Indent(
-					$"{constructorAccessModifier} static {visibleType.ToDisplayString(_fullyQualifiedTypeFormat)} {methodName}{typeParameterString}({parameters})"
+					$"{constructorAccessModifier} static {visibleType.ToDisplayString(DisplayFormats.FullyQualifiedTypeFormat)} {methodName}{typeParameterString}({parameters})"
 				)
 			);
 
@@ -311,11 +311,11 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 	private static string BuildConstructorInheritdoc(IMethodSymbol constructor)
 	{
 		var typeRef = constructor
-			.ContainingType.ToDisplayString(_fullyQualifiedInheritdocFormat)
+			.ContainingType.ToDisplayString(DisplayFormats.FullyQualifiedInheritdocFormat)
 			.Replace('<', '{')
 			.Replace('>', '}');
 		var constructorRef = constructor
-			.ToDisplayString(_fullyQualifiedInheritdocFormat)
+			.ToDisplayString(DisplayFormats.FullyQualifiedInheritdocFormat)
 			.Replace('<', '{')
 			.Replace('>', '}');
 		return $"/// <inheritdoc cref=\"{typeRef}.{constructorRef}\"/>";
@@ -395,23 +395,6 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		return string.Join(", ", parameterStrings);
 	}
 
-	private static readonly SymbolDisplayFormat _fullyQualifiedTypeFormat = new SymbolDisplayFormat(
-		globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-		typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-		genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-		miscellaneousOptions: SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier
-			| SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-	);
-
-	private static readonly SymbolDisplayFormat _fullyQualifiedInheritdocFormat = new SymbolDisplayFormat(
-		globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-		typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-		genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-		memberOptions: SymbolDisplayMemberOptions.IncludeParameters,
-		parameterOptions: SymbolDisplayParameterOptions.IncludeType,
-		miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-	);
-
 	private static string Print(SemanticModel model, ParameterSyntax parameter)
 	{
 		// Get the semantics.
@@ -422,7 +405,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		var attributes = new List<string>();
 		foreach (var attr in symbol.GetAttributes())
 		{
-			var attributeType = attr.AttributeClass!.ToDisplayString(_fullyQualifiedTypeFormat);
+			var attributeType = attr.AttributeClass!.ToDisplayString(DisplayFormats.FullyQualifiedTypeFormat);
 			if (attributeType.EndsWith(".StaticFactoryThisAttribute", StringComparison.Ordinal))
 			{
 				// Convert [StaticFactoryThis] attributes to an extension method.
@@ -460,7 +443,7 @@ public class StaticFactoryGenerator : IIncrementalGenerator
 		};
 
 		// Get fully qualified type name.
-		var type = symbol.Type.ToDisplayString(_fullyQualifiedTypeFormat);
+		var type = symbol.Type.ToDisplayString(DisplayFormats.FullyQualifiedTypeFormat);
 
 		// Preserve default value.
 		var defaultValue = symbol.HasExplicitDefaultValue
