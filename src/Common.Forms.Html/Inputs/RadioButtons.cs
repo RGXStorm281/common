@@ -27,11 +27,11 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 					Div(
 						Input()
 							.Type("radio")
-							.Name(_node.Name)
+							.Name(_node.GetId())
 							.Id(GetId(index))
 							.Value(item.Value?.ToString() ?? string.Empty)
 							.ConfigureIf(
-								item.Value?.Equals(_node.Value) == true,
+								Equals(item.Value, _node.Value),
 								input => input.Attribute("checked", "checked")
 							),
 						Label(item.Label).For(GetId(index))

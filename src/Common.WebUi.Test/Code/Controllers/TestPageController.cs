@@ -1,20 +1,26 @@
+namespace RobinEpple.Common.WebUi.Test.Code.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 using RobinEpple.Common.WebUi.Test.Code.Models;
 
-namespace RobinEpple.Common.WebUi.Test.Code.Controllers
+public class TestPageController : Controller
 {
-	public class TestPageController : Controller
+	public ActionResult StaticContent()
 	{
-		public ActionResult StaticContent()
+		var model = new StaticContentPage();
+		return View("_Page", model);
+	}
+
+	public async Task<ActionResult> FormRendering()
+	{
+		var model = new FormRenderingPage();
+
+		if (!Request.IsHtmxRefresh())
 		{
-			var model = new StaticContentPage();
 			return View("_Page", model);
 		}
 
-		public ActionResult FormRendering()
-		{
-			var model = new FormRenderingPage();
-			return View("_Page", model);
-		}
+		await Request.BindAsync(model.Form);
+		return View("_Page", model);
 	}
 }
