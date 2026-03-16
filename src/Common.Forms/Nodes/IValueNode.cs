@@ -16,4 +16,10 @@ public interface IValueNode<TValue> : IFormNode
 	/// A provider to load named value suggestions.
 	/// </summary>
 	public ISelectListSource<TValue>? SelectList { get; }
+
+	/// <summary>
+	/// The select list items currently available for this node, based on the current dependencies.
+	/// This list is updated every time on <see cref="IFormNode.Update"/>.
+	/// </summary>
+	public IEnumerable<ISelectListItem<TValue>>? CurrentSelectListItems { get; }
 }

@@ -25,6 +25,9 @@ internal partial class NumberNode : FieldNode, INumberNode
 	/// <inheritdoc />
 	public ISelectListSource<decimal?>? SelectList { get; private set; }
 
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<decimal?>>? CurrentSelectListItems { get; private set; }
+
 	public void UseSelectList(ISelectListSource<decimal?>? selectList)
 	{
 		SelectList = selectList;
@@ -38,6 +41,14 @@ internal partial class NumberNode : FieldNode, INumberNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

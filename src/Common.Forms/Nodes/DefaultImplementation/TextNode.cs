@@ -24,6 +24,9 @@ internal partial class TextNode : FieldNode, ITextNode
 	/// <inheritdoc />
 	public ISelectListSource<string?>? SelectList { get; private set; }
 
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<string?>>? CurrentSelectListItems { get; private set; }
+
 	public void UseSelectList(ISelectListSource<string?>? selectList)
 	{
 		SelectList = selectList;
@@ -37,6 +40,14 @@ internal partial class TextNode : FieldNode, ITextNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

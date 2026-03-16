@@ -37,15 +37,13 @@ public partial class SelectListValidator<TValue>(string? errorMessageTemplate = 
 			return;
 		}
 
-		if (valueNode.SelectList is not { } selectListSource)
+		// Load the select list with the current dependencies.
+		if (valueNode.CurrentSelectListItems is not { } currentSelectOptions)
 		{
 			throw new InvalidOperationException(
-				$"Node {node.GetId()}: A {ErrorKey} can only be used on nodes with suggestions (= list to validate against)."
+				$"Node {node.GetId()}: A {ErrorKey} can only be used on nodes with a select list (= list to validate against)."
 			);
 		}
-
-		// Load the select list with the current dependencies.
-		var currentSelectOptions = selectListSource.LoadFor(node);
 
 		// Validate that the current value is in the list.
 		if (currentSelectOptions.Any(option => IsOptionMatch(valueNode.Value, option.Value)))

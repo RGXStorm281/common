@@ -24,6 +24,9 @@ internal partial class BooleanNode : FieldNode, IBooleanNode
 	/// <inheritdoc />
 	public ISelectListSource<bool?>? SelectList { get; private set; }
 
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<bool?>>? CurrentSelectListItems { get; private set; }
+
 	public void UseSelectList(ISelectListSource<bool?>? selectList)
 	{
 		SelectList = selectList;
@@ -37,6 +40,14 @@ internal partial class BooleanNode : FieldNode, IBooleanNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

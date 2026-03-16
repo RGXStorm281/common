@@ -25,6 +25,9 @@ internal partial class TimestampNode : FieldNode, ITimestampNode
 	/// <inheritdoc />
 	public ISelectListSource<DateTime?>? SelectList { get; private set; }
 
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<DateTime?>>? CurrentSelectListItems { get; private set; }
+
 	public void UseSelectList(ISelectListSource<DateTime?>? selectList)
 	{
 		SelectList = selectList;
@@ -38,6 +41,14 @@ internal partial class TimestampNode : FieldNode, ITimestampNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

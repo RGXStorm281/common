@@ -24,6 +24,9 @@ internal partial class FileNode : FieldNode, IFileNode
 	/// <inheritdoc />
 	public ISelectListSource<FileValue>? SelectList { get; private set; }
 
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<FileValue>>? CurrentSelectListItems { get; private set; }
+
 	public void UseSelectList(ISelectListSource<FileValue>? selectList)
 	{
 		SelectList = selectList;
@@ -37,6 +40,14 @@ internal partial class FileNode : FieldNode, IFileNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />
