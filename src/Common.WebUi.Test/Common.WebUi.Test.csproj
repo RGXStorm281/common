@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
+    <PackageReference Include="RobinEpple.Common.Forms.Wrappers" />
   </ItemGroup>
 
 </Project>

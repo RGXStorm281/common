@@ -10,5 +10,11 @@ namespace RobinEpple.Common.WebUi.Test.Code.Controllers
 			var model = new StaticContentPage();
 			return View("_Page", model);
 		}
+
+		public ActionResult FormRendering()
+		{
+			var model = new FormRenderingPage();
+			return View("_Page", model);
+		}
 	}
 }

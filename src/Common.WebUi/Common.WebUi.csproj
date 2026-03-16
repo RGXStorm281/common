@@ -14,11 +14,14 @@
         <PackageReference Include="RobinEpple.Common.Util" />
         <PackageReference Include="RobinEpple.Common.Forms" />
         <PackageReference Include="RobinEpple.Common.Html" />
-        <PackageReference Include="RobinEpple.Common.Forms.Html" />
     </ItemGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../Common.Forms.Html/Common.Forms.Html.csproj" />
     </ItemGroup>
 
 </Project>

@@ -4,7 +4,6 @@ using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.Forms.Nodes;
-using RobinEpple.Common.Html.Components;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
@@ -16,10 +15,29 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 {
 	private readonly IValueNode<TValue> _node = node;
 
+	private string GetId(int index) => $"{_node.Name}_{index}";
+
 	/// <inheritdoc />
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
-		var content = Fieldset("");
-		var fb = new FormBuilder("test").WithBooleanNode("");
+		var content = Fieldset(
+			RenderEach(
+				_node.CurrentSelectListItems ?? [],
+				(item, index) =>
+					Div(
+						Input()
+							.Type("radio")
+							.Name(_node.Name)
+							.Id(GetId(index))
+							.Value(item.Value?.ToString() ?? string.Empty)
+							.ConfigureIf(
+								item.Value?.Equals(_node.Value) == true,
+								input => input.Attribute("checked", "checked")
+							),
+						Label(item.Label).For(GetId(index))
+					)
+			)
+		);
+		content.WriteTo(writer, encoder);
 	}
 }
