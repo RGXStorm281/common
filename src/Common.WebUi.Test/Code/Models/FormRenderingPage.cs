@@ -173,17 +173,48 @@ public partial class FormRenderingPage : IPageModel
 			.WithTimestampNode(
 				"DateInput",
 				node =>
-					node.UseLabel("Full Timestamp")
+					node.UseLabel("Date only")
 						.UseSelectList(
 							ISelectListSource<DateTime?>.ForLabelledValues(
-								[(DateTime.Today, "Today"), (DateTime.Today.AddDays(1), "Tomorrow")]
+								[
+									(null, string.Empty),
+									(DateTime.Today, "Today"),
+									(DateTime.Today.AddDays(1), "Tomorrow"),
+								]
+							),
+							validate: true
+						)
+			)
+			.WithTimestampNode(
+				"TimeInput",
+				node =>
+					node.UseLabel("Time only")
+						.UseSelectList(
+							ISelectListSource<DateTime?>.ForLabelledValues(
+								[
+									(null, string.Empty),
+									(DateTime.Today.AddHours(9), "9am"),
+									(DateTime.Today.AddHours(21), "9pm"),
+								]
+							),
+							validate: true
+						)
+			)
+			.WithTimestampNode(
+				"DateTimeInput",
+				node =>
+					node.UseLabel("Date and time")
+						.UseSelectList(
+							ISelectListSource<DateTime?>.ForLabelledValues(
+								[
+									(null, string.Empty),
+									(DateTime.Today.AddHours(9), "Today at 9am"),
+									(DateTime.Today.AddHours(21), "Today at 9pm"),
+								]
 							),
 							validate: false
 						)
 			)
-			.WithTimestampNode("DateOnlyTime", node => node.UseLabel("Time"))
-			.WithTimestampNode("DateOnlyMonth", node => node.UseLabel("Month"))
-			.WithTimestampNode("DateWeek", node => node.UseLabel("Week"))
 			.Build();
 	}
 
@@ -198,6 +229,7 @@ public partial class FormRenderingPage : IPageModel
 				"This page is used to test the rendering of form inputs. It contains various form elements that should be rendered correctly."
 			),
 			Form(
+					// Booleans
 					H2("Booleans"),
 					H3("Hidden boolean input"),
 					HiddenInput(FormWrapper.BooleanHidden!),
@@ -207,11 +239,13 @@ public partial class FormRenderingPage : IPageModel
 					DropDown(FormWrapper.BooleanDropdown!),
 					H3("Boolean as checkbox"),
 					CheckBox(FormWrapper.BooleanCheckbox!),
+					// Files
 					H2("Files"),
 					H3("Hidden file input"),
 					HiddenInput(FormWrapper.FileHidden!),
 					H3("File Input"),
 					FileInput(FormWrapper.FileUpload!),
+					// Numbers
 					H2("Numbers"),
 					H3("Hidden number input"),
 					HiddenInput(FormWrapper.NumberHidden!),
@@ -222,7 +256,47 @@ public partial class FormRenderingPage : IPageModel
 					H3("Number input with data-list"),
 					NumberInput(FormWrapper.NumberInput!),
 					H3("Range input with data-list"),
-					RangeInput(FormWrapper.NumberRange!, min: -1, max: 2)
+					RangeInput(FormWrapper.NumberRange!, min: -1, max: 2),
+					// Texts
+					H2("Texts"),
+					H3("Hidden text input"),
+					HiddenInput(FormWrapper.TextHidden!),
+					H3("Radio Buttons for text selection"),
+					RadioButtons(FormWrapper.TextRadio!),
+					H3("Dropdown for text value"),
+					DropDown(FormWrapper.TextDropdown!),
+					H3("Email input"),
+					EmailInput(FormWrapper.TextEmail!),
+					H3("Password input"),
+					P(
+						"This will reset on change, since passwords should not be written to the value attribute in plain text "
+							+ "-> HTMX is not suitable for password fields without morphing algorithms."
+					),
+					PasswordInput(FormWrapper.TextPassword!),
+					H3("Search input"),
+					SearchInput(FormWrapper.TextSearch!),
+					H3("Telephone input"),
+					TelephoneInput(FormWrapper.TextPhone!),
+					H3("Textbox"),
+					TextInput(FormWrapper.TextInput!),
+					H3("Text Area"),
+					TextAreaInput(FormWrapper.TextArea!),
+					H3("Url input"),
+					UrlInput(FormWrapper.TextUrl!),
+					// Dates
+					H2("Dates"),
+					H3("Date hidden"),
+					HiddenInput(FormWrapper.DateHidden!),
+					H3("Radio button date selection"),
+					RadioButtons(FormWrapper.DateRadio!),
+					H3("Dropdown for dates"),
+					DropDown(FormWrapper.DateDropdown!),
+					H3("Date input"),
+					DateInput(FormWrapper.DateInput!),
+					H3("Time input"),
+					TimeInput(FormWrapper.TimeInput!),
+					H3("DateTimeInput"),
+					DateTimeInput(FormWrapper.DateTimeInput!)
 				)
 				.Name(Form.Name)
 				.Attribute("hx-put", "")

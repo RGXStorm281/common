@@ -49,9 +49,6 @@
         <mxCell id="18" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="HiddenInput" vertex="1">
           <mxGeometry height="60" width="980" x="20" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="20" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="MonthInput&amp;nbsp;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
-          <mxGeometry height="60" width="180" x="820" y="390" as="geometry" />
-        </mxCell>
         <mxCell id="21" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="NumberInput&amp;nbsp;&lt;i&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
           <mxGeometry height="60" width="180" x="420" y="250" as="geometry" />
         </mxCell>
@@ -82,8 +79,8 @@
         <mxCell id="35" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="UrlInput&amp;nbsp;&lt;i style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(63, 63, 63);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
           <mxGeometry height="60" width="180" x="621" y="670" as="geometry" />
         </mxCell>
-        <mxCell id="36" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="WeekInput&amp;nbsp;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
-          <mxGeometry height="60" width="180" x="820" y="460" as="geometry" />
+        <mxCell id="36" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="DateTimeInput&amp;nbsp;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="820" y="390" as="geometry" />
         </mxCell>
         <mxCell id="37" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="RadioButtonsForTemplates" vertex="1">
           <mxGeometry height="60" width="380" x="1020" y="40" as="geometry" />
