@@ -38,6 +38,7 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
+				Label(_node.Label).For(nodeId).Class("input-label"),
 				RenderEach(
 					_node.CurrentSelectListItems,
 					(item, index) =>

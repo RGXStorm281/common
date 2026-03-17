@@ -30,6 +30,7 @@ public class DropDown<TValue>(IValueNode<TValue> node) : IHtmlContent
 		}
 
 		// Fieldset --------------------------------|
+		// | Label       							|
 		// | Select     							|
 		// |    Option 1							|
 		// |    Option 2							|
@@ -37,6 +38,7 @@ public class DropDown<TValue>(IValueNode<TValue> node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
+				Label(_node.Label).For(nodeId).Class("input-label"),
 				Select(
 						RenderEach(
 							_node.CurrentSelectListItems,

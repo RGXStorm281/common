@@ -73,7 +73,15 @@ public partial class FormRenderingPage : IPageModel
 						validate: true
 					)
 			)
-			.WithNumberNode("NumberInput", node => node.UseLabel("Custom Number Input Label"))
+			.WithNumberNode(
+				"NumberInput",
+				node =>
+					node.UseSelectList(
+							ISelectListSource<decimal?>.ForLabelledValues([(0, "zero"), (1, "one")]),
+							validate: true
+						)
+						.UseLabel("Custom Number Input Label")
+			)
 			.WithNumberNode(
 				"NumberRange",
 				node =>
@@ -191,7 +199,7 @@ public partial class FormRenderingPage : IPageModel
 			),
 			Form(
 					H2("Booleans"),
-					H3("Hidden boolean"),
+					H3("Hidden boolean input"),
 					HiddenInput(FormWrapper.BooleanHidden!),
 					H3("Tri-State boolean as radio button"),
 					RadioButtons(FormWrapper.BooleanRadio!),
@@ -203,7 +211,18 @@ public partial class FormRenderingPage : IPageModel
 					H3("Hidden file input"),
 					HiddenInput(FormWrapper.FileHidden!),
 					H3("File Input"),
-					FileInput(FormWrapper.FileUpload!)
+					FileInput(FormWrapper.FileUpload!),
+					H2("Numbers"),
+					H3("Hidden number input"),
+					HiddenInput(FormWrapper.NumberHidden!),
+					H3("Number radio selection"),
+					RadioButtons(FormWrapper.NumberRadio!),
+					H3("Number dropdown"),
+					DropDown(FormWrapper.NumberDropdown!),
+					H3("Number input with data-list"),
+					NumberInput(FormWrapper.NumberInput!),
+					H3("Range input with data-list"),
+					RangeInput(FormWrapper.NumberRange!, min: -1, max: 2)
 				)
 				.Name(Form.Name)
 				.Attribute("hx-put", "")
