@@ -53,7 +53,7 @@ public partial class FormRenderingPage : IPageModel
 			.WithFileNode("FileHidden")
 			.WithFileNode(
 				"FileUpload",
-				node => node.UseLabel("Custom File Upload Label").UseFileExtensionValidator([".jpg, .png"])
+				node => node.UseLabel("Custom File Upload Label").UseFileExtensionValidator(["jpg", "jpeg", "png"])
 			)
 			// Numbers
 			.WithNumberNode("NumberHidden")
@@ -198,11 +198,17 @@ public partial class FormRenderingPage : IPageModel
 					H3("Tri-State boolean as drop-down"),
 					DropDown(FormWrapper.BooleanDropdown!),
 					H3("Boolean as checkbox"),
-					CheckBox(FormWrapper.BooleanCheckbox!)
+					CheckBox(FormWrapper.BooleanCheckbox!),
+					H2("Files"),
+					H3("Hidden file input"),
+					HiddenInput(FormWrapper.FileHidden!),
+					H3("File Input"),
+					FileInput(FormWrapper.FileUpload!)
 				)
 				.Name(Form.Name)
 				.Attribute("hx-put", "")
 				.Attribute("hx-trigger", "change")
+				.Attribute("hx-encoding", "multipart/form-data")
 				.Attribute("hx-swap", "innerHTML")
 				.Attribute("hx-select", "form > *")
 		);

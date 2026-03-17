@@ -10,7 +10,7 @@ using RobinEpple.Common.Util;
 /// Only active on non-<see langword="null"/> file contents.<br/>
 /// Estimates the mime type of a given byte string and checks it against a list of valid extensions.
 /// </summary>
-/// <param name="allowedExtensions">The list of allowed file extensions.</param>
+/// <param name="allowedExtensions">The list of allowed file extensions (e.g. "jpg", without ".").</param>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name, {1} for the invalid extension and {2} for the list of allowed extensions.</param>
 public partial class FileExtensionValidator(string[] allowedExtensions, string? errorMessageTemplate = null)
 	: INodeValidator
@@ -19,7 +19,12 @@ public partial class FileExtensionValidator(string[] allowedExtensions, string? 
 	/// The key errors from this validator will be registered under.
 	/// </summary>
 	public const string ErrorKey = nameof(TemplateRequiredValidator);
-	private readonly string[] _allowedExtensions = allowedExtensions;
+
+	/// <summary>
+	/// The list of allowed file extensions (e.g. "jpg", without ".").
+	/// </summary>
+	public IReadOnlyList<string> AllowedExtensions { get; } = allowedExtensions;
+
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheFileInput_DoesNotAllowFilesOfType_OnlyAllowsFilesOfTheFollowingTypes_;
 
@@ -41,9 +46,9 @@ public partial class FileExtensionValidator(string[] allowedExtensions, string? 
 		}
 
 		var guessedExtension = MimeGuesser.GuessExtension(fileNode.Value.FileContents);
-		if (!_allowedExtensions.Contains(guessedExtension))
+		if (!AllowedExtensions.Contains(guessedExtension))
 		{
-			var allowedExtensionString = string.Join(", ", _allowedExtensions.Select(extension => $".{extension}"));
+			var allowedExtensionString = string.Join(", ", AllowedExtensions.Select(extension => $".{extension}"));
 			fileNode.SetValidationError(
 				ErrorKey,
 				_errorMessageTemplate.Format(fileNode.Label, $".{guessedExtension}", allowedExtensionString)

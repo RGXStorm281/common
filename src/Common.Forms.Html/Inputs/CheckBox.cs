@@ -9,7 +9,7 @@ using static RobinEpple.Common.Html.DSL;
 /// <summary>
 /// Renders a checkbox for the <paramref name="node"/>.
 /// </summary>
-/// <param name="node">The node to render the select tag for.</param>
+/// <param name="node">The node to render the checkbox for.</param>
 public class CheckBox(IBooleanNode node) : IHtmlContent
 {
 	private readonly IBooleanNode _node = node;
