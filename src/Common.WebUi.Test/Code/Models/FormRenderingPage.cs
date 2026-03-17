@@ -189,7 +189,17 @@ public partial class FormRenderingPage : IPageModel
 			P(
 				"This page is used to test the rendering of form inputs. It contains various form elements that should be rendered correctly."
 			),
-			Form(H2("Booleans"), H3("Tri-State boolean as radio button"), RadioButtons(FormWrapper.BooleanRadio!))
+			Form(
+					H2("Booleans"),
+					H3("Hidden boolean"),
+					HiddenInput(FormWrapper.BooleanHidden!),
+					H3("Tri-State boolean as radio button"),
+					RadioButtons(FormWrapper.BooleanRadio!),
+					H3("Tri-State boolean as drop-down"),
+					DropDown(FormWrapper.BooleanDropdown!),
+					H3("Boolean as checkbox"),
+					CheckBox(FormWrapper.BooleanCheckbox!)
+				)
 				.Name(Form.Name)
 				.Attribute("hx-put", "")
 				.Attribute("hx-trigger", "change")
