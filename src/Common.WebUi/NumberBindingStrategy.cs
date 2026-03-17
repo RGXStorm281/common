@@ -24,7 +24,7 @@ public class NumberBindingStrategy : IFormBindingStrategy
 			return true;
 		}
 
-		if (!decimal.TryParse(stringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var numberValue))
+		if (numberNode.Formatter.Parse(stringValue) is not decimal numberValue)
 		{
 			return false;
 		}

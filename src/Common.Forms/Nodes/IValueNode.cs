@@ -5,7 +5,7 @@ using RobinEpple.Common.Forms.SelectLists;
 /// <summary>
 /// A base interface for all nodes representing a single value.
 /// </summary>
-public interface IValueNode<TValue> : IFormNode
+public interface IValueNode<TValue> : IFieldNode
 {
 	/// <summary>
 	/// The value of this node.

@@ -23,7 +23,7 @@ public class BooleanBindingStrategy : IFormBindingStrategy
 			return true;
 		}
 
-		if (!bool.TryParse(stringValue, out var booleanValue))
+		if (booleanNode.Formatter.Parse(stringValue) is not bool booleanValue)
 		{
 			return false;
 		}

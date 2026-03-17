@@ -46,7 +46,7 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 									.Type("radio")
 									.Name(nodeId)
 									.Id(GetId(nodeId, index))
-									.Value(item.Value?.ToString() ?? string.Empty)
+									.Value(_node.Formatter.Format(item.Value) ?? string.Empty)
 									.ConfigureIf(
 										Equals(item.Value, _node.Value),
 										input => input.Attribute("checked", "checked")

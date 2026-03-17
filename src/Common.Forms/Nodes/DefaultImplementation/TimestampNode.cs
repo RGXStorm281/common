@@ -8,7 +8,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 internal partial class TimestampNode : FieldNode, ITimestampNode
 {
 	public TimestampNode(string name, IParentNode parent, CultureInfo displayCulture)
-		: base(name, parent, new LocalizedNumberFormatter(displayCulture))
+		: base(name, parent, new LocalizedTimestampFormatter(displayCulture))
 	{
 		_value = new(null);
 	}

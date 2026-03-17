@@ -24,7 +24,7 @@ public class TimestampBindingStrategy : IFormBindingStrategy
 			return true;
 		}
 
-		if (!DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out var timestampValue))
+		if (timestampNode.Formatter.Parse(stringValue) is not DateTime timestampValue)
 		{
 			return false;
 		}
