@@ -2,6 +2,10 @@ namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// Accesses a value from a model.
+/// </summary>
+/// <typeparam name="TValue">The type of the value this accessor handles.</typeparam>
 public interface IValueAccessor<TValue>
 {
 	/// <summary>

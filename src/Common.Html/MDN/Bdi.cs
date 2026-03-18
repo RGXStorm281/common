@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <bdi> HTML element tells the browser's bidirectional algorithm to treat the text it contains in isolation from its surrounding text. It's particularly useful when a website dynamically inserts some text and doesn't know the directionality of the text being inserted.
+///The &lt;bdi&gt; HTML element tells the browser&apos;s bidirectional algorithm to treat the text it contains in isolation from its surrounding text. It&apos;s particularly useful when a website dynamically inserts some text and doesn&apos;t know the directionality of the text being inserted.
 /// </summary>
-public partial class Bdi(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("bdi", false, contents)
+public partial class Bdi
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;bdi&gt; HTML element tells the browser&apos;s bidirectional algorithm to treat the text it contains in isolation from its surrounding text. It&apos;s particularly useful when a website dynamically inserts some text and doesn&apos;t know the directionality of the text being inserted.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Bdi(params IEnumerable<IHtmlContent> contents)
+		: base("bdi", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;bdi&gt; HTML element tells the browser&apos;s bidirectional algorithm to treat the text it contains in isolation from its surrounding text. It&apos;s particularly useful when a website dynamically inserts some text and doesn&apos;t know the directionality of the text being inserted.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Bdi(string text)
 		: this(Encode(text))
 	{

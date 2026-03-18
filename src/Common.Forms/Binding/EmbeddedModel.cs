@@ -5,7 +5,7 @@ using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
 
-public class EmbeddedModel<TModel>(Func<TModel> modelFactory, Func<TModel, bool> applicabilityPredicate)
+internal class EmbeddedModel<TModel>(Func<TModel> modelFactory, Func<TModel, bool> applicabilityPredicate)
 	: FormNodeExtensionBase,
 		IEmbeddedModel
 {

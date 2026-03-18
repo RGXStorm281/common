@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="ITextNode">.<br/>
+/// Can only be applied to <see cref="ITextNode"/>.<br/>
 /// Only active on non-<see langword="null"/> values.<br/>
 /// Checks the field value against defined maximum length.
 /// </summary>
@@ -15,6 +15,9 @@ using RobinEpple.Common.Util;
 public partial class MaxLengthValidator(IFormExpression<decimal?> maxLength, string? errorMessageTemplate = null)
 	: INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(MaxLengthValidator);
 	private readonly IFormExpression<decimal?> _maxLength = maxLength;
 	private readonly string _errorMessageTemplate =

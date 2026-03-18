@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <th> HTML element defines a cell as the header of a group of table cells and may be used as a child of the <tr> element. The exact nature of this group is defined by the scope and headers attributes.
+///The &lt;th&gt; HTML element defines a cell as the header of a group of table cells and may be used as a child of the &lt;tr&gt; element. The exact nature of this group is defined by the scope and headers attributes.
 /// </summary>
-public partial class Th(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("th", false, contents)
+public partial class Th
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;th&gt; HTML element defines a cell as the header of a group of table cells and may be used as a child of the &lt;tr&gt; element. The exact nature of this group is defined by the scope and headers attributes.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Th(params IEnumerable<IHtmlContent> contents)
+		: base("th", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;th&gt; HTML element defines a cell as the header of a group of table cells and may be used as a child of the &lt;tr&gt; element. The exact nature of this group is defined by the scope and headers attributes.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Th(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// A short, abbreviated description of the header cell's content provided as an alternative label to use for the header cell when referencing the cell in other contexts. Some user-agents, such as screen readers, may present this description before the content itself.
+	///A short, abbreviated description of the header cell&apos;s content provided as an alternative label to use for the header cell when referencing the cell in other contexts. Some user-agents, such as screen readers, may present this description before the content itself.
 	/// </summary>
 	public Th Abbr(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the horizontal alignment of the header cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
+	///Specifies the horizontal alignment of the header cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Th Align(string value)
@@ -35,7 +52,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Contains a list of space-separated strings, each corresponding to the id attribute of a group of cells that the header cell applies to. Use the scope attribute instead, as this attribute is deprecated.
+	///Contains a list of space-separated strings, each corresponding to the id attribute of a group of cells that the header cell applies to. Use the scope attribute instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Th Axis(string value)
@@ -44,7 +61,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the background color of the header cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
+	///Defines the background color of the header cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS &lt;color&gt; values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Th Bgcolor(string value)
@@ -53,7 +70,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the alignment of the content to a character of the header cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
+	///Does nothing. It was originally intended to specify the alignment of the content to a character of the header cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
 	/// </summary>
 	[Obsolete]
 	public Th Char(string value)
@@ -62,7 +79,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the number of characters to offset the header cell content from the alignment character specified by the char attribute.
+	///Does nothing. It was originally intended to specify the number of characters to offset the header cell content from the alignment character specified by the char attribute.
 	/// </summary>
 	[Obsolete]
 	public Th Charoff(string value)
@@ -71,7 +88,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A non-negative integer value indicating how many columns the header cell spans or extends. The default value is 1. User agents dismiss values higher than 1000 as incorrect, defaulting such values to 1.
+	///A non-negative integer value indicating how many columns the header cell spans or extends. The default value is 1. User agents dismiss values higher than 1000 as incorrect, defaulting such values to 1.
 	/// </summary>
 	public Th Colspan(string value)
 	{
@@ -79,7 +96,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A list of space-separated strings corresponding to the id attributes of the <th> elements that provide the headers for this header cell.
+	///A list of space-separated strings corresponding to the id attributes of the &lt;th&gt; elements that provide the headers for this header cell.
 	/// </summary>
 	public Th Headers(string value)
 	{
@@ -87,7 +104,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines a recommended header cell height. Use the height CSS property instead, as this attribute is deprecated.
+	///Defines a recommended header cell height. Use the height CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Th Height(string value)
@@ -96,7 +113,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A non-negative integer value indicating how many rows the header cell spans or extends. The default value is 1 ; if its value is set to 0, the header cell will extend to the end of the table grouping section ( <thead>, <tbody>, <tfoot>, even if implicitly defined), that the <th> belongs to. Values higher than 65534 are clipped at 65534.
+	///A non-negative integer value indicating how many rows the header cell spans or extends. The default value is 1 ; if its value is set to 0, the header cell will extend to the end of the table grouping section ( &lt;thead&gt;, &lt;tbody&gt;, &lt;tfoot&gt;, even if implicitly defined), that the &lt;th&gt; belongs to. Values higher than 65534 are clipped at 65534.
 	/// </summary>
 	public Th Rowspan(string value)
 	{
@@ -104,7 +121,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the cells that the header (defined in the <th> ) element relates to. Possible enumerated values are:
+	///Defines the cells that the header (defined in the &lt;th&gt; ) element relates to. Possible enumerated values are:
 	/// </summary>
 	public Th Scope(string value)
 	{
@@ -112,7 +129,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the vertical alignment of the header cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
+	///Specifies the vertical alignment of the header cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Th Valign(string value)
@@ -121,7 +138,7 @@ public partial class Th(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines a recommended header cell width. Use the width CSS property instead, as this attribute is deprecated.
+	///Defines a recommended header cell width. Use the width CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Th Width(string value)

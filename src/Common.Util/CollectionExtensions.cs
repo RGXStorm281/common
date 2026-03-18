@@ -2,6 +2,9 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+/// <summary>
+/// A collection of useful methods on collections.
+/// </summary>
 public static class CollectionExtensions
 {
 	#region Enumerables
@@ -206,6 +209,7 @@ public static class CollectionExtensions
 	/// <param name="dictionary">The dictionary.</param>
 	/// <param name="key">The key type, that the value is searched for.</param>
 	/// <param name="createNew">The constructor function, that is called, if a new value needs to be created for the given key for the given key.</param>
+	/// <param name="created">A feedback boolean indicating whether an existing element was accessed or a new one created.</param>
 	/// <returns>The value for the key.</returns>
 	public static TValue GetOrAdd<TKey, TValue>(
 		this IDictionary<TKey, TValue> dictionary,

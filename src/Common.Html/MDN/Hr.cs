@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <hr> HTML element represents a thematic break between paragraph-level elements: for example, a change of scene in a story, or a shift of topic within a section.
+///The &lt;hr&gt; HTML element represents a thematic break between paragraph-level elements: for example, a change of scene in a story, or a shift of topic within a section.
 /// </summary>
-public partial class Hr()
-	: HtmlTag("hr", true)
+public partial class Hr
+	: HtmlTag
 {
 	/// <summary>
-	/// Sets the alignment of the rule on the page. If no value is specified, the default value is left.
+	///The &lt;hr&gt; HTML element represents a thematic break between paragraph-level elements: for example, a change of scene in a story, or a shift of topic within a section.
+	/// </summary>
+	public Hr()
+		: base("hr", true)
+	{
+	}
+	/// <summary>
+	///Sets the alignment of the rule on the page. If no value is specified, the default value is left.
 	/// </summary>
 	[Obsolete]
 	public Hr Align(string value)
@@ -23,7 +30,7 @@ public partial class Hr()
 	}
 
 	/// <summary>
-	/// Sets the color of the rule through color name or hexadecimal value.
+	///Sets the color of the rule through color name or hexadecimal value.
 	/// </summary>
 	[Obsolete]
 	public Hr Color(string value)
@@ -32,7 +39,7 @@ public partial class Hr()
 	}
 
 	/// <summary>
-	/// Sets the rule to have no shading.
+	///Sets the rule to have no shading.
 	/// </summary>
 	[Obsolete]
 	public Hr Noshade(string value)
@@ -41,7 +48,7 @@ public partial class Hr()
 	}
 
 	/// <summary>
-	/// Sets the height, in pixels, of the rule.
+	///Sets the height, in pixels, of the rule.
 	/// </summary>
 	[Obsolete]
 	public Hr Size(string value)
@@ -50,7 +57,7 @@ public partial class Hr()
 	}
 
 	/// <summary>
-	/// Sets the length of the rule on the page through a pixel or percentage value.
+	///Sets the length of the rule on the page through a pixel or percentage value.
 	/// </summary>
 	[Obsolete]
 	public Hr Width(string value)

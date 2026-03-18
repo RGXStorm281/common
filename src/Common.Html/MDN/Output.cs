@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <output> HTML element is a container element into which a site or app can inject the results of a calculation or the outcome of a user action.
+///The &lt;output&gt; HTML element is a container element into which a site or app can inject the results of a calculation or the outcome of a user action.
 /// </summary>
-public partial class Output(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("output", false, contents)
+public partial class Output
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;output&gt; HTML element is a container element into which a site or app can inject the results of a calculation or the outcome of a user action.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Output(params IEnumerable<IHtmlContent> contents)
+		: base("output", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;output&gt; HTML element is a container element into which a site or app can inject the results of a calculation or the outcome of a user action.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Output(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// A space-separated list of other elements' id s, indicating that those elements contributed input values to (or otherwise affected) the calculation.
+	///A space-separated list of other elements&apos; id s, indicating that those elements contributed input values to (or otherwise affected) the calculation.
 	/// </summary>
 	public Output For(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Output(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The <form> element to associate the output with (its form owner ). The value of this attribute must be the id of a <form> in the same document. (If this attribute is not set, the <output> is associated with its ancestor <form> element, if any.)
+	///The &lt;form&gt; element to associate the output with (its form owner ). The value of this attribute must be the id of a &lt;form&gt; in the same document. (If this attribute is not set, the &lt;output&gt; is associated with its ancestor &lt;form&gt; element, if any.)
 	/// </summary>
 	public Output Form(string value)
 	{
@@ -34,7 +51,7 @@ public partial class Output(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The element's name. Used in the form.elements API.
+	///The element&apos;s name. Used in the form.elements API.
 	/// </summary>
 	public Output Name(string value)
 	{

@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <figcaption> HTML element represents a caption or legend describing the rest of the contents of its parent <figure> element, providing the <figure> an accessible name.
+///The &lt;figcaption&gt; HTML element represents a caption or legend describing the rest of the contents of its parent &lt;figure&gt; element, providing the &lt;figure&gt; an accessible name.
 /// </summary>
-public partial class Figcaption(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("figcaption", false, contents)
+public partial class Figcaption
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;figcaption&gt; HTML element represents a caption or legend describing the rest of the contents of its parent &lt;figure&gt; element, providing the &lt;figure&gt; an accessible name.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Figcaption(params IEnumerable<IHtmlContent> contents)
+		: base("figcaption", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;figcaption&gt; HTML element represents a caption or legend describing the rest of the contents of its parent &lt;figure&gt; element, providing the &lt;figure&gt; an accessible name.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Figcaption(string text)
 		: this(Encode(text))
 	{

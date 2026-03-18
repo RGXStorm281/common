@@ -3,7 +3,7 @@ namespace RobinEpple.Common.SourceGenerators;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-public class AsyncOverloadGenerationTask
+internal class AsyncOverloadGenerationTask
 {
 	public AsyncOverloadGenerationTask(
 		MethodDeclarationSyntax methodDeclaration,

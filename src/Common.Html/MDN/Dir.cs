@@ -8,19 +8,38 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <dir> HTML element is used as a container for a directory of files and/or folders, potentially with styles and icons applied by the user agent. Do not use this obsolete element; instead, you should use the <ul> element for lists, including lists of files. Warning: 
-/// Do not use this element. Though present in early HTML specifications, it has been deprecated in HTML 4, and has since been removed entirely.
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;dir&gt; HTML element is used as a container for a directory of files and/or folders, potentially with styles and icons applied by the user agent. Do not use this obsolete element; instead, you should use the &lt;ul&gt; element for lists, including lists of files. Warning: 
+///Do not use this element. Though present in early HTML specifications, it has been deprecated in HTML 4, and has since been removed entirely.
 /// </summary>
 [Obsolete]
-public partial class Dir(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("dir", false, contents)
+public partial class Dir
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;dir&gt; HTML element is used as a container for a directory of files and/or folders, potentially with styles and icons applied by the user agent. Do not use this obsolete element; instead, you should use the &lt;ul&gt; element for lists, including lists of files. Warning: 
+	///Do not use this element. Though present in early HTML specifications, it has been deprecated in HTML 4, and has since been removed entirely.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Dir(params IEnumerable<IHtmlContent> contents)
+		: base("dir", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;dir&gt; HTML element is used as a container for a directory of files and/or folders, potentially with styles and icons applied by the user agent. Do not use this obsolete element; instead, you should use the &lt;ul&gt; element for lists, including lists of files. Warning: 
+	///Do not use this element. Though present in early HTML specifications, it has been deprecated in HTML 4, and has since been removed entirely.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Dir(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute depends on the user agent and it doesn't work in all browsers.
+	///This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute depends on the user agent and it doesn&apos;t work in all browsers.
 	/// </summary>
 	[Obsolete]
 	public Dir Compact(string value)

@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <details> HTML element creates a disclosure widget in which information is visible only when the widget is toggled into an open state. A summary or label must be provided using the <summary> element. A disclosure widget is typically presented onscreen using a small triangle that rotates (or twists) to indicate open/closed state, with a label next to the triangle. The contents of the <summary> element are used as the label for the disclosure widget. The contents of the <details> provide the accessible description for the <summary>.
+///The &lt;details&gt; HTML element creates a disclosure widget in which information is visible only when the widget is toggled into an open state. A summary or label must be provided using the &lt;summary&gt; element. A disclosure widget is typically presented onscreen using a small triangle that rotates (or twists) to indicate open/closed state, with a label next to the triangle. The contents of the &lt;summary&gt; element are used as the label for the disclosure widget. The contents of the &lt;details&gt; provide the accessible description for the &lt;summary&gt;.
 /// </summary>
-public partial class Details(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("details", false, contents)
+public partial class Details
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;details&gt; HTML element creates a disclosure widget in which information is visible only when the widget is toggled into an open state. A summary or label must be provided using the &lt;summary&gt; element. A disclosure widget is typically presented onscreen using a small triangle that rotates (or twists) to indicate open/closed state, with a label next to the triangle. The contents of the &lt;summary&gt; element are used as the label for the disclosure widget. The contents of the &lt;details&gt; provide the accessible description for the &lt;summary&gt;.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Details(params IEnumerable<IHtmlContent> contents)
+		: base("details", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;details&gt; HTML element creates a disclosure widget in which information is visible only when the widget is toggled into an open state. A summary or label must be provided using the &lt;summary&gt; element. A disclosure widget is typically presented onscreen using a small triangle that rotates (or twists) to indicate open/closed state, with a label next to the triangle. The contents of the &lt;summary&gt; element are used as the label for the disclosure widget. The contents of the &lt;details&gt; provide the accessible description for the &lt;summary&gt;.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Details(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This attribute enables multiple <details> elements to be connected, with only one open at a time. This allows developers to easily create UI features such as accordions without scripting.
+	///This attribute enables multiple &lt;details&gt; elements to be connected, with only one open at a time. This allows developers to easily create UI features such as accordions without scripting.
 	/// </summary>
 	public Details Name(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Details(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute indicates whether the details â that is, the contents of the <details> element â are currently visible. The details are shown when this attribute exists, or hidden when this attribute is absent. By default this attribute is absent which means the details are not visible.
+	///This Boolean attribute indicates whether the details â that is, the contents of the &lt;details&gt; element â are currently visible. The details are shown when this attribute exists, or hidden when this attribute is absent. By default this attribute is absent which means the details are not visible.
 	/// </summary>
 	public Details Open(string value)
 	{

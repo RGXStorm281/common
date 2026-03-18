@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
-public class EmbeddedModelGetterSetterBinding<TModel, TValue>(
+internal class EmbeddedModelGetterSetterBinding<TModel, TValue>(
 	string instanceNodeName,
 	Func<TModel, TValue> getter,
 	Action<TModel, TValue> setter

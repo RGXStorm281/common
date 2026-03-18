@@ -8,15 +8,24 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <track> HTML element is used as a child of the media elements, <audio> and <video>.
-/// Each track element lets you specify a timed text track (or time-based data) that can be displayed in parallel with the media element, for example to overlay subtitles or closed captions on top of a video or alongside audio tracks. Multiple tracks can be specified for a media element, containing different kinds of timed text data, or timed text data that has been translated for different locales.
-/// The data that is used will either be the track that has been set to be the default, or a kind and translation based on user preferences. The tracks are formatted in WebVTT format (.vtt files) â Web Video Text Tracks.
+///The &lt;track&gt; HTML element is used as a child of the media elements, &lt;audio&gt; and &lt;video&gt;.
+///Each track element lets you specify a timed text track (or time-based data) that can be displayed in parallel with the media element, for example to overlay subtitles or closed captions on top of a video or alongside audio tracks. Multiple tracks can be specified for a media element, containing different kinds of timed text data, or timed text data that has been translated for different locales.
+///The data that is used will either be the track that has been set to be the default, or a kind and translation based on user preferences. The tracks are formatted in WebVTT format (.vtt files) â Web Video Text Tracks.
 /// </summary>
-public partial class Track()
-	: HtmlTag("track", true)
+public partial class Track
+	: HtmlTag
 {
 	/// <summary>
-	/// Closed captions provide transcription or translation of the dialog, sound effects, relevant musical cues, and other relevant audio information, such as the cue's source (e.g., character, environment). They are suitable for when sound is unavailable or not clearly audible (e.g., because it is muted, drowned-out by ambient noise, or because the user is deaf).
+	///The &lt;track&gt; HTML element is used as a child of the media elements, &lt;audio&gt; and &lt;video&gt;.
+	///Each track element lets you specify a timed text track (or time-based data) that can be displayed in parallel with the media element, for example to overlay subtitles or closed captions on top of a video or alongside audio tracks. Multiple tracks can be specified for a media element, containing different kinds of timed text data, or timed text data that has been translated for different locales.
+	///The data that is used will either be the track that has been set to be the default, or a kind and translation based on user preferences. The tracks are formatted in WebVTT format (.vtt files) â Web Video Text Tracks.
+	/// </summary>
+	public Track()
+		: base("track", true)
+	{
+	}
+	/// <summary>
+	///Closed captions provide transcription or translation of the dialog, sound effects, relevant musical cues, and other relevant audio information, such as the cue&apos;s source (e.g., character, environment). They are suitable for when sound is unavailable or not clearly audible (e.g., because it is muted, drowned-out by ambient noise, or because the user is deaf).
 	/// </summary>
 	public Track Captions(string value)
 	{
@@ -24,7 +33,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// Chapter titles are intended to be used when the user is navigating the media resource.
+	///Chapter titles are intended to be used when the user is navigating the media resource.
 	/// </summary>
 	public Track Chapters(string value)
 	{
@@ -32,7 +41,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// This attribute indicates that the track should be enabled unless the user's preferences indicate that another track is more appropriate. This may only be used on one track element per media element.
+	///This attribute indicates that the track should be enabled unless the user&apos;s preferences indicate that another track is more appropriate. This may only be used on one track element per media element.
 	/// </summary>
 	public Track Default(string value)
 	{
@@ -40,7 +49,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// Descriptions summarize the video component of the media resource. They are intended to be synthesized as audio when the visual component is obscured, unavailable, or not usable (e.g., because the user is interacting with the application without a screen while driving, or because the user is blind).
+	///Descriptions summarize the video component of the media resource. They are intended to be synthesized as audio when the visual component is obscured, unavailable, or not usable (e.g., because the user is interacting with the application without a screen while driving, or because the user is blind).
 	/// </summary>
 	public Track Descriptions(string value)
 	{
@@ -48,8 +57,8 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// How the text track is meant to be used. If omitted the default kind is subtitles. If the attribute contains an invalid value, it will use metadata.
-	/// The following keywords are allowed:
+	///How the text track is meant to be used. If omitted the default kind is subtitles. If the attribute contains an invalid value, it will use metadata.
+	///The following keywords are allowed:
 	/// </summary>
 	public Track Kind(string value)
 	{
@@ -57,7 +66,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// A user-readable title of the text track which is used by the browser when listing available text tracks.
+	///A user-readable title of the text track which is used by the browser when listing available text tracks.
 	/// </summary>
 	public Track Label(string value)
 	{
@@ -65,7 +74,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// Tracks used by scripts. Not visible to the user.
+	///Tracks used by scripts. Not visible to the user.
 	/// </summary>
 	public Track Metadata(string value)
 	{
@@ -73,7 +82,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// Address of the track (.vtt file). Must be a valid URL. This attribute must be specified and its URL value must have the same origin as the document â unless the <audio> or <video> parent element of the track element has a crossorigin attribute.
+	///Address of the track (.vtt file). Must be a valid URL. This attribute must be specified and its URL value must have the same origin as the document â unless the &lt;audio&gt; or &lt;video&gt; parent element of the track element has a crossorigin attribute.
 	/// </summary>
 	public Track Src(string value)
 	{
@@ -81,7 +90,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// Language of the track text data. It must be a valid BCP 47 language tag. If the kind attribute is set to subtitles, then srclang must be defined.
+	///Language of the track text data. It must be a valid BCP 47 language tag. If the kind attribute is set to subtitles, then srclang must be defined.
 	/// </summary>
 	public Track Srclang(string value)
 	{
@@ -89,7 +98,7 @@ public partial class Track()
 	}
 
 	/// <summary>
-	/// Subtitles provide transcription or translation of the dialog. They are suitable for when the sound is available but not understood, such as speech or text that is not English in an English language film. Subtitles may contain additional content, usually extra background information. For example the text at the beginning of the Star Wars films, or the date, time, and location of a scene. Subtitles' information complements the audio and video. It is often embedded in the video itself, but can also be provided separately, especially for whole-film translations.
+	///Subtitles provide transcription or translation of the dialog. They are suitable for when the sound is available but not understood, such as speech or text that is not English in an English language film. Subtitles may contain additional content, usually extra background information. For example the text at the beginning of the Star Wars films, or the date, time, and location of a scene. Subtitles&apos; information complements the audio and video. It is often embedded in the video itself, but can also be provided separately, especially for whole-film translations.
 	/// </summary>
 	public Track Subtitles(string value)
 	{

@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <strong> HTML element indicates that its contents have strong importance, seriousness, or urgency. Browsers typically render the contents in bold type.
+///The &lt;strong&gt; HTML element indicates that its contents have strong importance, seriousness, or urgency. Browsers typically render the contents in bold type.
 /// </summary>
-public partial class Strong(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("strong", false, contents)
+public partial class Strong
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;strong&gt; HTML element indicates that its contents have strong importance, seriousness, or urgency. Browsers typically render the contents in bold type.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Strong(params IEnumerable<IHtmlContent> contents)
+		: base("strong", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;strong&gt; HTML element indicates that its contents have strong importance, seriousness, or urgency. Browsers typically render the contents in bold type.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Strong(string text)
 		: this(Encode(text))
 	{

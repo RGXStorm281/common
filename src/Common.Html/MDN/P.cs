@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <p> HTML element represents a paragraph. Paragraphs are usually represented in visual media as blocks of text separated from adjacent blocks by blank lines and/or first-line indentation, but HTML paragraphs can be any structural grouping of related content, such as images or form fields. Paragraphs are block-level elements, and notably will automatically close if another block-level element is parsed before the closing </p> tag. See "Tag omission" below.
+///The &lt;p&gt; HTML element represents a paragraph. Paragraphs are usually represented in visual media as blocks of text separated from adjacent blocks by blank lines and/or first-line indentation, but HTML paragraphs can be any structural grouping of related content, such as images or form fields. Paragraphs are block-level elements, and notably will automatically close if another block-level element is parsed before the closing &lt;/p&gt; tag. See &quot;Tag omission&quot; below.
 /// </summary>
-public partial class P(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("p", false, contents)
+public partial class P
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;p&gt; HTML element represents a paragraph. Paragraphs are usually represented in visual media as blocks of text separated from adjacent blocks by blank lines and/or first-line indentation, but HTML paragraphs can be any structural grouping of related content, such as images or form fields. Paragraphs are block-level elements, and notably will automatically close if another block-level element is parsed before the closing &lt;/p&gt; tag. See &quot;Tag omission&quot; below.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public P(params IEnumerable<IHtmlContent> contents)
+		: base("p", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;p&gt; HTML element represents a paragraph. Paragraphs are usually represented in visual media as blocks of text separated from adjacent blocks by blank lines and/or first-line indentation, but HTML paragraphs can be any structural grouping of related content, such as images or form fields. Paragraphs are block-level elements, and notably will automatically close if another block-level element is parsed before the closing &lt;/p&gt; tag. See &quot;Tag omission&quot; below.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public P(string text)
 		: this(Encode(text))
 	{

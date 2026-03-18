@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Test.Tests;
 
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
+using RobinEpple.Common.Util;
 
 [TestClass]
 public class NodeIds
@@ -20,14 +21,14 @@ public class NodeIds
 			.WithTimestampNode("Timestamp")
 			.Build();
 
-		Assert.AreEqual(form.FindFirst("Boolean")!.GetId(), "Test/Boolean");
-		Assert.AreEqual(form.FindFirst("Collection")!.GetId(), "Test/Collection");
-		Assert.AreEqual(form.FindFirst("File")!.GetId(), "Test/File");
-		Assert.AreEqual(form.FindFirst("Number")!.GetId(), "Test/Number");
-		Assert.AreEqual(form.FindFirst("Section")!.GetId(), "Test/Section");
-		Assert.AreEqual(form.FindFirst("TemplatedSection")!.GetId(), "Test/TemplatedSection");
-		Assert.AreEqual(form.FindFirst("Text")!.GetId(), "Test/Text");
-		Assert.AreEqual(form.FindFirst("Timestamp")!.GetId(), "Test/Timestamp");
+		Assert.AreEqual(form.FindFirst("Boolean")!.GetId(), $"Test{IFormNode.PathSeparator}Boolean");
+		Assert.AreEqual(form.FindFirst("Collection")!.GetId(), $"Test{IFormNode.PathSeparator}Collection");
+		Assert.AreEqual(form.FindFirst("File")!.GetId(), $"Test{IFormNode.PathSeparator}File");
+		Assert.AreEqual(form.FindFirst("Number")!.GetId(), $"Test{IFormNode.PathSeparator}Number");
+		Assert.AreEqual(form.FindFirst("Section")!.GetId(), $"Test{IFormNode.PathSeparator}Section");
+		Assert.AreEqual(form.FindFirst("TemplatedSection")!.GetId(), $"Test{IFormNode.PathSeparator}TemplatedSection");
+		Assert.AreEqual(form.FindFirst("Text")!.GetId(), $"Test{IFormNode.PathSeparator}Text");
+		Assert.AreEqual(form.FindFirst("Timestamp")!.GetId(), $"Test{IFormNode.PathSeparator}Timestamp");
 	}
 
 	[TestMethod]
@@ -70,44 +71,44 @@ public class NodeIds
 
 		Assert.AreEqual(
 			instance1.FindFirst("Boolean")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Boolean"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Boolean"
 		);
 		Assert.AreEqual(
 			instance1.FindFirst("File")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/File"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}File"
 		);
 		Assert.AreEqual(
 			instance1.FindFirst("Number")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Number"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Number"
 		);
 		Assert.AreEqual(
 			instance1.FindFirst("Text")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Text"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Text"
 		);
 		Assert.AreEqual(
 			instance1.FindFirst("Timestamp")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Timestamp"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Timestamp"
 		);
 
 		Assert.AreEqual(
 			instance2.FindFirst("Boolean")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Boolean"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Boolean"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("File")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/File"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}File"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Number")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Number"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Number"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Text")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Text"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Text"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Timestamp")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Timestamp"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Timestamp"
 		);
 	}
 
@@ -151,46 +152,46 @@ public class NodeIds
 
 		Assert.AreEqual(
 			instance2.FindFirst("Boolean")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Boolean"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Boolean"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("File")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/File"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}File"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Number")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Number"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Number"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Text")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Text"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Text"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Timestamp")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[1]/CollectionTemplate/Timestamp"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(1)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Timestamp"
 		);
 
 		collection.RemoveItem(instance1);
 
 		Assert.AreEqual(
 			instance2.FindFirst("Boolean")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Boolean"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Boolean"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("File")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/File"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}File"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Number")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Number"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Number"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Text")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Text"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Text"
 		);
 		Assert.AreEqual(
 			instance2.FindFirst("Timestamp")!.GetId(),
-			"Test/Section/TemplatedSection/SectionTemplate/Collection[0]/CollectionTemplate/Timestamp"
+			$"Test{IFormNode.PathSeparator}Section{IFormNode.PathSeparator}TemplatedSection{IFormNode.PathSeparator}SectionTemplate{IFormNode.PathSeparator}Collection{IFormNode.IndexIdentifier.Format(0)}{IFormNode.PathSeparator}CollectionTemplate{IFormNode.PathSeparator}Timestamp"
 		);
 	}
 }

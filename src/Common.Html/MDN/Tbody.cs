@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <tbody> HTML element encapsulates a set of table rows ( <tr> elements), indicating that they comprise the body of a table's (main) data.
+///The &lt;tbody&gt; HTML element encapsulates a set of table rows ( &lt;tr&gt; elements), indicating that they comprise the body of a table&apos;s (main) data.
 /// </summary>
-public partial class Tbody(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("tbody", false, contents)
+public partial class Tbody
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;tbody&gt; HTML element encapsulates a set of table rows ( &lt;tr&gt; elements), indicating that they comprise the body of a table&apos;s (main) data.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Tbody(params IEnumerable<IHtmlContent> contents)
+		: base("tbody", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;tbody&gt; HTML element encapsulates a set of table rows ( &lt;tr&gt; elements), indicating that they comprise the body of a table&apos;s (main) data.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Tbody(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies the horizontal alignment of each body cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
+	///Specifies the horizontal alignment of each body cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and on offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Tbody Align(string value)
@@ -27,7 +44,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the background color of each body cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
+	///Defines the background color of each body cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS &lt;color&gt; values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Tbody Bgcolor(string value)
@@ -36,7 +53,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the alignment of the content to a character of each body cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
+	///Specifies the alignment of the content to a character of each body cell. Typical values for this include a period (. ) when attempting to align numbers or monetary values. If align is not set to char, this attribute is ignored.
 	/// </summary>
 	[Obsolete]
 	public Tbody Char(string value)
@@ -45,7 +62,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the number of characters to offset the body cell content from the alignment character specified by the char attribute.
+	///Specifies the number of characters to offset the body cell content from the alignment character specified by the char attribute.
 	/// </summary>
 	[Obsolete]
 	public Tbody Charoff(string value)
@@ -54,7 +71,7 @@ public partial class Tbody(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the vertical alignment of each body cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
+	///Specifies the vertical alignment of each body cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Tbody Valign(string value)

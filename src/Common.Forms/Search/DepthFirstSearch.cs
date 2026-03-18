@@ -2,6 +2,9 @@ namespace RobinEpple.Common.Forms.Search;
 
 using RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// A base class for depth first search through the form tree.
+/// </summary>
 public class DepthFirstSearch(Func<IFormNode, bool> predicate, bool stopOnFirstMatch) : DepthFirstTraversal
 {
 	private readonly Func<IFormNode, bool> _isMatch = predicate;

@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Html.Mdn;
 
+using System.Security;
 using System.Text;
 using HtmlAgilityPack;
 
@@ -21,6 +22,13 @@ public class Helper
 			return indentation + line;
 		});
 		return string.Join("\n", indentedLines);
+	}
+
+	public static string PrintDocumentation(string text)
+	{
+		// Escape <> and other XML characters.
+		var escaped = SecurityElement.Escape(text);
+		return Indent(escaped, indentPattern: "///");
 	}
 
 	private static string Repeat(string text, int numberOfTimes)

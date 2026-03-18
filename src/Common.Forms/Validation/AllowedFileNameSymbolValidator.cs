@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="IFileNode">.<br/>
+/// Can only be applied to <see cref="IFileNode"/>.<br/>
 /// Only active on non-<see langword="null"/> file names.<br/>
 /// Checks the provided file name against a whitelist of file name symbols.
 /// </summary>
@@ -15,6 +15,9 @@ using RobinEpple.Common.Util;
 public partial class AllowedFileNameSymbolValidator(string characterWhitelist, string? errorMessageTemplate = null)
 	: INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(AllowedFileNameSymbolValidator);
 	private readonly Regex _invalidCharacterRegex = new Regex(
 		$"[^{Regex.Escape(characterWhitelist)}]",

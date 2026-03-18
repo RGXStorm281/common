@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <hgroup> HTML element represents a heading and related content. It groups a single <h1>â<h6> element with one or more <p>.
+///The &lt;hgroup&gt; HTML element represents a heading and related content. It groups a single &lt;h1&gt;â&lt;h6&gt; element with one or more &lt;p&gt;.
 /// </summary>
-public partial class Hgroup(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("hgroup", false, contents)
+public partial class Hgroup
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;hgroup&gt; HTML element represents a heading and related content. It groups a single &lt;h1&gt;â&lt;h6&gt; element with one or more &lt;p&gt;.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Hgroup(params IEnumerable<IHtmlContent> contents)
+		: base("hgroup", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;hgroup&gt; HTML element represents a heading and related content. It groups a single &lt;h1&gt;â&lt;h6&gt; element with one or more &lt;p&gt;.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Hgroup(string text)
 		: this(Encode(text))
 	{

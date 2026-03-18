@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <li> HTML element is used to represent an item in a list. It must be contained in a parent element: an ordered list ( <ol> ), an unordered list ( <ul> ), or a menu ( <menu> ). In menus and unordered lists, list items are usually displayed using bullet points. In ordered lists, they are usually displayed with an ascending counter on the left, such as a number or letter.
+///The &lt;li&gt; HTML element is used to represent an item in a list. It must be contained in a parent element: an ordered list ( &lt;ol&gt; ), an unordered list ( &lt;ul&gt; ), or a menu ( &lt;menu&gt; ). In menus and unordered lists, list items are usually displayed using bullet points. In ordered lists, they are usually displayed with an ascending counter on the left, such as a number or letter.
 /// </summary>
-public partial class Li(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("li", false, contents)
+public partial class Li
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;li&gt; HTML element is used to represent an item in a list. It must be contained in a parent element: an ordered list ( &lt;ol&gt; ), an unordered list ( &lt;ul&gt; ), or a menu ( &lt;menu&gt; ). In menus and unordered lists, list items are usually displayed using bullet points. In ordered lists, they are usually displayed with an ascending counter on the left, such as a number or letter.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Li(params IEnumerable<IHtmlContent> contents)
+		: base("li", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;li&gt; HTML element is used to represent an item in a list. It must be contained in a parent element: an ordered list ( &lt;ol&gt; ), an unordered list ( &lt;ul&gt; ), or a menu ( &lt;menu&gt; ). In menus and unordered lists, list items are usually displayed using bullet points. In ordered lists, they are usually displayed with an ascending counter on the left, such as a number or letter.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Li(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This character attribute indicates the numbering type:
+	///This character attribute indicates the numbering type:
 	/// </summary>
 	[Obsolete]
 	public Li Type(string value)
@@ -27,7 +44,7 @@ public partial class Li(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This integer attribute indicates the current ordinal value of the list item as defined by the <ol> element. The only allowed value for this attribute is a number, even if the list is displayed with Roman numerals or letters. List items that follow this one continue numbering from the value set. This attribute has no meaning for unordered lists ( <ul> ) or for menus ( <menu> ).
+	///This integer attribute indicates the current ordinal value of the list item as defined by the &lt;ol&gt; element. The only allowed value for this attribute is a number, even if the list is displayed with Roman numerals or letters. List items that follow this one continue numbering from the value set. This attribute has no meaning for unordered lists ( &lt;ul&gt; ) or for menus ( &lt;menu&gt; ).
 	/// </summary>
 	public Li Value(string value)
 	{

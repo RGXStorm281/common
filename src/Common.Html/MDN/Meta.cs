@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <meta> HTML element represents metadata that cannot be represented by other meta-related elements, such as <base>, <link>, <script>, <style>, or <title>. The type of metadata provided by the <meta> element can be one of the following: If the name attribute is set, the <meta> element provides document-level metadata that applies to the whole page. If the http-equiv attribute is set, the <meta> element acts as a pragma directive to simulate directives that could otherwise be given by an HTTP header. If the charset attribute is set, the <meta> element is a charset declaration, giving the character encoding in which the document is encoded. If the itemprop attribute is set, the <meta> element provides user-defined metadata.
+///The &lt;meta&gt; HTML element represents metadata that cannot be represented by other meta-related elements, such as &lt;base&gt;, &lt;link&gt;, &lt;script&gt;, &lt;style&gt;, or &lt;title&gt;. The type of metadata provided by the &lt;meta&gt; element can be one of the following: If the name attribute is set, the &lt;meta&gt; element provides document-level metadata that applies to the whole page. If the http-equiv attribute is set, the &lt;meta&gt; element acts as a pragma directive to simulate directives that could otherwise be given by an HTTP header. If the charset attribute is set, the &lt;meta&gt; element is a charset declaration, giving the character encoding in which the document is encoded. If the itemprop attribute is set, the &lt;meta&gt; element provides user-defined metadata.
 /// </summary>
-public partial class Meta()
-	: HtmlTag("meta", true)
+public partial class Meta
+	: HtmlTag
 {
 	/// <summary>
-	/// This attribute declares the document's character encoding. If the attribute is present, its value must be an ASCII case-insensitive match for the string "utf-8", because UTF-8 is the only valid encoding for HTML5 documents. <meta> elements which declare a character encoding must be located entirely within the first 1024 bytes of the document.
+	///The &lt;meta&gt; HTML element represents metadata that cannot be represented by other meta-related elements, such as &lt;base&gt;, &lt;link&gt;, &lt;script&gt;, &lt;style&gt;, or &lt;title&gt;. The type of metadata provided by the &lt;meta&gt; element can be one of the following: If the name attribute is set, the &lt;meta&gt; element provides document-level metadata that applies to the whole page. If the http-equiv attribute is set, the &lt;meta&gt; element acts as a pragma directive to simulate directives that could otherwise be given by an HTTP header. If the charset attribute is set, the &lt;meta&gt; element is a charset declaration, giving the character encoding in which the document is encoded. If the itemprop attribute is set, the &lt;meta&gt; element provides user-defined metadata.
+	/// </summary>
+	public Meta()
+		: base("meta", true)
+	{
+	}
+	/// <summary>
+	///This attribute declares the document&apos;s character encoding. If the attribute is present, its value must be an ASCII case-insensitive match for the string &quot;utf-8&quot;, because UTF-8 is the only valid encoding for HTML5 documents. &lt;meta&gt; elements which declare a character encoding must be located entirely within the first 1024 bytes of the document.
 	/// </summary>
 	public Meta Charset(string value)
 	{
@@ -22,7 +29,7 @@ public partial class Meta()
 	}
 
 	/// <summary>
-	/// This attribute contains the value for the http-equiv or name attribute, depending on which is used.
+	///This attribute contains the value for the http-equiv or name attribute, depending on which is used.
 	/// </summary>
 	public Meta Content(string value)
 	{
@@ -30,8 +37,8 @@ public partial class Meta()
 	}
 
 	/// <summary>
-	/// Defines a pragma directive, which are instructions for the browser for processing the document.
-	/// The attribute's name is short for http-equivalent because the allowed values are names of equivalent HTTP headers.
+	///Defines a pragma directive, which are instructions for the browser for processing the document.
+	///The attribute&apos;s name is short for http-equivalent because the allowed values are names of equivalent HTTP headers.
 	/// </summary>
 	public Meta HttpEquiv(string value)
 	{
@@ -39,10 +46,10 @@ public partial class Meta()
 	}
 
 	/// <summary>
-	/// The media attribute defines which media the theme color defined in the content attribute should be applied to.
-	/// Its value is a media query, which defaults to all if the attribute is missing.
-	/// This attribute is only relevant when the element's name attribute is set to theme-color.
-	/// Otherwise, it has no effect, and should not be included.
+	///The media attribute defines which media the theme color defined in the content attribute should be applied to.
+	///Its value is a media query, which defaults to all if the attribute is missing.
+	///This attribute is only relevant when the element&apos;s name attribute is set to theme-color.
+	///Otherwise, it has no effect, and should not be included.
 	/// </summary>
 	public Meta Media(string value)
 	{
@@ -50,7 +57,7 @@ public partial class Meta()
 	}
 
 	/// <summary>
-	/// The name and content attributes can be used together to provide document metadata in terms of name-value pairs, with the name attribute giving the metadata name, and the content attribute giving the value.
+	///The name and content attributes can be used together to provide document metadata in terms of name-value pairs, with the name attribute giving the metadata name, and the content attribute giving the value.
 	/// </summary>
 	public Meta Name(string value)
 	{

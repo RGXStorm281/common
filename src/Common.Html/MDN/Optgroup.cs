@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <optgroup> HTML element creates a grouping of options within a <select> element. In customizable <select> elements, the <legend> element is allowed as a child of <optgroup>, to provide a label that is easy to target and style. This replaces any text set in the <optgroup> element's label attribute, and it has the same semantics.
+///The &lt;optgroup&gt; HTML element creates a grouping of options within a &lt;select&gt; element. In customizable &lt;select&gt; elements, the &lt;legend&gt; element is allowed as a child of &lt;optgroup&gt;, to provide a label that is easy to target and style. This replaces any text set in the &lt;optgroup&gt; element&apos;s label attribute, and it has the same semantics.
 /// </summary>
-public partial class Optgroup(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("optgroup", false, contents)
+public partial class Optgroup
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;optgroup&gt; HTML element creates a grouping of options within a &lt;select&gt; element. In customizable &lt;select&gt; elements, the &lt;legend&gt; element is allowed as a child of &lt;optgroup&gt;, to provide a label that is easy to target and style. This replaces any text set in the &lt;optgroup&gt; element&apos;s label attribute, and it has the same semantics.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Optgroup(params IEnumerable<IHtmlContent> contents)
+		: base("optgroup", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;optgroup&gt; HTML element creates a grouping of options within a &lt;select&gt; element. In customizable &lt;select&gt; elements, the &lt;legend&gt; element is allowed as a child of &lt;optgroup&gt;, to provide a label that is easy to target and style. This replaces any text set in the &lt;optgroup&gt; element&apos;s label attribute, and it has the same semantics.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Optgroup(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// If this Boolean attribute is set, none of the items in this option group is selectable. Often browsers grey out such control and it won't receive any browsing events, like mouse clicks or focus-related ones.
+	///If this Boolean attribute is set, none of the items in this option group is selectable. Often browsers grey out such control and it won&apos;t receive any browsing events, like mouse clicks or focus-related ones.
 	/// </summary>
 	public Optgroup Disabled(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Optgroup(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The name of the group of options, which the browser can use when labeling the options in the user interface. This attribute is mandatory if this element is used.
+	///The name of the group of options, which the browser can use when labeling the options in the user interface. This attribute is mandatory if this element is used.
 	/// </summary>
 	public Optgroup Label(string value)
 	{

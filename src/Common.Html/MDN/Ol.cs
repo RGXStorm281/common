@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <ol> HTML element represents an ordered list of items â typically rendered as a numbered list.
+///The &lt;ol&gt; HTML element represents an ordered list of items â typically rendered as a numbered list.
 /// </summary>
-public partial class Ol(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("ol", false, contents)
+public partial class Ol
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;ol&gt; HTML element represents an ordered list of items â typically rendered as a numbered list.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Ol(params IEnumerable<IHtmlContent> contents)
+		: base("ol", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;ol&gt; HTML element represents an ordered list of items â typically rendered as a numbered list.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Ol(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
+	///This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>
 	[Obsolete]
 	public Ol Compact(string value)
@@ -27,7 +44,7 @@ public partial class Ol(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute specifies that the list's items are in reverse order. Items will be numbered from high to low.
+	///This Boolean attribute specifies that the list&apos;s items are in reverse order. Items will be numbered from high to low.
 	/// </summary>
 	public Ol Reversed(string value)
 	{
@@ -35,7 +52,7 @@ public partial class Ol(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// An integer to start counting from for the list items. Always an Arabic numeral (1, 2, 3, etc.), even when the numbering type is letters or Roman numerals. For example, to start numbering elements from the letter "d" or the Roman numeral "iv," use start="4".
+	///An integer to start counting from for the list items. Always an Arabic numeral (1, 2, 3, etc.), even when the numbering type is letters or Roman numerals. For example, to start numbering elements from the letter &quot;d&quot; or the Roman numeral &quot;iv,&quot; use start=&quot;4&quot;.
 	/// </summary>
 	public Ol Start(string value)
 	{
@@ -43,7 +60,7 @@ public partial class Ol(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Sets the numbering type:
+	///Sets the numbering type:
 	/// </summary>
 	public Ol Type(string value)
 	{

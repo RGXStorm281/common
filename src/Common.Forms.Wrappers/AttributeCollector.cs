@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Wrappers;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 
-public static class AttributeCollector
+internal static class AttributeCollector
 {
 	/// <summary>
 	/// Collects all attributes across

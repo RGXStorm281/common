@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <ins> HTML element represents a range of text that has been added to a document. You can use the <del> element to similarly represent a range of text that has been deleted from the document.
+///The &lt;ins&gt; HTML element represents a range of text that has been added to a document. You can use the &lt;del&gt; element to similarly represent a range of text that has been deleted from the document.
 /// </summary>
-public partial class Ins(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("ins", false, contents)
+public partial class Ins
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;ins&gt; HTML element represents a range of text that has been added to a document. You can use the &lt;del&gt; element to similarly represent a range of text that has been deleted from the document.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Ins(params IEnumerable<IHtmlContent> contents)
+		: base("ins", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;ins&gt; HTML element represents a range of text that has been added to a document. You can use the &lt;del&gt; element to similarly represent a range of text that has been deleted from the document.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Ins(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This attribute defines the URI of a resource that explains the change, such as a link to meeting minutes or a ticket in a troubleshooting system.
+	///This attribute defines the URI of a resource that explains the change, such as a link to meeting minutes or a ticket in a troubleshooting system.
 	/// </summary>
 	public Ins Cite(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Ins(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute indicates the time and date of the change and must be a valid date with an optional time string. If the value cannot be parsed as a date with an optional time string, the element does not have an associated timestamp. For the format of the string without a time, see Format of a valid date string. The format of the string if it includes both date and time is covered in Format of a valid local date and time string.
+	///This attribute indicates the time and date of the change and must be a valid date with an optional time string. If the value cannot be parsed as a date with an optional time string, the element does not have an associated timestamp. For the format of the string without a time, see Format of a valid date string. The format of the string if it includes both date and time is covered in Format of a valid local date and time string.
 	/// </summary>
 	public Ins Datetime(string value)
 	{

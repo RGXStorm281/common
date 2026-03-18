@@ -1,5 +1,8 @@
 ﻿namespace RobinEpple.Common.Util;
 
+/// <summary>
+/// A utility class for using memory streams more conveniently.
+/// </summary>
 public static class MemoryExtensions
 {
 	/// <summary>

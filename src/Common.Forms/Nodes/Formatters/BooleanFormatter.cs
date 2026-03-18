@@ -2,6 +2,9 @@ namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// A formatter for boolean values.
+/// </summary>
 public partial class BooleanFormatter(string trueText, string falseText) : IValueFormatter
 {
 	private readonly string _trueText = trueText;

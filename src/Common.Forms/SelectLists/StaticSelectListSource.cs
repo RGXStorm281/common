@@ -1,7 +1,11 @@
 namespace RobinEpple.Common.Forms.SelectLists;
 
+using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// A static collection as select list.
+/// </summary>
 public partial class StaticSelectListSource<TValue>(IEnumerable<SelectListItem<TValue>> items)
 	: ISelectListSource<TValue>
 {
@@ -9,5 +13,5 @@ public partial class StaticSelectListSource<TValue>(IEnumerable<SelectListItem<T
 
 	/// <inheritdoc />
 	[GenerateAsyncOverload]
-	public IEnumerable<ISelectListItem<TValue>> LoadItems(IDictionary<string, object?>? dependencies = null) => _items;
+	public IEnumerable<ISelectListItem<TValue>> LoadFor(IFormNode node) => _items;
 }

@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms.Nodes.Formatters;
 using System.Globalization;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// A formatter for timestamp values.
+/// </summary>
 public partial class LocalizedTimestampFormatter(CultureInfo culture) : IValueFormatter
 {
 	private readonly CultureInfo _culture = culture;

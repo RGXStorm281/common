@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <title> HTML element defines the document's title that is shown in a browser 's title bar or a page's tab. It only contains text; HTML tags within the element, if any, are also treated as plain text. html <title>Grandma's Heavy Metal Festival Journal</title>
+///The &lt;title&gt; HTML element defines the document&apos;s title that is shown in a browser &apos;s title bar or a page&apos;s tab. It only contains text; HTML tags within the element, if any, are also treated as plain text. html &lt;title&gt;Grandma&apos;s Heavy Metal Festival Journal&lt;/title&gt;
 /// </summary>
-public partial class Title(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("title", false, contents)
+public partial class Title
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;title&gt; HTML element defines the document&apos;s title that is shown in a browser &apos;s title bar or a page&apos;s tab. It only contains text; HTML tags within the element, if any, are also treated as plain text. html &lt;title&gt;Grandma&apos;s Heavy Metal Festival Journal&lt;/title&gt;
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Title(params IEnumerable<IHtmlContent> contents)
+		: base("title", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;title&gt; HTML element defines the document&apos;s title that is shown in a browser &apos;s title bar or a page&apos;s tab. It only contains text; HTML tags within the element, if any, are also treated as plain text. html &lt;title&gt;Grandma&apos;s Heavy Metal Festival Journal&lt;/title&gt;
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Title(string text)
 		: this(Encode(text))
 	{

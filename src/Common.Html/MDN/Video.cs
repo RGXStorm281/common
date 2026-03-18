@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <video> HTML element embeds a media player which supports video playback into the document. You can use <video> for audio content as well, but the <audio> element may provide a more appropriate user experience.
+///The &lt;video&gt; HTML element embeds a media player which supports video playback into the document. You can use &lt;video&gt; for audio content as well, but the &lt;audio&gt; element may provide a more appropriate user experience.
 /// </summary>
-public partial class Video(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("video", false, contents)
+public partial class Video
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;video&gt; HTML element embeds a media player which supports video playback into the document. You can use &lt;video&gt; for audio content as well, but the &lt;audio&gt; element may provide a more appropriate user experience.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Video(params IEnumerable<IHtmlContent> contents)
+		: base("video", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;video&gt; HTML element embeds a media player which supports video playback into the document. You can use &lt;video&gt; for audio content as well, but the &lt;audio&gt; element may provide a more appropriate user experience.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Video(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Sends a cross-origin request without a credential. In other words, it sends the Origin: HTTP header without a cookie, X.509 certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin: HTTP header), the resource will be tainted, and its usage restricted.
+	///Sends a cross-origin request without a credential. In other words, it sends the Origin: HTTP header without a cookie, X.509 certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (by not setting the Access-Control-Allow-Origin: HTTP header), the resource will be tainted, and its usage restricted.
 	/// </summary>
 	public Video Anonymous(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The input buffer of a ScriptProcessorNode is ready to be processed.
+	///The input buffer of a ScriptProcessorNode is ready to be processed.
 	/// </summary>
 	[Obsolete]
 	public Video Audioprocess(string value)
@@ -35,7 +52,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute; if specified, the video automatically begins to play back as soon as it can without stopping to finish loading the data.
+	///A Boolean attribute; if specified, the video automatically begins to play back as soon as it can without stopping to finish loading the data.
 	/// </summary>
 	public Video Autoplay(string value)
 	{
@@ -43,7 +60,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The browser can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content.
+	///The browser can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content.
 	/// </summary>
 	public Video Canplay(string value)
 	{
@@ -51,7 +68,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The browser estimates it can play the media up to its end without stopping for content buffering.
+	///The browser estimates it can play the media up to its end without stopping for content buffering.
 	/// </summary>
 	public Video Canplaythrough(string value)
 	{
@@ -59,7 +76,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The rendering of an OfflineAudioContext is terminated.
+	///The rendering of an OfflineAudioContext is terminated.
 	/// </summary>
 	public Video Complete(string value)
 	{
@@ -67,7 +84,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If this attribute is present, the browser will offer controls to allow the user to control video playback, including volume, seeking, and pause/resume playback.
+	///If this attribute is present, the browser will offer controls to allow the user to control video playback, including volume, seeking, and pause/resume playback.
 	/// </summary>
 	public Video Controls(string value)
 	{
@@ -75,7 +92,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The controlslist attribute, when specified, helps the browser select what controls to show for the video element whenever the browser shows its own set of controls (that is, when the controls attribute is specified).
+	///The controlslist attribute, when specified, helps the browser select what controls to show for the video element whenever the browser shows its own set of controls (that is, when the controls attribute is specified).
 	/// </summary>
 	public Video Controlslist(string value)
 	{
@@ -83,7 +100,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This enumerated attribute indicates whether to use CORS to fetch the related video. CORS-enabled resources can be reused in the <canvas> element without being tainted. The allowed values are:
+	///This enumerated attribute indicates whether to use CORS to fetch the related video. CORS-enabled resources can be reused in the &lt;canvas&gt; element without being tainted. The allowed values are:
 	/// </summary>
 	public Video Crossorigin(string value)
 	{
@@ -91,7 +108,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Prevents the browser from suggesting a Picture-in-Picture context menu or to request Picture-in-Picture automatically in some cases.
+	///Prevents the browser from suggesting a Picture-in-Picture context menu or to request Picture-in-Picture automatically in some cases.
 	/// </summary>
 	public Video Disablepictureinpicture(string value)
 	{
@@ -99,7 +116,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired (HDMI, DVI, etc.) and wireless technologies (Miracast, Chromecast, DLNA, AirPlay, etc.).
+	///A Boolean attribute used to disable the capability of remote playback in devices that are attached using wired (HDMI, DVI, etc.) and wireless technologies (Miracast, Chromecast, DLNA, AirPlay, etc.).
 	/// </summary>
 	public Video Disableremoteplayback(string value)
 	{
@@ -107,7 +124,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The duration attribute has been updated.
+	///The duration attribute has been updated.
 	/// </summary>
 	public Video Durationchange(string value)
 	{
@@ -115,7 +132,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it.
+	///The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it.
 	/// </summary>
 	public Video Emptied(string value)
 	{
@@ -123,7 +140,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has stopped because the end of the media was reached.
+	///Playback has stopped because the end of the media was reached.
 	/// </summary>
 	public Video Ended(string value)
 	{
@@ -131,7 +148,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// An error occurred while fetching the media data, or the type of the resource is not a supported media format.
+	///An error occurred while fetching the media data, or the type of the resource is not a supported media format.
 	/// </summary>
 	public Video Error(string value)
 	{
@@ -139,7 +156,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The height of the video's display area, in CSS pixels (absolute values only; no percentages ).
+	///The height of the video&apos;s display area, in CSS pixels (absolute values only; no percentages ).
 	/// </summary>
 	public Video Height(string value)
 	{
@@ -147,8 +164,8 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// An AudioTrackList containing all of the media element's audio tracks.
-	/// Add a listener for addtrack to this object to be notified when new audio tracks are added to the element.
+	///An AudioTrackList containing all of the media element&apos;s audio tracks.
+	///Add a listener for addtrack to this object to be notified when new audio tracks are added to the element.
 	/// </summary>
 	public Video HtmlmediaelementAudiotracks(string value)
 	{
@@ -156,8 +173,8 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A TextTrackList containing all of the media element's text tracks (which are used for subtitles, closed captions, and so on).
-	/// Add an addtrack listener to this object to be notified when text tracks are added to the element.
+	///A TextTrackList containing all of the media element&apos;s text tracks (which are used for subtitles, closed captions, and so on).
+	///Add an addtrack listener to this object to be notified when text tracks are added to the element.
 	/// </summary>
 	public Video HtmlmediaelementTexttracks(string value)
 	{
@@ -165,8 +182,8 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A VideoTrackList containing all of the media element's video tracks.
-	/// Add an addtrack listener to this object to be notified when video tracks are added to the element.
+	///A VideoTrackList containing all of the media element&apos;s video tracks.
+	///Add an addtrack listener to this object to be notified when video tracks are added to the element.
 	/// </summary>
 	public Video HtmlmediaelementVideotracks(string value)
 	{
@@ -174,7 +191,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The first frame of the media has finished loading.
+	///The first frame of the media has finished loading.
 	/// </summary>
 	public Video Loadeddata(string value)
 	{
@@ -182,7 +199,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The metadata has been loaded.
+	///The metadata has been loaded.
 	/// </summary>
 	public Video Loadedmetadata(string value)
 	{
@@ -190,7 +207,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Fired when the browser has started to load the resource.
+	///Fired when the browser has started to load the resource.
 	/// </summary>
 	public Video Loadstart(string value)
 	{
@@ -198,7 +215,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute; if specified, the browser will automatically seek back to the start upon reaching the end of the video.
+	///A Boolean attribute; if specified, the browser will automatically seek back to the start upon reaching the end of the video.
 	/// </summary>
 	public Video Loop(string value)
 	{
@@ -206,7 +223,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute that indicates the default audio mute setting contained in the video. If set, the audio will be initially silenced. Its default value is false, meaning the audio will be played when the video is played.
+	///A Boolean attribute that indicates the default audio mute setting contained in the video. If set, the audio will be initially silenced. Its default value is false, meaning the audio will be played when the video is played.
 	/// </summary>
 	public Video Muted(string value)
 	{
@@ -214,7 +231,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has been paused.
+	///Playback has been paused.
 	/// </summary>
 	public Video Pause(string value)
 	{
@@ -222,7 +239,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has begun.
+	///Playback has begun.
 	/// </summary>
 	public Video Play(string value)
 	{
@@ -230,7 +247,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback is ready to start after having been paused or delayed due to lack of data.
+	///Playback is ready to start after having been paused or delayed due to lack of data.
 	/// </summary>
 	public Video Playing(string value)
 	{
@@ -238,7 +255,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A Boolean attribute indicating that the video is to be played "inline", that is, within the element's playback area. Note that the absence of this attribute does not imply that the video will always be played in fullscreen.
+	///A Boolean attribute indicating that the video is to be played &quot;inline&quot;, that is, within the element&apos;s playback area. Note that the absence of this attribute does not imply that the video will always be played in fullscreen.
 	/// </summary>
 	public Video Playsinline(string value)
 	{
@@ -246,7 +263,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A URL for an image to be shown while the video is downloading. If this attribute isn't specified, nothing is displayed until the first frame is available, then the first frame is shown as the poster frame.
+	///A URL for an image to be shown while the video is downloading. If this attribute isn&apos;t specified, nothing is displayed until the first frame is available, then the first frame is shown as the poster frame.
 	/// </summary>
 	public Video Poster(string value)
 	{
@@ -254,7 +271,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience regarding what content is loaded before the video is played. It may have one of the following values:
+	///This enumerated attribute is intended to provide a hint to the browser about what the author thinks will lead to the best user experience regarding what content is loaded before the video is played. It may have one of the following values:
 	/// </summary>
 	public Video Preload(string value)
 	{
@@ -262,7 +279,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Fired periodically as the browser loads a resource.
+	///Fired periodically as the browser loads a resource.
 	/// </summary>
 	public Video Progress(string value)
 	{
@@ -270,7 +287,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The playback rate has changed.
+	///The playback rate has changed.
 	/// </summary>
 	public Video Ratechange(string value)
 	{
@@ -278,7 +295,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A seek operation completed.
+	///A seek operation completed.
 	/// </summary>
 	public Video Seeked(string value)
 	{
@@ -286,7 +303,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A seek operation began.
+	///A seek operation began.
 	/// </summary>
 	public Video Seeking(string value)
 	{
@@ -294,7 +311,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The URL of the video to embed. This is optional; you may instead use the <source> element within the video block to specify the video to embed.
+	///The URL of the video to embed. This is optional; you may instead use the &lt;source&gt; element within the video block to specify the video to embed.
 	/// </summary>
 	public Video Src(string value)
 	{
@@ -302,7 +319,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The user agent is trying to fetch media data, but data is unexpectedly not forthcoming.
+	///The user agent is trying to fetch media data, but data is unexpectedly not forthcoming.
 	/// </summary>
 	public Video Stalled(string value)
 	{
@@ -310,7 +327,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Media data loading has been suspended.
+	///Media data loading has been suspended.
 	/// </summary>
 	public Video Suspend(string value)
 	{
@@ -318,7 +335,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The time indicated by the currentTime attribute has been updated.
+	///The time indicated by the currentTime attribute has been updated.
 	/// </summary>
 	public Video Timeupdate(string value)
 	{
@@ -326,7 +343,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Sends a cross-origin request with a credential. In other words, it sends the Origin: HTTP header with a cookie, a certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (through Access-Control-Allow-Credentials: HTTP header), the resource will be tainted and its usage restricted.
+	///Sends a cross-origin request with a credential. In other words, it sends the Origin: HTTP header with a cookie, a certificate, or performing HTTP Basic authentication. If the server does not give credentials to the origin site (through Access-Control-Allow-Credentials: HTTP header), the resource will be tainted and its usage restricted.
 	/// </summary>
 	public Video UseCredentials(string value)
 	{
@@ -334,7 +351,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The volume has changed.
+	///The volume has changed.
 	/// </summary>
 	public Video Volumechange(string value)
 	{
@@ -342,7 +359,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Playback has stopped because of a temporary lack of data.
+	///Playback has stopped because of a temporary lack of data.
 	/// </summary>
 	public Video Waiting(string value)
 	{
@@ -350,7 +367,7 @@ public partial class Video(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The width of the video's display area, in CSS pixels (absolute values only; no percentages ).
+	///The width of the video&apos;s display area, in CSS pixels (absolute values only; no percentages ).
 	/// </summary>
 	public Video Width(string value)
 	{

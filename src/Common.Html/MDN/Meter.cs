@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <meter> HTML element represents either a scalar value within a known range or a fractional value.
+///The &lt;meter&gt; HTML element represents either a scalar value within a known range or a fractional value.
 /// </summary>
-public partial class Meter(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("meter", false, contents)
+public partial class Meter
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;meter&gt; HTML element represents either a scalar value within a known range or a fractional value.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Meter(params IEnumerable<IHtmlContent> contents)
+		: base("meter", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;meter&gt; HTML element represents either a scalar value within a known range or a fractional value.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Meter(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The lower numeric bound of the high end of the measured range. This must be less than the maximum value ( max attribute), and it also must be greater than the low value and minimum value ( low attribute and min attribute, respectively), if any are specified. If unspecified, or if greater than the maximum value, the high value is equal to the maximum value.
+	///The lower numeric bound of the high end of the measured range. This must be less than the maximum value ( max attribute), and it also must be greater than the low value and minimum value ( low attribute and min attribute, respectively), if any are specified. If unspecified, or if greater than the maximum value, the high value is equal to the maximum value.
 	/// </summary>
 	public Meter High(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Meter(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The upper numeric bound of the low end of the measured range. This must be greater than the minimum value ( min attribute), and it also must be less than the high value and maximum value ( high attribute and max attribute, respectively), if any are specified. If unspecified, or if less than the minimum value, the low value is equal to the minimum value.
+	///The upper numeric bound of the low end of the measured range. This must be greater than the minimum value ( min attribute), and it also must be less than the high value and maximum value ( high attribute and max attribute, respectively), if any are specified. If unspecified, or if less than the minimum value, the low value is equal to the minimum value.
 	/// </summary>
 	public Meter Low(string value)
 	{
@@ -34,7 +51,7 @@ public partial class Meter(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The upper numeric bound of the measured range. This must be greater than the minimum value ( min attribute), if specified. If unspecified, the maximum value is 1.
+	///The upper numeric bound of the measured range. This must be greater than the minimum value ( min attribute), if specified. If unspecified, the maximum value is 1.
 	/// </summary>
 	public Meter Max(string value)
 	{
@@ -42,7 +59,7 @@ public partial class Meter(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The lower numeric bound of the measured range. This must be less than the maximum value ( max attribute), if specified. If unspecified, the minimum value is 0.
+	///The lower numeric bound of the measured range. This must be less than the maximum value ( max attribute), if specified. If unspecified, the minimum value is 0.
 	/// </summary>
 	public Meter Min(string value)
 	{
@@ -50,7 +67,7 @@ public partial class Meter(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute indicates the optimal numeric value. It must be within the range (as defined by the min attribute and max attribute). When used with the low attribute and high attribute, it gives an indication where along the range is considered preferable. For example, if it is between the min attribute and the low attribute, then the lower range is considered preferred. The browser may color the meter's bar differently depending on whether the value is less than or equal to the optimum value.
+	///This attribute indicates the optimal numeric value. It must be within the range (as defined by the min attribute and max attribute). When used with the low attribute and high attribute, it gives an indication where along the range is considered preferable. For example, if it is between the min attribute and the low attribute, then the lower range is considered preferred. The browser may color the meter&apos;s bar differently depending on whether the value is less than or equal to the optimum value.
 	/// </summary>
 	public Meter Optimum(string value)
 	{
@@ -58,7 +75,7 @@ public partial class Meter(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The current numeric value. This must be between the minimum and maximum values ( min attribute and max attribute) if they are specified. If unspecified or malformed, the value is 0. If specified, but not within the range given by the min attribute and max attribute, the value is equal to the nearest end of the range.
+	///The current numeric value. This must be between the minimum and maximum values ( min attribute and max attribute) if they are specified. If unspecified or malformed, the value is 0. If specified, but not within the range given by the min attribute and max attribute, the value is equal to the nearest end of the range.
 	/// </summary>
 	public Meter Value(string value)
 	{

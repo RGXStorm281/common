@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <fieldset> HTML element is used to group several controls as well as labels ( <label> ) within a web form.
+///The &lt;fieldset&gt; HTML element is used to group several controls as well as labels ( &lt;label&gt; ) within a web form.
 /// </summary>
-public partial class Fieldset(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("fieldset", false, contents)
+public partial class Fieldset
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;fieldset&gt; HTML element is used to group several controls as well as labels ( &lt;label&gt; ) within a web form.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Fieldset(params IEnumerable<IHtmlContent> contents)
+		: base("fieldset", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;fieldset&gt; HTML element is used to group several controls as well as labels ( &lt;label&gt; ) within a web form.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Fieldset(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// If this Boolean attribute is set, all form controls that are descendants of the <fieldset>, are disabled, meaning they are not editable and won't be submitted along with the <form>. They won't receive any browsing events, like mouse clicks or focus-related events. By default browsers display such controls grayed out. Note that form elements inside the <legend> element won't be disabled.
+	///If this Boolean attribute is set, all form controls that are descendants of the &lt;fieldset&gt;, are disabled, meaning they are not editable and won&apos;t be submitted along with the &lt;form&gt;. They won&apos;t receive any browsing events, like mouse clicks or focus-related events. By default browsers display such controls grayed out. Note that form elements inside the &lt;legend&gt; element won&apos;t be disabled.
 	/// </summary>
 	public Fieldset Disabled(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Fieldset(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute takes the value of the id attribute of a <form> element you want the <fieldset> to be part of, even if it is not inside the form. Please note that usage of this is confusing â if you want the <input> elements inside the <fieldset> to be associated with the form, you need to use the form attribute directly on those elements. You can check which elements are associated with a form via JavaScript, using HTMLFormElement.elements.
+	///This attribute takes the value of the id attribute of a &lt;form&gt; element you want the &lt;fieldset&gt; to be part of, even if it is not inside the form. Please note that usage of this is confusing â if you want the &lt;input&gt; elements inside the &lt;fieldset&gt; to be associated with the form, you need to use the form attribute directly on those elements. You can check which elements are associated with a form via JavaScript, using HTMLFormElement.elements.
 	/// </summary>
 	public Fieldset Form(string value)
 	{
@@ -34,7 +51,7 @@ public partial class Fieldset(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The name associated with the group.
+	///The name associated with the group.
 	/// </summary>
 	public Fieldset Name(string value)
 	{

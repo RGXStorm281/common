@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <thead> HTML element encapsulates a set of table rows ( <tr> elements), indicating that they comprise the head of a table with information about the table's columns. This is usually in the form of column headers ( <th> elements).
+///The &lt;thead&gt; HTML element encapsulates a set of table rows ( &lt;tr&gt; elements), indicating that they comprise the head of a table with information about the table&apos;s columns. This is usually in the form of column headers ( &lt;th&gt; elements).
 /// </summary>
-public partial class Thead(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("thead", false, contents)
+public partial class Thead
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;thead&gt; HTML element encapsulates a set of table rows ( &lt;tr&gt; elements), indicating that they comprise the head of a table with information about the table&apos;s columns. This is usually in the form of column headers ( &lt;th&gt; elements).
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Thead(params IEnumerable<IHtmlContent> contents)
+		: base("thead", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;thead&gt; HTML element encapsulates a set of table rows ( &lt;tr&gt; elements), indicating that they comprise the head of a table with information about the table&apos;s columns. This is usually in the form of column headers ( &lt;th&gt; elements).
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Thead(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies the horizontal alignment of each head cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
+	///Specifies the horizontal alignment of each head cell. The possible enumerated values are left, center, right, justify, and char. When supported, the char value aligns the textual content on the character defined in the char attribute and the offset defined by the charoff attribute. Use the text-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Thead Align(string value)
@@ -27,7 +44,7 @@ public partial class Thead(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the background color of each head cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS <color> values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
+	///Defines the background color of each head cell. The value is an HTML color; either a 6-digit hexadecimal RGB code, prefixed by a #, or a color keyword. Other CSS &lt;color&gt; values are not supported. Use the background-color CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Thead Bgcolor(string value)
@@ -36,7 +53,7 @@ public partial class Thead(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the alignment of the content to a character of each head cell. If align is not set to char, this attribute is ignored.
+	///Does nothing. It was originally intended to specify the alignment of the content to a character of each head cell. If align is not set to char, this attribute is ignored.
 	/// </summary>
 	[Obsolete]
 	public Thead Char(string value)
@@ -45,7 +62,7 @@ public partial class Thead(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Does nothing. It was originally intended to specify the number of characters to offset the head cell content from the alignment character specified by the char attribute.
+	///Does nothing. It was originally intended to specify the number of characters to offset the head cell content from the alignment character specified by the char attribute.
 	/// </summary>
 	[Obsolete]
 	public Thead Charoff(string value)
@@ -54,7 +71,7 @@ public partial class Thead(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specifies the vertical alignment of each head cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
+	///Specifies the vertical alignment of each head cell. The possible enumerated values are baseline, bottom, middle, and top. Use the vertical-align CSS property instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Thead Valign(string value)

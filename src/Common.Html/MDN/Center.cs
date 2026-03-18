@@ -8,12 +8,29 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <center> HTML element is a block-level element that displays its block-level or inline contents centered horizontally within its containing element. The container is usually, but isn't required to be, <body>. This tag has been deprecated in HTML 4 (and XHTML 1) in favor of the CSS text-align property, which can be applied to the <div> element or to an individual <p>. For centering blocks, use other CSS properties like margin-left and margin-right and set them to auto (or set margin to 0 auto ).
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;center&gt; HTML element is a block-level element that displays its block-level or inline contents centered horizontally within its containing element. The container is usually, but isn&apos;t required to be, &lt;body&gt;. This tag has been deprecated in HTML 4 (and XHTML 1) in favor of the CSS text-align property, which can be applied to the &lt;div&gt; element or to an individual &lt;p&gt;. For centering blocks, use other CSS properties like margin-left and margin-right and set them to auto (or set margin to 0 auto ).
 /// </summary>
 [Obsolete]
-public partial class Center(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("center", false, contents)
+public partial class Center
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;center&gt; HTML element is a block-level element that displays its block-level or inline contents centered horizontally within its containing element. The container is usually, but isn&apos;t required to be, &lt;body&gt;. This tag has been deprecated in HTML 4 (and XHTML 1) in favor of the CSS text-align property, which can be applied to the &lt;div&gt; element or to an individual &lt;p&gt;. For centering blocks, use other CSS properties like margin-left and margin-right and set them to auto (or set margin to 0 auto ).
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Center(params IEnumerable<IHtmlContent> contents)
+		: base("center", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;center&gt; HTML element is a block-level element that displays its block-level or inline contents centered horizontally within its containing element. The container is usually, but isn&apos;t required to be, &lt;body&gt;. This tag has been deprecated in HTML 4 (and XHTML 1) in favor of the CSS text-align property, which can be applied to the &lt;div&gt; element or to an individual &lt;p&gt;. For centering blocks, use other CSS properties like margin-left and margin-right and set them to auto (or set margin to 0 auto ).
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Center(string text)
 		: this(Encode(text))
 	{

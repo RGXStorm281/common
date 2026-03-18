@@ -285,3 +285,8 @@ dotnet_naming_style.begins_with_t.required_prefix = T
 dotnet_naming_style.begins_with_t.required_suffix =
 dotnet_naming_style.begins_with_t.word_separator =
 dotnet_naming_style.begins_with_t.capitalization = pascal_case
+
+# Suppress warnings for generated code
+[**/*.Designer.cs]
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none

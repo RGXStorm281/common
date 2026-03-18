@@ -1,3 +1,4 @@
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace RobinEpple.Common.SourceGenerators;
 
 using System.Collections.Immutable;
@@ -98,7 +99,7 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	/// Generates each async overload in a dedicated partial class.
 	/// </summary>
 	/// <param name="context">The source production context to register the generated partial classes.</param>
-	/// <param name="generatorInformation">The list of method declarations and the compilation for interpretation of their semantics.</param>
+	/// <param name="generationTasks">The list of generation tasks.</param>
 	private static void Generate(
 		SourceProductionContext context,
 		ImmutableArray<AsyncOverloadGenerationTask?> generationTasks

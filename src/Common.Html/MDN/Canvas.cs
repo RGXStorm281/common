@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Use the HTML <canvas> element with either the canvas scripting API or the WebGL API to draw graphics and animations.
+///Use the HTML &lt;canvas&gt; element with either the canvas scripting API or the WebGL API to draw graphics and animations.
 /// </summary>
-public partial class Canvas(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("canvas", false, contents)
+public partial class Canvas
+	: HtmlTag
 {
+	/// <summary>
+	///Use the HTML &lt;canvas&gt; element with either the canvas scripting API or the WebGL API to draw graphics and animations.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Canvas(params IEnumerable<IHtmlContent> contents)
+		: base("canvas", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Use the HTML &lt;canvas&gt; element with either the canvas scripting API or the WebGL API to draw graphics and animations.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Canvas(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The height of the coordinate space in CSS pixels. Defaults to 150.
+	///The height of the coordinate space in CSS pixels. Defaults to 150.
 	/// </summary>
 	public Canvas Height(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Canvas(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Lets the canvas know whether translucency will be a factor. If the canvas knows there's no translucency, painting performance can be optimized. This is only supported by Mozilla-based browsers; use the standardized canvas.getContext('2d', { alpha: false }) instead.
+	///Lets the canvas know whether translucency will be a factor. If the canvas knows there&apos;s no translucency, painting performance can be optimized. This is only supported by Mozilla-based browsers; use the standardized canvas.getContext(&apos;2d&apos;, { alpha: false }) instead.
 	/// </summary>
 	[Obsolete]
 	public Canvas MozOpaque(string value)
@@ -35,7 +52,7 @@ public partial class Canvas(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The width of the coordinate space in CSS pixels. Defaults to 300.
+	///The width of the coordinate space in CSS pixels. Defaults to 300.
 	/// </summary>
 	public Canvas Width(string value)
 	{

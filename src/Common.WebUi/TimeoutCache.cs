@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using RobinEpple.Common.Util;
 
+/// <summary>
+/// A simple cache implementation that allows caching items with a timeout. The cache will automatically purge expired items at a specified interval.
+/// The cache is thread-safe and can be used in a multi-threaded environment.
+/// </summary>
 public class TimeoutCache : ITimeoutCache, IHostedService
 {
 	private class CacheEntry(object item, TimeSpan timeout)
@@ -23,6 +27,10 @@ public class TimeoutCache : ITimeoutCache, IHostedService
 	private readonly TimeSpan _purgeInterval;
 	private Timer? _purgeTimer;
 
+	/// <summary>
+	/// Instantiates a new cache instance.
+	/// </summary>
+	/// <param name="purgeInterval">The interval at which the cache should purge expired items.</param>
 	public TimeoutCache(TimeSpan purgeInterval)
 	{
 		_cache = [];

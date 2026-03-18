@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <caption> HTML element specifies the caption (or title) of a table, providing the table an accessible name or accessible description.
+///The &lt;caption&gt; HTML element specifies the caption (or title) of a table, providing the table an accessible name or accessible description.
 /// </summary>
-public partial class Caption(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("caption", false, contents)
+public partial class Caption
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;caption&gt; HTML element specifies the caption (or title) of a table, providing the table an accessible name or accessible description.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Caption(params IEnumerable<IHtmlContent> contents)
+		: base("caption", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;caption&gt; HTML element specifies the caption (or title) of a table, providing the table an accessible name or accessible description.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Caption(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies on which side of the table the caption should be displayed. The possible enumerated values are left, top, right, or bottom. Use the caption-side and text-align CSS properties instead, as this attribute is deprecated.
+	///Specifies on which side of the table the caption should be displayed. The possible enumerated values are left, top, right, or bottom. Use the caption-side and text-align CSS properties instead, as this attribute is deprecated.
 	/// </summary>
 	[Obsolete]
 	public Caption Align(string value)

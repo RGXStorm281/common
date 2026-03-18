@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <del> HTML element represents a range of text that has been deleted from a document. This can be used when rendering "track changes" or source code diff information, for example. The <ins> element can be used for the opposite purpose: to indicate text that has been added to the document.
+///The &lt;del&gt; HTML element represents a range of text that has been deleted from a document. This can be used when rendering &quot;track changes&quot; or source code diff information, for example. The &lt;ins&gt; element can be used for the opposite purpose: to indicate text that has been added to the document.
 /// </summary>
-public partial class Del(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("del", false, contents)
+public partial class Del
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;del&gt; HTML element represents a range of text that has been deleted from a document. This can be used when rendering &quot;track changes&quot; or source code diff information, for example. The &lt;ins&gt; element can be used for the opposite purpose: to indicate text that has been added to the document.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Del(params IEnumerable<IHtmlContent> contents)
+		: base("del", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;del&gt; HTML element represents a range of text that has been deleted from a document. This can be used when rendering &quot;track changes&quot; or source code diff information, for example. The &lt;ins&gt; element can be used for the opposite purpose: to indicate text that has been added to the document.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Del(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// A URI for a resource that explains the change (for example, meeting minutes).
+	///A URI for a resource that explains the change (for example, meeting minutes).
 	/// </summary>
 	public Del Cite(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Del(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute indicates the time and date of the change and must be a valid date string with an optional time. If the value cannot be parsed as a date with an optional time string, the element does not have an associated timestamp. For the format of the string without a time, see Date strings. The format of the string if it includes both date and time is covered in Local date and time strings.
+	///This attribute indicates the time and date of the change and must be a valid date string with an optional time. If the value cannot be parsed as a date with an optional time string, the element does not have an associated timestamp. For the format of the string without a time, see Date strings. The format of the string if it includes both date and time is covered in Local date and time strings.
 	/// </summary>
 	public Del Datetime(string value)
 	{

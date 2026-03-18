@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <a> HTML element (or anchor element), with its href attribute, creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address. Content within each <a> should indicate the link's destination. If the href attribute is present, pressing the enter key while focused on the <a> element will activate it.
+///The &lt;a&gt; HTML element (or anchor element), with its href attribute, creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address. Content within each &lt;a&gt; should indicate the link&apos;s destination. If the href attribute is present, pressing the enter key while focused on the &lt;a&gt; element will activate it.
 /// </summary>
-public partial class A(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("a", false, contents)
+public partial class A
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;a&gt; HTML element (or anchor element), with its href attribute, creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address. Content within each &lt;a&gt; should indicate the link&apos;s destination. If the href attribute is present, pressing the enter key while focused on the &lt;a&gt; element will activate it.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public A(params IEnumerable<IHtmlContent> contents)
+		: base("a", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;a&gt; HTML element (or anchor element), with its href attribute, creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address. Content within each &lt;a&gt; should indicate the link&apos;s destination. If the href attribute is present, pressing the enter key while focused on the &lt;a&gt; element will activate it.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public A(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies that you want the browser to send an Attribution-Reporting-Eligible header. On the server-side this is used to trigger sending an Attribution-Reporting-Register-Source header in the response, to register a navigation-based attribution source.
+	///Specifies that you want the browser to send an Attribution-Reporting-Eligible header. On the server-side this is used to trigger sending an Attribution-Reporting-Register-Source header in the response, to register a navigation-based attribution source.
 	/// </summary>
 	[Obsolete]
 	public A Attributionsrc(string value)
@@ -27,7 +44,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Hinted at the character encoding of the linked URL.
+	///Hinted at the character encoding of the linked URL.
 	/// </summary>
 	[Obsolete]
 	public A Charset(string value)
@@ -36,7 +53,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Used with the shape attribute. A comma-separated list of coordinates.
+	///Used with the shape attribute. A comma-separated list of coordinates.
 	/// </summary>
 	[Obsolete]
 	public A Coords(string value)
@@ -45,7 +62,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Causes the browser to treat the linked URL as a download. Can be used with or without a filename value:
+	///Causes the browser to treat the linked URL as a download. Can be used with or without a filename value:
 	/// </summary>
 	public A Download(string value)
 	{
@@ -53,7 +70,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The URL that the hyperlink points to. Links are not restricted to HTTP-based URLs â they can use any URL scheme supported by browsers:
+	///The URL that the hyperlink points to. Links are not restricted to HTTP-based URLs â they can use any URL scheme supported by browsers:
 	/// </summary>
 	public A Href(string value)
 	{
@@ -61,7 +78,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Hints at the human language of the linked URL. No built-in functionality. Allowed values are the same as the global lang attribute.
+	///Hints at the human language of the linked URL. No built-in functionality. Allowed values are the same as the global lang attribute.
 	/// </summary>
 	public A Hreflang(string value)
 	{
@@ -69,7 +86,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Defines the <a> element as an interest invoker. Its value is the id of the target element, which will be affected in some way (normally shown or hidden) when interest is shown or lost on the invoker element (for example, by hovering/unhovering or focusing/blurring it). See Using interest invokers for more details and examples.
+	///Defines the &lt;a&gt; element as an interest invoker. Its value is the id of the target element, which will be affected in some way (normally shown or hidden) when interest is shown or lost on the invoker element (for example, by hovering/unhovering or focusing/blurring it). See Using interest invokers for more details and examples.
 	/// </summary>
 	public A Interestfor(string value)
 	{
@@ -77,7 +94,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Was required to define a possible target location in a page. In HTML 4.01, id and name could both be used on <a>, as long as they had identical values.
+	///Was required to define a possible target location in a page. In HTML 4.01, id and name could both be used on &lt;a&gt;, as long as they had identical values.
 	/// </summary>
 	[Obsolete]
 	public A Name(string value)
@@ -86,7 +103,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A space-separated list of URLs. When the link is followed, the browser will send POST requests with the body PING to the URLs. Typically for tracking.
+	///A space-separated list of URLs. When the link is followed, the browser will send POST requests with the body PING to the URLs. Typically for tracking.
 	/// </summary>
 	public A Ping(string value)
 	{
@@ -94,7 +111,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// How much of the referrer to send when following the link.
+	///How much of the referrer to send when following the link.
 	/// </summary>
 	public A Referrerpolicy(string value)
 	{
@@ -102,7 +119,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The relationship of the linked URL as space-separated link types.
+	///The relationship of the linked URL as space-separated link types.
 	/// </summary>
 	public A Rel(string value)
 	{
@@ -110,7 +127,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Specified a reverse link; the opposite of the rel attribute. Deprecated for being very confusing.
+	///Specified a reverse link; the opposite of the rel attribute. Deprecated for being very confusing.
 	/// </summary>
 	[Obsolete]
 	public A Rev(string value)
@@ -119,7 +136,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The shape of the hyperlink's region in an image map.
+	///The shape of the hyperlink&apos;s region in an image map.
 	/// </summary>
 	[Obsolete]
 	public A Shape(string value)
@@ -128,7 +145,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Where to display the linked URL, as the name for a browsing context (a tab, window, or <iframe> ). The following keywords have special meanings for where to load the URL:
+	///Where to display the linked URL, as the name for a browsing context (a tab, window, or &lt;iframe&gt; ). The following keywords have special meanings for where to load the URL:
 	/// </summary>
 	public A Target(string value)
 	{
@@ -136,7 +153,7 @@ public partial class A(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Hints at the linked URL's format with a MIME type. No built-in functionality.
+	///Hints at the linked URL&apos;s format with a MIME type. No built-in functionality.
 	/// </summary>
 	public A Type(string value)
 	{

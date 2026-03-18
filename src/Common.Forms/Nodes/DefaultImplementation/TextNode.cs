@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class TextNode : FieldNode, ITextNode
@@ -20,6 +21,17 @@ internal partial class TextNode : FieldNode, ITextNode
 		set => _value.CurrentValue = value;
 	}
 
+	/// <inheritdoc />
+	public ISelectListSource<string?>? SelectList { get; private set; }
+
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<string?>>? CurrentSelectListItems { get; private set; }
+
+	public void UseSelectList(ISelectListSource<string?>? selectList)
+	{
+		SelectList = selectList;
+	}
+
 	internal void ReplaceDefaultValue(string? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
@@ -28,6 +40,14 @@ internal partial class TextNode : FieldNode, ITextNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

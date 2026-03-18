@@ -7,7 +7,7 @@ using RobinEpple.Common.Html;
 public partial class HtmlTag
 {
 	/// <summary>
-	/// Provides a hint for generating a keyboard shortcut for the current element. This attribute consists of a space-separated list of characters. The browser should use the first one that exists on the computer keyboard layout.
+	///Provides a hint for generating a keyboard shortcut for the current element. This attribute consists of a space-separated list of characters. The browser should use the first one that exists on the computer keyboard layout.
 	/// </summary>
 	public HtmlTag Accesskey(string value)
 	{
@@ -15,7 +15,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Associates a positioned element with an anchor element. The attribute's value is the id value of the element you want to anchor the positioned element to. The element can then be positioned using CSS anchor positioning.
+	///Associates a positioned element with an anchor element. The attribute&apos;s value is the id value of the element you want to anchor the positioned element to. The element can then be positioned using CSS anchor positioning.
 	/// </summary>
 	public HtmlTag Anchor(string value)
 	{
@@ -23,7 +23,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Controls whether inputted text is automatically capitalized and, if so, in what manner.
+	///Controls whether inputted text is automatically capitalized and, if so, in what manner.
 	/// </summary>
 	public HtmlTag Autocapitalize(string value)
 	{
@@ -31,8 +31,8 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Controls whether input text is automatically corrected for spelling errors.
-	/// This can be applied to elements that have editable text except for <input> elements with the attribute: type="password", type="email", or type="url".
+	///Controls whether input text is automatically corrected for spelling errors.
+	///This can be applied to elements that have editable text except for &lt;input&gt; elements with the attribute: type=&quot;password&quot;, type=&quot;email&quot;, or type=&quot;url&quot;.
 	/// </summary>
 	public HtmlTag Autocorrect(string value)
 	{
@@ -40,7 +40,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Indicates that an element is to be focused on page load, or as soon as the <dialog> it is part of is displayed. This attribute is a boolean, initially false.
+	///Indicates that an element is to be focused on page load, or as soon as the &lt;dialog&gt; it is part of is displayed. This attribute is a boolean, initially false.
 	/// </summary>
 	public HtmlTag Autofocus(string value)
 	{
@@ -48,7 +48,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute indicating if the element should be editable by the user. If so, the browser modifies its widget to allow editing. The attribute must take one of the following values:
+	///An enumerated attribute indicating if the element should be editable by the user. If so, the browser modifies its widget to allow editing. The attribute must take one of the following values:
 	/// </summary>
 	public HtmlTag Contenteditable(string value)
 	{
@@ -56,7 +56,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute indicating the directionality of the element's text. It can have the following values:
+	///An enumerated attribute indicating the directionality of the element&apos;s text. It can have the following values:
 	/// </summary>
 	public HtmlTag Dir(string value)
 	{
@@ -64,7 +64,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute indicating whether the element can be dragged, using the Drag and Drop API. It can have the following values:
+	///An enumerated attribute indicating whether the element can be dragged, using the Drag and Drop API. It can have the following values:
 	/// </summary>
 	public HtmlTag Draggable(string value)
 	{
@@ -72,7 +72,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Hints what action label (or icon) to present for the enter key on virtual keyboards.
+	///Hints what action label (or icon) to present for the enter key on virtual keyboards.
 	/// </summary>
 	public HtmlTag Enterkeyhint(string value)
 	{
@@ -80,7 +80,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Used to transitively export shadow parts from a nested shadow tree into a containing light tree.
+	///Used to transitively export shadow parts from a nested shadow tree into a containing light tree.
 	/// </summary>
 	public HtmlTag Exportparts(string value)
 	{
@@ -88,7 +88,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute indicating that the element is not yet, or is no longer, relevant. For example, it can be used to hide elements of the page that can't be used until the login process has been completed. The browser won't render such elements. This attribute must not be used to hide content that could legitimately be shown.
+	///An enumerated attribute indicating that the element is not yet, or is no longer, relevant. For example, it can be used to hide elements of the page that can&apos;t be used until the login process has been completed. The browser won&apos;t render such elements. This attribute must not be used to hide content that could legitimately be shown.
 	/// </summary>
 	public HtmlTag Hidden(string value)
 	{
@@ -96,7 +96,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Defines a unique identifier (ID) which must be unique in the whole document. Its purpose is to identify the element when linking (using a fragment identifier), scripting, or styling (with CSS).
+	///Defines a unique identifier (ID) which must be unique in the whole document. Its purpose is to identify the element when linking (using a fragment identifier), scripting, or styling (with CSS).
 	/// </summary>
 	public HtmlTag Id(string value)
 	{
@@ -104,7 +104,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// A boolean value that makes the browser disregard user input events for the element. Useful when click events are present.
+	///A boolean value that makes the browser disregard user input events for the element. Useful when click events are present.
 	/// </summary>
 	public HtmlTag Inert(string value)
 	{
@@ -112,7 +112,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Provides a hint to browsers about the type of virtual keyboard configuration to use when editing this element or its contents. Used primarily on <input> elements, but is usable on any element while in contenteditable mode.
+	///Provides a hint to browsers about the type of virtual keyboard configuration to use when editing this element or its contents. Used primarily on &lt;input&gt; elements, but is usable on any element while in contenteditable mode.
 	/// </summary>
 	public HtmlTag Inputmode(string value)
 	{
@@ -120,7 +120,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Allows you to specify that a standard HTML element should behave like a registered customized built-in element (see Using custom elements for more details).
+	///Allows you to specify that a standard HTML element should behave like a registered customized built-in element (see Using custom elements for more details).
 	/// </summary>
 	public HtmlTag Is(string value)
 	{
@@ -128,7 +128,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// The unique, global identifier of an item.
+	///The unique, global identifier of an item.
 	/// </summary>
 	public HtmlTag Itemid(string value)
 	{
@@ -136,7 +136,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Used to add properties to an item. Every HTML element may have an itemprop attribute specified, where an itemprop consists of a name and value pair.
+	///Used to add properties to an item. Every HTML element may have an itemprop attribute specified, where an itemprop consists of a name and value pair.
 	/// </summary>
 	public HtmlTag Itemprop(string value)
 	{
@@ -144,7 +144,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Properties that are not descendants of an element with the itemscope attribute can be associated with the item using an itemref. It provides a list of element ids (not itemid s) with additional properties elsewhere in the document.
+	///Properties that are not descendants of an element with the itemscope attribute can be associated with the item using an itemref. It provides a list of element ids (not itemid s) with additional properties elsewhere in the document.
 	/// </summary>
 	public HtmlTag Itemref(string value)
 	{
@@ -152,7 +152,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// itemscope (usually) works along with itemtype to specify that the HTML contained in a block is about a particular item. itemscope creates the Item and defines the scope of the itemtype associated with it. itemtype is a valid URL of a vocabulary (such as schema.org ) that describes the item and its properties context.
+	///itemscope (usually) works along with itemtype to specify that the HTML contained in a block is about a particular item. itemscope creates the Item and defines the scope of the itemtype associated with it. itemtype is a valid URL of a vocabulary (such as schema.org ) that describes the item and its properties context.
 	/// </summary>
 	public HtmlTag Itemscope(string value)
 	{
@@ -160,7 +160,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Specifies the URL of the vocabulary that will be used to define itemprop s (item properties) in the data structure. itemscope is used to set the scope of where in the data structure the vocabulary set by itemtype will be active.
+	///Specifies the URL of the vocabulary that will be used to define itemprop s (item properties) in the data structure. itemscope is used to set the scope of where in the data structure the vocabulary set by itemtype will be active.
 	/// </summary>
 	public HtmlTag Itemtype(string value)
 	{
@@ -168,7 +168,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Helps define the language of an element: the language that non-editable elements are in, or the language that editable elements should be written in by the user. The attribute should contain a valid BCP 47 language tag. xml:lang has priority over it.
+	///Helps define the language of an element: the language that non-editable elements are in, or the language that editable elements should be written in by the user. The attribute should contain a valid BCP 47 language tag. xml:lang has priority over it.
 	/// </summary>
 	public HtmlTag Lang(string value)
 	{
@@ -176,7 +176,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// A cryptographic nonce ("number used once") which can be used by Content Security Policy to determine whether or not a given fetch will be allowed to proceed.
+	///A cryptographic nonce (&quot;number used once&quot;) which can be used by Content Security Policy to determine whether or not a given fetch will be allowed to proceed.
 	/// </summary>
 	public HtmlTag Nonce(string value)
 	{
@@ -184,7 +184,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// A space-separated list of the part names of the element. Part names allows CSS to select and style specific elements in a shadow tree via the ::part pseudo-element.
+	///A space-separated list of the part names of the element. Part names allows CSS to select and style specific elements in a shadow tree via the ::part pseudo-element.
 	/// </summary>
 	public HtmlTag Part(string value)
 	{
@@ -192,7 +192,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Used to designate an element as a popover element (see Popover API ). Popover elements are hidden via display: none until opened via an invoking/control element (i.e., a <button> or <input type="button"> with a popovertarget attribute) or a HTMLElement.showPopover() call.
+	///Used to designate an element as a popover element (see Popover API ). Popover elements are hidden via display: none until opened via an invoking/control element (i.e., a &lt;button&gt; or &lt;input type=&quot;button&quot;&gt; with a popovertarget attribute) or a HTMLElement.showPopover() call.
 	/// </summary>
 	public HtmlTag Popover(string value)
 	{
@@ -200,7 +200,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Roles define the semantic meaning of content, allowing screen readers and other tools to present and support interaction with an object in a way that is consistent with user expectations of that type of object. roles are added to HTML elements using role="role_type", where role_type is the name of a role in the ARIA specification.
+	///Roles define the semantic meaning of content, allowing screen readers and other tools to present and support interaction with an object in a way that is consistent with user expectations of that type of object. roles are added to HTML elements using role=&quot;role_type&quot;, where role_type is the name of a role in the ARIA specification.
 	/// </summary>
 	public HtmlTag Role(string value)
 	{
@@ -208,7 +208,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Assigns a slot in a shadow DOM shadow tree to an element: An element with a slot attribute is assigned to the slot created by the <slot> element whose name attribute's value matches that slot attribute's value.
+	///Assigns a slot in a shadow DOM shadow tree to an element: An element with a slot attribute is assigned to the slot created by the &lt;slot&gt; element whose name attribute&apos;s value matches that slot attribute&apos;s value.
 	/// </summary>
 	public HtmlTag Slot(string value)
 	{
@@ -216,7 +216,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute defines whether the element may be checked for spelling errors. It may have the following values:
+	///An enumerated attribute defines whether the element may be checked for spelling errors. It may have the following values:
 	/// </summary>
 	public HtmlTag Spellcheck(string value)
 	{
@@ -224,7 +224,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An integer attribute indicating if the element can take input focus (is focusable ), if it should participate to sequential keyboard navigation, and if so, at what position. It can take several values:
+	///An integer attribute indicating if the element can take input focus (is focusable ), if it should participate to sequential keyboard navigation, and if so, at what position. It can take several values:
 	/// </summary>
 	public HtmlTag Tabindex(string value)
 	{
@@ -232,7 +232,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// Contains a text representing advisory information related to the element it belongs to. Such information can typically, but not necessarily, be presented to the user as a tooltip.
+	///Contains a text representing advisory information related to the element it belongs to. Such information can typically, but not necessarily, be presented to the user as a tooltip.
 	/// </summary>
 	public HtmlTag Title(string value)
 	{
@@ -240,7 +240,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute that is used to specify whether an element's attribute values and the values of its Text node children are to be translated when the page is localized, or whether to leave them unchanged. It can have the following values:
+	///An enumerated attribute that is used to specify whether an element&apos;s attribute values and the values of its Text node children are to be translated when the page is localized, or whether to leave them unchanged. It can have the following values:
 	/// </summary>
 	public HtmlTag Translate(string value)
 	{
@@ -248,7 +248,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute used to control the on-screen virtual keyboard behavior on devices such as tablets, mobile phones, or other devices where a hardware keyboard may not be available for elements that its content is editable (for example, it is an <input> or <textarea> element, or an element with the contenteditable attribute set).
+	///An enumerated attribute used to control the on-screen virtual keyboard behavior on devices such as tablets, mobile phones, or other devices where a hardware keyboard may not be available for elements that its content is editable (for example, it is an &lt;input&gt; or &lt;textarea&gt; element, or an element with the contenteditable attribute set).
 	/// </summary>
 	public HtmlTag Virtualkeyboardpolicy(string value)
 	{
@@ -256,7 +256,7 @@ public partial class HtmlTag
 	}
 
 	/// <summary>
-	/// An enumerated attribute indicating if browser-provided writing suggestions should be enabled under the scope of the element or not.
+	///An enumerated attribute indicating if browser-provided writing suggestions should be enabled under the scope of the element or not.
 	/// </summary>
 	public HtmlTag Writingsuggestions(string value)
 	{

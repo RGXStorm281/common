@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <blockquote> HTML element indicates that the enclosed text is an extended quotation. Usually, this is rendered visually by indentation (see Notes for how to change it). A URL for the source of the quotation may be given using the cite attribute, while a text representation of the source can be given using the <cite> element.
+///The &lt;blockquote&gt; HTML element indicates that the enclosed text is an extended quotation. Usually, this is rendered visually by indentation (see Notes for how to change it). A URL for the source of the quotation may be given using the cite attribute, while a text representation of the source can be given using the &lt;cite&gt; element.
 /// </summary>
-public partial class Blockquote(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("blockquote", false, contents)
+public partial class Blockquote
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;blockquote&gt; HTML element indicates that the enclosed text is an extended quotation. Usually, this is rendered visually by indentation (see Notes for how to change it). A URL for the source of the quotation may be given using the cite attribute, while a text representation of the source can be given using the &lt;cite&gt; element.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Blockquote(params IEnumerable<IHtmlContent> contents)
+		: base("blockquote", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;blockquote&gt; HTML element indicates that the enclosed text is an extended quotation. Usually, this is rendered visually by indentation (see Notes for how to change it). A URL for the source of the quotation may be given using the cite attribute, while a text representation of the source can be given using the &lt;cite&gt; element.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Blockquote(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// A URL that designates a source document or message for the information quoted. This attribute is intended to point to information explaining the context or the reference for the quote.
+	///A URL that designates a source document or message for the information quoted. This attribute is intended to point to information explaining the context or the reference for the quote.
 	/// </summary>
 	public Blockquote Cite(string value)
 	{

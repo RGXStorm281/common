@@ -3,7 +3,7 @@ namespace RobinEpple.Common.Forms.Wrappers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-public class FormWrapperGenerationTask
+internal class FormWrapperGenerationTask
 {
 	public FormWrapperGenerationTask(
 		MethodDeclarationSyntax methodDeclaration,

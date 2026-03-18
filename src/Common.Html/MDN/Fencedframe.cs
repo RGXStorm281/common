@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The <fencedframe> HTML element represents a nested browsing context, embedding another HTML page into the current one. <fencedframe> s are very similar to <iframe> elements in form and function, except that: Communication is restricted between the <fencedframe> content and its embedding site. A <fencedframe> can access cross-site data, but only in a very specific set of controlled circumstances that preserve user privacy. A <fencedframe> cannot be manipulated or have its data accessed via regular scripting (for example reading or setting the source URL). <fencedframe> content can only be embedded via specific APIs. A <fencedframe> cannot access the embedding context's DOM, nor can the embedding context access the <fencedframe> 's DOM. The <fencedframe> element is a type of <iframe> with more native privacy features built in. It addresses shortcomings of <iframe> s such as reliance on third-party cookies and other privacy risks. See Fenced frame API for more details.
+///Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The &lt;fencedframe&gt; HTML element represents a nested browsing context, embedding another HTML page into the current one. &lt;fencedframe&gt; s are very similar to &lt;iframe&gt; elements in form and function, except that: Communication is restricted between the &lt;fencedframe&gt; content and its embedding site. A &lt;fencedframe&gt; can access cross-site data, but only in a very specific set of controlled circumstances that preserve user privacy. A &lt;fencedframe&gt; cannot be manipulated or have its data accessed via regular scripting (for example reading or setting the source URL). &lt;fencedframe&gt; content can only be embedded via specific APIs. A &lt;fencedframe&gt; cannot access the embedding context&apos;s DOM, nor can the embedding context access the &lt;fencedframe&gt; &apos;s DOM. The &lt;fencedframe&gt; element is a type of &lt;iframe&gt; with more native privacy features built in. It addresses shortcomings of &lt;iframe&gt; s such as reliance on third-party cookies and other privacy risks. See Fenced frame API for more details.
 /// </summary>
-public partial class Fencedframe(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("fencedframe", false, contents)
+public partial class Fencedframe
+	: HtmlTag
 {
+	/// <summary>
+	///Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The &lt;fencedframe&gt; HTML element represents a nested browsing context, embedding another HTML page into the current one. &lt;fencedframe&gt; s are very similar to &lt;iframe&gt; elements in form and function, except that: Communication is restricted between the &lt;fencedframe&gt; content and its embedding site. A &lt;fencedframe&gt; can access cross-site data, but only in a very specific set of controlled circumstances that preserve user privacy. A &lt;fencedframe&gt; cannot be manipulated or have its data accessed via regular scripting (for example reading or setting the source URL). &lt;fencedframe&gt; content can only be embedded via specific APIs. A &lt;fencedframe&gt; cannot access the embedding context&apos;s DOM, nor can the embedding context access the &lt;fencedframe&gt; &apos;s DOM. The &lt;fencedframe&gt; element is a type of &lt;iframe&gt; with more native privacy features built in. It addresses shortcomings of &lt;iframe&gt; s such as reliance on third-party cookies and other privacy risks. See Fenced frame API for more details.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Fencedframe(params IEnumerable<IHtmlContent> contents)
+		: base("fencedframe", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Experimental: This is an experimental technology Check the Browser compatibility table carefully before using this in production. The &lt;fencedframe&gt; HTML element represents a nested browsing context, embedding another HTML page into the current one. &lt;fencedframe&gt; s are very similar to &lt;iframe&gt; elements in form and function, except that: Communication is restricted between the &lt;fencedframe&gt; content and its embedding site. A &lt;fencedframe&gt; can access cross-site data, but only in a very specific set of controlled circumstances that preserve user privacy. A &lt;fencedframe&gt; cannot be manipulated or have its data accessed via regular scripting (for example reading or setting the source URL). &lt;fencedframe&gt; content can only be embedded via specific APIs. A &lt;fencedframe&gt; cannot access the embedding context&apos;s DOM, nor can the embedding context access the &lt;fencedframe&gt; &apos;s DOM. The &lt;fencedframe&gt; element is a type of &lt;iframe&gt; with more native privacy features built in. It addresses shortcomings of &lt;iframe&gt; s such as reliance on third-party cookies and other privacy risks. See Fenced frame API for more details.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Fencedframe(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Specifies a Permissions Policy for the <fencedframe>, which defines what features are available to the <fencedframe> based on the origin of the request. See Permissions policies available to fenced frames for more details of which features can be controlled via a policy set on a fenced frame.
+	///Specifies a Permissions Policy for the &lt;fencedframe&gt;, which defines what features are available to the &lt;fencedframe&gt; based on the origin of the request. See Permissions policies available to fenced frames for more details of which features can be controlled via a policy set on a fenced frame.
 	/// </summary>
 	public Fencedframe Allow(string value)
 	{
@@ -26,7 +43,7 @@ public partial class Fencedframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A unitless integer representing the height of the fenced frame in CSS pixels. The default is 150.
+	///A unitless integer representing the height of the fenced frame in CSS pixels. The default is 150.
 	/// </summary>
 	public Fencedframe Height(string value)
 	{
@@ -34,7 +51,7 @@ public partial class Fencedframe(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// A unitless integer representing the width of the fenced frame in CSS pixels. The default is 300.
+	///A unitless integer representing the width of the fenced frame in CSS pixels. The default is 300.
 	/// </summary>
 	public Fencedframe Width(string value)
 	{

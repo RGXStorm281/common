@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <label> HTML element represents a caption for an item in a user interface.
+///The &lt;label&gt; HTML element represents a caption for an item in a user interface.
 /// </summary>
-public partial class Label(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("label", false, contents)
+public partial class Label
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;label&gt; HTML element represents a caption for an item in a user interface.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Label(params IEnumerable<IHtmlContent> contents)
+		: base("label", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;label&gt; HTML element represents a caption for an item in a user interface.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Label(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The value is the id of the labelable form control in the same document, associating the <label> with that form control. Note that its JavaScript reflection property is htmlFor.
+	///The value is the id of the labelable form control in the same document, associating the &lt;label&gt; with that form control. Note that its JavaScript reflection property is htmlFor.
 	/// </summary>
 	public Label For(string value)
 	{

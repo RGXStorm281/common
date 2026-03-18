@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <picture> HTML element contains zero or more <source> elements and one <img> element to offer alternative versions of an image for different display/device scenarios. The browser will consider each child <source> element and choose the best match among them. If no matches are foundâor the browser doesn't support the <picture> elementâthe URL of the <img> element's src attribute is selected. The selected image is then presented in the space occupied by the <img> element.
+///The &lt;picture&gt; HTML element contains zero or more &lt;source&gt; elements and one &lt;img&gt; element to offer alternative versions of an image for different display/device scenarios. The browser will consider each child &lt;source&gt; element and choose the best match among them. If no matches are foundâor the browser doesn&apos;t support the &lt;picture&gt; elementâthe URL of the &lt;img&gt; element&apos;s src attribute is selected. The selected image is then presented in the space occupied by the &lt;img&gt; element.
 /// </summary>
-public partial class Picture(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("picture", false, contents)
+public partial class Picture
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;picture&gt; HTML element contains zero or more &lt;source&gt; elements and one &lt;img&gt; element to offer alternative versions of an image for different display/device scenarios. The browser will consider each child &lt;source&gt; element and choose the best match among them. If no matches are foundâor the browser doesn&apos;t support the &lt;picture&gt; elementâthe URL of the &lt;img&gt; element&apos;s src attribute is selected. The selected image is then presented in the space occupied by the &lt;img&gt; element.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Picture(params IEnumerable<IHtmlContent> contents)
+		: base("picture", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;picture&gt; HTML element contains zero or more &lt;source&gt; elements and one &lt;img&gt; element to offer alternative versions of an image for different display/device scenarios. The browser will consider each child &lt;source&gt; element and choose the best match among them. If no matches are foundâor the browser doesn&apos;t support the &lt;picture&gt; elementâthe URL of the &lt;img&gt; element&apos;s src attribute is selected. The selected image is then presented in the space occupied by the &lt;img&gt; element.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Picture(string text)
 		: this(Encode(text))
 	{

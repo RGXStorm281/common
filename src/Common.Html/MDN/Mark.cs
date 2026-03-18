@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <mark> HTML element represents text which is marked or highlighted for reference or notation purposes due to the marked passage's relevance in the enclosing context.
+///The &lt;mark&gt; HTML element represents text which is marked or highlighted for reference or notation purposes due to the marked passage&apos;s relevance in the enclosing context.
 /// </summary>
-public partial class Mark(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("mark", false, contents)
+public partial class Mark
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;mark&gt; HTML element represents text which is marked or highlighted for reference or notation purposes due to the marked passage&apos;s relevance in the enclosing context.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Mark(params IEnumerable<IHtmlContent> contents)
+		: base("mark", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;mark&gt; HTML element represents text which is marked or highlighted for reference or notation purposes due to the marked passage&apos;s relevance in the enclosing context.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Mark(string text)
 		: this(Encode(text))
 	{

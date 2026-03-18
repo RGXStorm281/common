@@ -61,7 +61,7 @@ public static class HtmlAttributes
 	{
 		var sb = new StringBuilder();
 		sb.AppendLine("/// <summary>");
-		sb.AppendLine(Helper.Indent(attribute.Documentation, indentPattern: "/// "));
+		sb.AppendLine(Helper.PrintDocumentation(attribute.Documentation));
 		sb.AppendLine("/// </summary>");
 		var newKeyword = isGlobalOverride ? " new" : string.Empty;
 		if (attribute.IsDeprecated)

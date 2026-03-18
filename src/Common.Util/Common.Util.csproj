@@ -5,6 +5,7 @@
         <PackageId>RobinEpple.Common.Util</PackageId>
         <RootNamespace>RobinEpple.Common.Util</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>Private Common Utilities</Title>
     </PropertyGroup>
 

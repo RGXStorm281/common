@@ -5,6 +5,7 @@
         <PackageId>RobinEpple.Common.WebUi</PackageId>
         <RootNamespace>RobinEpple.Common.WebUi</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>Private Library for Web User Interfaces</Title>
     </PropertyGroup>
 
@@ -12,6 +13,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
         <PackageReference Include="RobinEpple.Common.Util" />
         <PackageReference Include="RobinEpple.Common.Forms" />
+        <PackageReference Include="RobinEpple.Common.Html" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../Common.Html/Common.Html.csproj" />
+        <ProjectReference Include="../Common.Forms.Html/Common.Forms.Html.csproj" />
     </ItemGroup>
 
 </Project>

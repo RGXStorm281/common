@@ -8,13 +8,32 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <tt> HTML element creates inline text which is presented using the user agent's default monospace font face. This element was created for the purpose of rendering text as it would be displayed on a fixed-width display such as a teletype, text-only screen, or line printer. The terms non-proportional, monotype, and monospace are used interchangeably and have the same general meaning: they describe a typeface whose characters are all the same number of pixels wide. This element is obsolete, however. You should use the more semantically helpful <code>, <kbd>, <samp>, or <var> elements for inline text that needs to be presented in monospace type, or the <pre> tag for content that should be presented as a separate block. Note: 
-/// If none of the semantic elements are appropriate for your use case (for example, if you need to show some content in a non-proportional font), you should consider using the <span> element, styling it as desired using CSS. The font-family property is a good place to start.
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;tt&gt; HTML element creates inline text which is presented using the user agent&apos;s default monospace font face. This element was created for the purpose of rendering text as it would be displayed on a fixed-width display such as a teletype, text-only screen, or line printer. The terms non-proportional, monotype, and monospace are used interchangeably and have the same general meaning: they describe a typeface whose characters are all the same number of pixels wide. This element is obsolete, however. You should use the more semantically helpful &lt;code&gt;, &lt;kbd&gt;, &lt;samp&gt;, or &lt;var&gt; elements for inline text that needs to be presented in monospace type, or the &lt;pre&gt; tag for content that should be presented as a separate block. Note: 
+///If none of the semantic elements are appropriate for your use case (for example, if you need to show some content in a non-proportional font), you should consider using the &lt;span&gt; element, styling it as desired using CSS. The font-family property is a good place to start.
 /// </summary>
 [Obsolete]
-public partial class Tt(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("tt", false, contents)
+public partial class Tt
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;tt&gt; HTML element creates inline text which is presented using the user agent&apos;s default monospace font face. This element was created for the purpose of rendering text as it would be displayed on a fixed-width display such as a teletype, text-only screen, or line printer. The terms non-proportional, monotype, and monospace are used interchangeably and have the same general meaning: they describe a typeface whose characters are all the same number of pixels wide. This element is obsolete, however. You should use the more semantically helpful &lt;code&gt;, &lt;kbd&gt;, &lt;samp&gt;, or &lt;var&gt; elements for inline text that needs to be presented in monospace type, or the &lt;pre&gt; tag for content that should be presented as a separate block. Note: 
+	///If none of the semantic elements are appropriate for your use case (for example, if you need to show some content in a non-proportional font), you should consider using the &lt;span&gt; element, styling it as desired using CSS. The font-family property is a good place to start.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Tt(params IEnumerable<IHtmlContent> contents)
+		: base("tt", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;tt&gt; HTML element creates inline text which is presented using the user agent&apos;s default monospace font face. This element was created for the purpose of rendering text as it would be displayed on a fixed-width display such as a teletype, text-only screen, or line printer. The terms non-proportional, monotype, and monospace are used interchangeably and have the same general meaning: they describe a typeface whose characters are all the same number of pixels wide. This element is obsolete, however. You should use the more semantically helpful &lt;code&gt;, &lt;kbd&gt;, &lt;samp&gt;, or &lt;var&gt; elements for inline text that needs to be presented in monospace type, or the &lt;pre&gt; tag for content that should be presented as a separate block. Note: 
+	///If none of the semantic elements are appropriate for your use case (for example, if you need to show some content in a non-proportional font), you should consider using the &lt;span&gt; element, styling it as desired using CSS. The font-family property is a good place to start.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Tt(string text)
 		: this(Encode(text))
 	{

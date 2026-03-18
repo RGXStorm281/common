@@ -1,0 +1,97 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
+  <diagram id="kuLKyUmen4m4xoFDr0VI" name="Page-1">
+    <mxGraphModel dx="2066" dy="1272" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Form Nodes" vertex="1">
+          <mxGeometry height="120" width="1420" x="150" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="BooleanNode" vertex="1">
+          <mxGeometry height="60" width="180" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="CollectionNode&lt;span style=&quot;font-family: monospace; font-size: 0px; text-align: start; text-wrap-mode: nowrap;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22BooleanNode%22%20style%3D%22rounded%3D0%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%2260%22%20y%3D%22190%22%20width%3D%22180%22%20height%3D%2260%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="1220" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="FileNode" vertex="1">
+          <mxGeometry height="60" width="180" x="220" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="NumberNode" vertex="1">
+          <mxGeometry height="60" width="180" x="420" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="TemplateNode" vertex="1">
+          <mxGeometry height="60" width="180" x="1020" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="TextNode" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="TimestampNode" vertex="1">
+          <mxGeometry height="60" width="180" x="820" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Components" vertex="1">
+          <mxGeometry height="750" width="1420" x="150" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="RadioButtons&amp;nbsp;&lt;i&gt;(for each SelectList item)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="980" x="20" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="Checkbox" vertex="1">
+          <mxGeometry height="60" width="180" x="20" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;FileInput&amp;nbsp;&lt;/span&gt;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should read file types from validator if present)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="220" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="DateInput&amp;nbsp;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="820" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="17" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="EmailInput&amp;nbsp;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="HiddenInput" vertex="1">
+          <mxGeometry height="60" width="980" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="NumberInput&amp;nbsp;&lt;i&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="420" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="DropDown&amp;nbsp;&lt;i&gt;(for each SelectList item)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="980" x="20" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="PasswordInput" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="25" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="RangeInput&amp;nbsp;&lt;i&gt;(Should render Ticks for DataList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="420" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="29" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="SearchInput&amp;nbsp;&lt;i style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(63, 63, 63);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="30" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="TelephoneInput&amp;nbsp;&lt;i style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(63, 63, 63);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="32" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="TextInput&amp;nbsp;&lt;i style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(63, 63, 63);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="33" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="TextArea" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="34" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="TimeInput&amp;nbsp;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="820" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="35" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="UrlInput&amp;nbsp;&lt;i style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(63, 63, 63);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="621" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="36" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="DateTimeInput&amp;nbsp;&lt;i style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;(should render DataList for SelectList)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="820" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="37" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="RadioButtonsForTemplates" vertex="1">
+          <mxGeometry height="60" width="380" x="1020" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="38" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="DropDownForTemplates" vertex="1">
+          <mxGeometry height="60" width="380" x="1020" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Q2objzICppMJ1KqbUli5-54" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value=".InputGroup(element, before/after)" vertex="1">
+          <mxGeometry height="95" width="160" x="1110" y="345" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

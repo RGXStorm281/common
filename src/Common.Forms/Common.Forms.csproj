@@ -5,6 +5,7 @@
         <PackageId>RobinEpple.Common.Forms</PackageId>
         <RootNamespace>RobinEpple.Common.Forms</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>Private Form Engine</Title>
 
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>

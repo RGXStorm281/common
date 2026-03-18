@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e  # Exit immediately if any command fails
+
 ./clean-repository.sh
 
 dotnet restore /workspaces/common/src/Common.Util/Common.Util.csproj
@@ -34,5 +37,10 @@ dotnet restore /workspaces/common/src/Common.Html/Common.Html.csproj
 rm -f /local-nuget/RobinEpple.Common.Html.[0-9]*.nupkg
 dotnet build /workspaces/common/src/Common.Html/Common.Html.csproj --configuration="Release"
 dotnet pack /workspaces/common/src/Common.Html/Common.Html.csproj -o /local-nuget
+
+dotnet restore /workspaces/common/src/Common.Forms.Html/Common.Forms.Html.csproj
+rm -f /local-nuget/RobinEpple.Common.Forms.Html.[0-9]*.nupkg
+dotnet build /workspaces/common/src/Common.Forms.Html/Common.Forms.Html.csproj --configuration="Release"
+dotnet pack /workspaces/common/src/Common.Forms.Html/Common.Forms.Html.csproj -o /local-nuget
 
 dotnet restore src

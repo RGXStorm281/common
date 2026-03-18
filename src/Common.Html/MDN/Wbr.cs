@@ -8,9 +8,16 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <wbr> HTML element represents a word break opportunityâa position within text where the browser may optionally break a line, though its line-breaking rules would not otherwise create a break at that location.
+///The &lt;wbr&gt; HTML element represents a word break opportunityâa position within text where the browser may optionally break a line, though its line-breaking rules would not otherwise create a break at that location.
 /// </summary>
-public partial class Wbr()
-	: HtmlTag("wbr", true)
+public partial class Wbr
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;wbr&gt; HTML element represents a word break opportunityâa position within text where the browser may optionally break a line, though its line-breaking rules would not otherwise create a break at that location.
+	/// </summary>
+	public Wbr()
+		: base("wbr", true)
+	{
+	}
 }

@@ -8,12 +8,29 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The <rtc> HTML element embraces semantic annotations of characters presented in a ruby of <rb> elements used inside of <ruby> element. <rb> elements can have both pronunciation ( <rt> ) and semantic ( <rtc> ) annotations.
+///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;rtc&gt; HTML element embraces semantic annotations of characters presented in a ruby of &lt;rb&gt; elements used inside of &lt;ruby&gt; element. &lt;rb&gt; elements can have both pronunciation ( &lt;rt&gt; ) and semantic ( &lt;rtc&gt; ) annotations.
 /// </summary>
 [Obsolete]
-public partial class Rtc(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("rtc", false, contents)
+public partial class Rtc
+	: HtmlTag
 {
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;rtc&gt; HTML element embraces semantic annotations of characters presented in a ruby of &lt;rb&gt; elements used inside of &lt;ruby&gt; element. &lt;rb&gt; elements can have both pronunciation ( &lt;rt&gt; ) and semantic ( &lt;rtc&gt; ) annotations.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Rtc(params IEnumerable<IHtmlContent> contents)
+		: base("rtc", false, contents)
+	{
+	}
+
+	/// <summary>
+	///Deprecated: This feature is no longer recommended. Though some browsers might still support it, it may have already been removed from the relevant web standards, may be in the process of being dropped, or may only be kept for compatibility purposes. Avoid using it, and update existing code if possible; see the compatibility table at the bottom of this page to guide your decision. Be aware that this feature may cease to work at any time. The &lt;rtc&gt; HTML element embraces semantic annotations of characters presented in a ruby of &lt;rb&gt; elements used inside of &lt;ruby&gt; element. &lt;rb&gt; elements can have both pronunciation ( &lt;rt&gt; ) and semantic ( &lt;rtc&gt; ) annotations.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Rtc(string text)
 		: this(Encode(text))
 	{

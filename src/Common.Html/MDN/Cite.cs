@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <cite> HTML element is used to mark up the title of a creative work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata.
+///The &lt;cite&gt; HTML element is used to mark up the title of a creative work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata.
 /// </summary>
-public partial class Cite(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("cite", false, contents)
+public partial class Cite
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;cite&gt; HTML element is used to mark up the title of a creative work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Cite(params IEnumerable<IHtmlContent> contents)
+		: base("cite", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;cite&gt; HTML element is used to mark up the title of a creative work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Cite(string text)
 		: this(Encode(text))
 	{

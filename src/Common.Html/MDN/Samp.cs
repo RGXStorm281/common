@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <samp> HTML element is used to enclose inline text which represents sample (or quoted) output from a computer program. Its contents are typically rendered using the browser's default monospaced font (such as Courier or Lucida Console).
+///The &lt;samp&gt; HTML element is used to enclose inline text which represents sample (or quoted) output from a computer program. Its contents are typically rendered using the browser&apos;s default monospaced font (such as Courier or Lucida Console).
 /// </summary>
-public partial class Samp(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("samp", false, contents)
+public partial class Samp
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;samp&gt; HTML element is used to enclose inline text which represents sample (or quoted) output from a computer program. Its contents are typically rendered using the browser&apos;s default monospaced font (such as Courier or Lucida Console).
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Samp(params IEnumerable<IHtmlContent> contents)
+		: base("samp", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;samp&gt; HTML element is used to enclose inline text which represents sample (or quoted) output from a computer program. Its contents are typically rendered using the browser&apos;s default monospaced font (such as Courier or Lucida Console).
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Samp(string text)
 		: this(Encode(text))
 	{

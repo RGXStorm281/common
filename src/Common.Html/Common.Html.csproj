@@ -5,6 +5,7 @@
         <PackageId>RobinEpple.Common.Html</PackageId>
         <RootNamespace>RobinEpple.Common.Html</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>A html rendering library offering a declarative-functional api based on the MDN documentation.</Title>
 
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>

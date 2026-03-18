@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <ul> HTML element represents an unordered list of items, typically rendered as a bulleted list.
+///The &lt;ul&gt; HTML element represents an unordered list of items, typically rendered as a bulleted list.
 /// </summary>
-public partial class Ul(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("ul", false, contents)
+public partial class Ul
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;ul&gt; HTML element represents an unordered list of items, typically rendered as a bulleted list.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Ul(params IEnumerable<IHtmlContent> contents)
+		: base("ul", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;ul&gt; HTML element represents an unordered list of items, typically rendered as a bulleted list.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Ul(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
+	///This Boolean attribute hints that the list should be rendered in a compact style. The interpretation of this attribute is browser-specific. Use CSS instead: to give a similar effect as the compact attribute, the CSS property line-height can be used with a value of 80%.
 	/// </summary>
 	[Obsolete]
 	public Ul Compact(string value)
@@ -27,7 +44,7 @@ public partial class Ul(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This attribute sets the bullet style for the list. The values defined under HTML3.2 and the transitional version of HTML 4.0/4.01 are:
+	///This attribute sets the bullet style for the list. The values defined under HTML3.2 and the transitional version of HTML 4.0/4.01 are:
 	/// </summary>
 	[Obsolete]
 	public Ul Type(string value)

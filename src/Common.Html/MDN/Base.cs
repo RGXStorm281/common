@@ -8,15 +8,22 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <base> HTML element specifies the base URL to use for all relative URLs in a document. There can be only one <base> element in a document. A document's used base URL can be accessed by scripts with Node.baseURI. If the document has no <base> elements, then baseURI defaults to location.href.
+///The &lt;base&gt; HTML element specifies the base URL to use for all relative URLs in a document. There can be only one &lt;base&gt; element in a document. A document&apos;s used base URL can be accessed by scripts with Node.baseURI. If the document has no &lt;base&gt; elements, then baseURI defaults to location.href.
 /// </summary>
-public partial class Base()
-	: HtmlTag("base", true)
+public partial class Base
+	: HtmlTag
 {
 	/// <summary>
-	/// The base URL to be used throughout the document for relative URLs.
-	/// Absolute and relative URLs are allowed.
-	///  data: and javascript: URLs are not allowed.
+	///The &lt;base&gt; HTML element specifies the base URL to use for all relative URLs in a document. There can be only one &lt;base&gt; element in a document. A document&apos;s used base URL can be accessed by scripts with Node.baseURI. If the document has no &lt;base&gt; elements, then baseURI defaults to location.href.
+	/// </summary>
+	public Base()
+		: base("base", true)
+	{
+	}
+	/// <summary>
+	///The base URL to be used throughout the document for relative URLs.
+	///Absolute and relative URLs are allowed.
+	/// data: and javascript: URLs are not allowed.
 	/// </summary>
 	public Base Href(string value)
 	{
@@ -24,7 +31,7 @@ public partial class Base()
 	}
 
 	/// <summary>
-	/// A keyword or author-defined name of the default browsing context to show the results of navigation from <a>, <area>, or <form> elements without explicit target attributes. The following keywords have special meanings:
+	///A keyword or author-defined name of the default browsing context to show the results of navigation from &lt;a&gt;, &lt;area&gt;, or &lt;form&gt; elements without explicit target attributes. The following keywords have special meanings:
 	/// </summary>
 	public Base Target(string value)
 	{

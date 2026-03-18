@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class BooleanNode : FieldNode, IBooleanNode
@@ -20,6 +21,17 @@ internal partial class BooleanNode : FieldNode, IBooleanNode
 		set => _value.CurrentValue = value;
 	}
 
+	/// <inheritdoc />
+	public ISelectListSource<bool?>? SelectList { get; private set; }
+
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<bool?>>? CurrentSelectListItems { get; private set; }
+
+	public void UseSelectList(ISelectListSource<bool?>? selectList)
+	{
+		SelectList = selectList;
+	}
+
 	internal void ReplaceDefaultValue(bool? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
@@ -28,6 +40,14 @@ internal partial class BooleanNode : FieldNode, IBooleanNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

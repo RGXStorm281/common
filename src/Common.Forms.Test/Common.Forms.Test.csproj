@@ -21,6 +21,7 @@
     <ItemGroup>
         <ProjectReference Include="../Common.Forms/Common.Forms.csproj" />
         <PackageReference Include="RobinEpple.Common.Forms.Wrappers" PrivateAssets="all" ExcludeAssets="runtime" />
+        <PackageReference Include="RobinEpple.Common.SourceGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 
     <ItemGroup>

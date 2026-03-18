@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <q> HTML element indicates that the enclosed text is a short inline quotation. Most modern browsers implement this by surrounding the text in quotation marks. This element is intended for short quotations that don't require paragraph breaks; for long quotations use the <blockquote> element.
+///The &lt;q&gt; HTML element indicates that the enclosed text is a short inline quotation. Most modern browsers implement this by surrounding the text in quotation marks. This element is intended for short quotations that don&apos;t require paragraph breaks; for long quotations use the &lt;blockquote&gt; element.
 /// </summary>
-public partial class Q(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("q", false, contents)
+public partial class Q
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;q&gt; HTML element indicates that the enclosed text is a short inline quotation. Most modern browsers implement this by surrounding the text in quotation marks. This element is intended for short quotations that don&apos;t require paragraph breaks; for long quotations use the &lt;blockquote&gt; element.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Q(params IEnumerable<IHtmlContent> contents)
+		: base("q", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;q&gt; HTML element indicates that the enclosed text is a short inline quotation. Most modern browsers implement this by surrounding the text in quotation marks. This element is intended for short quotations that don&apos;t require paragraph breaks; for long quotations use the &lt;blockquote&gt; element.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Q(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// The value of this attribute is a URL that designates a source document or message for the information quoted. This attribute is intended to point to information explaining the context or the reference for the quote.
+	///The value of this attribute is a URL that designates a source document or message for the information quoted. This attribute is intended to point to information explaining the context or the reference for the quote.
 	/// </summary>
 	public Q Cite(string value)
 	{

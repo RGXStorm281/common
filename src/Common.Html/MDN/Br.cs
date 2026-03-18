@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <br> HTML element produces a line break in text (carriage-return). It is useful for writing a poem or an address, where the division of lines is significant.
+///The &lt;br&gt; HTML element produces a line break in text (carriage-return). It is useful for writing a poem or an address, where the division of lines is significant.
 /// </summary>
-public partial class Br()
-	: HtmlTag("br", true)
+public partial class Br
+	: HtmlTag
 {
 	/// <summary>
-	/// Indicates where to begin the next line after the break.
+	///The &lt;br&gt; HTML element produces a line break in text (carriage-return). It is useful for writing a poem or an address, where the division of lines is significant.
+	/// </summary>
+	public Br()
+		: base("br", true)
+	{
+	}
+	/// <summary>
+	///Indicates where to begin the next line after the break.
 	/// </summary>
 	[Obsolete]
 	public Br Clear(string value)

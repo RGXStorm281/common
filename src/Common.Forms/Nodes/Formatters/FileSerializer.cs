@@ -2,9 +2,19 @@ namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// A formatter for file values.
+/// </summary>
 public partial class FileSerializer : IValueFormatter
 {
+	/// <summary>
+	/// The separator between file name and base64 contents.
+	/// </summary>
 	public const char Separator = ':';
+
+	/// <summary>
+	/// A list of allowed characters in file names.
+	/// </summary>
 	public const string AllowedFileNameCharacters = "ABCDEFGHIKLMNOPQRSTUVXYZ abcdefghiklmnopqrstuvxyz0123456789()-_.";
 
 	/// <inheritdoc />

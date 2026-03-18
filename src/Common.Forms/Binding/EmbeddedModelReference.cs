@@ -14,6 +14,7 @@ public class EmbeddedModelReference<TModel>
 	/// </summary>
 	public string ModelNodeName { get; }
 
+	/// <inheritdoc cref="EmbeddedModelReference{TModel}"/>
 	public EmbeddedModelReference(string modelNodeName)
 	{
 		ModelNodeName = modelNodeName;

@@ -8,11 +8,28 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <rp> HTML element is used to provide fall-back parentheses for browsers that do not support display of ruby annotations using the <ruby> element. One <rp> element should enclose each of the opening and closing parentheses that wrap the <rt> element that contains the annotation's text.
+///The &lt;rp&gt; HTML element is used to provide fall-back parentheses for browsers that do not support display of ruby annotations using the &lt;ruby&gt; element. One &lt;rp&gt; element should enclose each of the opening and closing parentheses that wrap the &lt;rt&gt; element that contains the annotation&apos;s text.
 /// </summary>
-public partial class Rp(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("rp", false, contents)
+public partial class Rp
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;rp&gt; HTML element is used to provide fall-back parentheses for browsers that do not support display of ruby annotations using the &lt;ruby&gt; element. One &lt;rp&gt; element should enclose each of the opening and closing parentheses that wrap the &lt;rt&gt; element that contains the annotation&apos;s text.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Rp(params IEnumerable<IHtmlContent> contents)
+		: base("rp", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;rp&gt; HTML element is used to provide fall-back parentheses for browsers that do not support display of ruby annotations using the &lt;ruby&gt; element. One &lt;rp&gt; element should enclose each of the opening and closing parentheses that wrap the &lt;rt&gt; element that contains the annotation&apos;s text.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Rp(string text)
 		: this(Encode(text))
 	{

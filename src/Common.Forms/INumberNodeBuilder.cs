@@ -3,7 +3,12 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
-public interface INumberNodeBuilder : IFieldNodeBuilder<INumberNodeBuilder>
+/// <summary>
+/// A builder for a number node.
+/// </summary>
+public interface INumberNodeBuilder
+	: IFieldNodeBuilder<INumberNodeBuilder>,
+		IValueNodeBuilder<decimal?, INumberNodeBuilder>
 {
 	/// <summary>
 	/// Sets a default value that the node starts with and is resetted to.
@@ -26,16 +31,16 @@ public interface INumberNodeBuilder : IFieldNodeBuilder<INumberNodeBuilder>
 	/// <returns>The node builder for further configurations.</returns>
 	public INumberNodeBuilder UsePropertyBinding(Expression<Func<decimal?>> propertyAccessor);
 
-	/// <inheritdoc cref="UsePropertyBinding"/>
+	/// <inheritdoc cref="UsePropertyBinding(Expression{Func{decimal?}})"/>
 	public INumberNodeBuilder UsePropertyBinding(Expression<Func<double?>> propertyAccessor);
 
-	/// <inheritdoc cref="UsePropertyBinding"/>
+	/// <inheritdoc cref="UsePropertyBinding(Expression{Func{decimal?}})"/>
 	public INumberNodeBuilder UsePropertyBinding(Expression<Func<float?>> propertyAccessor);
 
-	/// <inheritdoc cref="UsePropertyBinding"/>
+	/// <inheritdoc cref="UsePropertyBinding(Expression{Func{decimal?}})"/>
 	public INumberNodeBuilder UsePropertyBinding(Expression<Func<long?>> propertyAccessor);
 
-	/// <inheritdoc cref="UsePropertyBinding"/>
+	/// <inheritdoc cref="UsePropertyBinding(Expression{Func{decimal?}})"/>
 	public INumberNodeBuilder UsePropertyBinding(Expression<Func<int?>> propertyAccessor);
 
 	/// <summary>
@@ -62,25 +67,25 @@ public interface INumberNodeBuilder : IFieldNodeBuilder<INumberNodeBuilder>
 		Expression<Func<TModel, decimal?>> propertyAccessor
 	);
 
-	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding"/>
+	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding{TModel}(EmbeddedModelReference{TModel}, Expression{Func{TModel,decimal?}})"/>
 	public INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
 		EmbeddedModelReference<TModel> modelReference,
 		Expression<Func<TModel, double?>> propertyAccessor
 	);
 
-	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding"/>
+	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding{TModel}(EmbeddedModelReference{TModel}, Expression{Func{TModel,decimal?}})"/>
 	public INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
 		EmbeddedModelReference<TModel> modelReference,
 		Expression<Func<TModel, float?>> propertyAccessor
 	);
 
-	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding"/>
+	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding{TModel}(EmbeddedModelReference{TModel}, Expression{Func{TModel,decimal?}})"/>
 	public INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
 		EmbeddedModelReference<TModel> modelReference,
 		Expression<Func<TModel, long?>> propertyAccessor
 	);
 
-	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding"/>
+	/// <inheritdoc cref="UseEmbeddedModelPropertyBinding{TModel}(EmbeddedModelReference{TModel}, Expression{Func{TModel,decimal?}})"/>
 	public INumberNodeBuilder UseEmbeddedModelPropertyBinding<TModel>(
 		EmbeddedModelReference<TModel> modelReference,
 		Expression<Func<TModel, int?>> propertyAccessor

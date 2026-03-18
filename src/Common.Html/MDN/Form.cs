@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Html;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// The <form> HTML element represents a document section containing interactive controls for submitting information.
+///The &lt;form&gt; HTML element represents a document section containing interactive controls for submitting information.
 /// </summary>
-public partial class Form(params IEnumerable<IHtmlContent> contents)
-	: HtmlTag("form", false, contents)
+public partial class Form
+	: HtmlTag
 {
+	/// <summary>
+	///The &lt;form&gt; HTML element represents a document section containing interactive controls for submitting information.
+	/// </summary>
+	/// <param name="contents">
+	///A list of HTML contents to place inside this element.
+	/// </param>
+	public Form(params IEnumerable<IHtmlContent> contents)
+		: base("form", false, contents)
+	{
+	}
+
+	/// <summary>
+	///The &lt;form&gt; HTML element represents a document section containing interactive controls for submitting information.
+	/// </summary>
+	/// <param name="text">
+	///Some text to write inside this element. The text will be encoded.
+	/// </param>
 	public Form(string text)
 		: this(Encode(text))
 	{
 	}
 	/// <summary>
-	/// Comma-separated content types the server accepts.
+	///Comma-separated content types the server accepts.
 	/// </summary>
 	[Obsolete]
 	public Form Accept(string value)
@@ -27,8 +44,8 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The character encoding accepted by the server.
-	/// The specification allows a single case-insensitive value of "UTF-8", reflecting the ubiquity of this encoding (historically multiple character encodings could be specified as a comma-separated or space-separated list).
+	///The character encoding accepted by the server.
+	///The specification allows a single case-insensitive value of &quot;UTF-8&quot;, reflecting the ubiquity of this encoding (historically multiple character encodings could be specified as a comma-separated or space-separated list).
 	/// </summary>
 	public Form AcceptCharset(string value)
 	{
@@ -36,7 +53,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The URL that processes the form submission. This value can be overridden by a formaction attribute on a <button>, <input type="submit">, or <input type="image"> element. This attribute is ignored when method="dialog" is set.
+	///The URL that processes the form submission. This value can be overridden by a formaction attribute on a &lt;button&gt;, &lt;input type=&quot;submit&quot;&gt;, or &lt;input type=&quot;image&quot;&gt; element. This attribute is ignored when method=&quot;dialog&quot; is set.
 	/// </summary>
 	public Form Action(string value)
 	{
@@ -44,7 +61,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Controls whether inputted text is automatically capitalized and, if so, in what manner. See the autocapitalize global attribute page for more information.
+	///Controls whether inputted text is automatically capitalized and, if so, in what manner. See the autocapitalize global attribute page for more information.
 	/// </summary>
 	public new Form Autocapitalize(string value)
 	{
@@ -52,7 +69,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Indicates whether input elements can by default have their values automatically completed by the browser. autocomplete attributes on form elements override it on <form>. Possible values:
+	///Indicates whether input elements can by default have their values automatically completed by the browser. autocomplete attributes on form elements override it on &lt;form&gt;. Possible values:
 	/// </summary>
 	public Form Autocomplete(string value)
 	{
@@ -60,7 +77,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// If the value of the method attribute is post, enctype is the MIME type of the form submission. Possible values:
+	///If the value of the method attribute is post, enctype is the MIME type of the form submission. Possible values:
 	/// </summary>
 	public Form Enctype(string value)
 	{
@@ -68,8 +85,8 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The HTTP method to submit the form with.
-	/// The only allowed methods/values are (case insensitive):
+	///The HTTP method to submit the form with.
+	///The only allowed methods/values are (case insensitive):
 	/// </summary>
 	public Form Method(string value)
 	{
@@ -77,7 +94,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// The name of the form. The value must not be the empty string, and must be unique among the form elements in the forms collection that it is in, if any. The name becomes a property of the Window, Document, and document.forms objects, containing a reference to the form element.
+	///The name of the form. The value must not be the empty string, and must be unique among the form elements in the forms collection that it is in, if any. The name becomes a property of the Window, Document, and document.forms objects, containing a reference to the form element.
 	/// </summary>
 	public Form Name(string value)
 	{
@@ -85,7 +102,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// This Boolean attribute indicates that the form shouldn't be validated when submitted. If this attribute is not set (and therefore the form is validated), it can be overridden by a formnovalidate attribute on a <button>, <input type="submit">, or <input type="image"> element belonging to the form.
+	///This Boolean attribute indicates that the form shouldn&apos;t be validated when submitted. If this attribute is not set (and therefore the form is validated), it can be overridden by a formnovalidate attribute on a &lt;button&gt;, &lt;input type=&quot;submit&quot;&gt;, or &lt;input type=&quot;image&quot;&gt; element belonging to the form.
 	/// </summary>
 	public Form Novalidate(string value)
 	{
@@ -93,7 +110,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Controls the annotations and what kinds of links the form creates. Annotations include external, nofollow, opener, noopener, and noreferrer. Link types include help, prev, next, search, and license. The rel value is a space-separated list of these enumerated values.
+	///Controls the annotations and what kinds of links the form creates. Annotations include external, nofollow, opener, noopener, and noreferrer. Link types include help, prev, next, search, and license. The rel value is a space-separated list of these enumerated values.
 	/// </summary>
 	public Form Rel(string value)
 	{
@@ -101,7 +118,7 @@ public partial class Form(params IEnumerable<IHtmlContent> contents)
 	}
 
 	/// <summary>
-	/// Indicates where to display the response after submitting the form. It is a name/keyword for a browsing context (for example, tab, window, or iframe). The following keywords have special meanings:
+	///Indicates where to display the response after submitting the form. It is a name/keyword for a browsing context (for example, tab, window, or iframe). The following keywords have special meanings:
 	/// </summary>
 	public Form Target(string value)
 	{

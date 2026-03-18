@@ -2,6 +2,9 @@ namespace RobinEpple.Common.Forms;
 
 using RobinEpple.Common.Forms.Nodes;
 
+/// <summary>
+/// A builder for a field node.
+/// </summary>
 public interface IFieldNodeBuilder<TSpecificNodeBuilder> : INodeBuilder<TSpecificNodeBuilder>
 {
 	/// <summary>

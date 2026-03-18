@@ -3,7 +3,12 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
-public interface IBooleanNodeBuilder : IFieldNodeBuilder<IBooleanNodeBuilder>
+/// <summary>
+/// A builder for a boolean node.
+/// </summary>
+public interface IBooleanNodeBuilder
+	: IFieldNodeBuilder<IBooleanNodeBuilder>,
+		IValueNodeBuilder<bool?, IBooleanNodeBuilder>
 {
 	/// <summary>
 	/// Sets a default value that the node starts with and is resetted to.

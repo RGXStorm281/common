@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>RobinEpple.Common.Forms.Html</AssemblyName>
+        <PackageId>RobinEpple.Common.Forms.Html</PackageId>
+        <RootNamespace>RobinEpple.Common.Forms.Html</RootNamespace>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Title>A html rendering library for the forms framework.</Title>
+
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>./Generated</CompilerGeneratedFilesOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="Generated\**\*.cs" />
+        <Compile Remove="Generated\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="RobinEpple.Common.Forms" />
+        <PackageReference Include="RobinEpple.Common.Html" />
+        <PackageReference Include="RobinEpple.Common.SourceGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
+    </ItemGroup>
+
+</Project>

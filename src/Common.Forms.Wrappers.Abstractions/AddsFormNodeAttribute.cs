@@ -7,5 +7,8 @@ namespace RobinEpple.Common.Forms.Wrappers.Abstractions;
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
 public class AddsFormNodeAttribute(Type nodeType) : Attribute
 {
+	/// <summary>
+	/// The (public facing) type of the added form node (e.g. IForm).
+	/// </summary>
 	public Type NodeType { get; } = nodeType;
 }

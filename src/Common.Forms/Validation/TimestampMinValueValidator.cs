@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="ITimestampNode">.<br/>
+/// Can only be applied to <see cref="ITimestampNode"/>.<br/>
 /// Only active on non-<see langword="null"/> values.<br/>
 /// Checks the field value against defined minimum value.
 /// </summary>
@@ -17,6 +17,9 @@ public partial class TimestampMinValueValidator(
 	string? errorMessageTemplate = null
 ) : INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(TimestampMinValueValidator);
 	private readonly IFormExpression<DateTime?> _minValue = minValue;
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresAMinimumValueOf_;

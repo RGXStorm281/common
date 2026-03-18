@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Wrappers.Abstractions;
 
+/// <summary>
+/// A builder for a templated node.
+/// </summary>
 public interface ITemplatedNodeBuilder<TSpecificNodeBuilder> : INodeBuilder<TSpecificNodeBuilder>
 {
 	/// <summary>

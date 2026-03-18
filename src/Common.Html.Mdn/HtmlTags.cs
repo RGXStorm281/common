@@ -140,23 +140,50 @@ public static class HtmlTags
 		var isVoidElement = voidElements.Contains(tag.TagName);
 		sb.AppendLine();
 		sb.AppendLine("/// <summary>");
-		sb.AppendLine(Helper.Indent(tag.Documentation, indentPattern: "/// "));
+		sb.AppendLine(Helper.PrintDocumentation(tag.Documentation));
 		sb.AppendLine("/// </summary>");
 		if (tag.IsDeprecated)
 		{
 			sb.AppendLine($"[Obsolete]");
 		}
+		sb.AppendLine($"public partial class {tag.ClassName}");
+		sb.AppendLine(Helper.Indent($": HtmlTag"));
+		sb.AppendLine("{");
 		if (isVoidElement)
 		{
-			sb.AppendLine($"public partial class {tag.ClassName}()");
-			sb.AppendLine(Helper.Indent($": HtmlTag(\"{tag.TagName}\", true)"));
-			sb.AppendLine("{");
+			sb.AppendLine(Helper.Indent("/// <summary>"));
+			sb.AppendLine(Helper.Indent(Helper.PrintDocumentation(tag.Documentation)));
+			sb.AppendLine(Helper.Indent("/// </summary>"));
+			sb.AppendLine(Helper.Indent($"public {tag.ClassName}()"));
+			sb.AppendLine(Helper.Indent($": base(\"{tag.TagName}\", true)", 2));
+			sb.AppendLine(Helper.Indent("{"));
+			sb.AppendLine(Helper.Indent("}"));
 		}
 		else
 		{
-			sb.AppendLine($"public partial class {tag.ClassName}(params IEnumerable<IHtmlContent> contents)");
-			sb.AppendLine(Helper.Indent($": HtmlTag(\"{tag.TagName}\", false, contents)"));
-			sb.AppendLine("{");
+			sb.AppendLine(Helper.Indent("/// <summary>"));
+			sb.AppendLine(Helper.Indent(Helper.PrintDocumentation(tag.Documentation)));
+			sb.AppendLine(Helper.Indent("/// </summary>"));
+			sb.AppendLine(Helper.Indent("/// <param name=\"contents\">"));
+			sb.AppendLine(
+				Helper.Indent(Helper.PrintDocumentation("A list of HTML contents to place inside this element."))
+			);
+			sb.AppendLine(Helper.Indent("/// </param>"));
+			sb.AppendLine(Helper.Indent($"public {tag.ClassName}(params IEnumerable<IHtmlContent> contents)"));
+			sb.AppendLine(Helper.Indent($": base(\"{tag.TagName}\", false, contents)", 2));
+			sb.AppendLine(Helper.Indent("{"));
+			sb.AppendLine(Helper.Indent("}"));
+			sb.AppendLine();
+			sb.AppendLine(Helper.Indent("/// <summary>"));
+			sb.AppendLine(Helper.Indent(Helper.PrintDocumentation(tag.Documentation)));
+			sb.AppendLine(Helper.Indent("/// </summary>"));
+			sb.AppendLine(Helper.Indent("/// <param name=\"text\">"));
+			sb.AppendLine(
+				Helper.Indent(
+					Helper.PrintDocumentation("Some text to write inside this element. The text will be encoded.")
+				)
+			);
+			sb.AppendLine(Helper.Indent("/// </param>"));
 			sb.AppendLine(Helper.Indent($"public {tag.ClassName}(string text)"));
 			sb.AppendLine(Helper.Indent($": this(Encode(text))", 2));
 			sb.AppendLine(Helper.Indent("{"));
