@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Html.Inputs;
 
+using System.Globalization;
 using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
@@ -39,7 +40,7 @@ public class NumberInput(INumberNode node) : IHtmlContent
 					.Name(nodeId)
 					.ConfigureIf(_node.IsReadonly, input => input.Disabled("disabled"))
 					.ConfigureIf(_node.CurrentSelectListItems != null, input => input.List($"{nodeId}_list"))
-					.Value(_node.Formatter.Format(_node.Value) ?? string.Empty)
+					.Value(_node.Value?.ToString(CultureInfo.InvariantCulture) ?? string.Empty)
 					.Id(nodeId),
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))

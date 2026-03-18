@@ -9,11 +9,13 @@ using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
 /// Renders a text input for the <paramref name="node"/>.
+/// The formatter is used to convert between text and value representations.
 /// </summary>
+/// <typeparam name="TValue">The value type of the node.</typeparam>
 /// <param name="node">The node to render the text input for.</param>
-public class TextInput(ITextNode node) : IHtmlContent
+public class TextInput<TValue>(IValueNode<TValue> node) : IHtmlContent
 {
-	private readonly ITextNode _node = node;
+	private readonly IValueNode<TValue> _node = node;
 
 	/// <inheritdoc />
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)

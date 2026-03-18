@@ -39,7 +39,7 @@ public class DateTimeInput(ITimestampNode node) : IHtmlContent
 					.Name(nodeId)
 					.ConfigureIf(_node.IsReadonly, input => input.Disabled("disabled"))
 					.ConfigureIf(_node.CurrentSelectListItems != null, input => input.List($"{nodeId}_list"))
-					.Value(_node.Formatter.Format(_node.Value) ?? string.Empty)
+					.Value(_node.Value?.ToString("yyyy-MM-ddTHH:mm") ?? string.Empty)
 					.Id(nodeId),
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
