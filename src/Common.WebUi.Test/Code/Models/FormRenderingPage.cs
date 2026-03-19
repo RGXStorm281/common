@@ -230,73 +230,78 @@ public partial class FormRenderingPage : IPageModel
 			),
 			Form(
 					// Booleans
-					H2("Booleans"),
-					H3("Hidden boolean input"),
-					HiddenInput(FormWrapper.BooleanHidden!),
-					H3("Tri-State boolean as radio button"),
-					RadioButtons(FormWrapper.BooleanRadio!),
-					H3("Tri-State boolean as drop-down"),
-					DropDown(FormWrapper.BooleanDropdown!),
-					H3("Boolean as checkbox"),
-					CheckBox(FormWrapper.BooleanCheckbox!),
-					// Files
-					H2("Files"),
-					H3("Hidden file input"),
-					HiddenInput(FormWrapper.FileHidden!),
-					H3("File Input"),
-					FileInput(FormWrapper.FileUpload!),
+					Div(
+							H2("Booleans").Class("card-header"),
+							Div(
+									HiddenInput(FormWrapper.BooleanHidden!),
+									RadioButtons(FormWrapper.BooleanRadio!),
+									DropDown(FormWrapper.BooleanDropdown!),
+									CheckBox(FormWrapper.BooleanCheckbox!)
+								)
+								.Class("card-body")
+								.Class("form-grid")
+						)
+						.Class("card"),
 					// Numbers
-					H2("Numbers"),
-					H3("Hidden number input"),
-					HiddenInput(FormWrapper.NumberHidden!),
-					H3("Number radio selection"),
-					RadioButtons(FormWrapper.NumberRadio!),
-					H3("Number dropdown"),
-					DropDown(FormWrapper.NumberDropdown!),
-					H3("Number input with data-list"),
-					NumberInput(FormWrapper.NumberInput!),
-					H3("Range input with data-list"),
-					RangeInput(FormWrapper.NumberRange!, min: -1, max: 2),
+					Div(
+							H2("Numbers").Class("card-header"),
+							Div(
+									HiddenInput(FormWrapper.NumberHidden!),
+									RadioButtons(FormWrapper.NumberRadio!),
+									DropDown(FormWrapper.NumberDropdown!),
+									NumberInput(FormWrapper.NumberInput!),
+									RangeInput(FormWrapper.NumberRange!, min: -1, max: 2)
+								)
+								.Class("card-body")
+								.Class("form-grid")
+						)
+						.Class("card"),
 					// Texts
-					H2("Texts"),
-					H3("Hidden text input"),
-					HiddenInput(FormWrapper.TextHidden!),
-					H3("Radio Buttons for text selection"),
-					RadioButtons(FormWrapper.TextRadio!),
-					H3("Dropdown for text value"),
-					DropDown(FormWrapper.TextDropdown!),
-					H3("Email input"),
-					EmailInput(FormWrapper.TextEmail!),
-					H3("Password input"),
-					P(
-						"This will reset on change, since passwords should not be written to the value attribute in plain text "
-							+ "-> HTMX is not suitable for password fields without morphing algorithms."
-					),
-					PasswordInput(FormWrapper.TextPassword!),
-					H3("Search input"),
-					SearchInput(FormWrapper.TextSearch!),
-					H3("Telephone input"),
-					TelephoneInput(FormWrapper.TextPhone!),
-					H3("Textbox"),
-					TextInput(FormWrapper.TextInput!),
-					H3("Text Area"),
-					TextAreaInput(FormWrapper.TextArea!),
-					H3("Url input"),
-					UrlInput(FormWrapper.TextUrl!),
+					Div(
+							H2("Texts").Class("card-header"),
+							Div(
+									HiddenInput(FormWrapper.TextHidden!),
+									RadioButtons(FormWrapper.TextRadio!),
+									DropDown(FormWrapper.TextDropdown!),
+									EmailInput(FormWrapper.TextEmail!),
+									P(
+										"This will reset on change, since passwords should not be written to the value attribute in plain text "
+											+ "-> HTMX is not suitable for password fields without morphing algorithms."
+									),
+									PasswordInput(FormWrapper.TextPassword!),
+									SearchInput(FormWrapper.TextSearch!),
+									TelephoneInput(FormWrapper.TextPhone!),
+									TextInput(FormWrapper.TextInput!),
+									TextAreaInput(FormWrapper.TextArea!),
+									UrlInput(FormWrapper.TextUrl!)
+								)
+								.Class("card-body")
+								.Class("form-grid")
+						)
+						.Class("card"),
 					// Dates
-					H2("Dates"),
-					H3("Date hidden"),
-					HiddenInput(FormWrapper.DateHidden!),
-					H3("Radio button date selection"),
-					RadioButtons(FormWrapper.DateRadio!),
-					H3("Dropdown for dates"),
-					DropDown(FormWrapper.DateDropdown!),
-					H3("Date input"),
-					DateInput(FormWrapper.DateInput!),
-					H3("Time input"),
-					TimeInput(FormWrapper.TimeInput!),
-					H3("DateTimeInput"),
-					DateTimeInput(FormWrapper.DateTimeInput!)
+					Div(
+							H2("Dates").Class("card-header"),
+							Div(
+									HiddenInput(FormWrapper.DateHidden!),
+									RadioButtons(FormWrapper.DateRadio!),
+									DropDown(FormWrapper.DateDropdown!),
+									DateInput(FormWrapper.DateInput!),
+									TimeInput(FormWrapper.TimeInput!),
+									DateTimeInput(FormWrapper.DateTimeInput!)
+								)
+								.Class("card-body")
+								.Class("form-grid")
+						)
+						.Class("card"),
+					// Files
+					Div(
+							H2("Files").Class("card-header"),
+							Div(HiddenInput(FormWrapper.FileHidden!), FileInput(FormWrapper.FileUpload!))
+								.Class("card-body")
+								.Class("form-grid")
+						)
+						.Class("card")
 				)
 				.Name(Form.Name)
 				.Attribute("hx-put", "")
