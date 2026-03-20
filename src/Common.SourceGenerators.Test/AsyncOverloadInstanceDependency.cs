@@ -21,4 +21,8 @@ public class AsyncOverloadInstanceDependency
 
 	public int Two => 2;
 	public int Counter { get; set; } = 0;
+
+	public void OverloadedInMethodScopedExtension() { }
+
+	public void OverloadedInClassScopedExtension() { }
 }

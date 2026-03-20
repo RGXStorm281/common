@@ -243,6 +243,21 @@ public class AsyncOverloadTests
 		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateImplicitArrayCreationExpression)
 	)]
 	#endregion
+
+	#region extension methods
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnMethod)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnClass)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindAsyncOverloadsForExtensions)
+	)]
+	#endregion
 	public void CompareSyntaxTree(string className, string syncMethodName)
 	{
 		// Define the folders where the generators are located.
