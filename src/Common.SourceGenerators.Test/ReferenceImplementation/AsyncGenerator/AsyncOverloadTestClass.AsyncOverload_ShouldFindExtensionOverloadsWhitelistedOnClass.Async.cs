@@ -10,7 +10,7 @@ using RobinEpple.Common.SourceGenerators.Test.ClassScopedExtensions;
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnClass()"/>
-	public Task AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnClassAsync()
+	public async Task AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnClassAsync()
 	{
 		var instance = new AsyncOverloadInstanceDependency();
 		await RobinEpple.Common.SourceGenerators.Test.ClassScopedExtensions.InstanceDependencyExtensions.OverloadedInClassScopedExtensionAsync(instance);

@@ -155,6 +155,7 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 				IMethodSymbol,
 				string
 			>(task => task.MethodSymbol!, task => task.AsyncName!, SymbolEqualityComparer.Default);
+			var awaitableOverloadLocator = new AwaitableOverloadLocator(toBeGeneratedAsyncMethodNamesBySyncOverload);
 
 			// Then generate each method iteratively.
 			foreach (var generationTask in nullSafeGenerationTasks)
@@ -223,13 +224,7 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 					sb.AppendLine(IndentHelper.Indent(BuildInheritdoc(methodSymbol)));
 
 					// Find all awaitable overloads in the methods.
-					var awaitableOverloadLocator = new AwaitableOverloadLocator(
-						toBeGeneratedAsyncMethodNamesBySyncOverload
-					);
-					generationTask.AwaitableOverloads = awaitableOverloadLocator.FindAwaitableOverloadsInMethod(
-						methodDeclaration,
-						semanticModel
-					);
+					awaitableOverloadLocator.FindAwaitableOverloadsInMethod(generationTask);
 
 					// Build the async signature.
 					sb.AppendLine(IndentHelper.Indent(BuildAsyncMethodSignature(generationTask)));

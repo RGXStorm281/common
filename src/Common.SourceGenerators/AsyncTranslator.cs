@@ -926,21 +926,37 @@ internal class AsyncTranslator
 		}
 
 		// Check if an overload exists.
-		if (!context.AwaitableOverloads.TryGetValue(methodKey, out var asyncName))
+		if (context.AwaitableLocalOverloads.TryGetValue(methodKey, out var asyncName))
 		{
-			// No async overload found — keep original, but call translated arguments.
-			return $"{receiver}({args})";
+			// Async overload found - replace the method name with the async one and await the call.
+			isAwaitedMethodCall = true;
+			var originalName = originalMethod.Name;
+
+			// Translate the receiver string like obj?. or a StaticClass, if it exists.
+			// The "." can stay, since the async overload is also called as instance-call.
+			receiver = TrimEnd(receiver, originalName);
+
+			// Await the async call.
+			return $"await {receiver}{asyncName}({args})";
+		}
+		else if (context.AwaitableExtensionOverloads.TryGetValue(methodKey, out var asyncExtensionFullyQualifiedName))
+		{
+			// Async overload found - replace the method name with the async one and await the call.
+			isAwaitedMethodCall = true;
+			var originalName = originalMethod.Name;
+
+			// Translate the receiver string like obj?. or a StaticClass, if it exists.
+			// The "." needs to be removed, since the async overload will be called as static function, the receiver becomes the first parameter.
+			receiver = TrimEnd(receiver, $".{originalName}");
+			args = $"{receiver}, {args}".TrimEnd(',', ' ');
+
+			// Await the async call.
+			// Calling the extension fully qualified eliminates conflict potential, bot in the method call itself and by not introducing a new using.
+			return $"await {asyncExtensionFullyQualifiedName}({args})";
 		}
 
-		// Async overload found - replace the method name with the async one and await the call.
-		isAwaitedMethodCall = true;
-		var originalName = originalMethod.Name;
-
-		// Translate the receiver string like obj?. or a StaticClass, if it exists.
-		receiver = TrimEnd(receiver, originalName);
-
-		// Await the async call.
-		return $"await {receiver}{asyncName}({args})";
+		// No async overload found — keep original, but call translated arguments.
+		return $"{receiver}({args})";
 	}
 
 	public static string TrimEnd(string input, string suffix)

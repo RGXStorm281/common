@@ -28,7 +28,9 @@ internal class AsyncOverloadGenerationTask
 	public string AsyncName { get; set; }
 	public string[] WhitelistedExtensionNamespaces { get; }
 
-	public Dictionary<IMethodSymbol, string> AwaitableOverloads { get; set; } = [];
+	public Dictionary<IMethodSymbol, string> AwaitableLocalOverloads { get; set; } = [];
+	public Dictionary<IMethodSymbol, string> AwaitableExtensionOverloads { get; set; } = [];
 	public bool HasBody => MethodDeclaration.Body != null || MethodDeclaration.ExpressionBody != null;
-	public bool IsRunningAsync => HasBody && (AwaitableOverloads.Count > 0 || HasYieldStatements);
+	public bool IsRunningAsync =>
+		HasBody && (AwaitableLocalOverloads.Count > 0 || AwaitableExtensionOverloads.Count > 0 || HasYieldStatements);
 }

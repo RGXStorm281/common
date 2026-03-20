@@ -22,4 +22,14 @@ internal class DisplayFormats
 			parameterOptions: SymbolDisplayParameterOptions.IncludeType,
 			miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
 		);
+
+	public static SymbolDisplayFormat FullyQualifiedMethodNameFormat =>
+		new SymbolDisplayFormat(
+			globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
+			typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+			genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+			memberOptions: SymbolDisplayMemberOptions.IncludeContainingType,
+			parameterOptions: SymbolDisplayParameterOptions.None,
+			miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
+		);
 }
