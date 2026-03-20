@@ -939,7 +939,10 @@ internal class AsyncTranslator
 			// Await the async call.
 			return $"await {receiver}{asyncName}({args})";
 		}
-		else if (context.AwaitableExtensionOverloads.TryGetValue(methodKey, out var asyncExtensionFullyQualifiedName))
+		// Yes, original method is correct here, see AwaitableOverloadLocator for the reason.
+		else if (
+			context.AwaitableExtensionOverloads.TryGetValue(originalMethod, out var asyncExtensionFullyQualifiedName)
+		)
 		{
 			// Async overload found - replace the method name with the async one and await the call.
 			isAwaitedMethodCall = true;

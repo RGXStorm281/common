@@ -514,5 +514,22 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 		instance.ExtensionCall(2);
 	}
 
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldHandleExtensionsOnBaseTypesAndInterfaces()
+	{
+		var instance = new AsyncOverloadInstanceDependency();
+		instance.OverloadedForBaseInExtension();
+		instance.OverloadedForInterfaceInExtension();
+	}
+
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldHandleEnumerableExtensions()
+	{
+		var instances = new[] { new AsyncOverloadInstanceDependency(), new AsyncOverloadInstanceDependency() };
+		var instanceList = instances.ToList();
+	}
+
 	#endregion
 }

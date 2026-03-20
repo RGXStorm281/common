@@ -27,7 +27,7 @@ internal class DisplayFormats
 		new SymbolDisplayFormat(
 			globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
 			typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-			genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+			genericsOptions: SymbolDisplayGenericsOptions.None,
 			memberOptions: SymbolDisplayMemberOptions.IncludeContainingType,
 			parameterOptions: SymbolDisplayParameterOptions.None,
 			miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes

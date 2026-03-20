@@ -11,4 +11,19 @@ public static class InstanceDependencyExtensions
 	{
 		return Task.CompletedTask;
 	}
+
+	public static Task<List<TItem>> ToListAsync<TItem>(this IEnumerable<TItem> items)
+	{
+		return Task.FromResult(items.ToList());
+	}
+
+	public static Task OverloadedForBaseInExtensionAsync(this AsyncOverloadInstanceDependencyBase instance)
+	{
+		return Task.CompletedTask;
+	}
+
+	public static Task OverloadedForInterfaceInExtensionAsync(this IAsyncOverloadInstanceDependency instance)
+	{
+		return Task.CompletedTask;
+	}
 }

@@ -257,6 +257,14 @@ public class AsyncOverloadTests
 		nameof(AsyncOverloadTestClass),
 		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindAsyncOverloadsForExtensions)
 	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldHandleExtensionsOnBaseTypesAndInterfaces)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldHandleEnumerableExtensions)
+	)]
 	#endregion
 	public void CompareSyntaxTree(string className, string syncMethodName)
 	{

@@ -1,6 +1,6 @@
 namespace RobinEpple.Common.SourceGenerators.Test;
 
-public class AsyncOverloadInstanceDependency
+public class AsyncOverloadInstanceDependency : AsyncOverloadInstanceDependencyBase, IAsyncOverloadInstanceDependency
 {
 	public void InstanceCall() { }
 
@@ -25,4 +25,8 @@ public class AsyncOverloadInstanceDependency
 	public void OverloadedInMethodScopedExtension() { }
 
 	public void OverloadedInClassScopedExtension() { }
+
+	public void OverloadedForBaseInExtension() { }
+
+	public void OverloadedForInterfaceInExtension() { }
 }

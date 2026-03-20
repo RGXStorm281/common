@@ -486,7 +486,43 @@ internal class AwaitableOverloadLocator
 		}
 
 		// If not successful try to find an extension overload.
-		TryAddExtensionOverload(methodKey, context);
+		var receiverType = GetReceiverType(invocation, context.SemanticModel);
+		if (receiverType == null)
+		{
+			return;
+		}
+
+		// For extension methods we need the fully typed local variant of the method call.
+		// For local methods this is a problem, because we search the type for similar definitions.
+		// For extension methods it works the other way round: We try to reduce all available extension methods,
+		// to the receiver type, so strong typing is explicitly wanted.
+		TryAddExtensionOverload(originalMethod, receiverType, context);
+	}
+
+	private static ITypeSymbol? GetReceiverType(InvocationExpressionSyntax invocation, SemanticModel semanticModel)
+	{
+		// Normal case: items.ToList()
+		if (invocation.Expression is MemberAccessExpressionSyntax memberAccess)
+		{
+			return semanticModel.GetTypeInfo(memberAccess.Expression).Type;
+		}
+
+		// Null-conditional: items?.ToList()
+		if (invocation.Expression is MemberBindingExpressionSyntax)
+		{
+			var parent = invocation.Parent;
+			while (parent != null)
+			{
+				if (parent is ConditionalAccessExpressionSyntax conditional)
+				{
+					return semanticModel.GetTypeInfo(conditional.Expression).Type;
+				}
+
+				parent = parent.Parent;
+			}
+		}
+
+		return null;
 	}
 
 	private bool TryAddLocalOverload(IMethodSymbol methodKey, CollectionContext context)
@@ -516,7 +552,7 @@ internal class AwaitableOverloadLocator
 		return false;
 	}
 
-	private bool TryAddExtensionOverload(IMethodSymbol methodKey, CollectionContext context)
+	private bool TryAddExtensionOverload(IMethodSymbol methodKey, ITypeSymbol receiverType, CollectionContext context)
 	{
 		// If the method has already been resolved, skip.
 		if (context.CollectedAwaitableExtensionOverloads.ContainsKey(methodKey))
@@ -525,7 +561,7 @@ internal class AwaitableOverloadLocator
 		}
 
 		// Try to find async overloads in the registered extension methods.
-		var asyncCandidates = FindExtensionAsyncOverloads(methodKey, context).ToList();
+		var asyncCandidates = FindExtensionAsyncOverloads(methodKey, receiverType, context).ToList();
 		switch (asyncCandidates.Count)
 		{
 			case 0:
@@ -600,10 +636,12 @@ internal class AwaitableOverloadLocator
 	/// Try to find a matching async overload in the extension methods that are available in the generation context.
 	/// </summary>
 	/// <param name="originalMethod">The original method that is called in the synchronous method body.</param>
+	/// <param name="receiverType">The receiver type of the original method call.</param>
 	/// <param name="context">The context for the generation defines available extension methods.</param>
 	/// <returns>A list of all matching extension overloads.</returns>
 	private IEnumerable<IMethodSymbol> FindExtensionAsyncOverloads(
 		IMethodSymbol originalMethod,
+		ITypeSymbol receiverType,
 		CollectionContext context
 	)
 	{
@@ -611,43 +649,31 @@ internal class AwaitableOverloadLocator
 		var asyncName = originalMethod.Name + "Async";
 
 		// Define the parameter types to compare.
-		// By default the receiver is the type an instance method is defined in.
-		var expectedReceiverType = (ITypeSymbol)originalMethod.ContainingType;
-		var expectedParameters = originalMethod.Parameters;
-
-		// If the original call already is a reduced extension call, use the "this" parameter type.
-		if (originalMethod.IsExtensionMethod && originalMethod.ReducedFrom != null)
-		{
-			expectedReceiverType = originalMethod.ReducedFrom!.Parameters[0].Type;
-		}
-		else if (originalMethod.IsStatic)
-		{
-			// Other static method calls are not handled here.
-			return [];
-		}
+		var originalParams = originalMethod.Parameters;
 
 		// Isolate candidates with a matching name.
 		var candidates = context.ExtensionMethodsInContext.Where(extensionMethod => extensionMethod.Name == asyncName);
 
-		// Then check parameters.
+		// Then check compatibility.
 		var matchingCandidates = candidates.Where(candidate =>
 		{
-			// The extension method always has the receiver type as first parameter.
-			var candidateReceiverType = candidate.Parameters[0].Type;
-			var candidateRegularParams = candidate.Parameters.RemoveAt(0);
+			// Try to apply the extension method.
+			var reducedExtensionMethod = candidate.ReduceExtensionMethod(receiverType);
 
-			// Compare receiver, parameter and return types.
-			if (!SymbolEqualityComparer.Default.Equals(candidateReceiverType, expectedReceiverType))
+			if (reducedExtensionMethod == null)
 			{
 				return false;
 			}
 
-			if (!ParametersMatch(expectedParameters, candidateRegularParams))
+			// Then check parameters and return types.
+			var candidateParams = reducedExtensionMethod.Parameters;
+
+			if (!ParametersMatch(originalParams, candidateParams))
 			{
 				return false;
 			}
 
-			return ReturnTypesMatch(originalMethod, candidate, context.SemanticModel.Compilation);
+			return ReturnTypesMatch(originalMethod, reducedExtensionMethod, context.SemanticModel.Compilation);
 		});
 
 		return matchingCandidates;
@@ -690,13 +716,19 @@ internal class AwaitableOverloadLocator
 			if (
 				candidate.ReturnType is INamedTypeSymbol named
 				&& SymbolEqualityComparer.Default.Equals(named.ConstructedFrom, taskOfT)
+				&& named.TypeArguments.FirstOrDefault() is { } inner
 			)
 			{
-				var inner = named.TypeArguments.FirstOrDefault();
-				return SymbolEqualityComparer.Default.Equals(inner, original.ReturnType);
+				return IsAssignable(from: inner, to: original.ReturnType, compilation);
 			}
 		}
 
 		return false;
+	}
+
+	private static bool IsAssignable(ITypeSymbol from, ITypeSymbol to, Compilation compilation)
+	{
+		var receiverConversion = compilation.ClassifyCommonConversion(from, to);
+		return receiverConversion.IsImplicit;
 	}
 }
