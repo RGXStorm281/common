@@ -9,14 +9,15 @@ internal class AsyncOverloadGenerationTask
 		MethodDeclarationSyntax methodDeclaration,
 		IMethodSymbol methodSymbol,
 		SemanticModel semanticModel,
-		string asyncName
+		string asyncName,
+		string[] whitelistedExtensionNamespaces
 	)
 	{
 		MethodDeclaration = methodDeclaration;
 		MethodSymbol = methodSymbol;
 		SemanticModel = semanticModel;
 		AsyncName = asyncName;
-
+		WhitelistedExtensionNamespaces = whitelistedExtensionNamespaces;
 		HasYieldStatements = MethodDeclaration!.DescendantNodes().OfType<YieldStatementSyntax>().Any();
 	}
 
@@ -25,6 +26,8 @@ internal class AsyncOverloadGenerationTask
 	public SemanticModel SemanticModel { get; set; }
 	public bool HasYieldStatements { get; set; }
 	public string AsyncName { get; set; }
+	public string[] WhitelistedExtensionNamespaces { get; }
+
 	public Dictionary<IMethodSymbol, string> AwaitableOverloads { get; set; } = [];
 	public bool HasBody => MethodDeclaration.Body != null || MethodDeclaration.ExpressionBody != null;
 	public bool IsRunningAsync => HasBody && (AwaitableOverloads.Count > 0 || HasYieldStatements);

@@ -63,7 +63,7 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 	/// </summary>
 	private static AsyncOverloadGenerationTask? GetMethodSyntaxIfTarget(GeneratorSyntaxContext context)
 	{
-		// Get the information on the method declaration.
+		// Get information about the method declaration.
 		var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 		var methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodDeclaration);
 		if (methodSymbol == null)
@@ -71,9 +71,20 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			return null;
 		}
 		var asyncName = methodSymbol.Name + "Async";
+		var typeDeclaration = methodDeclaration.FirstAncestorOrSelf<TypeDeclarationSyntax>();
 
-		// Check that the method is actually decorated with the GenerateAsyncOverloadAttribute and not any other attribute.
-		foreach (var attr in methodDeclaration.AttributeLists.SelectMany(attributeList => attributeList.Attributes))
+		// Collect all attributes.
+		var methodAttributes = methodDeclaration.AttributeLists.SelectMany(attributeList => attributeList.Attributes);
+		var typeAttributes =
+			typeDeclaration?.AttributeLists.SelectMany(attributeList => attributeList.Attributes) ?? [];
+		var allAttributes = methodAttributes.Concat(typeAttributes);
+
+		// Scan attributes for extension namespace whitelisting and generator attribute.
+		var extensionNamespaces = new List<string>();
+		var hasGenerateAsyncOverloadAttribute = false;
+
+		// Scan the method's own attributes for GenerateAsyncOverloadAttribute and AsyncOverloadExtensionNamespaceAttribute.
+		foreach (var attr in allAttributes)
 		{
 			var constructor = context.SemanticModel.GetSymbolInfo(attr).Symbol;
 			if (constructor is not IMethodSymbol attributeConstructor)
@@ -82,17 +93,44 @@ public class AsyncOverloadGenerator : IIncrementalGenerator
 			}
 
 			var attributeType = attributeConstructor.ContainingType.ToDisplayString();
-			if (attributeType != typeof(GenerateAsyncOverloadAttribute).FullName)
+			if (attributeType == typeof(GenerateAsyncOverloadAttribute).FullName)
 			{
-				continue;
+				hasGenerateAsyncOverloadAttribute = true;
 			}
-
-			// If so, add the generation task.
-			return new AsyncOverloadGenerationTask(methodDeclaration, methodSymbol, context.SemanticModel, asyncName);
+			else if (attributeType == typeof(AsyncOverloadExtensionNamespaceAttribute).FullName)
+			{
+				var namespaceName = GetFirstStringArgument(attr, context.SemanticModel);
+				if (namespaceName != null)
+				{
+					extensionNamespaces.Add(namespaceName);
+				}
+			}
 		}
 
-		// Otherwise skip this method.
-		return null;
+		// If a GenerateAsyncOverloadAttribute was found, return a generation task, otherwise skip this method.
+		if (!hasGenerateAsyncOverloadAttribute)
+		{
+			return null;
+		}
+
+		return new AsyncOverloadGenerationTask(
+			methodDeclaration,
+			methodSymbol,
+			context.SemanticModel,
+			asyncName,
+			[.. extensionNamespaces]
+		);
+	}
+
+	private static string? GetFirstStringArgument(AttributeSyntax attr, SemanticModel semanticModel)
+	{
+		var argument = attr.ArgumentList?.Arguments.FirstOrDefault();
+		if (argument == null)
+		{
+			return null;
+		}
+		var constant = semanticModel.GetConstantValue(argument.Expression);
+		return constant.HasValue ? constant.Value as string : null;
 	}
 
 	/// <summary>
