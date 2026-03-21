@@ -21,6 +21,7 @@ public static class Startup
 	{
 		AddControllers(services, hostingEnvironment);
 		AddSessionAndHttp(services, testSettings);
+		services.AddTimeoutCache(TimeSpan.FromSeconds(30));
 	}
 
 	private static void AddControllers(IServiceCollection services, IWebHostEnvironment hostingEnvironment)

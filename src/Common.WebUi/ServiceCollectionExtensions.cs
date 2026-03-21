@@ -14,8 +14,25 @@ public static class ServiceCollectionExtensions
 	/// </summary>
 	/// <param name="services">The service collection to add the hosted service to.</param>
 	/// <param name="purgeInterval">The time between the entry purges.</param>
-	public static void AddTimeoutCache(this IServiceCollection services, TimeSpan purgeInterval) =>
-		services.AddHostedService(_ => new TimeoutCache(purgeInterval));
+	public static void AddTimeoutCache(this IServiceCollection services, TimeSpan purgeInterval)
+	{
+		services.AddSingleton(_ => new TimeoutCache(purgeInterval));
+		services.AddAlias<ITimeoutCache, TimeoutCache>();
+		services.AddHostedService(provider => provider.GetRequiredService<TimeoutCache>());
+	}
+
+	/// <summary>
+	/// Adds a type alias for a registered service.
+	/// Every time <typeparamref name="TAlias"/> is requested, the registered service for
+	/// <typeparamref name="TImplementation"/> will be returned instead.
+	/// </summary>
+	/// <param name="services">The service collection to register the alias in.</param>
+	public static void AddAlias<TAlias, TImplementation>(this IServiceCollection services)
+		where TImplementation : TAlias
+		where TAlias : class
+	{
+		services.AddTransient<TAlias>(provider => provider.GetRequiredService<TImplementation>());
+	}
 
 	/// <summary>
 	/// Reads the settings from the configuration and adds them as singleton to the dependency injection.
