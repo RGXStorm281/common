@@ -35,19 +35,6 @@ public partial class CheckoutSamplePage : IPageModel
 		(_confirmationStage, "Confirmation"),
 	];
 
-	private const string? _paymentMethodPaypal = "PayPal";
-	private const string? _paymentMethodApplePay = "Apple Pay";
-	private const string? _paymentMethodCard = "Card";
-	private const string? _paymentMethodInvoice = "Invoice";
-
-	private IEnumerable<string?> _paymentMethods =
-	[
-		_paymentMethodPaypal,
-		_paymentMethodApplePay,
-		_paymentMethodCard,
-		_paymentMethodInvoice,
-	];
-
 	[MemberNotNull(nameof(Form))]
 	[WrapFormStructure(nameof(Form))]
 	private void CreateForm()
@@ -217,7 +204,10 @@ public partial class CheckoutSamplePage : IPageModel
 									.UseVisibilityCondition(
 										Elevate(
 											StaticValue(1),
-											BooleanFieldValue("SameBillingAddress").IsEqualTo(StaticValue<bool?>(false))
+											Not(
+												BooleanFieldValue("SameBillingAddress")
+													.IsEqualTo(StaticValue<bool?>(true))
+											)
 										)
 									)
 									.WithTextNode(
@@ -268,66 +258,58 @@ public partial class CheckoutSamplePage : IPageModel
 											firstName.UseLabel("E-Mail").UseEmailValidator().UseRequiredValidator()
 									)
 						)
-						.WithTextNode(
+						.WithTemplatedSection(
 							"PaymentMethod",
-							method =>
+							(method, _) =>
 								method
 									.UseLabel("Payment Method")
-									.UseSelectList(_paymentMethods, validate: true)
+									.UseTemplate("Paypal", paypal => paypal.UseLabel("PayPal"))
+									.UseTemplate("ApplePay", applePay => applePay.UseLabel("Apple Pay"))
+									.UseTemplate(
+										"Card",
+										card =>
+											card.UseLabel("Card")
+												.WithTextNode(
+													"Owner",
+													owner =>
+														owner
+															.UseLabel("Owner")
+															.UseValidator(new BeginsWithUppercaseValidator())
+															.UseRequiredValidator()
+												)
+												.WithTextNode(
+													"CardNumber",
+													number => number.UseLabel("Card Number").UseRequiredValidator()
+												)
+												.WithTimestampNode(
+													"Expiry",
+													expiry => expiry.UseLabel("Expiry Date").UseRequiredValidator()
+												)
+												.WithNumberNode(
+													"Cvc",
+													cvc => cvc.UseLabel("CVC").UseRequiredValidator()
+												)
+									)
+									.UseTemplate(
+										"Invoice",
+										invoice =>
+											invoice
+												.UseLabel("Invoice")
+												.WithTextNode(
+													"Owner",
+													owner =>
+														owner
+															.UseLabel("Owner")
+															.UseValidator(new BeginsWithUppercaseValidator())
+															.UseRequiredValidator()
+												)
+												.WithTextNode(
+													"Iban",
+													iban =>
+														iban.UseLabel("IBAN").UseIbanValidator().UseRequiredValidator()
+												)
+									)
 									.UseRequiredValidator()
-						)
-						.WithSection(
-							"CardDetails",
-							(card, _) =>
-								card.UseLabel("Card Details")
-									.UseVisibilityCondition(
-										Elevate(
-											StaticValue(1),
-											TextFieldValue("PaymentMethod").IsEqualTo(StaticValue(_paymentMethodCard))
-										)
-									)
-									.WithTextNode(
-										"Owner",
-										owner =>
-											owner
-												.UseLabel("Owner")
-												.UseValidator(new BeginsWithUppercaseValidator())
-												.UseRequiredValidator()
-									)
-									.WithTextNode(
-										"CardNumber",
-										number => number.UseLabel("Card Number").UseRequiredValidator()
-									)
-									.WithTimestampNode(
-										"Expiry",
-										expiry => expiry.UseLabel("Expiry Date").UseRequiredValidator()
-									)
-									.WithNumberNode("Cvc", cvc => cvc.UseLabel("CVC").UseRequiredValidator())
-						)
-						.WithSection(
-							"InvoiceDetails",
-							(invoice, _) =>
-								invoice
-									.UseLabel("Bank Account")
-									.UseVisibilityCondition(
-										Elevate(
-											StaticValue(1),
-											TextFieldValue("PaymentMethod")
-												.IsEqualTo(StaticValue(_paymentMethodInvoice))
-										)
-									)
-									.WithTextNode(
-										"Owner",
-										owner =>
-											owner
-												.UseLabel("Owner")
-												.UseValidator(new BeginsWithUppercaseValidator())
-												.UseRequiredValidator()
-									)
-									.WithTextNode(
-										"Iban",
-										iban => iban.UseLabel("IBAN").UseIbanValidator().UseRequiredValidator()
-									)
 						)
 			)
 			// Fourth stage: Confirmation -> terms of service requires checking.
@@ -468,7 +450,7 @@ public partial class CheckoutSamplePage : IPageModel
 		return Div(
 				H2(delivery.Node!.Label),
 				Div(
-						H2(delivery.ContactDetails.Node!.Label).Class("card-header"),
+						H3(delivery.ContactDetails.Node!.Label).Class("card-header"),
 						Div(
 								TextInput(delivery.ContactDetails.FirstName!),
 								TextInput(delivery.ContactDetails.LastName!),
@@ -480,7 +462,7 @@ public partial class CheckoutSamplePage : IPageModel
 					)
 					.Class("card"),
 				Div(
-						H2(delivery.ShippingAddress.Node!.Label).Class("card-header"),
+						H3(delivery.ShippingAddress.Node!.Label).Class("card-header"),
 						Div(
 								TextInput(delivery.ShippingAddress.Street!),
 								TextInput(delivery.ShippingAddress.Zip!),
@@ -492,7 +474,7 @@ public partial class CheckoutSamplePage : IPageModel
 					)
 					.Class("card"),
 				Div(
-						H2("Delivery Service").Class("card-header"),
+						H3("Delivery Service").Class("card-header"),
 						Div(RadioButtons(delivery.DeliveryMethod!)).Class("card-body").Class("form-grid")
 					)
 					.Class("card"),
@@ -512,6 +494,44 @@ public partial class CheckoutSamplePage : IPageModel
 	)
 	{
 		return Div(
+				H2(payment.Node!.Label),
+				Div(
+						H3(payment.BillingAddress.Node!.Label).Class("card-header"),
+						Div(
+								CheckBox(payment.SameBillingAddress!),
+								TextInput(payment.BillingAddress.FirstName!),
+								TextInput(payment.BillingAddress.LastName!),
+								TextInput(payment.BillingAddress.Street!),
+								TextInput(payment.BillingAddress.Zip!),
+								TextInput(payment.BillingAddress.City!),
+								TextInput(payment.BillingAddress.Country!),
+								TextInput(payment.BillingAddress.Email!)
+							)
+							.Class("card-body")
+							.Class("form-grid")
+					)
+					.Class("card"),
+				Div(
+						H3(payment.PaymentMethod.Node!.Label).Class("card-header"),
+						Div(
+								RadioButtonsForTemplates(payment.PaymentMethod.Node!),
+								RenderSwitch(payment.PaymentMethod.Instance)
+									.Case<CheckoutStruct.PaymentStruct.PaymentMethodStruct.CardStruct>(card =>
+										Concat(
+											TextInput(card.Owner!),
+											TextInput(card.CardNumber!),
+											DateInput(card.Expiry!),
+											NumberInput(card.Cvc!)
+										)
+									)
+									.Case<CheckoutStruct.PaymentStruct.PaymentMethodStruct.InvoiceStruct>(invoice =>
+										Concat(TextInput(invoice.Owner!), TextInput(invoice.Iban!))
+									)
+							)
+							.Class("card-body")
+							.Class("form-grid")
+					)
+					.Class("card"),
 				Div(
 					RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
 					RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
@@ -527,6 +547,12 @@ public partial class CheckoutSamplePage : IPageModel
 	)
 	{
 		return Div(
+				H2(confirmation.Node!.Label),
+				Div(
+						H3("Terms and conditions").Class("card-header"),
+						Div(CheckBox(confirmation.TermsOfService!)).Class("card-body").Class("form-grid")
+					)
+					.Class("card"),
 				Div(
 					RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
 					RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))

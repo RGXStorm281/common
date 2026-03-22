@@ -34,6 +34,9 @@ public class CheckBox(IBooleanNode node) : IHtmlContent
 		// |----------------------------------------|
 		var content = Fieldset(
 				Div(
+						// Fallback hidden input, such that "false" is sent in the request when the checkbox is not selected.
+						// By default, browsers will only send selected checkboxes as form value.
+						Input().Type("hidden").Name(nodeId).Value(_node.Formatter.Format(false) ?? string.Empty),
 						Input()
 							.Type("checkbox")
 							.Value(_node.Formatter.Format(true) ?? string.Empty)

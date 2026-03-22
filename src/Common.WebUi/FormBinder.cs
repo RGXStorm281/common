@@ -28,6 +28,7 @@ public class FormBinder(IForm form, IEnumerable<IFormBindingStrategy>? bindingSt
 			new NumberBindingStrategy(),
 			new TimestampBindingStrategy(),
 			new TextBindingStrategy(),
+			new TemplateSelectionBindingStrategy(),
 		];
 
 	/// <summary>

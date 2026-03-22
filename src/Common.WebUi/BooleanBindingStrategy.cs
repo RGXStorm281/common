@@ -16,7 +16,7 @@ public class BooleanBindingStrategy : IFormBindingStrategy
 			return false;
 		}
 
-		var stringValue = values.FirstOrDefault();
+		var stringValue = values.LastOrDefault();
 		if (string.IsNullOrEmpty(stringValue))
 		{
 			booleanNode.Value = null;
