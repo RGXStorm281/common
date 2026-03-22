@@ -78,7 +78,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> AddShirt()
+	public ActionResult AddShirt()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(FormRendering)}";
@@ -92,7 +92,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> AddChocolate()
+	public ActionResult AddChocolate()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(FormRendering)}";
@@ -106,7 +106,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> RemoveCartItem(string itemId)
+	public ActionResult RemoveCartItem(string itemId)
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(FormRendering)}";

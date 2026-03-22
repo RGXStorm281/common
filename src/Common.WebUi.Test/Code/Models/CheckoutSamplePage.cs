@@ -7,6 +7,7 @@ using RobinEpple.Common.Forms.Building;
 using RobinEpple.Common.Forms.Expressions;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Wrappers.Abstractions;
+using RobinEpple.Common.WebUi.Test.Code.Models.BindingTargets;
 using static RobinEpple.Common.Forms.Expressions.FormExpression;
 using static RobinEpple.Common.Forms.Html.FormRendering;
 using static RobinEpple.Common.Html.DSL;
@@ -15,12 +16,15 @@ public partial class CheckoutSamplePage : IPageModel
 {
 	public CheckoutSamplePage()
 	{
+		Model = new CheckoutModel();
 		CreateForm();
 	}
 
 	public string Title => "Checkout Sample";
 
 	public IForm Form { get; private set; }
+
+	public CheckoutModel Model { get; }
 
 	private static readonly decimal? _cartStage = 0;
 	private static readonly decimal? _deliveryStage = 1;
@@ -55,11 +59,13 @@ public partial class CheckoutSamplePage : IPageModel
 							"CartItems",
 							(collection, _) =>
 								collection
+									.UsePropertyBinding(() => Model.Products)
 									.UseTemplate(
 										"Shirt",
 										shirt =>
 											shirt
 												.UseLabel("Fan Shirt")
+												.UseEmbeddedModel(() => new FanShirt(), out var shirtModel)
 												.WithTextNode(
 													"Size",
 													size =>
@@ -67,6 +73,10 @@ public partial class CheckoutSamplePage : IPageModel
 															.UseSelectList(["S", "M", "L"], validate: true)
 															.UseDefaultValue("M")
 															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																shirtModel,
+																model => model.Size
+															)
 												)
 												.WithTextNode(
 													"Design",
@@ -78,6 +88,10 @@ public partial class CheckoutSamplePage : IPageModel
 															)
 															.UseDefaultValue("Dragons")
 															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																shirtModel,
+																model => model.Design
+															)
 												)
 												.WithNumberNode(
 													"Amount",
@@ -90,6 +104,10 @@ public partial class CheckoutSamplePage : IPageModel
 															)
 															.UseDefaultValue(1)
 															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																shirtModel,
+																model => model.Amount
+															)
 												)
 									)
 									.UseTemplate(
@@ -97,6 +115,7 @@ public partial class CheckoutSamplePage : IPageModel
 										chocolate =>
 											chocolate
 												.UseLabel("Fan Chocolate")
+												.UseEmbeddedModel(() => new FanChocolate(), out var chocolateModel)
 												.WithTextNode(
 													"Flavor",
 													size =>
@@ -104,6 +123,10 @@ public partial class CheckoutSamplePage : IPageModel
 															.UseSelectList(["Milk", "Dark", "Orange"], validate: true)
 															.UseDefaultValue("Milk")
 															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																chocolateModel,
+																model => model.Flavor
+															)
 												)
 												.WithNumberNode(
 													"Amount",
@@ -116,6 +139,10 @@ public partial class CheckoutSamplePage : IPageModel
 															)
 															.UseDefaultValue(1)
 															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																chocolateModel,
+																model => model.Amount
+															)
 												)
 									)
 						)
@@ -138,6 +165,7 @@ public partial class CheckoutSamplePage : IPageModel
 												.UseLabel("First Name")
 												.UseValidator(new BeginsWithUppercaseValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.FirstName)
 									)
 									.WithTextNode(
 										"LastName",
@@ -146,15 +174,24 @@ public partial class CheckoutSamplePage : IPageModel
 												.UseLabel("Last Name")
 												.UseValidator(new BeginsWithUppercaseValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.LastName)
 									)
 									.WithTextNode(
 										"PhoneNumber",
-										firstName => firstName.UseLabel("Phone Number").UsePhoneNumberValidator()
+										firstName =>
+											firstName
+												.UseLabel("Phone Number")
+												.UsePhoneNumberValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.PhoneNumber)
 									)
 									.WithTextNode(
 										"Email",
 										firstName =>
-											firstName.UseLabel("E-Mail").UseEmailValidator().UseRequiredValidator()
+											firstName
+												.UseLabel("E-Mail")
+												.UseEmailValidator()
+												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.Email)
 									)
 						)
 						.WithSection(
@@ -163,7 +200,11 @@ public partial class CheckoutSamplePage : IPageModel
 								address
 									.WithTextNode(
 										"Street",
-										street => street.UseLabel("Street, Nr.").UseRequiredValidator()
+										street =>
+											street
+												.UseLabel("Street, Nr.")
+												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.Street)
 									)
 									.WithTextNode(
 										"Zip",
@@ -171,6 +212,7 @@ public partial class CheckoutSamplePage : IPageModel
 											zip.UseLabel("ZIP code")
 												.UseValidator(new ZipCodeValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.Zip)
 									)
 									.WithTextNode(
 										"City",
@@ -178,6 +220,7 @@ public partial class CheckoutSamplePage : IPageModel
 											zip.UseLabel("City")
 												.UseValidator(new BeginsWithUppercaseValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.City)
 									)
 									.WithTextNode(
 										"Country",
@@ -186,6 +229,7 @@ public partial class CheckoutSamplePage : IPageModel
 												.UseDefaultValue("Germany")
 												.UseDefaultReadonly(true)
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.ContactDetails.Country)
 									)
 						)
 						.WithTextNode(
@@ -195,6 +239,7 @@ public partial class CheckoutSamplePage : IPageModel
 									.UseLabel("Delivery Method")
 									.UseSelectList(["Default Shipping", "Express Shipping"], validate: true)
 									.UseRequiredValidator()
+									.UsePropertyBinding(() => Model.ContactDetails.DeliveryMethod)
 						)
 			)
 			// Third stage: Payment options -> conditional sub forms.
@@ -228,6 +273,7 @@ public partial class CheckoutSamplePage : IPageModel
 												.UseLabel("First Name")
 												.UseValidator(new BeginsWithUppercaseValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.BillingAddress.FirstName)
 									)
 									.WithTextNode(
 										"LastName",
@@ -236,10 +282,15 @@ public partial class CheckoutSamplePage : IPageModel
 												.UseLabel("Last Name")
 												.UseValidator(new BeginsWithUppercaseValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.BillingAddress.LastName)
 									)
 									.WithTextNode(
 										"Street",
-										street => street.UseLabel("Street, Nr.").UseRequiredValidator()
+										street =>
+											street
+												.UseLabel("Street, Nr.")
+												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.BillingAddress.Street)
 									)
 									.WithTextNode(
 										"Zip",
@@ -247,6 +298,7 @@ public partial class CheckoutSamplePage : IPageModel
 											zip.UseLabel("ZIP code")
 												.UseValidator(new ZipCodeValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.BillingAddress.Zip)
 									)
 									.WithTextNode(
 										"City",
@@ -254,6 +306,7 @@ public partial class CheckoutSamplePage : IPageModel
 											zip.UseLabel("City")
 												.UseValidator(new BeginsWithUppercaseValidator())
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.BillingAddress.City)
 									)
 									.WithTextNode(
 										"Country",
@@ -262,11 +315,16 @@ public partial class CheckoutSamplePage : IPageModel
 												.UseDefaultValue("Germany")
 												.UseDefaultReadonly(true)
 												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.BillingAddress.Country)
 									)
 									.WithTextNode(
 										"Email",
 										firstName =>
-											firstName.UseLabel("E-Mail").UseEmailValidator().UseRequiredValidator()
+											firstName
+												.UseLabel("E-Mail")
+												.UseEmailValidator()
+												.UseRequiredValidator()
+												.UsePropertyBinding(() => Model.BillingAddress.Email)
 									)
 						)
 						.WithTemplatedSection(
@@ -274,12 +332,24 @@ public partial class CheckoutSamplePage : IPageModel
 							(method, _) =>
 								method
 									.UseLabel("Payment Method")
-									.UseTemplate("Paypal", paypal => paypal.UseLabel("PayPal"))
-									.UseTemplate("ApplePay", applePay => applePay.UseLabel("Apple Pay"))
+									.UsePropertyBinding(() => Model.PaymentMethod)
+									.UseTemplate(
+										"Paypal",
+										paypal =>
+											paypal.UseLabel("PayPal").UseEmbeddedModel(() => new PayPal(), out var _)
+									)
+									.UseTemplate(
+										"ApplePay",
+										applePay =>
+											applePay
+												.UseLabel("Apple Pay")
+												.UseEmbeddedModel(() => new ApplePay(), out var _)
+									)
 									.UseTemplate(
 										"Card",
 										card =>
 											card.UseLabel("Card")
+												.UseEmbeddedModel(() => new Card(), out var cardModel)
 												.WithTextNode(
 													"Owner",
 													owner =>
@@ -287,18 +357,42 @@ public partial class CheckoutSamplePage : IPageModel
 															.UseLabel("Owner")
 															.UseValidator(new BeginsWithUppercaseValidator())
 															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																cardModel,
+																model => model.Owner
+															)
 												)
 												.WithTextNode(
 													"CardNumber",
-													number => number.UseLabel("Card Number").UseRequiredValidator()
+													number =>
+														number
+															.UseLabel("Card Number")
+															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																cardModel,
+																model => model.CardNumber
+															)
 												)
 												.WithTimestampNode(
 													"Expiry",
-													expiry => expiry.UseLabel("Expiry Date").UseRequiredValidator()
+													expiry =>
+														expiry
+															.UseLabel("Expiry Date")
+															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																cardModel,
+																model => model.ExpiryDate
+															)
 												)
 												.WithNumberNode(
 													"Cvc",
-													cvc => cvc.UseLabel("CVC").UseRequiredValidator()
+													cvc =>
+														cvc.UseLabel("CVC")
+															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																cardModel,
+																model => model.Cvc
+															)
 												)
 									)
 									.UseTemplate(
@@ -306,6 +400,7 @@ public partial class CheckoutSamplePage : IPageModel
 										invoice =>
 											invoice
 												.UseLabel("Invoice")
+												.UseEmbeddedModel(() => new Invoice(), out var invoiceModel)
 												.WithTextNode(
 													"Owner",
 													owner =>
@@ -313,11 +408,21 @@ public partial class CheckoutSamplePage : IPageModel
 															.UseLabel("Owner")
 															.UseValidator(new BeginsWithUppercaseValidator())
 															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																invoiceModel,
+																model => model.Owner
+															)
 												)
 												.WithTextNode(
 													"Iban",
 													iban =>
-														iban.UseLabel("IBAN").UseIbanValidator().UseRequiredValidator()
+														iban.UseLabel("IBAN")
+															.UseIbanValidator()
+															.UseRequiredValidator()
+															.UseEmbeddedModelPropertyBinding(
+																invoiceModel,
+																model => model.Iban
+															)
 												)
 									)
 									.UseRequiredValidator()
@@ -331,7 +436,11 @@ public partial class CheckoutSamplePage : IPageModel
 						.UseLabel("Confirmation")
 						.WithBooleanNode(
 							"TermsOfService",
-							terms => terms.UseLabel("I accept the terms of service").UseRequireTrueValidator()
+							terms =>
+								terms
+									.UseLabel("I accept the terms of service")
+									.UseRequireTrueValidator()
+									.UsePropertyBinding(() => Model.ConfirmedTermsOfService)
 						)
 			)
 			.Build();
@@ -558,25 +667,44 @@ public partial class CheckoutSamplePage : IPageModel
 			.Class("payment-stage");
 	}
 
-	private static IHtmlContent RenderConfirmationStage(
+	private IHtmlContent RenderConfirmationStage(
 		CheckoutStruct.ConfirmationStruct confirmation,
 		string? previousId,
 		string? nextId
 	)
 	{
-		return Div(
-				H2(confirmation.Node!.Label),
-				Div(
-						H3("Terms and conditions").Class("card-header"),
-						Div(CheckBox(confirmation.TermsOfService!)).Class("card-body").Class("form-grid")
-					)
-					.Class("card"),
-				Div(
-						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("btn")),
-						RenderIf(nextId != null, Label("Next").For(nextId!).Class("btn primary"))
-					)
-					.Class("navigation-buttons")
-			)
-			.Class("confirmation-stage");
+		// Render lazy to let form binding only run when the page is actually opened.
+		return Lazy(() =>
+		{
+			Form.WriteToBinding();
+
+			return Div(
+					H2(confirmation.Node!.Label),
+					Div(
+							H3("Terms and conditions").Class("card-header"),
+							Div(CheckBox(confirmation.TermsOfService!)).Class("card-body").Class("form-grid")
+						)
+						.Class("card"),
+					Div(
+							H3("Summary").Class("card-header"),
+							Div(
+									H4("Products"),
+									RenderEach(Model.Products, product => P(Raw(product.PrintSummary()))),
+									H4("Billing Address"),
+									P($@"{Model.BillingAddress.FirstName} {Model.BillingAddress.LastName}"),
+									H4("Accepted Terms of Service"),
+									P(Model.ConfirmedTermsOfService == true ? "Yes" : "No")
+								)
+								.Class("card-body")
+						)
+						.Class("card"),
+					Div(
+							RenderIf(previousId != null, Label("Previous").For(previousId!).Class("btn")),
+							RenderIf(nextId != null, Label("Next").For(nextId!).Class("btn primary"))
+						)
+						.Class("navigation-buttons")
+				)
+				.Class("confirmation-stage");
+		});
 	}
 }
