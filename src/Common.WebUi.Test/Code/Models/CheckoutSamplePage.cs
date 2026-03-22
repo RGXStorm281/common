@@ -68,6 +68,17 @@ public partial class CheckoutSamplePage : IPageModel
 															.UseDefaultValue("M")
 															.UseRequiredValidator()
 												)
+												.WithTextNode(
+													"Design",
+													size =>
+														size.UseLabel("Design")
+															.UseSelectList(
+																["Kittens", "Trains", "Dragons"],
+																validate: true
+															)
+															.UseDefaultValue("Dragons")
+															.UseRequiredValidator()
+												)
 												.WithNumberNode(
 													"Amount",
 													amount =>
@@ -389,7 +400,12 @@ public partial class CheckoutSamplePage : IPageModel
 									.Case<CheckoutStruct.CartStruct.CartItemsStruct.ShirtStruct>(shirt =>
 										Div(
 												Span(shirt.Node!.Label).Class("cart-item-label"),
-												Div(DropDown(shirt.Size!), NumberInput(shirt.Amount!))
+												Div(
+														DropDown(shirt.Size!),
+														DropDown(shirt.Design!),
+														NumberInput(shirt.Amount!)
+													)
+													.Class("form-grid")
 													.Class("cart-item-config"),
 												RenderRemoveItemButton(shirt.Node!.GetId())
 											)
@@ -399,6 +415,7 @@ public partial class CheckoutSamplePage : IPageModel
 										Div(
 												Span(chocolate.Node!.Label).Class("cart-item-label"),
 												Div(DropDown(chocolate.Flavor!), NumberInput(chocolate.Amount!))
+													.Class("form-grid")
 													.Class("cart-item-config"),
 												RenderRemoveItemButton(chocolate.Node!.GetId())
 											)
@@ -413,18 +430,18 @@ public partial class CheckoutSamplePage : IPageModel
 							.Attribute("hx-target", "#sample-checkout-form")
 							.Attribute("hx-swap", "innerHTML")
 							.Attribute("hx-select", "form > *")
-							.Class("add-button"),
+							.Class("btn"),
 						Button($"Add {cart.CartItems.ChocolateTemplate.Node!.Label}")
 							.Attribute("hx-post", "AddChocolate")
 							.Attribute("hx-target", "#sample-checkout-form")
 							.Attribute("hx-swap", "innerHTML")
 							.Attribute("hx-select", "form > *")
-							.Class("add-button")
+							.Class("btn")
 					)
 					.Class("cart-actions"),
 				Div(
-						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
-						RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
+						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("btn")),
+						RenderIf(nextId != null, Label("Next").For(nextId!).Class("btn primary"))
 					)
 					.Class("navigation-buttons")
 			)
@@ -438,7 +455,7 @@ public partial class CheckoutSamplePage : IPageModel
 			.Attribute("hx-target", "#sample-checkout-form")
 			.Attribute("hx-swap", "innerHTML")
 			.Attribute("hx-select", "form > *")
-			.Class("remove-cart-item");
+			.Class("btn danger");
 	}
 
 	private static IHtmlContent RenderDeliveryStage(
@@ -458,7 +475,7 @@ public partial class CheckoutSamplePage : IPageModel
 								TextInput(delivery.ContactDetails.Email!)
 							)
 							.Class("card-body")
-							.Class("form-grid")
+							.Class("form-grid striped")
 					)
 					.Class("card"),
 				Div(
@@ -470,17 +487,17 @@ public partial class CheckoutSamplePage : IPageModel
 								TextInput(delivery.ShippingAddress.Country!)
 							)
 							.Class("card-body")
-							.Class("form-grid")
+							.Class("form-grid striped")
 					)
 					.Class("card"),
 				Div(
 						H3("Delivery Service").Class("card-header"),
-						Div(RadioButtons(delivery.DeliveryMethod!)).Class("card-body").Class("form-grid")
+						Div(RadioButtons(delivery.DeliveryMethod!)).Class("card-body").Class("form-grid striped")
 					)
 					.Class("card"),
 				Div(
-						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
-						RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
+						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("btn")),
+						RenderIf(nextId != null, Label("Next").For(nextId!).Class("btn primary"))
 					)
 					.Class("navigation-buttons")
 			)
@@ -533,9 +550,10 @@ public partial class CheckoutSamplePage : IPageModel
 					)
 					.Class("card"),
 				Div(
-					RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
-					RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
-				)
+						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("btn")),
+						RenderIf(nextId != null, Label("Next").For(nextId!).Class("btn primary"))
+					)
+					.Class("navigation-buttons")
 			)
 			.Class("payment-stage");
 	}
@@ -554,9 +572,10 @@ public partial class CheckoutSamplePage : IPageModel
 					)
 					.Class("card"),
 				Div(
-					RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
-					RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
-				)
+						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("btn")),
+						RenderIf(nextId != null, Label("Next").For(nextId!).Class("btn primary"))
+					)
+					.Class("navigation-buttons")
 			)
 			.Class("confirmation-stage");
 	}

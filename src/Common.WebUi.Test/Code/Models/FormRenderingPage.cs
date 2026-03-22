@@ -239,7 +239,7 @@ public partial class FormRenderingPage : IPageModel
 									CheckBox(FormWrapper.BooleanCheckbox!)
 								)
 								.Class("card-body")
-								.Class("form-grid")
+								.Class("form-grid striped")
 						)
 						.Class("card"),
 					// Numbers
@@ -253,7 +253,7 @@ public partial class FormRenderingPage : IPageModel
 									RangeInput(FormWrapper.NumberRange!, min: -1, max: 2)
 								)
 								.Class("card-body")
-								.Class("form-grid")
+								.Class("form-grid striped")
 						)
 						.Class("card"),
 					// Texts
@@ -276,7 +276,7 @@ public partial class FormRenderingPage : IPageModel
 									UrlInput(FormWrapper.TextUrl!)
 								)
 								.Class("card-body")
-								.Class("form-grid")
+								.Class("form-grid striped")
 						)
 						.Class("card"),
 					// Dates
@@ -291,7 +291,7 @@ public partial class FormRenderingPage : IPageModel
 									DateTimeInput(FormWrapper.DateTimeInput!)
 								)
 								.Class("card-body")
-								.Class("form-grid")
+								.Class("form-grid striped")
 						)
 						.Class("card"),
 					// Files
@@ -299,11 +299,12 @@ public partial class FormRenderingPage : IPageModel
 							H2("Files").Class("card-header"),
 							Div(HiddenInput(FormWrapper.FileHidden!), FileInput(FormWrapper.FileUpload!))
 								.Class("card-body")
-								.Class("form-grid")
+								.Class("form-grid striped")
 						)
 						.Class("card")
 				)
 				.Name(Form.Name)
+				.Id("sample-rendering-form")
 				.Attribute("hx-put", "")
 				.Attribute("hx-trigger", "change")
 				.Attribute("hx-encoding", "multipart/form-data")
