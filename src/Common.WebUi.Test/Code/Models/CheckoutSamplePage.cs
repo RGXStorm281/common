@@ -344,6 +344,16 @@ public partial class CheckoutSamplePage : IPageModel
 			.Build();
 	}
 
+	private string GetPageId(decimal? page)
+	{
+		var pageIndex = FormWrapper
+			.CurrentPage?.CurrentSelectListItems?.Index()
+			.FirstOrDefault(indexed => indexed.Item.Value == page)
+			.Index;
+
+		return $"{FormWrapper.CurrentPage!.GetId()}_{pageIndex}";
+	}
+
 	public IHtmlContent Render()
 	{
 		// Update before rendering.
@@ -357,13 +367,23 @@ public partial class CheckoutSamplePage : IPageModel
 					Div(RadioButtons(FormWrapper.CurrentPage!)).Class("page-selector"),
 					// Render current page
 					RenderSwitch(FormWrapper.CurrentPage!.Value)
+						.Case(_cartStage, RenderCartStage(FormWrapper.Cart, null, GetPageId(_deliveryStage)))
 						.Case(
-							_cartStage,
-							RenderCartStage(FormWrapper.Cart, null, $"{FormWrapper.CurrentPage!.GetId()}_1")
+							_deliveryStage,
+							RenderDeliveryStage(FormWrapper.Delivery, GetPageId(_cartStage), GetPageId(_paymentStage))
 						)
-						.Case(_deliveryStage, RenderDeliveryStage(FormWrapper.Delivery))
-						.Case(_paymentStage, RenderPaymentStage(FormWrapper.Payment))
-						.Case(_confirmationStage, RenderConfirmationStage(FormWrapper.Confirmation))
+						.Case(
+							_paymentStage,
+							RenderPaymentStage(
+								FormWrapper.Payment,
+								GetPageId(_deliveryStage),
+								GetPageId(_confirmationStage)
+							)
+						)
+						.Case(
+							_confirmationStage,
+							RenderConfirmationStage(FormWrapper.Confirmation, GetPageId(_paymentStage), null)
+						)
 				)
 				.Name(Form.Name)
 				.Id("sample-checkout-form")
@@ -439,18 +459,79 @@ public partial class CheckoutSamplePage : IPageModel
 			.Class("remove-cart-item");
 	}
 
-	private static IHtmlContent RenderDeliveryStage(CheckoutStruct.DeliveryStruct delivery)
+	private static IHtmlContent RenderDeliveryStage(
+		CheckoutStruct.DeliveryStruct delivery,
+		string? previousId,
+		string? nextId
+	)
 	{
-		return Div().Class("delivery-stage");
+		return Div(
+				H2(delivery.Node!.Label),
+				Div(
+						H2(delivery.ContactDetails.Node!.Label).Class("card-header"),
+						Div(
+								TextInput(delivery.ContactDetails.FirstName!),
+								TextInput(delivery.ContactDetails.LastName!),
+								TextInput(delivery.ContactDetails.PhoneNumber!),
+								TextInput(delivery.ContactDetails.Email!)
+							)
+							.Class("card-body")
+							.Class("form-grid")
+					)
+					.Class("card"),
+				Div(
+						H2(delivery.ShippingAddress.Node!.Label).Class("card-header"),
+						Div(
+								TextInput(delivery.ShippingAddress.Street!),
+								TextInput(delivery.ShippingAddress.Zip!),
+								TextInput(delivery.ShippingAddress.City!),
+								TextInput(delivery.ShippingAddress.Country!)
+							)
+							.Class("card-body")
+							.Class("form-grid")
+					)
+					.Class("card"),
+				Div(
+						H2("Delivery Service").Class("card-header"),
+						Div(RadioButtons(delivery.DeliveryMethod!)).Class("card-body").Class("form-grid")
+					)
+					.Class("card"),
+				Div(
+						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
+						RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
+					)
+					.Class("navigation-buttons")
+			)
+			.Class("delivery-stage");
 	}
 
-	private static IHtmlContent RenderPaymentStage(CheckoutStruct.PaymentStruct payment)
+	private static IHtmlContent RenderPaymentStage(
+		CheckoutStruct.PaymentStruct payment,
+		string? previousId,
+		string? nextId
+	)
 	{
-		return Div().Class("payment-stage");
+		return Div(
+				Div(
+					RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
+					RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
+				)
+			)
+			.Class("payment-stage");
 	}
 
-	private static IHtmlContent RenderConfirmationStage(CheckoutStruct.ConfirmationStruct confirmation)
+	private static IHtmlContent RenderConfirmationStage(
+		CheckoutStruct.ConfirmationStruct confirmation,
+		string? previousId,
+		string? nextId
+	)
 	{
-		return Div().Class("confirmation-stage");
+		return Div(
+				Div(
+					RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
+					RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
+				)
+			)
+			.Class("confirmation-stage");
 	}
 }
