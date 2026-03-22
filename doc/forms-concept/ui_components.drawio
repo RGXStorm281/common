@@ -83,13 +83,10 @@
           <mxGeometry height="60" width="180" x="820" y="390" as="geometry" />
         </mxCell>
         <mxCell id="37" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="RadioButtonsForTemplates" vertex="1">
-          <mxGeometry height="60" width="380" x="1020" y="40" as="geometry" />
+          <mxGeometry height="60" width="180" x="1020" y="40" as="geometry" />
         </mxCell>
         <mxCell id="38" parent="10" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#ffe6cc;" value="DropDownForTemplates" vertex="1">
-          <mxGeometry height="60" width="380" x="1020" y="110" as="geometry" />
-        </mxCell>
-        <mxCell id="Q2objzICppMJ1KqbUli5-54" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value=".InputGroup(element, before/after)" vertex="1">
-          <mxGeometry height="95" width="160" x="1110" y="345" as="geometry" />
+          <mxGeometry height="60" width="180" x="1020" y="110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

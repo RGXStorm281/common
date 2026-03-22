@@ -42,6 +42,19 @@ public class RenderSwitch<TValue>(TValue switchValue) : IHtmlContent
 	}
 
 	/// <summary>
+	/// A type case that renders the given contents when met.
+	/// </summary>
+	/// <typeparam name="TTypeOption">The condition is met when the given switch value is of the given type.</typeparam>
+	/// <param name="render">A rendering function that feeds the type casted item into the rendering pipeline.</param>
+	/// <returns>The render component for chaining.</returns>
+	public RenderSwitch<TValue> Case<TTypeOption>(Func<TTypeOption, IHtmlContent> render)
+		where TTypeOption : TValue
+	{
+		_content.ElseIf(_switchValue is TTypeOption, Lazy(() => render((TTypeOption)_switchValue!)));
+		return this;
+	}
+
+	/// <summary>
 	/// An unconditioned fallback when all cases are not met.
 	/// </summary>
 	/// <param name="contents">The contents to render.</param>

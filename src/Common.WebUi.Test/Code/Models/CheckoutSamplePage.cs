@@ -100,7 +100,7 @@ public partial class CheckoutSamplePage : IPageModel
 											chocolate
 												.UseLabel("Fan Chocolate")
 												.WithTextNode(
-													"Size",
+													"Flavor",
 													size =>
 														size.UseLabel("Flavor")
 															.UseSelectList(["Milk", "Dark", "Orange"], validate: true)
@@ -357,12 +357,16 @@ public partial class CheckoutSamplePage : IPageModel
 					Div(RadioButtons(FormWrapper.CurrentPage!)).Class("page-selector"),
 					// Render current page
 					RenderSwitch(FormWrapper.CurrentPage!.Value)
-						.Case(_cartStage, RenderCartStage(FormWrapper.Cart))
+						.Case(
+							_cartStage,
+							RenderCartStage(FormWrapper.Cart, null, $"{FormWrapper.CurrentPage!.GetId()}_1")
+						)
 						.Case(_deliveryStage, RenderDeliveryStage(FormWrapper.Delivery))
 						.Case(_paymentStage, RenderPaymentStage(FormWrapper.Payment))
 						.Case(_confirmationStage, RenderConfirmationStage(FormWrapper.Confirmation))
 				)
 				.Name(Form.Name)
+				.Id("sample-checkout-form")
 				.Attribute("hx-put", "")
 				.Attribute("hx-trigger", "change")
 				.Attribute("hx-encoding", "multipart/form-data")
@@ -371,9 +375,68 @@ public partial class CheckoutSamplePage : IPageModel
 		);
 	}
 
-	private static IHtmlContent RenderCartStage(CheckoutStruct.CartStruct cart)
+	private static IHtmlContent RenderCartStage(CheckoutStruct.CartStruct cart, string? previousId, string? nextId)
 	{
-		return Div().Class("cart-stage");
+		return Div(
+				H2(cart.Node!.Label),
+				Div(
+						RenderEach(
+							cart.CartItems.Instances,
+							item =>
+								RenderSwitch(item)
+									.Case<CheckoutStruct.CartStruct.CartItemsStruct.ShirtStruct>(shirt =>
+										Div(
+												Span(shirt.Node!.Label).Class("cart-item-label"),
+												Div(DropDown(shirt.Size!), NumberInput(shirt.Amount!))
+													.Class("cart-item-config"),
+												RenderRemoveItemButton(shirt.Node!.GetId())
+											)
+											.Class("cart-item")
+									)
+									.Case<CheckoutStruct.CartStruct.CartItemsStruct.ChocolateStruct>(chocolate =>
+										Div(
+												Span(chocolate.Node!.Label).Class("cart-item-label"),
+												Div(DropDown(chocolate.Flavor!), NumberInput(chocolate.Amount!))
+													.Class("cart-item-config"),
+												RenderRemoveItemButton(chocolate.Node!.GetId())
+											)
+											.Class("cart-item")
+									)
+						)
+					)
+					.Class("cart-item-list"),
+				Div(
+						Button($"Add {cart.CartItems.ShirtTemplate.Node!.Label}")
+							.Attribute("hx-post", "AddShirt")
+							.Attribute("hx-target", "#sample-checkout-form")
+							.Attribute("hx-swap", "innerHTML")
+							.Attribute("hx-select", "form > *")
+							.Class("add-button"),
+						Button($"Add {cart.CartItems.ChocolateTemplate.Node!.Label}")
+							.Attribute("hx-post", "AddChocolate")
+							.Attribute("hx-target", "#sample-checkout-form")
+							.Attribute("hx-swap", "innerHTML")
+							.Attribute("hx-select", "form > *")
+							.Class("add-button")
+					)
+					.Class("cart-actions"),
+				Div(
+						RenderIf(previousId != null, Label("Previous").For(previousId!).Class("previous-button")),
+						RenderIf(nextId != null, Label("Next").For(nextId!).Class("next-button"))
+					)
+					.Class("navigation-buttons")
+			)
+			.Class("cart-stage");
+	}
+
+	private static IHtmlContent RenderRemoveItemButton(string itemNodeId)
+	{
+		return Button("Remove from cart")
+			.Attribute("hx-post", $"RemoveCartItem?itemId={itemNodeId}")
+			.Attribute("hx-target", "#sample-checkout-form")
+			.Attribute("hx-swap", "innerHTML")
+			.Attribute("hx-select", "form > *")
+			.Class("remove-cart-item");
 	}
 
 	private static IHtmlContent RenderDeliveryStage(CheckoutStruct.DeliveryStruct delivery)

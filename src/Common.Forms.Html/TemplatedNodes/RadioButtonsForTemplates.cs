@@ -1,4 +1,4 @@
-namespace RobinEpple.Common.Forms.Html.Inputs;
+namespace RobinEpple.Common.Forms.Html.TemplatedNodes;
 
 using System.IO;
 using System.Text.Encodings.Web;
@@ -7,13 +7,12 @@ using RobinEpple.Common.Forms.Nodes;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Renders a radio button for each select list item defined in the <paramref name="node"/>.
+/// Renders a radio button for each template defined in the <paramref name="node"/>.
 /// </summary>
-/// <typeparam name="TValue">The value type of the node.</typeparam>
 /// <param name="node">The node to render the radio buttons for.</param>
-public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
+public class RadioButtonsForTemplates(ITemplateNode node) : IHtmlContent
 {
-	private readonly IValueNode<TValue> _node = node;
+	private readonly ITemplateNode _node = node;
 
 	/// <summary>
 	/// Computes the ID used for the nth radio button.
@@ -32,10 +31,6 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 		{
 			return;
 		}
-		if (_node.CurrentSelectListItems == null)
-		{
-			throw new InvalidOperationException($"Node with id '{nodeId}' does not have select list items defined.");
-		}
 
 		// Fieldset --------------------------------|
 		// | ( ) Option 1							|
@@ -46,17 +41,20 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 		var content = Fieldset(
 				Label(_node.Label).For(nodeId).Class("input-label"),
 				RenderEach(
-					_node.CurrentSelectListItems,
-					(item, index) =>
+					_node.Templates,
+					(template, index) =>
 						Div(
 								Input()
 									.Type("radio")
 									.Name(nodeId)
 									.Id(GetId(nodeId, index))
-									.Value(_node.Formatter.Format(item.Value) ?? string.Empty)
-									.ConfigureIf(Equals(item.Value, _node.Value), input => input.Checked("checked"))
+									.Value(template.Name)
+									.ConfigureIf(
+										Equals(_node.Instance?.Name, template.Name),
+										input => input.Checked("checked")
+									)
 									.ConfigureIf(_node.IsReadonly, input => input.Disabled("disabled")),
-								Label(item.Label).For(GetId(nodeId, index))
+								Label(template.Label).For(GetId(nodeId, index))
 							)
 							.Class("radio-option")
 							.Id($"{GetId(nodeId, index)}_option")
@@ -65,6 +63,7 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 			)
 			.Class("radio-buttons")
 			.Id($"{nodeId}_container");
+
 		content.WriteTo(writer, encoder);
 	}
 }
