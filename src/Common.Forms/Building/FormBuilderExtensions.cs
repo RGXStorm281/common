@@ -321,10 +321,12 @@ public static class FormBuilderExtensions
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
+	/// <param name="defaultRegion">Optional custom default region to parse phone numbers for.</param>
 	public static ITextNodeBuilder UsePhoneNumberValidator(
 		this ITextNodeBuilder builder,
-		string? errorMessageTemplate = null
-	) => builder.UseValidator(new PhoneNumberValidator(errorMessageTemplate));
+		string? errorMessageTemplate = null,
+		string defaultRegion = "DE"
+	) => builder.UseValidator(new PhoneNumberValidator(errorMessageTemplate, defaultRegion));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>

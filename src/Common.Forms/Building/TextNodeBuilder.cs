@@ -81,4 +81,18 @@ internal class TextNodeBuilder : FieldNodeBuilder<ITextNodeBuilder, TextNode>, I
 		}
 		return this;
 	}
+
+	/// <inheritdoc />
+	public ITextNodeBuilder UseSelectList(
+		IEnumerable<string?> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<string?>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public ITextNodeBuilder UseSelectList(
+		IEnumerable<(string? Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<string?>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }

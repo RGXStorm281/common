@@ -57,4 +57,23 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		await Request.BindAsync(model.Form);
 		return View("_Page", model);
 	}
+
+	public async Task<ActionResult> CheckoutSample()
+	{
+		var clientId = GetOrCreateClientId(HttpContext);
+		var modelKey = $"{clientId}:{nameof(FormRendering)}";
+		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
+		{
+			model = new CheckoutSamplePage();
+			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+		}
+
+		if (!Request.IsHtmxRefresh())
+		{
+			return View("_Page", model);
+		}
+
+		await Request.BindAsync(model.Form);
+		return View("_Page", model);
+	}
 }

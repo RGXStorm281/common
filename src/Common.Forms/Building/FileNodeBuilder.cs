@@ -82,4 +82,18 @@ internal class FileNodeBuilder : FieldNodeBuilder<IFileNodeBuilder, FileNode>, I
 		}
 		return this;
 	}
+
+	/// <inheritdoc />
+	public IFileNodeBuilder UseSelectList(
+		IEnumerable<FileValue> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<FileValue>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public IFileNodeBuilder UseSelectList(
+		IEnumerable<(FileValue Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<FileValue>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }

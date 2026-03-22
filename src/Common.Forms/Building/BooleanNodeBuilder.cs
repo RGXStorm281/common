@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.Building;
 
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
@@ -81,4 +82,18 @@ internal class BooleanNodeBuilder : FieldNodeBuilder<IBooleanNodeBuilder, Boolea
 		}
 		return this;
 	}
+
+	/// <inheritdoc />
+	public IBooleanNodeBuilder UseSelectList(
+		IEnumerable<bool?> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<bool?>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public IBooleanNodeBuilder UseSelectList(
+		IEnumerable<(bool? Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<bool?>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }

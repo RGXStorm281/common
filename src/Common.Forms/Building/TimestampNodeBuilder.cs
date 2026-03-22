@@ -82,4 +82,18 @@ internal class TimestampNodeBuilder : FieldNodeBuilder<ITimestampNodeBuilder, Ti
 		}
 		return this;
 	}
+
+	/// <inheritdoc />
+	public ITimestampNodeBuilder UseSelectList(
+		IEnumerable<DateTime?> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<DateTime?>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public ITimestampNodeBuilder UseSelectList(
+		IEnumerable<(DateTime? Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<DateTime?>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }

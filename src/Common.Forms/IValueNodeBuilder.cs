@@ -23,4 +23,32 @@ public interface IValueNodeBuilder<TValue, TSpecificNodeBuilder>
 		bool validate,
 		string? errorMessageTemplate = null
 	);
+
+	/// <summary>
+	/// Configures a static <see cref="IValueNode{TValue}.SelectList"/> with the given <paramref name="values"/>.
+	/// If <paramref name="validate"/> is <see langword="false"/>, the select items are only named value suggestions for the node that may or may not be used.
+	/// If <paramref name="validate"/> is <see langword="true"/>, the node will require the value to be in the list.
+	/// The validation will NOT raise errors for empty values, if this is wanted an additional required validation is needed.
+	/// </summary>
+	/// <param name="values">The static value list.</param>
+	/// <param name="validate">If set to <see langword="true"/>, the node will require the value to be in the given list.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	/// <returns>The node builder to chain further configuration calls.</returns>
+	TSpecificNodeBuilder UseSelectList(IEnumerable<TValue> values, bool validate, string? errorMessageTemplate = null);
+
+	/// <summary>
+	/// Configures a static <see cref="IValueNode{TValue}.SelectList"/> with the given <paramref name="labelledValues"/>.
+	/// If <paramref name="validate"/> is <see langword="false"/>, the select items are only named value suggestions for the node that may or may not be used.
+	/// If <paramref name="validate"/> is <see langword="true"/>, the node will require the value to be in the list.
+	/// The validation will NOT raise errors for empty values, if this is wanted an additional required validation is needed.
+	/// </summary>
+	/// <param name="labelledValues">The static value list.</param>
+	/// <param name="validate">If set to <see langword="true"/>, the node will require the value to be in the given list.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	/// <returns>The node builder to chain further configuration calls.</returns>
+	TSpecificNodeBuilder UseSelectList(
+		IEnumerable<(TValue Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	);
 }

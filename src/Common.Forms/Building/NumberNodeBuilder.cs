@@ -169,4 +169,18 @@ internal class NumberNodeBuilder : FieldNodeBuilder<INumberNodeBuilder, NumberNo
 		}
 		return this;
 	}
+
+	/// <inheritdoc />
+	public INumberNodeBuilder UseSelectList(
+		IEnumerable<decimal?> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<decimal?>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public INumberNodeBuilder UseSelectList(
+		IEnumerable<(decimal? Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<decimal?>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }
