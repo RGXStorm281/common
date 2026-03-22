@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.WebUi.Test.Code.Controllers;
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
@@ -62,7 +63,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	public async Task<ActionResult> CheckoutSample()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
-		var modelKey = $"{clientId}:{nameof(FormRendering)}";
+		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
 		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
@@ -81,7 +82,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	public ActionResult AddShirt()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
-		var modelKey = $"{clientId}:{nameof(FormRendering)}";
+		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
 		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
@@ -95,7 +96,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	public ActionResult AddChocolate()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
-		var modelKey = $"{clientId}:{nameof(FormRendering)}";
+		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
 		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
@@ -106,10 +107,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public ActionResult RemoveCartItem(string itemId)
+	public async Task<ActionResult> RemoveCartItem(string itemId)
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
-		var modelKey = $"{clientId}:{nameof(FormRendering)}";
+		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
 		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
@@ -119,7 +120,146 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		var item = model.Form!.FindFirst(node => node.GetId() == itemId) as IForm;
 		if (item != null)
 		{
-			model.FormWrapper.Cart.CartItems.Node!.RemoveItem(item);
+			await model.FormWrapper.Cart.CartItems.Node!.RemoveItemAsync(item);
+		}
+		return View("_Page", model);
+	}
+
+	public async Task<ActionResult> RecursiveSample()
+	{
+		var clientId = GetOrCreateClientId(HttpContext);
+		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
+		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		{
+			model = new RecursiveSamplePage();
+			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+		}
+
+		if (!Request.IsHtmxRefresh())
+		{
+			return View("_Page", model);
+		}
+
+		await Request.BindAsync(model.Form);
+		return View("_Page", model);
+	}
+
+	public async Task<ActionResult> SelectNoteItem(string itemId)
+	{
+		var clientId = GetOrCreateClientId(HttpContext);
+		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
+		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		{
+			model = new RecursiveSamplePage();
+			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+		}
+
+		var item = model.Form.FindFirst(node => node.GetId() == itemId) as IForm;
+		if (item != null)
+		{
+			model.SelectedItem = item;
+		}
+		return View("_Page", model);
+	}
+
+	public async Task<ActionResult> CreateFolder(string parentId)
+	{
+		var clientId = GetOrCreateClientId(HttpContext);
+		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
+		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		{
+			model = new RecursiveSamplePage();
+			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+		}
+
+		// Find the parent folder.
+		var parentFolder = model.Form.FindFirst(node => node.GetId() == parentId) as IForm;
+		if (parentFolder == null)
+		{
+			return View("_Page", model);
+		}
+
+		// Find the collection and its template to instantiate.
+		var templateItemCollection = model.FormWrapper.RootFolder.FolderTemplate.Items;
+		var itemCollection =
+			parentFolder.Nodes.FirstOrDefault(child => child.Name == templateItemCollection.Node!.Name)
+			as ICollectionNode;
+		if (itemCollection == null)
+		{
+			return View("_Page", model);
+		}
+
+		var folderTemplate = itemCollection.Templates.FirstOrDefault(template =>
+			template.Name == templateItemCollection.FolderTemplate.Node!.Name
+		);
+		if (folderTemplate == null)
+		{
+			return View("_Page", model);
+		}
+
+		// Instantiate and select the new item.
+		var newFolder = await itemCollection.InstantiateAsync(folderTemplate);
+		model.SelectedItem = newFolder;
+
+		return View("_Page", model);
+	}
+
+	public async Task<ActionResult> CreateNote(string parentId)
+	{
+		var clientId = GetOrCreateClientId(HttpContext);
+		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
+		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		{
+			model = new RecursiveSamplePage();
+			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+		}
+
+		// Find the parent folder.
+		var parentFolder = model.Form.FindFirst(node => node.GetId() == parentId) as IForm;
+		if (parentFolder == null)
+		{
+			return View("_Page", model);
+		}
+
+		// Find the collection and its template to instantiate.
+		var templateItemCollection = model.FormWrapper.RootFolder.FolderTemplate.Items;
+		var itemCollection =
+			parentFolder.Nodes.FirstOrDefault(child => child.Name == templateItemCollection.Node!.Name)
+			as ICollectionNode;
+		if (itemCollection == null)
+		{
+			return View("_Page", model);
+		}
+
+		var noteTemplate = itemCollection.Templates.FirstOrDefault(template =>
+			template.Name == templateItemCollection.NoteTemplate.Node!.Name
+		);
+		if (noteTemplate == null)
+		{
+			return View("_Page", model);
+		}
+
+		// Instantiate and select the new item.
+		var newNote = await itemCollection.InstantiateAsync(noteTemplate);
+		model.SelectedItem = newNote;
+
+		return View("_Page", model);
+	}
+
+	public async Task<ActionResult> RemoveNoteItem(string itemId)
+	{
+		var clientId = GetOrCreateClientId(HttpContext);
+		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
+		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		{
+			model = new RecursiveSamplePage();
+			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+		}
+
+		var item = model.Form!.FindFirst(node => node.GetId() == itemId) as IForm;
+		if (item is { Parent: ICollectionNode collection })
+		{
+			await collection.RemoveItemAsync(item);
 		}
 		return View("_Page", model);
 	}
