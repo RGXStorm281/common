@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.Forms.Nodes;
+using static RobinEpple.Common.Forms.Html.FormRendering;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
@@ -31,12 +32,12 @@ public class TextAreaInput(ITextNode node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
-				Label(_node.Label).For(nodeId).Class("input-label"),
+				InputLabel(_node),
 				Textarea(_node.Formatter.Format(_node.Value) ?? string.Empty)
 					.Name(nodeId)
 					.ConfigureIf(_node.IsReadonly, input => input.Disabled("disabled"))
 					.Id(nodeId),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("text-area")
 			.Id($"{nodeId}_container");

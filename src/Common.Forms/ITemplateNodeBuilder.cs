@@ -6,7 +6,9 @@ using RobinEpple.Common.Forms.Binding;
 /// <summary>
 /// A builder for a template node.
 /// </summary>
-public interface ITemplateNodeBuilder : ITemplatedNodeBuilder<ITemplateNodeBuilder>
+public interface ITemplateNodeBuilder
+	: IFieldNodeBuilder<ITemplateNodeBuilder>,
+		ITemplatedNodeBuilder<ITemplateNodeBuilder>
 {
 	/// <summary>
 	/// Creates a model binding from the custom getter and setter functions.

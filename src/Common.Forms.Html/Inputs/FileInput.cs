@@ -5,6 +5,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Validation;
+using static RobinEpple.Common.Forms.Html.FormRendering;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
@@ -36,7 +37,7 @@ public class FileInput(IFileNode node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
-				Label(_node.Label).For(nodeId).Class("input-label"),
+				InputLabel(_node),
 				RenderIf(
 					fileExtensionValidator != null,
 					Div(
@@ -63,7 +64,7 @@ public class FileInput(IFileNode node) : IHtmlContent
 					.For(nodeId)
 					.Class("file-name")
 					.ConfigureIf(_node.IsReadonly, input => input.Class("disabled")),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("file-input")
 			.Id($"{nodeId}_container");

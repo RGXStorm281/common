@@ -1,6 +1,5 @@
 namespace RobinEpple.Common.WebUi;
 
-using System.Globalization;
 using Microsoft.Extensions.Primitives;
 using RobinEpple.Common.Forms.Nodes;
 
@@ -29,7 +28,14 @@ public class TimestampBindingStrategy : IFormBindingStrategy
 			return false;
 		}
 
+		if (timestampNode.Value == timestampValue)
+		{
+			// No change required.
+			return true;
+		}
+
 		timestampNode.Value = timestampValue;
+		timestampNode.HasUserInteraction = true;
 		return true;
 	}
 }

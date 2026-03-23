@@ -28,7 +28,14 @@ public class BooleanBindingStrategy : IFormBindingStrategy
 			return false;
 		}
 
+		if (booleanNode.Value == booleanValue)
+		{
+			// No change required.
+			return true;
+		}
+
 		booleanNode.Value = booleanValue;
+		booleanNode.HasUserInteraction = true;
 		return true;
 	}
 }

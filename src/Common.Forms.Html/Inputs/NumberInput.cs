@@ -34,7 +34,7 @@ public class NumberInput(INumberNode node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
-				Label(_node.Label).For(nodeId).Class("input-label"),
+				InputLabel(_node),
 				Input()
 					.Type("number")
 					.Name(nodeId)
@@ -43,7 +43,7 @@ public class NumberInput(INumberNode node) : IHtmlContent
 					.Value(_node.Value?.ToString(CultureInfo.InvariantCulture) ?? string.Empty)
 					.Id(nodeId),
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("number-input")
 			.Id($"{nodeId}_container");

@@ -23,7 +23,14 @@ public class TextBindingStrategy : IFormBindingStrategy
 			return true;
 		}
 
+		if (textNode.Value == stringValue)
+		{
+			// No change required.
+			return true;
+		}
+
 		textNode.Value = stringValue;
+		textNode.HasUserInteraction = true;
 		return true;
 	}
 }

@@ -226,6 +226,10 @@ body {
   background-color: var(--color-primary);
   cursor: pointer;
 }
+#sample-checkout-form .page-selector fieldset .radio-option input:checked + label {
+  background-color: oklch(from var(--color-primary) calc(1.1 * l) c h);
+  border: 1px solid oklch(from var(--color-primary) calc(0.9 * l) c h);
+}
 #sample-checkout-form .page-selector fieldset .radio-option:hover label {
   background-color: oklch(from var(--color-primary) calc(0.9 * l) c h);
 }
@@ -315,7 +319,7 @@ body {
 }
 .folder-column .text-input {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   -moz-column-gap: 0.3rem;
        column-gap: 0.3rem;
@@ -376,4 +380,9 @@ body {
 }
 .note-column textarea {
   min-height: 100px;
+}
+
+.input-label.required::after {
+  content: " *";
+  color: var(--color-danger);
 }/*# sourceMappingURL=site.css.map */

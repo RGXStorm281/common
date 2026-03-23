@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.Forms.Nodes;
+using static RobinEpple.Common.Forms.Html.FormRendering;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
@@ -39,7 +40,7 @@ public class RadioButtonsForTemplates(ITemplateNode node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
-				Label(_node.Label).For(nodeId).Class("input-label"),
+				InputLabel(_node),
 				RenderEach(
 					_node.Templates,
 					(template, index) =>
@@ -59,7 +60,7 @@ public class RadioButtonsForTemplates(ITemplateNode node) : IHtmlContent
 							.Class("radio-option")
 							.Id($"{GetId(nodeId, index)}_option")
 				),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("radio-buttons")
 			.Id($"{nodeId}_container");

@@ -35,7 +35,7 @@ public class TextInput<TValue>(IValueNode<TValue> node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
-				Label(_node.Label).For(nodeId).Class("input-label"),
+				InputLabel(_node),
 				Input()
 					.Type("text")
 					.Name(nodeId)
@@ -44,7 +44,7 @@ public class TextInput<TValue>(IValueNode<TValue> node) : IHtmlContent
 					.Value(_node.Formatter.Format(_node.Value) ?? string.Empty)
 					.Id(nodeId),
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("text-input")
 			.Id($"{nodeId}_container");

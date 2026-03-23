@@ -124,8 +124,8 @@ public partial class RecursiveSamplePage : IPageModel
 				Li("...")
 			),
 			P(
-				"Modelling these structures in C# is easy, and explicit rendering is also pretty straight forward with recursive partial calls."
-					+ "But where most form frameworks break is the binding part: Modelling recursive forms, updating them from web requests and binding to a C# model."
+				"Modelling these structures in C# is easy, and explicit rendering is also pretty straight forward with recursive partial calls. "
+					+ "But where most form frameworks break is the binding part: Modelling recursive forms, updating them from web requests and binding to a C# model. "
 					+ "Well, not this one ;)"
 			),
 			P(

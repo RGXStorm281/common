@@ -1,6 +1,5 @@
 namespace RobinEpple.Common.WebUi;
 
-using System.Globalization;
 using Microsoft.Extensions.Primitives;
 using RobinEpple.Common.Forms.Nodes;
 
@@ -29,7 +28,14 @@ public class NumberBindingStrategy : IFormBindingStrategy
 			return false;
 		}
 
+		if (numberNode.Value == numberValue)
+		{
+			// No change required.
+			return true;
+		}
+
 		numberNode.Value = numberValue;
+		numberNode.HasUserInteraction = true;
 		return true;
 	}
 }

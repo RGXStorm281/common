@@ -210,6 +210,7 @@ body {
 			.input-label {
 				display: none;
 			}
+
 			.radio-option {
 				display: grid;
 				grid-template-columns: 1fr;
@@ -221,6 +222,7 @@ body {
 					opacity: 0;
 					cursor: pointer;
 				}
+
 				label {
 					display: grid;
 					place-items: center;
@@ -229,6 +231,11 @@ body {
 					padding: 1rem;
 					background-color: var(--color-primary);
 					cursor: pointer;
+				}
+
+				input:checked + label {
+					background-color: oklch(from var(--color-primary) calc(1.1 * l) c h);
+					border: 1px solid oklch(from var(--color-primary) calc(0.9 * l) c h);
 				}
 
 				&:hover label {
@@ -336,7 +343,7 @@ body {
 
 	.text-input {
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: auto 1fr;
 		align-items: center;
 		column-gap: 0.3rem;
 
@@ -407,4 +414,9 @@ body {
 	textarea {
 		min-height: 100px;
 	}
+}
+
+.input-label.required::after {
+	content: " *";
+	color: var(--color-danger);
 }

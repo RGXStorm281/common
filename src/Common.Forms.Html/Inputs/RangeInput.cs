@@ -39,7 +39,7 @@ public class RangeInput(INumberNode node, decimal min, decimal max) : IHtmlConte
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
-				Label(_node.Label).For(nodeId).Class("input-label"),
+				InputLabel(_node),
 				Input()
 					.Type("range")
 					.Min(_node.Formatter.Format(_min) ?? string.Empty)
@@ -50,7 +50,7 @@ public class RangeInput(INumberNode node, decimal min, decimal max) : IHtmlConte
 					.Value(_node.Value?.ToString(CultureInfo.InvariantCulture) ?? string.Empty)
 					.Id(nodeId),
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("range-input")
 			.Id($"{nodeId}_container");

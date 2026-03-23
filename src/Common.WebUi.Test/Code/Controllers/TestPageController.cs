@@ -144,7 +144,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> SelectNoteItem(string itemId)
+	public IActionResult SelectNoteItem(string itemId)
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";

@@ -33,7 +33,7 @@ public class DateTimeInput(ITimestampNode node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = Fieldset(
-				Label(_node.Label).For(nodeId).Class("input-label"),
+				InputLabel(_node),
 				Input()
 					.Type("datetime-local")
 					.Name(nodeId)
@@ -42,7 +42,7 @@ public class DateTimeInput(ITimestampNode node) : IHtmlContent
 					.Value(_node.Value?.ToString("yyyy-MM-ddTHH:mm") ?? string.Empty)
 					.Id(nodeId),
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("date-time-input")
 			.Id($"{nodeId}_container");

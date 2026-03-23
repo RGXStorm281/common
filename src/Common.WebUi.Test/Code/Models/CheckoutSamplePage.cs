@@ -104,6 +104,7 @@ public partial class CheckoutSamplePage : IPageModel
 															)
 															.UseDefaultValue(1)
 															.UseRequiredValidator()
+															.UseMinValueValidator(1)
 															.UseEmbeddedModelPropertyBinding(
 																shirtModel,
 																model => model.Amount
@@ -139,6 +140,7 @@ public partial class CheckoutSamplePage : IPageModel
 															)
 															.UseDefaultValue(1)
 															.UseRequiredValidator()
+															.UseMinValueValidator(1)
 															.UseEmbeddedModelPropertyBinding(
 																chocolateModel,
 																model => model.Amount
@@ -464,6 +466,15 @@ public partial class CheckoutSamplePage : IPageModel
 		return Div(
 			H1("Sample Checkout page"),
 			P("This page a sample to showcase multi-staged forms."),
+			P(
+				"The form model holds state and all updates are executed server side in the form framework. This allows to only render parts of the form, while still keeping the data a user entered on other pages."
+			),
+			P(
+				"Note how the shopping cart can contain two different types of items with different sub-forms, and the payment method form changes to match the selected payment provider."
+			),
+			P(
+				"Usually something like this is annoying to implement, because all options have to exist side by side. But the presented form framework is capable of natively representing lists and \"templated sections\" with polymorph item structures (model-binding-support included)."
+			),
 			Form(
 					// Page Selector
 					Div(RadioButtons(FormWrapper.CurrentPage!)).Class("page-selector"),

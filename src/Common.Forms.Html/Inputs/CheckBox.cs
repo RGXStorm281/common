@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.Forms.Nodes;
+using static RobinEpple.Common.Forms.Html.FormRendering;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
@@ -44,10 +45,10 @@ public class CheckBox(IBooleanNode node) : IHtmlContent
 							.Name(nodeId)
 							.ConfigureIf(_node.IsReadonly, input => input.Disabled("disabled"))
 							.Id(nodeId),
-						Label(_node.Label).For(nodeId)
+						InputLabel(_node)
 					)
 					.Class("checkbox-group"),
-				RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+				ValidationErrors(_node)
 			)
 			.Class("checkbox")
 			.Id($"{nodeId}_container");
