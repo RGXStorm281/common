@@ -191,20 +191,22 @@ public partial class RecursiveSamplePage : IPageModel
 						.Attribute("hx-select", "form > *")
 						.Class("btn"),
 					RenderEach(
-						folder.Items.Instances,
+						folder.Items.Instances.OrderByDescending(item =>
+							item is NotesStruct.RootFolderStruct.FolderStruct
+						),
 						item =>
 							RenderSwitch(item)
 								.Case<NotesStruct.RootFolderStruct.FolderStruct>(subfolder =>
 									Div(
-											RenderSelectableElement(subfolder.Node!, subfolder.Name?.Value),
-											RenderDeleteButton(subfolder.Node!)
+											RenderDeleteButton(subfolder.Node!),
+											RenderSelectableElement(subfolder.Node!, subfolder.Name?.Value)
 										)
 										.Class("item folder-item")
 								)
 								.Case<NotesStruct.RootFolderStruct.FolderStruct.ItemsStruct.NoteStruct>(note =>
 									Div(
-											RenderSelectableElement(note.Node!, note.Name?.Value),
-											RenderDeleteButton(note.Node!)
+											RenderDeleteButton(note.Node!),
+											RenderSelectableElement(note.Node!, note.Name?.Value)
 										)
 										.Class("item note-item")
 								)
@@ -236,6 +238,6 @@ public partial class RecursiveSamplePage : IPageModel
 
 	private IHtmlContent RenderNoteColumn(NotesStruct.RootFolderStruct.FolderStruct.ItemsStruct.NoteStruct note)
 	{
-		return Div(H2("Edit note"), TextInput(note.Name!), TextAreaInput(note.Contents!)).Class("note-form-column");
+		return Div(H2("Note"), TextInput(note.Name!), TextAreaInput(note.Contents!)).Class("note-column");
 	}
 }
