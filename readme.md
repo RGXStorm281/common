@@ -9,6 +9,13 @@ Currently it contains the following packages:
 
 Each library has its own test project.
 
+## Licensing
+
+This project uses dual licensing:
+
+- **Source code** is licensed under Apache License 2.0, see [LICENSE](LICENSE)
+- **Documentation texts** in `Common.Html` derived from MDN Web Docs are licensed under [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/). Where applicable, source links are included in the code. See [LICENSE-MDN](LICENSE-MDN).
+
 ## How do I work with this codebase?
 
 The development environment for this project is a DevContainer. In short this means, that the entire environment is defined in configuration files and startup scripts, and is executed in a docker container. For details about the technology see the documentation page [here](https://code.visualstudio.com/docs/devcontainers/containers).
