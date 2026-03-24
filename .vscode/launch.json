@@ -9,6 +9,12 @@
 			"type": "dotnet",
 			"request": "launch",
 			"projectPath": "${workspaceFolder}/src/Common.WebUi.Test/Common.WebUi.Test.csproj"
+		},
+		{
+			"name": "Html.Mdn",
+			"type": "dotnet",
+			"request": "launch",
+			"projectPath": "${workspaceFolder}/src/Common.Html.Mdn/Common.Html.Mdn.csproj"
 		}
 	]
 }

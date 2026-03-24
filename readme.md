@@ -1,6 +1,6 @@
 # Commons NuGet library
 
-Welcome! This is the repository for some utility libraries I will (hopefully) make use of in many projects.
+Welcome! This repository contains the libraries that make up the foundation of my future private coding projects.
 
 Currently it contains the following packages:
 
