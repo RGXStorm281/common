@@ -1,0 +1,13 @@
+The project Common.Html contains documentation text derived from Mozilla 
+Developer Network (MDN) Web Docs, maintained by Mozilla Contributors.
+
+This file covers only the documentation content derived from MDN Web Docs.
+All other code in this repository is licensed under Apache License 2.0.
+
+MDN content is licensed under CC BY-SA 2.5:
+https://creativecommons.org/licenses/by-sa/2.5/
+
+Every file using MDN content has an explicit header and references the source page.
+
+See also MDN licensing information "Attributions and copyright licensing":
+https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Attrib_copyright_license
