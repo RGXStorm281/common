@@ -32,7 +32,8 @@ public class DateInput(ITimestampNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("date")
@@ -44,8 +45,7 @@ public class DateInput(ITimestampNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("date-input")
-			.Id($"{nodeId}_container");
+			.Class("date-input");
 		content.WriteTo(writer, encoder);
 	}
 }

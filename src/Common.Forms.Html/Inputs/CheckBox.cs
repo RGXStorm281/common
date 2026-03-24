@@ -33,7 +33,8 @@ public class CheckBox(IBooleanNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				Div(
 						// Fallback hidden input, such that "false" is sent in the request when the checkbox is not selected.
 						// By default, browsers will only send selected checkboxes as form value.
@@ -50,8 +51,7 @@ public class CheckBox(IBooleanNode node) : IHtmlContent
 					.Class("checkbox-group"),
 				ValidationErrors(_node)
 			)
-			.Class("checkbox")
-			.Id($"{nodeId}_container");
+			.Class("checkbox");
 		content.WriteTo(writer, encoder);
 	}
 }

@@ -32,7 +32,8 @@ public class SearchInput(ITextNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("search")
@@ -44,8 +45,7 @@ public class SearchInput(ITextNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("search-input")
-			.Id($"{nodeId}_container");
+			.Class("search-input");
 		content.WriteTo(writer, encoder);
 	}
 }

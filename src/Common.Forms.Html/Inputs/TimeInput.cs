@@ -32,7 +32,8 @@ public class TimeInput(ITimestampNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("time")
@@ -44,8 +45,7 @@ public class TimeInput(ITimestampNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("time-input")
-			.Id($"{nodeId}_container");
+			.Class("time-input");
 		content.WriteTo(writer, encoder);
 	}
 }

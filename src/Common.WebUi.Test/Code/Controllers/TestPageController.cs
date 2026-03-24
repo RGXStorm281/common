@@ -2,6 +2,7 @@ namespace RobinEpple.Common.WebUi.Test.Code.Controllers;
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
 using RobinEpple.Common.WebUi.Test.Code.Models;
@@ -10,7 +11,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 {
 	private readonly ITimeoutCache _cache = cache;
 
-	public ActionResult StaticContent()
+	public IActionResult StaticContent()
 	{
 		var model = new StaticContentPage();
 		return View("_Page", model);
@@ -41,7 +42,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return newId;
 	}
 
-	public async Task<ActionResult> FormRendering()
+	public async Task<IActionResult> FormRendering()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(FormRendering)}";
@@ -60,7 +61,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> CheckoutSample()
+	public async Task<IActionResult> CheckoutSample()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
@@ -79,7 +80,22 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public ActionResult AddShirt()
+	public async Task<IActionResult> CheckAll()
+	{
+		var clientId = GetOrCreateClientId(HttpContext);
+		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
+		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
+		{
+			model = new CheckoutSamplePage();
+			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+		}
+
+		model.Form.SetAllInteracted();
+		await model.Form.UpdateAsync();
+		return View("_Page", model);
+	}
+
+	public IActionResult AddShirt()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
@@ -93,7 +109,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public ActionResult AddChocolate()
+	public IActionResult AddChocolate()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
@@ -107,7 +123,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> RemoveCartItem(string itemId)
+	public async Task<IActionResult> RemoveCartItem(string itemId)
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
@@ -125,7 +141,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> RecursiveSample()
+	public async Task<IActionResult> RecursiveSample()
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
@@ -162,7 +178,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> CreateFolder(string parentId)
+	public async Task<IActionResult> CreateFolder(string parentId)
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
@@ -204,7 +220,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> CreateNote(string parentId)
+	public async Task<IActionResult> CreateNote(string parentId)
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
@@ -246,7 +262,7 @@ public class TestPageController(ITimeoutCache cache) : Controller
 		return View("_Page", model);
 	}
 
-	public async Task<ActionResult> RemoveNoteItem(string itemId)
+	public async Task<IActionResult> RemoveNoteItem(string itemId)
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";

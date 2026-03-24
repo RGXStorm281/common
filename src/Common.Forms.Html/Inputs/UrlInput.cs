@@ -32,7 +32,8 @@ public class UrlInput(ITextNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("url")
@@ -44,8 +45,7 @@ public class UrlInput(ITextNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("url-input")
-			.Id($"{nodeId}_container");
+			.Class("url-input");
 		content.WriteTo(writer, encoder);
 	}
 }

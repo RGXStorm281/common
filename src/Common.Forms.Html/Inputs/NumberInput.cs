@@ -33,7 +33,8 @@ public class NumberInput(INumberNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("number")
@@ -45,8 +46,7 @@ public class NumberInput(INumberNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("number-input")
-			.Id($"{nodeId}_container");
+			.Class("number-input");
 		content.WriteTo(writer, encoder);
 	}
 }

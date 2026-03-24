@@ -38,7 +38,8 @@ public class DropDown<TValue>(IValueNode<TValue> node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Select(
 						RenderEach(
@@ -54,8 +55,7 @@ public class DropDown<TValue>(IValueNode<TValue> node) : IHtmlContent
 					.Id(nodeId),
 				ValidationErrors(_node)
 			)
-			.Class("drop-down")
-			.Id($"{nodeId}_container");
+			.Class("drop-down");
 		content.WriteTo(writer, encoder);
 	}
 }

@@ -79,7 +79,8 @@ body {
 .form-grid fieldset > * {
   grid-column: control;
 }
-.form-grid fieldset .error {
+
+.error-message {
   grid-column: 1/span 2;
   color: var(--color-danger);
 }
@@ -143,6 +144,45 @@ body {
   border-radius: 5px;
   background-color: oklch(from var(--color-primary) calc(1.6 * l) calc(0.05 * c) h);
 }
+.drop-down.error input,
+.drop-down.error textarea,
+.drop-down.error select,
+.number-input.error input,
+.number-input.error textarea,
+.number-input.error select,
+.email-input.error input,
+.email-input.error textarea,
+.email-input.error select,
+.password-input.error input,
+.password-input.error textarea,
+.password-input.error select,
+.search-input.error input,
+.search-input.error textarea,
+.search-input.error select,
+.telephone-input.error input,
+.telephone-input.error textarea,
+.telephone-input.error select,
+.text-input.error input,
+.text-input.error textarea,
+.text-input.error select,
+.text-area.error input,
+.text-area.error textarea,
+.text-area.error select,
+.url-input.error input,
+.url-input.error textarea,
+.url-input.error select,
+.date-input.error input,
+.date-input.error textarea,
+.date-input.error select,
+.time-input.error input,
+.time-input.error textarea,
+.time-input.error select,
+.date-time-input.error input,
+.date-time-input.error textarea,
+.date-time-input.error select {
+  border-color: oklch(from var(--color-danger) calc(0.7 * l) c h);
+  background-color: oklch(from var(--color-danger) calc(1.6 * l) calc(0.05 * c) h);
+}
 
 .file-input {
   display: grid;
@@ -180,6 +220,10 @@ body {
 }
 .file-input .file-name::before {
   content: url("/img/file-earmark-arrow-up-fill.svg");
+}
+.file-input.error .file-name {
+  border-color: oklch(from var(--color-danger) calc(0.7 * l) c h);
+  background-color: oklch(from var(--color-danger) calc(1.6 * l) calc(0.05 * c) h);
 }
 
 #sample-rendering-form {

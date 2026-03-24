@@ -1,4 +1,4 @@
-namespace RobinEpple.Common.Forms.Html.Inputs;
+namespace RobinEpple.Common.Forms.Html.Helpers;
 
 using System.IO;
 using System.Text.Encodings.Web;
@@ -29,8 +29,8 @@ public class ValidationErrors(IFieldNode node) : IHtmlContent
 		// | Error B								|
 		// |----------------------------------------|
 		var content = RenderIf(
-			_node.HasUserInteraction,
-			RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error"))
+			FormRendering.ShouldRenderErrorsFor(_node),
+			RenderEach(_node.ValidationErrorsByKey.Values, error => Span(error).Class("error-message"))
 		);
 		content.WriteTo(writer, encoder);
 	}

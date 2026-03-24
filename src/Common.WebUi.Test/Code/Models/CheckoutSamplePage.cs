@@ -711,6 +711,12 @@ public partial class CheckoutSamplePage : IPageModel
 						.Class("card"),
 					Div(
 							RenderIf(previousId != null, Label("Previous").For(previousId!).Class("btn")),
+							Button("Check all")
+								.Attribute("hx-post", "CheckAll")
+								.Attribute("hx-target", "#sample-checkout-form")
+								.Attribute("hx-swap", "innerHTML")
+								.Attribute("hx-select", "form > *")
+								.Class("btn primary"),
 							RenderIf(nextId != null, Label("Next").For(nextId!).Class("btn primary"))
 						)
 						.Class("navigation-buttons")

@@ -93,12 +93,12 @@ body {
 		> * {
 			grid-column: control;
 		}
-
-		.error {
-			grid-column: 1 / span 2;
-			color: var(--color-danger);
-		}
 	}
+}
+
+.error-message {
+	grid-column: 1 / span 2;
+	color: var(--color-danger);
 }
 
 .radio-buttons {
@@ -138,6 +138,14 @@ body {
 		border-color: border-color(var(--color-primary));
 		border-radius: 5px;
 		background-color: oklch(from var(--color-primary) calc(1.6 * l) calc(0.05 * c) h);
+	}
+	&.error {
+		input,
+		textarea,
+		select {
+			border-color: border-color(var(--color-danger));
+			background-color: oklch(from var(--color-danger) calc(1.6 * l) calc(0.05 * c) h);
+		}
 	}
 }
 
@@ -183,6 +191,12 @@ body {
 
 		&::before {
 			content: url("/img/file-earmark-arrow-up-fill.svg");
+		}
+	}
+	&.error {
+		.file-name {
+			border-color: border-color(var(--color-danger));
+			background-color: oklch(from var(--color-danger) calc(1.6 * l) calc(0.05 * c) h);
 		}
 	}
 }

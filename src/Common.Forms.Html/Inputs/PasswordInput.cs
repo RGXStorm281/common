@@ -32,7 +32,8 @@ public class PasswordInput(ITextNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("password")
@@ -43,8 +44,7 @@ public class PasswordInput(ITextNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("password-input")
-			.Id($"{nodeId}_container");
+			.Class("password-input");
 		content.WriteTo(writer, encoder);
 	}
 }

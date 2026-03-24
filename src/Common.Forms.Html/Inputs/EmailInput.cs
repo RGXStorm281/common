@@ -32,7 +32,8 @@ public class EmailInput(ITextNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("email")
@@ -44,8 +45,7 @@ public class EmailInput(ITextNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("email-input")
-			.Id($"{nodeId}_container");
+			.Class("email-input");
 		content.WriteTo(writer, encoder);
 	}
 }

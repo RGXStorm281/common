@@ -1,38 +1,26 @@
-namespace RobinEpple.Common.Forms.Html.Inputs;
+namespace RobinEpple.Common.Forms.Html.Helpers;
 
-using System.IO;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Html;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Validation;
+using RobinEpple.Common.Html.Components;
 using static RobinEpple.Common.Html.DSL;
 
 /// <summary>
-/// Renders an input label for the <paramref name="node"/>. The input is expected to have the name <see cref="IFormNode.GetId()"/>
+/// Renders an input label for the node. The input is expected to have the name <see cref="IFormNode.GetId()"/>
 /// </summary>
-/// <param name="node">The node to render the input label for.</param>
-public class InputLabel(IFormNode node) : IHtmlContent
+public class InputLabel : Label
 {
-	private readonly IFormNode _node = node;
-
-	/// <inheritdoc />
-	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+	/// <summary>
+	/// Renders an input label for the <paramref name="node"/>. The input is expected to have the name <see cref="IFormNode.GetId()"/>
+	/// </summary>
+	/// <param name="node">The node to render the input label for.</param>
+	public InputLabel(IFormNode node)
+		: base(node.Label)
 	{
-		var nodeId = _node.GetId();
-
-		if (!_node.IsVisible)
-		{
-			return;
-		}
-
-		// |----------------------------------------|
-		// | Label       							|
-		// |----------------------------------------|
-		var content = Label(_node.Label)
-			.For(nodeId)
-			.Class("input-label")
-			.ConfigureIf(HasRequiredValidator(_node), label => label.Class("required"));
-		content.WriteTo(writer, encoder);
+		var nodeId = node.GetId();
+		For(nodeId);
+		this.Class("input-label");
+		this.ConfigureIf(HasRequiredValidator(node), label => label.Class("required"));
 	}
 
 	private bool HasRequiredValidator(IFormNode node)

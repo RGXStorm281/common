@@ -32,7 +32,8 @@ public class DateTimeInput(ITimestampNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("datetime-local")
@@ -44,8 +45,7 @@ public class DateTimeInput(ITimestampNode node) : IHtmlContent
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("date-time-input")
-			.Id($"{nodeId}_container");
+			.Class("date-time-input");
 		content.WriteTo(writer, encoder);
 	}
 }

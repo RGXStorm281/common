@@ -31,7 +31,8 @@ public class TextAreaInput(ITextNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Textarea(_node.Formatter.Format(_node.Value) ?? string.Empty)
 					.Name(nodeId)
@@ -39,8 +40,7 @@ public class TextAreaInput(ITextNode node) : IHtmlContent
 					.Id(nodeId),
 				ValidationErrors(_node)
 			)
-			.Class("text-area")
-			.Id($"{nodeId}_container");
+			.Class("text-area");
 		content.WriteTo(writer, encoder);
 	}
 }

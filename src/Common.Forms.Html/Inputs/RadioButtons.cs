@@ -44,7 +44,8 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				RenderEach(
 					_node.CurrentSelectListItems,
@@ -64,8 +65,7 @@ public class RadioButtons<TValue>(IValueNode<TValue> node) : IHtmlContent
 				),
 				ValidationErrors(_node)
 			)
-			.Class("radio-buttons")
-			.Id($"{nodeId}_container");
+			.Class("radio-buttons");
 		content.WriteTo(writer, encoder);
 	}
 }

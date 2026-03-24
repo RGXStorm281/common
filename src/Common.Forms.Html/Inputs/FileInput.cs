@@ -36,7 +36,8 @@ public class FileInput(IFileNode node) : IHtmlContent
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				RenderIf(
 					fileExtensionValidator != null,
@@ -66,8 +67,7 @@ public class FileInput(IFileNode node) : IHtmlContent
 					.ConfigureIf(_node.IsReadonly, input => input.Class("disabled")),
 				ValidationErrors(_node)
 			)
-			.Class("file-input")
-			.Id($"{nodeId}_container");
+			.Class("file-input");
 		content.WriteTo(writer, encoder);
 	}
 }

@@ -38,7 +38,8 @@ public class RangeInput(INumberNode node, decimal min, decimal max) : IHtmlConte
 		// | Error A								|
 		// | Error B								|
 		// |----------------------------------------|
-		var content = Fieldset(
+		var content = InputFieldset(
+				_node,
 				InputLabel(_node),
 				Input()
 					.Type("range")
@@ -52,8 +53,7 @@ public class RangeInput(INumberNode node, decimal min, decimal max) : IHtmlConte
 				RenderIf(_node.CurrentSelectListItems != null, DataItems(_node)),
 				ValidationErrors(_node)
 			)
-			.Class("range-input")
-			.Id($"{nodeId}_container");
+			.Class("range-input");
 		content.WriteTo(writer, encoder);
 	}
 }
