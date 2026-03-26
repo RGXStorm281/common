@@ -31,7 +31,7 @@ The centerpiece of this entire codebase is definitely my form framework in `Comm
 
 But don't worry, if all you need is a simple two-input login form, I got you covered! The flow api makes modeling a form easy and readable, and the source generator in `Common.Forms.Wrappers` will abstract away all the complex inner workings and lets you interact with your form as if it were a native C# class!
 
-If I caught your interest, have a look at the more detailed documentation [here]()! At least checkout the dependencies section, one of them might need your attention.
+If I caught your interest, have a look at the more detailed documentation [here](doc/common_forms/common_forms.md)! At least checkout the dependencies section, one of them might need your attention.
 
 In it's core, the form framework is designed to be platform independent, but since I am a web developer by heart, some helpers for handling the framework in ASP.NET can be found in `Common.WebUi` ([documentation](doc/common_web_ui.md)) and `Common.Forms.Html` contains some HTML rendering helpers. The later also builds on the second core library:
 
