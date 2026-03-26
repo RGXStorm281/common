@@ -33,7 +33,7 @@ But don't worry, if all you need is a simple two-input login form, I got you cov
 
 If I caught your interest, have a look at the more detailed documentation [here]()! At least checkout the dependencies section, one of them might need your attention.
 
-In it's core, the form framework is designed to be platform independent, but since I am a web developer by heart, some helpers for handling the framework in ASP.NET can be found in `Common.WebUi` and `Common.Forms.Html` contains some HTML rendering helpers. The later also builds on the second core library:
+In it's core, the form framework is designed to be platform independent, but since I am a web developer by heart, some helpers for handling the framework in ASP.NET can be found in `Common.WebUi` ([documentation](doc/common_webui.md)) and `Common.Forms.Html` contains some HTML rendering helpers. The later also builds on the second core library:
 
 ### A custom DSL for HTML rendering.
 
