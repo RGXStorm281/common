@@ -2,25 +2,12 @@ namespace RobinEpple.Common.WebUi;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RobinEpple.Common.Util;
 
 /// <summary>
 /// Contains convenience methods for adding the services defined in this library to the dependency injection container.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
-	/// <summary>
-	/// Adds a hosted service implementing <see cref="ITimeoutCache"/> that purges expired entries repeatedly after the given interval time span.
-	/// </summary>
-	/// <param name="services">The service collection to add the hosted service to.</param>
-	/// <param name="purgeInterval">The time between the entry purges.</param>
-	public static void AddTimeoutCache(this IServiceCollection services, TimeSpan purgeInterval)
-	{
-		services.AddSingleton(_ => new TimeoutCache(purgeInterval));
-		services.AddAlias<ITimeoutCache, TimeoutCache>();
-		services.AddHostedService(provider => provider.GetRequiredService<TimeoutCache>());
-	}
-
 	/// <summary>
 	/// Adds a type alias for a registered service.
 	/// Every time <typeparamref name="TAlias"/> is requested, the registered service for

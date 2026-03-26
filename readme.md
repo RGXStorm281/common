@@ -59,7 +59,9 @@ But what would a home project be without ...
 
 ### A dusty toolbox for all the miscellaneous helpers that accumulated over time.
 
-The project `Common.Util` is meant to be exactly that: A low dependency toolkit that contains some small but useful code snippets. The biggest feature is probably the static `Comparison` class, which allows to compare two arbitrarily typed enumerables based on a key definition. You can find a more thorough list of contents [here](). And I fully admit that some of the contents are up to my personal preference in coding style, so don't be too upset when you have a different opinion ;)
+The project `Common.Util` is meant to be exactly that: A low dependency toolkit that contains some small but useful code snippets. The biggest feature is probably the static `Comparison` class, which allows to compare two arbitrarily typed enumerables based on a key definition. You can find a more thorough list of contents [here](doc/common_util.md). And I fully admit that some of the contents are up to my personal preference in coding style, so don't be too upset when you have a different opinion ;)
+
+I decided to move the managed cache implementation to its own package `Common.Caching` to keep dependencies minimal. You can find the dedicated documentation [here](doc/common_caching.md).
 
 ## Nice, how can I use this?
 

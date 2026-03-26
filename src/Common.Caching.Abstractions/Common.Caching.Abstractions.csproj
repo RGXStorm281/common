@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>RobinEpple.Common.Caching.Abstractions</AssemblyName>
+        <PackageId>RobinEpple.Common.Caching.Abstractions</PackageId>
+        <RootNamespace>RobinEpple.Common.Caching.Abstractions</RootNamespace>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Title>The low dependency abstraction packet for the managed cache implementation.</Title>
+    </PropertyGroup>
+
+</Project>

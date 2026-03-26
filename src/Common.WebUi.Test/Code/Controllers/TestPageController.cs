@@ -2,14 +2,14 @@ namespace RobinEpple.Common.WebUi.Test.Code.Controllers;
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RobinEpple.Common.Caching.Abstractions;
 using RobinEpple.Common.Forms;
 using RobinEpple.Common.Forms.Nodes;
-using RobinEpple.Common.Util;
 using RobinEpple.Common.WebUi.Test.Code.Models;
 
-public class TestPageController(ITimeoutCache cache) : Controller
+public class TestPageController(IManagedCache cache) : Controller
 {
-	private readonly ITimeoutCache _cache = cache;
+	private readonly IManagedCache _cache = cache;
 
 	public IActionResult StaticContent()
 	{
@@ -46,10 +46,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(FormRendering)}";
-		if (!_cache.TryGetValue<FormRenderingPage>(modelKey, out var model))
+		if (!_cache.TryGet<FormRenderingPage>(modelKey, out var model))
 		{
 			model = new FormRenderingPage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		if (!Request.IsHtmxRefresh())
@@ -65,10 +65,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
-		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		if (!Request.IsHtmxRefresh())
@@ -84,10 +84,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
-		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		model.Form.SetAllInteracted();
@@ -99,10 +99,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
-		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		model.FormWrapper.Cart.CartItems.TryInstantiateShirt(out _);
@@ -113,10 +113,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
-		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		model.FormWrapper.Cart.CartItems.TryInstantiateChocolate(out _);
@@ -127,10 +127,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(CheckoutSample)}";
-		if (!_cache.TryGetValue<CheckoutSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<CheckoutSamplePage>(modelKey, out var model))
 		{
 			model = new CheckoutSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		var item = model.Form!.FindFirst(node => node.GetId() == itemId) as IForm;
@@ -145,10 +145,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
-		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<RecursiveSamplePage>(modelKey, out var model))
 		{
 			model = new RecursiveSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		if (!Request.IsHtmxRefresh())
@@ -164,10 +164,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
-		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<RecursiveSamplePage>(modelKey, out var model))
 		{
 			model = new RecursiveSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		var item = model.Form.FindFirst(node => node.GetId() == itemId) as IForm;
@@ -182,10 +182,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
-		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<RecursiveSamplePage>(modelKey, out var model))
 		{
 			model = new RecursiveSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		// Find the parent folder.
@@ -224,10 +224,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
-		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<RecursiveSamplePage>(modelKey, out var model))
 		{
 			model = new RecursiveSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		// Find the parent folder.
@@ -266,10 +266,10 @@ public class TestPageController(ITimeoutCache cache) : Controller
 	{
 		var clientId = GetOrCreateClientId(HttpContext);
 		var modelKey = $"{clientId}:{nameof(RecursiveSample)}";
-		if (!_cache.TryGetValue<RecursiveSamplePage>(modelKey, out var model))
+		if (!_cache.TryGet<RecursiveSamplePage>(modelKey, out var model))
 		{
 			model = new RecursiveSamplePage();
-			_cache.Cache(modelKey, model, TimeSpan.FromMinutes(5));
+			_cache.TryCache(modelKey, model, TimeSpan.FromMinutes(5));
 		}
 
 		var item = model.Form!.FindFirst(node => node.GetId() == itemId) as IForm;

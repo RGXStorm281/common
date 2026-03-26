@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="../Common.WebUi/Common.WebUi.csproj" />
+        <ProjectReference Include="../Common.Caching/Common.Caching.csproj" />
     </ItemGroup>
 
     <ItemGroup>
