@@ -33,7 +33,7 @@ But don't worry, if all you need is a simple two-input login form, I got you cov
 
 If I caught your interest, have a look at the more detailed documentation [here]()! At least checkout the dependencies section, one of them might need your attention.
 
-In it's core, the form framework is designed to be platform independent, but since I am a web developer by heart, some helpers for handling the framework in ASP.NET can be found in `Common.WebUi` ([documentation](doc/common_webui.md)) and `Common.Forms.Html` contains some HTML rendering helpers. The later also builds on the second core library:
+In it's core, the form framework is designed to be platform independent, but since I am a web developer by heart, some helpers for handling the framework in ASP.NET can be found in `Common.WebUi` ([documentation](doc/common_web_ui.md)) and `Common.Forms.Html` contains some HTML rendering helpers. The later also builds on the second core library:
 
 ### A custom DSL for HTML rendering.
 
@@ -53,7 +53,7 @@ So when I first read of C# source generators, I was honestly surprised there was
 
 The generator in `Common.SourceGenerators` is designed to be opt-in, low maintenance and non-destructive. 99% of the async code I write consists of basic imperative control structures with some async function calls in between. The generator is specifically designed to handle exactly that: Search through the syntax tree, replace function calls with async overloads where available and fall back to the unmodified syntax tree if it hits an unknown section.
 
-The generator can handle a lot, but of course it has limitations. So if you need to make use of complex async patterns or certain functions absolutely need to be called in async, I advice to proofread the generated code at least after the first generation, and to check out the more detailed documentation [here]().
+The generator can handle a lot, but of course it has limitations. So if you need to make use of complex async patterns or certain functions absolutely need to be called in async, I advice to proofread the generated code at least after the first generation, and to check out the more detailed documentation [here](doc/common_source_generators.md).
 
 But what would a home project be without ...
 
