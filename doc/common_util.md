@@ -31,15 +31,15 @@ petsDict.GetOrAdd("dog", () => "dog", out var created);
 
 ## Comparison class
 
-The static `Comparison` class offers a range of methods that compare two arbitrary sets of objects using a key definition. The full comparison `Comparison.CompareByUniqueKeyEquality(...)` sorts all items based on whether they have a match into three buckets:
+The static `Comparison` class offers a range of methods that compare two arbitrary sets of objects using a key definition. The full comparison `Comparison.CompareByUniqueKeyEquality(left, right, ...)` sorts all items into three buckets:
 
 - Items in the _left_ set without a match in the _right_ set are sorted into `LeftDifference`.
 - Items with a matching key in the other set are grouped together into `Intersection`.
 - Items in the _right_ set without a match in the _left_ set are sorted into `RightDifference`.
 
-Alternatively there are functions to compute only one of these three sets, and all methods have an overload that can handle ambiguous keys. The latter ones will group all items with identical keys into lists.
+Alternatively, there are functions to compute only one of these three sets, and all methods have an overload that can handle ambiguous keys. The latter ones will group all items with identical keys into lists.
 
-This functionality is especially useful for synchronization, for example when a user alters a list in the UI and it needs to be synced back to the database on safe.
+This functionality is especially useful for synchronization, for example when a user alters a list in the UI and it needs to be synced back to the database.
 
 ```C#
 var userInput = new List<UiModel>
@@ -65,12 +65,15 @@ var result = Comparison.CompareByUniqueKeyEquality(
 
 // Then use the three categories to sync to the Db.
 var transaction = _db.BeginTransaction();
+
+// RightDifference: [3]
 foreach(var obsolete in result.RightDifference)
 {
     // First cleanup / "make space".
     _db.Delete(obsolete);
 }
 
+// Intersection: [(1,1), (2,2)]
 foreach(var grouping in result.Intersection)
 {
     // Do some proper update here.
@@ -78,6 +81,7 @@ foreach(var grouping in result.Intersection)
     _db.Update(grouping.Right);
 }
 
+// LeftDifference: [4]
 foreach(var missing in result.LeftDifference)
 {
     // Finally insert missing ones in the database.
@@ -89,18 +93,18 @@ _transaction.Commit();
 
 ## Conversion helper
 
-I have stumbled across the problem a couple of times, that I need to do a generic type conversion can handle nullable types. Unfortunately `Convert.ChangeType((int?)2, typeof(double))` will fail, because it cannot convert "Nullable" to double.
+I have stumbled across the problem a couple of times, that I need to do a generic type conversion. Unfortunately, `Convert.ChangeType` will fail when the source type is wrapped by `Nullable<>`.
 
-The `NullableUnwrappingTypeConverter` handles this by first checking for a nullable type and whether the variable has contents, and then converting afterwards.
+The `NullableUnwrappingTypeConverter` handles this by checking the source value for null, and unwrapping nullable types before calling `Convert.ChangeType`.
 
 ```C#
 int? myInt = 2;
 
 // This will fail.
-var hardConvert = Convert.ChangeType(myInt, typeof(double));
+var hardConverted = Convert.ChangeType(myInt, typeof(double));
 
 // This will succeed.
-if (!NullableUnwrappingTypeConverter.TryConvert<double>(myInt, out var softConvert))
+if (!NullableUnwrappingTypeConverter.TryConvert<double>(myInt, out var softConverted))
 {
     throw new InvalidOperationException("Integer has to have a value for the conversion.");
 }

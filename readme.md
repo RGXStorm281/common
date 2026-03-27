@@ -7,10 +7,11 @@ This is the place where I collect all the C# utility libraries that lay the foun
 The design of my libraries follows three core values:
 
 1. **Discoverability:** I love autocompletion in IDEs. In my opinion, member based autocompletion is one of OOPs biggest advantages, because it allows to get a quick and precise overview of available options. My libraries are designed to support discovery through autocompletion as good as possible:
-    - They specifically incorporate structures that allow member autocompletion in the first place. For example, different implementations of an interface are often grouped in a static class in form of factory methods, such that available implementations are listed on member autocompletion on the static class.
+    - They specifically incorporate structures that allow member autocompletion in the first place. For example, different implementations of an interface are often grouped in a static class in form of factory methods. That way, member autocompletion on the static class will list available implementations.
     - Members are often grouped semantically through their naming, for example in my `FormBuilder` class all methods that add to the structure contain the prefix "With", while methods that configure the current node start with "Use". This allows easy semantic filtering by typing out the prefix.
-2. **Reliability:** These libraries are meant to be the backbone of many applications and need to be reliable. To accommodate for that, the most important pieces were all developed in a strict test-first development cycle. This is mirrored in the nearly 400 unit tests covering the most important business logic. But to me, reliability also means a clear definition of what a piece of code can and can't do. I want to use intended features without worrying, but I also don't want to stumble into edge cases unknowingly. For that reason, I plan out complex libraries thoroughly and put great emphasis on the known limitations in my documentation.
-3. **Extensibility:** My favorite coding pattern is the strategy pattern. It allows to mirror semantics in architecture, and therefore ensures extensibility conceptually. Most components in these libraries are decoupled with interfaces, such that you can add or replace functionality to your heart's contents!
+2. **Reliability:** These libraries are meant to be the backbone of many applications and need to be reliable. To accommodate for that, the most important pieces were all developed in a strict test-first development cycle. This is mirrored in the nearly 400 unit tests covering the most important business logic. <br/>
+   But to me, reliability also means a clear definition of what a piece of code can and can't do. I want to use intended features without worrying, but I also don't want to stumble into edge cases unknowingly. For that reason, I plan out complex libraries thoroughly and put great emphasis on the known limitations in my documentation.
+3. **Extensibility:** My favorite coding pattern is the strategy pattern. It allows to mirror semantics in architecture, and therefore ensures extensibility conceptually. Most components in these libraries are decoupled with interfaces, such that you can add or replace functionality to your heart's content!
 
 If you keep these core principles in mind, I think you will have no trouble navigating my codebase. Feel free to look around!
 
@@ -39,7 +40,7 @@ In it's core, the form framework is designed to be platform independent, but sin
 
 I have to be honest: While I love the core architecture of ASP.NET, I am starting to question the usefulness of the Razor Syntax. Mostly because tooling support is awful, for example auto formatting will always mess up the moment a page contains a little more than the bare minimum of C# code. I also never warmed up with tag helpers, I always felt like they were cumbersome to write and annoying to use.
 
-That's why I took it upon myself to design a custom Domain Specific Language (DSL) based on static functions, found in `Common.Html`. This allows perfect tool supported formatting and easy extensibility by implementing the ASP.NET interface `IHtmlContent`. Being based on this interface, my rendering framework is also fully compatible with Razor, so mix and match to your hearts contents! You can find examples and further documentation [here](doc/common_html.md).
+That's why I took it upon myself to design a custom Domain Specific Language (DSL) based on static functions, found in `Common.Html`. This allows perfect tool supported formatting and easy extensibility by implementing the ASP.NET interface `IHtmlContent`. Being based on this interface, my rendering framework is also fully compatible with Razor, so mix and match to your liking! You can find examples and further documentation [here](doc/common_html.md).
 
 But this DSL would only be half as useful, if it weren't for the awesome documentation on the [Mozilla Developer Network (MDN)](https://developer.mozilla.org/de/). I have been using this documentation for years to learn and understand HTML and CSS. So the logical next step was, to bring this documentation closer to where I code - in the form of doc-comments! Whenever you write an HTML tag or attribute with my DSL, the doc-comment will serve you the first paragraph of the MDN documentation. This is also the reason for the dual-licensing of this project, I take absolutely no credit for the documentation text.
 
@@ -47,19 +48,19 @@ What I do take credit for, is for ...
 
 ### A little coding wizardry.
 
-If you ever worked on a multi-target project with shared business logic between different components and platforms, you probably came across the pain of async overloads. I like async, but I don't like writing the same function twice. I am fed up with fixing the same bug twice - you come across a bug in debugging, fix it, and forget there's a second overload that also needs adjusting. Well, two months later the same procedure starts over...
+If you ever worked on a multi-target project with shared business logic between different components and platforms, you probably came across the pain of async overloads. I like async, but I don't like writing the same function twice. I am fed up with fixing the same bug twice - you fix a snippet in debugging, and forget there's a second overload that also needs adjusting. Well, two months later the same procedure starts over...
 
 So when I first read of C# source generators, I was honestly surprised there was absolutely no sign of an async overload generator anywhere. So I guess I had to do it myself ...
 
 The generator in `Common.SourceGenerators` is designed to be opt-in, low maintenance and non-destructive. 99% of the async code I write consists of basic imperative control structures with some async function calls in between. The generator is specifically designed to handle exactly that: Search through the syntax tree, replace function calls with async overloads where available and fall back to the unmodified syntax tree if it hits an unknown section.
 
-The generator can handle a lot, but of course it has limitations. So if you need to make use of complex async patterns or certain functions absolutely need to be called in async, I advice to proofread the generated code at least after the first generation, and to check out the more detailed documentation [here](doc/common_source_generators.md).
+The generator can handle a lot, but of course it has limitations. So if you need to make use of complex async patterns, or certain functions absolutely need to be called in async, I advise to proofread the generated code at least after the first generation. And to check out the more detailed documentation [here](doc/common_source_generators.md)!
 
 But what would a home project be without ...
 
 ### A dusty toolbox for all the miscellaneous helpers that accumulated over time.
 
-The project `Common.Util` is meant to be exactly that: A low dependency toolkit that contains some small but useful code snippets. The biggest feature is probably the static `Comparison` class, which allows to compare two arbitrarily typed enumerables based on a key definition. You can find a more thorough list of contents [here](doc/common_util.md). And I fully admit that some of the contents are up to my personal preference in coding style, so don't be too upset when you have a different opinion ;)
+The project `Common.Util` is meant to be exactly that: A low dependency toolkit that contains some small but useful code snippets. The biggest feature is probably the static `Comparison` class, which allows to compare two arbitrarily typed enumerables based on a key selector function. You can find a more thorough list of contents [here](doc/common_util.md). And I fully admit that some of the contents are up to my personal preference in coding style, so don't be too upset when you have a different opinion ;)
 
 I decided to move the managed cache implementation to its own package `Common.Caching` to keep dependencies minimal. You can find the dedicated documentation [here](doc/common_caching.md).
 
