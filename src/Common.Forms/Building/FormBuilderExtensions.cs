@@ -401,15 +401,15 @@ public static class FormBuilderExtensions
 	/// Always evaluates the expression to decide whether the node is valid.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="checkInvalid">The expression defining when the node is invalid. The error message is appended when the expression returns <see langword="true"/>.</param>
+	/// <param name="validCondition">The expression defining when the node is valid. The error message is appended when the expression returns <see langword="false"/>.</param>
 	/// <param name="errorMessageTemplate">The custom error message. May contain the placeholder {0} for the field name.</param>
 	public static TNodeBuilder UseExpressionValidator<TNodeBuilder>(
 		this TNodeBuilder builder,
-		IFormExpression<bool> checkInvalid,
+		IFormExpression<bool> validCondition,
 		string errorMessageTemplate
 	)
 		where TNodeBuilder : INodeBuilder<TNodeBuilder> =>
-		builder.UseValidator(new ExpressionValidator(checkInvalid, errorMessageTemplate));
+		builder.UseValidator(new ExpressionValidator(validCondition, errorMessageTemplate));
 
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single boolean field.

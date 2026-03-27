@@ -2186,8 +2186,8 @@ public class Validation
 		var dependentNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		dependentNode.Value = "test";
 
-		// Decider node true renders node invalid.
-		deciderNode.Value = true;
+		// Decider node false renders node invalid.
+		deciderNode.Value = false;
 
 		form.Update();
 		Assert.IsFalse(dependentNode.IsValid);
@@ -2196,8 +2196,8 @@ public class Validation
 				&& message == "Field DeciderLabel is true."
 		);
 
-		// Decider node false makes dependent node valid.
-		deciderNode.Value = false;
+		// Decider node true makes dependent node valid.
+		deciderNode.Value = true;
 
 		form.Update();
 		Assert.IsTrue(dependentNode.IsValid);

@@ -24,6 +24,7 @@
 		"jquery",
 		"libmagic",
 		"Memberwise",
+		"nameof",
 		"pkill",
 		"REASYNCGEN",
 		"REFWRAPGEN",

@@ -9,16 +9,16 @@ using RobinEpple.Common.Util;
 /// Can be applied to any node.<br/>
 /// Always evaluates the expression to decide whether the node is valid.
 /// </summary>
-/// <param name="checkInvalid">The expression defining when the node is invalid. The error message is appended when the expression returns <see langword="true"/>.</param>
+/// <param name="validCondition">The expression defining when the node is valid. The error message is appended when the expression returns <see langword="false"/>.</param>
 /// <param name="errorMessageTemplate">The custom error message. May contain the placeholder {0} for the field name.</param>
-public partial class ExpressionValidator(IFormExpression<bool> checkInvalid, string errorMessageTemplate)
+public partial class ExpressionValidator(IFormExpression<bool> validCondition, string errorMessageTemplate)
 	: INodeValidator
 {
 	/// <summary>
 	/// The key errors from this validator will be registered under.
 	/// </summary>
 	public const string ErrorKey = nameof(ExpressionValidator);
-	private readonly IFormExpression<bool> _checkInvalid = checkInvalid;
+	private readonly IFormExpression<bool> _validCondition = validCondition;
 
 	private readonly string _errorMessageTemplate = errorMessageTemplate;
 
@@ -28,8 +28,8 @@ public partial class ExpressionValidator(IFormExpression<bool> checkInvalid, str
 	{
 		// This does not require any specific node type or value state.
 		// Every condition needs to be encoded in the condition.
-		var invalid = _checkInvalid.EvaluateOn(node);
-		if (invalid)
+		var valid = _validCondition.EvaluateOn(node);
+		if (!valid)
 		{
 			node.SetValidationError(ErrorKey, _errorMessageTemplate.Format(node.Label));
 		}

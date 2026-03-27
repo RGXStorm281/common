@@ -288,9 +288,9 @@ public class Expressions
 			.WithFileNode("File")
 			.WithNumberNode("Number")
 			.WithTextNode("Text")
-			.WithTimestampNode("Timestamp")
 			.WithCollectionNode("Collection")
 			.WithTemplatedSection("Template")
+			.WithTimestampNode("Timestamp")
 			.Build();
 
 		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "Boolean");
