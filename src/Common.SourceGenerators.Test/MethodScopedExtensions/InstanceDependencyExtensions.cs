@@ -26,4 +26,12 @@ public static class InstanceDependencyExtensions
 	{
 		return Task.CompletedTask;
 	}
+
+	public static Task OverloadedWithCancellationTokenAsync(
+		this AsyncOverloadInstanceDependency instance,
+		CancellationToken? cancellationToken = null
+	)
+	{
+		return Task.CompletedTask;
+	}
 }

@@ -16,6 +16,7 @@ public partial class AsyncOverloadTestClass
 		await InternalVoidMethodAsync();
 		await AsyncOverloadStaticDependency.StaticCallAsync();
 		await instanceDependency.InstanceCallAsync();
+		await instanceDependency.CancellableOverloadAsync();
 	}
 
 }

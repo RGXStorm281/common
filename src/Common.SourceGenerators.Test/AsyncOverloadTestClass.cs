@@ -37,6 +37,7 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 		InternalVoidMethod();
 		AsyncOverloadStaticDependency.StaticCall();
 		instanceDependency.InstanceCall();
+		instanceDependency.CancellableOverload();
 	}
 
 	[GenerateAsyncOverload]
@@ -529,6 +530,14 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 	{
 		var instances = new[] { new AsyncOverloadInstanceDependency(), new AsyncOverloadInstanceDependency() };
 		var instanceList = instances.ToList();
+	}
+
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldFindOverloadWithOptionalCancellationToken()
+	{
+		var instance = new AsyncOverloadInstanceDependency();
+		instance.OverloadedWithCancellationToken();
 	}
 
 	#endregion

@@ -684,11 +684,13 @@ internal class AwaitableOverloadLocator
 		ImmutableArray<IParameterSymbol> candidateParams
 	)
 	{
-		if (origParams.Length != candidateParams.Length)
+		// If the candidate has less parameters, it cannot match.
+		if (origParams.Length > candidateParams.Length)
 		{
 			return false;
 		}
 
+		// Up to the original parameter count, types need to match.
 		for (int i = 0; i < origParams.Length; i++)
 		{
 			if (!SymbolEqualityComparer.Default.Equals(origParams[i].Type, candidateParams[i].Type))
@@ -697,6 +699,17 @@ internal class AwaitableOverloadLocator
 			}
 		}
 
+		// If the overload defines further parameters, they need to be optional.
+		// (e.g. Cancellation Token)
+		foreach (var additionalParam in candidateParams.Skip(origParams.Length))
+		{
+			if (!additionalParam.IsOptional)
+			{
+				return false;
+			}
+		}
+
+		// Otherwise, the overload is applicable.
 		return true;
 	}
 

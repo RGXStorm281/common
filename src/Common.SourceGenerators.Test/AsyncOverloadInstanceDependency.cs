@@ -9,6 +9,13 @@ public class AsyncOverloadInstanceDependency : AsyncOverloadInstanceDependencyBa
 		return Task.CompletedTask;
 	}
 
+	public void CancellableOverload() { }
+
+	public Task CancellableOverloadAsync(CancellationToken? cancellationToken = null)
+	{
+		return Task.CompletedTask;
+	}
+
 	public int GetOne()
 	{
 		return 1;
@@ -29,4 +36,6 @@ public class AsyncOverloadInstanceDependency : AsyncOverloadInstanceDependencyBa
 	public void OverloadedForBaseInExtension() { }
 
 	public void OverloadedForInterfaceInExtension() { }
+
+	public void OverloadedWithCancellationToken() { }
 }
