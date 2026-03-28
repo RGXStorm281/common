@@ -274,7 +274,7 @@ public class AsyncOverloadTests
 	{
 		// Define the folders where the generators are located.
 		const string sourceGeneratorFolderPath =
-			"/workspaces/common/src/Common.SourceGenerators.Test/Generated/RobinEpple.Common.SourceGenerators/RobinEpple.Common.SourceGenerators.AsyncOverloadGenerator";
+			"/workspaces/common/src/Common.SourceGenerators.Test/_generated/RobinEpple.Common.SourceGenerators/RobinEpple.Common.SourceGenerators.AsyncOverloadGenerator";
 		const string referenceImplementationFolderPath =
 			"/workspaces/common/src/Common.SourceGenerators.Test/ReferenceImplementation/AsyncGenerator";
 

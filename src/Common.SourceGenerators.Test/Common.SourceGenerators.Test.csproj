@@ -5,12 +5,12 @@
         <RootNamespace>RobinEpple.Common.SourceGenerators.Test</RootNamespace>
 
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-        <CompilerGeneratedFilesOutputPath>./Generated</CompilerGeneratedFilesOutputPath>
+        <CompilerGeneratedFilesOutputPath>./_generated</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="Generated\**\*.cs" />
-        <Compile Remove="Generated\**\*.cs" />
+        <None Include="_generated\**\*.cs" />
+        <Compile Remove="_generated\**\*.cs" />
     </ItemGroup>
 
     <ItemGroup>

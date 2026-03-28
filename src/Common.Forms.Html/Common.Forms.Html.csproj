@@ -9,12 +9,12 @@
         <Title>A html rendering library for the forms framework.</Title>
 
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-        <CompilerGeneratedFilesOutputPath>./Generated</CompilerGeneratedFilesOutputPath>
+        <CompilerGeneratedFilesOutputPath>./_generated</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="Generated\**\*.cs" />
-        <Compile Remove="Generated\**\*.cs" />
+        <None Include="_generated\**\*.cs" />
+        <Compile Remove="_generated\**\*.cs" />
     </ItemGroup>
 
     <ItemGroup>
