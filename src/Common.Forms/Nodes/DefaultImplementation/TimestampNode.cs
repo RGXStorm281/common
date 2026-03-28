@@ -2,12 +2,13 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Globalization;
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class TimestampNode : FieldNode, ITimestampNode
 {
 	public TimestampNode(string name, IParentNode parent, CultureInfo displayCulture)
-		: base(name, parent, new LocalizedNumberFormatter(displayCulture))
+		: base(name, parent, new LocalizedTimestampFormatter(displayCulture))
 	{
 		_value = new(null);
 	}
@@ -21,6 +22,17 @@ internal partial class TimestampNode : FieldNode, ITimestampNode
 		set => _value.CurrentValue = value;
 	}
 
+	/// <inheritdoc />
+	public ISelectListSource<DateTime?>? SelectList { get; private set; }
+
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<DateTime?>>? CurrentSelectListItems { get; private set; }
+
+	public void UseSelectList(ISelectListSource<DateTime?>? selectList)
+	{
+		SelectList = selectList;
+	}
+
 	internal void ReplaceDefaultValue(DateTime? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
@@ -29,6 +41,14 @@ internal partial class TimestampNode : FieldNode, ITimestampNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

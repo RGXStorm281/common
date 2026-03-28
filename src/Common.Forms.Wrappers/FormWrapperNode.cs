@@ -2,9 +2,8 @@ namespace RobinEpple.Common.Forms.Wrappers;
 
 using System.Text;
 using Microsoft.CodeAnalysis;
-using RobinEpple.Common.Forms.Wrappers.Abstractions;
 
-public class FormWrapperNode(
+internal class FormWrapperNode(
 	string name,
 	string type,
 	INamedTypeSymbol declaringType,

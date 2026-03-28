@@ -573,23 +573,23 @@ public class Validation
 	}
 
 	[TestMethod]
-	public void NumberSelectListValidator_NonNumberField_ShouldThrowInvalidOperationException()
+	public void SelectListValidator_InvalidNodeType_ShouldThrowInvalidOperationException()
 	{
 		var form = new FormBuilder("Test")
-			.UseValidator(new NumberSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3])))
+			.WithTextNode("Text", node => node.UseValidator(new SelectListValidator<decimal?>()))
 			.Build();
 
 		Assert.ThrowsException<InvalidOperationException>(form.Update);
 	}
 
 	[TestMethod]
-	public void NumberSelectListValidator_ContentsNull_ShouldNotValidate()
+	public void SelectListValidator_ContentsNull_ShouldNotValidate()
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode(
 				"NumberNode",
 				node =>
-					node.UseLabel("NumberLabel").UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+					node.UseLabel("NumberLabel").UseSelectList(ISelectListSource<decimal?>.ForValues([1, 2, 3]), true)
 			)
 			.Build();
 
@@ -599,7 +599,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrorsByKey.TryGetValue(NumberSelectListValidator.ErrorKey, out var message)
+			node.ValidationErrorsByKey.TryGetValue(SelectListValidator<decimal?>.ErrorKey, out var message)
 				&& message
 					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 						string.Empty,
@@ -609,13 +609,13 @@ public class Validation
 	}
 
 	[TestMethod]
-	public void NumberSelectListValidator_SelectionOutOfRange_ShouldBeInvalid()
+	public void SelectListValidator_SelectionOutOfRange_ShouldBeInvalid()
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode(
 				"NumberNode",
 				node =>
-					node.UseLabel("NumberLabel").UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+					node.UseLabel("NumberLabel").UseSelectList(ISelectListSource<decimal?>.ForValues([1, 2, 3]), true)
 			)
 			.Build();
 
@@ -625,7 +625,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(node.IsValid);
 		Assert.IsTrue(
-			node.ValidationErrorsByKey.TryGetValue(NumberSelectListValidator.ErrorKey, out var message)
+			node.ValidationErrorsByKey.TryGetValue(SelectListValidator<decimal?>.ErrorKey, out var message)
 				&& message
 					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 						4,
@@ -635,13 +635,13 @@ public class Validation
 	}
 
 	[TestMethod]
-	public void NumberSelectListValidator_SelectionInList_ShouldBeValid()
+	public void SelectListValidator_SelectionInList_ShouldBeValid()
 	{
 		var form = new FormBuilder("Test")
 			.WithNumberNode(
 				"NumberNode",
 				node =>
-					node.UseLabel("NumberLabel").UseSelectListValidator(ISelectListSource<decimal>.ForValues([1, 2, 3]))
+					node.UseLabel("NumberLabel").UseSelectList(ISelectListSource<decimal?>.ForValues([1, 2, 3]), true)
 			)
 			.Build();
 
@@ -651,7 +651,7 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(node.IsValid);
 		Assert.IsFalse(
-			node.ValidationErrorsByKey.TryGetValue(NumberSelectListValidator.ErrorKey, out var message)
+			node.ValidationErrorsByKey.TryGetValue(SelectListValidator<decimal?>.ErrorKey, out var message)
 				&& message
 					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 						3,
@@ -661,33 +661,20 @@ public class Validation
 	}
 
 	[TestMethod]
-	public void NumberSelectListValidator_ParentDependency_ShouldBeEvaluated()
+	public void SelectListValidator_ParentDependency_ShouldBeEvaluated()
 	{
-		var dependentListSource = new DependentSelectListMock<bool, decimal>(
-			new Dictionary<bool, ISelectListSource<decimal>>()
+		var dependentListSource = new DependentSelectListMock<bool, decimal?>(
+			BooleanFieldValue("BooleanNode").Coalesce(false),
+			new Dictionary<bool, ISelectListSource<decimal?>>()
 			{
-				{ false, ISelectListSource<decimal>.ForValues([1, 2]) },
-				{ true, ISelectListSource<decimal>.ForValues([2, 3]) },
+				{ false, ISelectListSource<decimal?>.ForValues([1, 2]) },
+				{ true, ISelectListSource<decimal?>.ForValues([2, 3]) },
 			}
 		);
 
 		var form = new FormBuilder("Test")
 			.WithBooleanNode("BooleanNode")
-			.WithNumberNode(
-				"NumberNode",
-				node =>
-					node.UseLabel("NumberLabel")
-						.UseSelectListValidator(
-							dependentListSource,
-							new Dictionary<string, IFormExpression<object?>>()
-							{
-								{
-									DependentSelectListMock<bool, decimal>.ParentValueKey,
-									BooleanFieldValue("BooleanNode").Select(value => (object?)value)
-								},
-							}
-						)
-			)
+			.WithNumberNode("NumberNode", node => node.UseLabel("NumberLabel").UseSelectList(dependentListSource, true))
 			.Build();
 
 		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
@@ -700,7 +687,7 @@ public class Validation
 		form.Update();
 		Assert.IsFalse(numberNode.IsValid);
 		Assert.IsTrue(
-			numberNode.ValidationErrorsByKey.TryGetValue(NumberSelectListValidator.ErrorKey, out var message)
+			numberNode.ValidationErrorsByKey.TryGetValue(SelectListValidator<decimal?>.ErrorKey, out var message)
 				&& message
 					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 						3,
@@ -714,337 +701,11 @@ public class Validation
 		form.Update();
 		Assert.IsTrue(numberNode.IsValid);
 		Assert.IsFalse(
-			numberNode.ValidationErrorsByKey.TryGetValue(NumberSelectListValidator.ErrorKey, out message)
+			numberNode.ValidationErrorsByKey.TryGetValue(SelectListValidator<decimal?>.ErrorKey, out message)
 				&& message
 					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
 						3,
 						"NumberLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TextSelectListValidator_NonTextField_ShouldThrowInvalidOperationException()
-	{
-		var form = new FormBuilder("Test")
-			.UseValidator(new TextSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"])))
-			.Build();
-
-		Assert.ThrowsException<InvalidOperationException>(form.Update);
-	}
-
-	[TestMethod]
-	public void TextSelectListValidator_ContentsNull_ShouldNotValidate()
-	{
-		var form = new FormBuilder("Test")
-			.WithTextNode(
-				"TextNode",
-				node =>
-					node.UseLabel("TextLabel")
-						.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
-			)
-			.Build();
-
-		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
-		node.Value = null;
-
-		form.Update();
-		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(
-			node.ValidationErrorsByKey.TryGetValue(TextSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						string.Empty,
-						"TextLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TextSelectListValidator_SelectionOutOfRange_ShouldBeInvalid()
-	{
-		var form = new FormBuilder("Test")
-			.WithTextNode(
-				"TextNode",
-				node =>
-					node.UseLabel("TextLabel")
-						.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
-			)
-			.Build();
-
-		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
-		node.Value = "4";
-
-		form.Update();
-		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(
-			node.ValidationErrorsByKey.TryGetValue(TextSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						"4",
-						"TextLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TextSelectListValidator_SelectionInList_ShouldBeValid()
-	{
-		var form = new FormBuilder("Test")
-			.WithTextNode(
-				"TextNode",
-				node =>
-					node.UseLabel("TextLabel")
-						.UseSelectListValidator(ISelectListSource<string>.ForValues(["1", "2", "3"]))
-			)
-			.Build();
-
-		var node = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
-		node.Value = "3";
-
-		form.Update();
-		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(
-			node.ValidationErrorsByKey.TryGetValue(TextSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						"3",
-						"TextLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TextSelectListValidator_ParentDependency_ShouldBeEvaluated()
-	{
-		var dependentListSource = new DependentSelectListMock<bool, string>(
-			new Dictionary<bool, ISelectListSource<string>>()
-			{
-				{ false, ISelectListSource<string>.ForValues(["1", "2"]) },
-				{ true, ISelectListSource<string>.ForValues(["2", "3"]) },
-			}
-		);
-
-		var form = new FormBuilder("Test")
-			.WithBooleanNode("BooleanNode")
-			.WithTextNode(
-				"TextNode",
-				node =>
-					node.UseLabel("TextLabel")
-						.UseSelectListValidator(
-							dependentListSource,
-							new Dictionary<string, IFormExpression<object?>>()
-							{
-								{
-									DependentSelectListMock<bool, decimal>.ParentValueKey,
-									BooleanFieldValue("BooleanNode").Select(value => (object?)value)
-								},
-							}
-						)
-			)
-			.Build();
-
-		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
-		var numberNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
-		numberNode.Value = "3";
-
-		// For boolean node false should be invalid.
-		booleanNode.Value = false;
-
-		form.Update();
-		Assert.IsFalse(numberNode.IsValid);
-		Assert.IsTrue(
-			numberNode.ValidationErrorsByKey.TryGetValue(TextSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						"3",
-						"TextLabel"
-					)
-		);
-
-		// For boolean node true should be valid.
-		booleanNode.Value = true;
-
-		form.Update();
-		Assert.IsTrue(numberNode.IsValid);
-		Assert.IsFalse(
-			numberNode.ValidationErrorsByKey.TryGetValue(TextSelectListValidator.ErrorKey, out message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						"3",
-						"TextLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TimestampSelectListValidator_NonTimestampField_ShouldThrowInvalidOperationException()
-	{
-		var form = new FormBuilder("Test")
-			.UseValidator(
-				new TimestampSelectListValidator(
-					ISelectListSource<DateTime>.ForValues(
-						[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
-					)
-				)
-			)
-			.Build();
-
-		Assert.ThrowsException<InvalidOperationException>(form.Update);
-	}
-
-	[TestMethod]
-	public void TimestampSelectListValidator_ContentsNull_ShouldNotValidate()
-	{
-		var form = new FormBuilder("Test")
-			.WithTimestampNode(
-				"TimestampNode",
-				node =>
-					node.UseLabel("TimestampLabel")
-						.UseSelectListValidator(
-							ISelectListSource<DateTime>.ForValues(
-								[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
-							)
-						)
-			)
-			.Build();
-
-		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
-		node.Value = null;
-
-		form.Update();
-		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(
-			node.ValidationErrorsByKey.TryGetValue(TimestampSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						string.Empty,
-						"TimestampLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TimestampSelectListValidator_SelectionOutOfRange_ShouldBeInvalid()
-	{
-		var form = new FormBuilder("Test")
-			.WithTimestampNode(
-				"TimestampNode",
-				node =>
-					node.UseLabel("TimestampLabel")
-						.UseSelectListValidator(
-							ISelectListSource<DateTime>.ForValues(
-								[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
-							)
-						)
-			)
-			.Build();
-
-		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
-		node.Value = DateTime.Today.AddDays(2);
-
-		form.Update();
-		Assert.IsFalse(node.IsValid);
-		Assert.IsTrue(
-			node.ValidationErrorsByKey.TryGetValue(TimestampSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						DateTime.Today.AddDays(2),
-						"TimestampLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TimestampSelectListValidator_SelectionInList_ShouldBeValid()
-	{
-		var form = new FormBuilder("Test")
-			.WithTimestampNode(
-				"TimestampNode",
-				node =>
-					node.UseLabel("TimestampLabel")
-						.UseSelectListValidator(
-							ISelectListSource<DateTime>.ForValues(
-								[DateTime.Today.AddDays(-1), DateTime.Today, DateTime.Today.AddDays(1)]
-							)
-						)
-			)
-			.Build();
-
-		var node = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
-		node.Value = DateTime.Today.AddDays(1);
-
-		form.Update();
-		Assert.IsTrue(node.IsValid);
-		Assert.IsFalse(
-			node.ValidationErrorsByKey.TryGetValue(TimestampSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						DateTime.Today.AddDays(1),
-						"TimestampLabel"
-					)
-		);
-	}
-
-	[TestMethod]
-	public void TimestampSelectListValidator_ParentDependency_ShouldBeEvaluated()
-	{
-		var dependentListSource = new DependentSelectListMock<bool, DateTime>(
-			new Dictionary<bool, ISelectListSource<DateTime>>()
-			{
-				{ false, ISelectListSource<DateTime>.ForValues([DateTime.Today.AddDays(-1), DateTime.Today]) },
-				{ true, ISelectListSource<DateTime>.ForValues([DateTime.Today, DateTime.Today.AddDays(1)]) },
-			}
-		);
-
-		var form = new FormBuilder("Test")
-			.WithBooleanNode("BooleanNode")
-			.WithTimestampNode(
-				"TimestampNode",
-				node =>
-					node.UseLabel("TimestampLabel")
-						.UseSelectListValidator(
-							dependentListSource,
-							new Dictionary<string, IFormExpression<object?>>()
-							{
-								{
-									DependentSelectListMock<bool, decimal>.ParentValueKey,
-									BooleanFieldValue("BooleanNode").Select(value => (object?)value)
-								},
-							}
-						)
-			)
-			.Build();
-
-		var booleanNode = (IBooleanNode)form.Nodes.First(node => node.Name == "BooleanNode");
-		var numberNode = (ITimestampNode)form.Nodes.First(node => node.Name == "TimestampNode");
-		numberNode.Value = DateTime.Today.AddDays(1);
-
-		// For boolean node false should be invalid.
-		booleanNode.Value = false;
-
-		form.Update();
-		Assert.IsFalse(numberNode.IsValid);
-		Assert.IsTrue(
-			numberNode.ValidationErrorsByKey.TryGetValue(TimestampSelectListValidator.ErrorKey, out var message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						DateTime.Today.AddDays(1),
-						"TimestampLabel"
-					)
-		);
-
-		// For boolean node true should be valid.
-		booleanNode.Value = true;
-
-		form.Update();
-		Assert.IsTrue(numberNode.IsValid);
-		Assert.IsFalse(
-			numberNode.ValidationErrorsByKey.TryGetValue(TimestampSelectListValidator.ErrorKey, out message)
-				&& message
-					== Resources.TheValue_InTheField_IsNotAllowedPleaseSelectOneOfTheProvidedOptions.Format(
-						DateTime.Today.AddDays(1),
-						"TimestampLabel"
 					)
 		);
 	}
@@ -2525,8 +2186,8 @@ public class Validation
 		var dependentNode = (ITextNode)form.Nodes.First(node => node.Name == "TextNode");
 		dependentNode.Value = "test";
 
-		// Decider node true renders node invalid.
-		deciderNode.Value = true;
+		// Decider node false renders node invalid.
+		deciderNode.Value = false;
 
 		form.Update();
 		Assert.IsFalse(dependentNode.IsValid);
@@ -2535,8 +2196,8 @@ public class Validation
 				&& message == "Field DeciderLabel is true."
 		);
 
-		// Decider node false makes dependent node valid.
-		deciderNode.Value = false;
+		// Decider node true makes dependent node valid.
+		deciderNode.Value = true;
 
 		form.Update();
 		Assert.IsTrue(dependentNode.IsValid);

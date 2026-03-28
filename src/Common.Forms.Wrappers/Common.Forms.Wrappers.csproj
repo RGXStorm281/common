@@ -8,6 +8,7 @@
         <PackageId>RobinEpple.Common.Forms.Wrappers</PackageId>
         <RootNamespace>RobinEpple.Common.Forms.Wrappers</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Title>Source generators that create wrapper objects around forms created with the flow syntax, to have the best of both worlds.</Title>
 
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>

@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 /// This interface represents an (optional) subsection in the form.<br/>
 /// The subsection may be polymorphic by providing multiple templates.
 /// </summary>
-public partial interface ITemplateNode : IParentNode
+public partial interface ITemplateNode : IParentNode, IFieldNode
 {
 	/// <summary>
 	/// The list of templates, that can be instantiated to live in this collection.

@@ -2,12 +2,13 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RobinEpple.Common.Forms.Nodes.Formatters;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
-internal partial class TemplateNode : NodeBase, ITemplateNode
+internal partial class TemplateNode : FieldNode, ITemplateNode
 {
 	public TemplateNode(string name, IParentNode parent)
-		: base(name, parent.Root, parent)
+		: base(name, parent, new TemplateFormatter())
 	{
 		_templatesByName = [];
 	}

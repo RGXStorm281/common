@@ -15,22 +15,31 @@
 		"Cloneable",
 		"Enumerables",
 		"Epple",
+		"Fieldset",
+		"htmx",
 		"Iban",
+		"importmap",
 		"Incrementors",
 		"inhertidoc",
+		"jquery",
 		"libmagic",
 		"Memberwise",
+		"nameof",
+		"pkill",
 		"REASYNCGEN",
 		"REFWRAPGEN",
 		"resetted",
 		"resheader",
 		"resmimetype",
 		"resx",
-		"summands"
+		"stylesheet",
+		"summands",
+		"toggleable"
 	],
 	"files.eol": "\n",
 	"xmlTools.enableXmlTreeView": false,
 	"xmlTools.enableXmlTreeViewMetadata": false,
 	"xmlTools.enforcePrettySelfClosingTagOnFormat": true,
-	"xmlTools.removeCommentsOnMinify": true
+	"xmlTools.removeCommentsOnMinify": true,
+	"editor.inlineSuggest.enabled": false
 }

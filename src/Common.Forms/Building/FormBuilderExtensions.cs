@@ -50,7 +50,7 @@ public static class FormBuilderExtensions
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name.</param>
-	/// <param name="acceptWhitespace">Whether empty string or whitespace should be considered a valid value. Default is <see cref="false"/> .</param>
+	/// <param name="acceptWhitespace">Whether empty string or whitespace should be considered a valid value. Default is <see langword="false"/> .</param>
 	public static ITextNodeBuilder UseRequiredValidator(
 		this ITextNodeBuilder builder,
 		string? errorMessageTemplate = null,
@@ -108,7 +108,7 @@ public static class FormBuilderExtensions
 	/// Estimates the mime type of a given byte string and checks it against a list of valid extensions.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="allowedExtensions">The list of allowed file extensions.</param>
+	/// <param name="allowedExtensions">The list of allowed file extensions (e.g. "jpg", without ".").</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name, {1} for the invalid extension and {2} for the list of allowed extensions.</param>
 	public static IFileNodeBuilder UseFileExtensionValidator(
 		this IFileNodeBuilder builder,
@@ -121,45 +121,55 @@ public static class FormBuilderExtensions
 	/// Checks the field value against the available items in the select list.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="selectListSource">The source to load the select list from.</param>
-	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	public static IBooleanNodeBuilder UseSelectListValidator(
+		this IBooleanNodeBuilder builder,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new SelectListValidator<bool?>(errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against the available items in the select list.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static INumberNodeBuilder UseSelectListValidator(
 		this INumberNodeBuilder builder,
-		ISelectListSource<decimal> selectListSource,
-		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
-	) => builder.UseValidator(new NumberSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+	) => builder.UseValidator(new SelectListValidator<decimal?>(errorMessageTemplate));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against the available items in the select list.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="selectListSource">The source to load the select list from.</param>
-	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITextNodeBuilder UseSelectListValidator(
 		this ITextNodeBuilder builder,
-		ISelectListSource<string> selectListSource,
-		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
-	) => builder.UseValidator(new TextSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+	) => builder.UseValidator(new SelectListValidator<string?>(errorMessageTemplate));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
 	/// Checks the field value against the available items in the select list.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="selectListSource">The source to load the select list from.</param>
-	/// <param name="dependencies">Optional list of dependencies on the form state, that are evaluated and passed to the source to adapt the values accordingly.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITimestampNodeBuilder UseSelectListValidator(
 		this ITimestampNodeBuilder builder,
-		ISelectListSource<DateTime> selectListSource,
-		IDictionary<string, IFormExpression<object?>>? dependencies = null,
 		string? errorMessageTemplate = null
-	) => builder.UseValidator(new TimestampSelectListValidator(selectListSource, dependencies, errorMessageTemplate));
+	) => builder.UseValidator(new SelectListValidator<DateTime?>(errorMessageTemplate));
+
+	/// <summary>
+	/// Only active on non-<see langword="null"/> values.<br/>
+	/// Checks the field value against the available items in the select list.
+	/// </summary>
+	/// <param name="builder">The node builder to append the validator to.</param>
+	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
+	public static IFileNodeBuilder UseSelectListValidator(
+		this IFileNodeBuilder builder,
+		string? errorMessageTemplate = null
+	) => builder.UseValidator(new SelectListValidator<DateTime?>(errorMessageTemplate));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
@@ -186,7 +196,7 @@ public static class FormBuilderExtensions
 	/// Checks the field value against defined maximum value.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="minValue">The expression defining the (inclusive) upper bound the field accepts.</param>
+	/// <param name="maxValue">The expression defining the (inclusive) upper bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static INumberNodeBuilder UseMaxValueValidator(
 		this INumberNodeBuilder builder,
@@ -226,7 +236,7 @@ public static class FormBuilderExtensions
 	/// Checks the field value against defined maximum value.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="minValue">The expression defining the (inclusive) upper bound the field accepts.</param>
+	/// <param name="maxValue">The expression defining the (inclusive) upper bound the field accepts.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value and {1} for the field name.</param>
 	public static ITimestampNodeBuilder UseMaxValueValidator(
 		this ITimestampNodeBuilder builder,
@@ -311,10 +321,12 @@ public static class FormBuilderExtensions
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
 	/// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
+	/// <param name="defaultRegion">Optional custom default region to parse phone numbers for.</param>
 	public static ITextNodeBuilder UsePhoneNumberValidator(
 		this ITextNodeBuilder builder,
-		string? errorMessageTemplate = null
-	) => builder.UseValidator(new PhoneNumberValidator(errorMessageTemplate));
+		string? errorMessageTemplate = null,
+		string defaultRegion = "DE"
+	) => builder.UseValidator(new PhoneNumberValidator(errorMessageTemplate, defaultRegion));
 
 	/// <summary>
 	/// Only active on non-<see langword="null"/> values.<br/>
@@ -389,19 +401,20 @@ public static class FormBuilderExtensions
 	/// Always evaluates the expression to decide whether the node is valid.
 	/// </summary>
 	/// <param name="builder">The node builder to append the validator to.</param>
-	/// <param name="checkInvalid">The expression defining when the node is invalid. The error message is appended when the expression returns <see langword="true"/>.</param>
+	/// <param name="validCondition">The expression defining when the node is valid. The error message is appended when the expression returns <see langword="false"/>.</param>
 	/// <param name="errorMessageTemplate">The custom error message. May contain the placeholder {0} for the field name.</param>
 	public static TNodeBuilder UseExpressionValidator<TNodeBuilder>(
 		this TNodeBuilder builder,
-		IFormExpression<bool> checkInvalid,
+		IFormExpression<bool> validCondition,
 		string errorMessageTemplate
 	)
 		where TNodeBuilder : INodeBuilder<TNodeBuilder> =>
-		builder.UseValidator(new ExpressionValidator(checkInvalid, errorMessageTemplate));
+		builder.UseValidator(new ExpressionValidator(validCondition, errorMessageTemplate));
 
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single boolean field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseBooleanNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -410,6 +423,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single file field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseFileNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -418,6 +432,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single number field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseNumberNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -426,6 +441,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single text field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseTextNodeModel(this IFormBuilder builder, string fieldName) =>
@@ -434,6 +450,7 @@ public static class FormBuilderExtensions
 	/// <summary>
 	/// Defines, that the model for this form is represented in a single timestamp field.
 	/// </summary>
+	/// <param name="builder">The builder to add the model to.</param>
 	/// <param name="fieldName">The name of the inner field that holds the value.</param>
 	/// <returns>The form builder for adding more elements or concluding the build process.</returns>
 	public static IFormBuilder UseTimestampNodeModel(this IFormBuilder builder, string fieldName) =>

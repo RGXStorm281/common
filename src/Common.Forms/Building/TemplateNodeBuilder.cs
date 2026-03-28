@@ -131,4 +131,10 @@ internal class TemplateNodeBuilder : NodeBuilder<ITemplateNodeBuilder, TemplateN
 
 	/// <inheritdoc />
 	protected override TemplateNodeBuilder CastThis() => this;
+
+	public ITemplateNodeBuilder UseFormatter(IValueFormatter formatter)
+	{
+		Node.UseFormatter(formatter);
+		return this;
+	}
 }

@@ -243,11 +243,38 @@ public class AsyncOverloadTests
 		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldTranslateImplicitArrayCreationExpression)
 	)]
 	#endregion
+
+	#region extension methods
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnMethod)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnClass)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindAsyncOverloadsForExtensions)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldHandleExtensionsOnBaseTypesAndInterfaces)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldHandleEnumerableExtensions)
+	)]
+	[DataRow(
+		nameof(AsyncOverloadTestClass),
+		nameof(AsyncOverloadTestClass.AsyncOverload_ShouldFindOverloadWithOptionalCancellationToken)
+	)]
+	#endregion
 	public void CompareSyntaxTree(string className, string syncMethodName)
 	{
 		// Define the folders where the generators are located.
 		const string sourceGeneratorFolderPath =
-			"/workspaces/common/src/Common.SourceGenerators.Test/Generated/RobinEpple.Common.SourceGenerators/RobinEpple.Common.SourceGenerators.AsyncOverloadGenerator";
+			"/workspaces/common/src/Common.SourceGenerators.Test/_generated/RobinEpple.Common.SourceGenerators/RobinEpple.Common.SourceGenerators.AsyncOverloadGenerator";
 		const string referenceImplementationFolderPath =
 			"/workspaces/common/src/Common.SourceGenerators.Test/ReferenceImplementation/AsyncGenerator";
 

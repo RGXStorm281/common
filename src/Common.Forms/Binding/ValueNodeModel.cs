@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
 
-public class ValueNodeModel<TValue>(string fieldName, TValue emptyValue) : IEmbeddedModel
+internal class ValueNodeModel<TValue>(string fieldName, TValue emptyValue) : IEmbeddedModel
 {
 	private readonly string _fieldName = fieldName;
 	private readonly TValue _emptyValue = emptyValue;

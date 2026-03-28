@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
-public class ValueNodeBinding<TValue> : IValueAccessor<TValue>
+internal class ValueNodeBinding<TValue> : IValueAccessor<TValue>
 {
 	public TValue GetValue(IFormNode node)
 	{

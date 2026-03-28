@@ -1,10 +1,12 @@
 namespace RobinEpple.Common.SourceGenerators.Test;
 
 using RobinEpple.Common.SourceGenerators.Abstractions;
+using RobinEpple.Common.SourceGenerators.Test.ClassScopedExtensions;
 
 /// <summary>
 /// This class contains test methods, who's generated async overloads are compared to some manual reference implementation.
 /// </summary>
+[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.ClassScopedExtensions")]
 public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IAsyncOverloadTestInterface
 {
 	#region signature and applicability
@@ -35,6 +37,7 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 		InternalVoidMethod();
 		AsyncOverloadStaticDependency.StaticCall();
 		instanceDependency.InstanceCall();
+		instanceDependency.CancellableOverload();
 	}
 
 	[GenerateAsyncOverload]
@@ -483,6 +486,58 @@ public partial class AsyncOverloadTestClass : AsyncOverloadTestAbstractClass, IA
 	public void AsyncOverload_ShouldTranslateImplicitArrayCreationExpression()
 	{
 		var array = new[] { Identity(1), Identity(2) };
+	}
+
+	#endregion
+
+	#region extension methods
+
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnMethod()
+	{
+		var instance = new AsyncOverloadInstanceDependency();
+		instance.OverloadedInMethodScopedExtension();
+	}
+
+	[GenerateAsyncOverload]
+	public void AsyncOverload_ShouldFindExtensionOverloadsWhitelistedOnClass()
+	{
+		var instance = new AsyncOverloadInstanceDependency();
+		instance.OverloadedInClassScopedExtension();
+	}
+
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldFindAsyncOverloadsForExtensions()
+	{
+		var instance = new AsyncOverloadInstanceDependency();
+		instance.ExtensionCall(2);
+	}
+
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldHandleExtensionsOnBaseTypesAndInterfaces()
+	{
+		var instance = new AsyncOverloadInstanceDependency();
+		instance.OverloadedForBaseInExtension();
+		instance.OverloadedForInterfaceInExtension();
+	}
+
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldHandleEnumerableExtensions()
+	{
+		var instances = new[] { new AsyncOverloadInstanceDependency(), new AsyncOverloadInstanceDependency() };
+		var instanceList = instances.ToList();
+	}
+
+	[GenerateAsyncOverload]
+	[AsyncOverloadExtensionNamespace("RobinEpple.Common.SourceGenerators.Test.MethodScopedExtensions")]
+	public void AsyncOverload_ShouldFindOverloadWithOptionalCancellationToken()
+	{
+		var instance = new AsyncOverloadInstanceDependency();
+		instance.OverloadedWithCancellationToken();
 	}
 
 	#endregion

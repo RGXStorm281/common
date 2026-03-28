@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
+/// <summary>
+/// A builder for a collection node.
+/// </summary>
 public interface ICollectionNodeBuilder : ITemplatedNodeBuilder<ICollectionNodeBuilder>
 {
 	/// <summary>

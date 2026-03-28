@@ -5,13 +5,14 @@ namespace RobinEpple.Common.SourceGenerators.Test;
 
 using System.Threading.Tasks;
 using RobinEpple.Common.SourceGenerators.Abstractions;
+using RobinEpple.Common.SourceGenerators.Test.ClassScopedExtensions;
 
 public partial class AsyncOverloadTestClass
 {
 	/// <inheritdoc cref="AsyncOverload_ShouldTranslateConditionalAccessExpression()"/>
 	public async Task AsyncOverload_ShouldTranslateConditionalAccessExpressionAsync()
 	{
-		var result = await ((await GetInstanceUnsureAsync())?.GetOneAsync() ?? Task.FromResult<int>(default));
+		var result = (await GetInstanceUnsureAsync())?.GetOneAsync() is { } task1 ? (int?)(await task1) : null;
 	}
 
 }

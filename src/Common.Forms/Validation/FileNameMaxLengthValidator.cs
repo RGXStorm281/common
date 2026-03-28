@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="IFileNode">.<br/>
+/// Can only be applied to <see cref="IFileNode"/>.<br/>
 /// Only active on non-<see langword="null"/> file names.<br/>
 /// Checks the file name against the defined maximum length.
 /// </summary>
@@ -17,6 +17,9 @@ public partial class FileNameMaxLengthValidator(
 	string? errorMessageTemplate = null
 ) : INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(FileNameMaxLengthValidator);
 	private readonly IFormExpression<decimal?> _maxLength = maxLength;
 	private readonly string _errorMessageTemplate =

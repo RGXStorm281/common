@@ -6,7 +6,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="INumberNode">.<br/>
+/// Can only be applied to <see cref="INumberNode"/>.<br/>
 /// Only active on non-<see langword="null"/> values.<br/>
 /// Checks the field value against defined minimum value.
 /// </summary>
@@ -15,6 +15,9 @@ using RobinEpple.Common.Util;
 public partial class NumberMinValueValidator(IFormExpression<decimal?> minValue, string? errorMessageTemplate = null)
 	: INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(NumberMinValueValidator);
 	private readonly IFormExpression<decimal?> _minValue = minValue;
 	private readonly string _errorMessageTemplate = errorMessageTemplate ?? Resources.TheField_RequiresAMinimumValueOf_;

@@ -9,12 +9,24 @@ using static RobinEpple.Common.Html.DSL;
 /// </summary>
 public partial class HtmlTag : IHtmlContent
 {
+	/// <summary>
+	/// Creates a new tag with the given name and an information whether it is self closing (void element).
+	/// </summary>
 	public HtmlTag(string tag, bool selfClosing)
 		: this(tag, selfClosing, new HtmlString(string.Empty), [], [], []) { }
 
+	/// <summary>
+	/// Creates a new tag with the given name and an information whether it is self closing (void element).
+	/// Registers the content for rendering as inner structure.
+	/// </summary>
 	public HtmlTag(string tag, bool selfClosing, IHtmlContent content)
 		: this(tag, selfClosing, content, [], [], []) { }
 
+	/// <summary>
+	/// Creates a new tag with the given name and an information whether it is self closing (void element).
+	/// Registers the content for rendering as inner structure.
+	/// Allows the initialization with predefined classes and attributes, ...
+	/// </summary>
 	public HtmlTag(
 		string tag,
 		bool selfClosing,
@@ -32,9 +44,17 @@ public partial class HtmlTag : IHtmlContent
 		Styles = styles.ToDictionary();
 	}
 
+	/// <summary>
+	/// Creates a new tag with the given name and an information whether it is self closing (void element).
+	/// Registers the list of contents for rendering as inner structure.
+	/// </summary>
 	public HtmlTag(string tag, bool selfClosing, params IEnumerable<IHtmlContent> contents)
 		: this(tag, selfClosing, Concat(contents), [], [], []) { }
 
+	/// <summary>
+	/// Creates a new tag with the given name and an information whether it is self closing (void element).
+	/// Registers the encoded text as content for rendering as inner structure.
+	/// </summary>
 	public HtmlTag(string tag, bool selfClosing, string text)
 		: this(tag, selfClosing, Encode(text), [], [], []) { }
 
@@ -68,6 +88,9 @@ public partial class HtmlTag : IHtmlContent
 	/// </summary>
 	public IDictionary<string, string> Attributes { get; set; }
 
+	/// <summary>
+	/// Writes the html text to the writer.
+	/// </summary>
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		var builder = new HtmlContentBuilder();

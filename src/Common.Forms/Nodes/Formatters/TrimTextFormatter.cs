@@ -2,6 +2,9 @@ namespace RobinEpple.Common.Forms.Nodes.Formatters;
 
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// A formatter for text values.
+/// </summary>
 public partial class TrimTextFormatter : IValueFormatter
 {
 	/// <inheritdoc />

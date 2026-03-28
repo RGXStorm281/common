@@ -27,7 +27,7 @@ public class FormBuilder : IFormBuilder
 	{
 		ValidateName(name);
 		Form = new Form(name, null);
-		_defaultFormatCulture = defaultFormatCulture ?? new CultureInfo("de-DE");
+		_defaultFormatCulture = defaultFormatCulture ?? CultureInfo.InvariantCulture;
 	}
 
 	/// <summary>
@@ -40,7 +40,7 @@ public class FormBuilder : IFormBuilder
 	{
 		ValidateName(name);
 		Form = new Form(name, parent);
-		_defaultFormatCulture = defaultFormatCulture ?? new CultureInfo("de-DE");
+		_defaultFormatCulture = defaultFormatCulture ?? CultureInfo.InvariantCulture;
 	}
 
 	private static Regex? _invalidCharRegex;

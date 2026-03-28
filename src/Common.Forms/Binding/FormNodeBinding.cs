@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Binding;
 
 using RobinEpple.Common.Forms.Nodes;
 
-public class FormNodeBinding<TValue>(
+internal class FormNodeBinding<TValue>(
 	IValueAccessor<TValue> nodeValueAccessor,
 	IValueAccessor<TValue> modelValueAccessor
 ) : IFormNodeBinding

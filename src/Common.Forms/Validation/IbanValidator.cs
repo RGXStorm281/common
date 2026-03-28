@@ -6,13 +6,16 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="ITextNode">.<br/>
+/// Can only be applied to <see cref="ITextNode"/>.<br/>
 /// Only active on non-<see langword="null"/> values.<br/>
 /// Requires the field value to be a valid IBAN.
 /// </summary>
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the invalid value.</param>
 public partial class IbanValidator(string? errorMessageTemplate = null) : INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(IbanValidator);
 	private readonly string _errorMessageTemplate =
 		errorMessageTemplate ?? Resources.TheValue_CouldNotBeRecognizedAsAValidIban;

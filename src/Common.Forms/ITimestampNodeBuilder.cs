@@ -3,7 +3,12 @@ namespace RobinEpple.Common.Forms;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 
-public interface ITimestampNodeBuilder : IFieldNodeBuilder<ITimestampNodeBuilder>
+/// <summary>
+/// A builder for a timestamp node.
+/// </summary>
+public interface ITimestampNodeBuilder
+	: IFieldNodeBuilder<ITimestampNodeBuilder>,
+		IValueNodeBuilder<DateTime?, ITimestampNodeBuilder>
 {
 	/// <summary>
 	/// Sets a default value that the node starts with and is resetted to.

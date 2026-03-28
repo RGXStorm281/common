@@ -1,5 +1,8 @@
 html {
   font-size: 14px;
+  --color-primary: oklch(0.8423 0.0578 130.33);
+  --color-secondary: oklch(0.8423 0.0274 53.41);
+  --color-danger: oklch(0.7003 0.1757 25.64);
 }
 
 @media (min-width: 768px) {
@@ -22,4 +25,408 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.card {
+  border: 1px solid;
+  border-color: oklch(from var(--color-secondary) calc(0.7 * l) c h);
+  border-radius: 7px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+.card > * {
+  border-radius: 0;
+}
+.card .card-header {
+  background-color: var(--color-secondary);
+}
+
+.striped > :nth-child(even) {
+  background-color: oklch(from var(--color-primary) calc(1.08 * l) 0 h);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: [label] auto [control] 1fr;
+  margin: 0;
+  padding: 0;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+  row-gap: 0.5rem;
+}
+.form-grid > * {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+.form-grid h1,
+.form-grid h2,
+.form-grid h3,
+.form-grid h4,
+.form-grid h5,
+.form-grid h6,
+.form-grid p {
+  grid-column: span 2;
+}
+.form-grid fieldset {
+  display: grid;
+  grid-column: span 2;
+  grid-template-columns: subgrid;
+}
+.form-grid fieldset > label {
+  grid-column: label;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+.form-grid fieldset > * {
+  grid-column: control;
+}
+
+.error-message {
+  grid-column: 1/span 2;
+  color: var(--color-danger);
+}
+
+.radio-buttons .radio-option {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: first baseline;
+  -moz-column-gap: 0.2rem;
+       column-gap: 0.2rem;
+}
+
+.checkbox-group {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: first baseline;
+  -moz-column-gap: 0.2rem;
+       column-gap: 0.2rem;
+}
+
+.drop-down input,
+.drop-down textarea,
+.drop-down select,
+.number-input input,
+.number-input textarea,
+.number-input select,
+.email-input input,
+.email-input textarea,
+.email-input select,
+.password-input input,
+.password-input textarea,
+.password-input select,
+.search-input input,
+.search-input textarea,
+.search-input select,
+.telephone-input input,
+.telephone-input textarea,
+.telephone-input select,
+.text-input input,
+.text-input textarea,
+.text-input select,
+.text-area input,
+.text-area textarea,
+.text-area select,
+.url-input input,
+.url-input textarea,
+.url-input select,
+.date-input input,
+.date-input textarea,
+.date-input select,
+.time-input input,
+.time-input textarea,
+.time-input select,
+.date-time-input input,
+.date-time-input textarea,
+.date-time-input select {
+  border: 1px solid;
+  border-color: oklch(from var(--color-primary) calc(0.7 * l) c h);
+  border-radius: 5px;
+  background-color: oklch(from var(--color-primary) calc(1.6 * l) calc(0.05 * c) h);
+}
+.drop-down.error input,
+.drop-down.error textarea,
+.drop-down.error select,
+.number-input.error input,
+.number-input.error textarea,
+.number-input.error select,
+.email-input.error input,
+.email-input.error textarea,
+.email-input.error select,
+.password-input.error input,
+.password-input.error textarea,
+.password-input.error select,
+.search-input.error input,
+.search-input.error textarea,
+.search-input.error select,
+.telephone-input.error input,
+.telephone-input.error textarea,
+.telephone-input.error select,
+.text-input.error input,
+.text-input.error textarea,
+.text-input.error select,
+.text-area.error input,
+.text-area.error textarea,
+.text-area.error select,
+.url-input.error input,
+.url-input.error textarea,
+.url-input.error select,
+.date-input.error input,
+.date-input.error textarea,
+.date-input.error select,
+.time-input.error input,
+.time-input.error textarea,
+.time-input.error select,
+.date-time-input.error input,
+.date-time-input.error textarea,
+.date-time-input.error select {
+  border-color: oklch(from var(--color-danger) calc(0.7 * l) c h);
+  background-color: oklch(from var(--color-danger) calc(1.6 * l) calc(0.05 * c) h);
+}
+
+.file-input {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+.file-input label {
+  grid-column: label;
+}
+.file-input .allowed-file-extensions {
+  grid-column: label;
+}
+.file-input .allowed-file-extensions * {
+  border: 1px solid;
+  border-radius: 5px;
+  margin-right: 0.1rem;
+  padding: 0 0.5rem;
+  background-color: var(--color-primary);
+  border-color: oklch(from var(--color-primary) calc(0.7 * l) c h);
+}
+.file-input input {
+  grid-column: control;
+  grid-row: 1/span 2;
+  opacity: 0;
+}
+.file-input .file-name {
+  grid-column: control;
+  grid-row: 1/span 2;
+  border: 1px solid;
+  border-color: oklch(from var(--color-primary) calc(0.7 * l) c h);
+  border-radius: 5px;
+  background-color: oklch(from var(--color-primary) calc(1.6 * l) calc(0.05 * c) h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.file-input .file-name::before {
+  content: url("/img/file-earmark-arrow-up-fill.svg");
+}
+.file-input.error .file-name {
+  border-color: oklch(from var(--color-danger) calc(0.7 * l) c h);
+  background-color: oklch(from var(--color-danger) calc(1.6 * l) calc(0.05 * c) h);
+}
+
+#sample-rendering-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+  align-items: start;
+}
+
+#sample-checkout-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+#sample-checkout-form .page-selector fieldset {
+  display: grid;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+}
+#sample-checkout-form .page-selector fieldset .input-label {
+  display: none;
+}
+#sample-checkout-form .page-selector fieldset .radio-option {
+  display: grid;
+  grid-template-columns: 1fr;
+  cursor: pointer;
+}
+#sample-checkout-form .page-selector fieldset .radio-option input {
+  grid-column: 1;
+  grid-row: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+#sample-checkout-form .page-selector fieldset .radio-option label {
+  display: grid;
+  place-items: center;
+  grid-column: 1;
+  grid-row: 1;
+  padding: 1rem;
+  background-color: var(--color-primary);
+  cursor: pointer;
+}
+#sample-checkout-form .page-selector fieldset .radio-option input:checked + label {
+  background-color: oklch(from var(--color-primary) calc(1.1 * l) c h);
+  border: 1px solid oklch(from var(--color-primary) calc(0.9 * l) c h);
+}
+#sample-checkout-form .page-selector fieldset .radio-option:hover label {
+  background-color: oklch(from var(--color-primary) calc(0.9 * l) c h);
+}
+#sample-checkout-form .cart-item-list {
+  display: grid;
+  grid-template-columns: minmax(100px, 200px) 1fr 100px;
+  gap: 1rem;
+}
+#sample-checkout-form .cart-item-list .btn {
+  margin: 0;
+}
+#sample-checkout-form .cart-item-list > :not(:nth-child(even)) {
+  background-color: oklch(from var(--color-primary) calc(1.08 * l) 0 h);
+}
+#sample-checkout-form .cart-item-list .cart-item {
+  display: grid;
+  grid-column: 1/span 3;
+  grid-template-columns: subgrid;
+  padding: 0.5rem;
+}
+#sample-checkout-form .cart-item-list .cart-item .cart-item-label {
+  font-weight: bold;
+}
+#sample-checkout-form .cart-item-list .cart-item .cart-item-config {
+  row-gap: 0.2rem;
+}
+#sample-checkout-form .cart-item-list .cart-item .cart-item-config fieldset {
+  padding: 0 0.2rem;
+}
+#sample-checkout-form .navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+#sample-checkout-form .navigation-buttons .btn {
+  padding: 0.5rem;
+}
+#sample-checkout-form .cart-stage .navigation-buttons {
+  justify-content: flex-end;
+}
+
+.btn {
+  border: 1px solid;
+  border-radius: 7px;
+  margin: 0.5rem 0.5rem 0 0;
+  padding: 0.2rem 0.5rem;
+  background-color: oklch(from var(--color-primary) l 0 h);
+  border-color: oklch(from oklch(from var(--color-primary) calc(0.7 * l) c h) l 0 h);
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: oklch(from var(--color-primary) calc(0.95 * l) 0 h);
+  border-color: oklch(from oklch(from var(--color-primary) calc(0.7 * l) c h) calc(0.95 * l) 0 h);
+}
+.btn.primary {
+  background-color: oklch(from var(--color-primary) l c h);
+  border-color: oklch(from oklch(from var(--color-primary) calc(0.7 * l) c h) l c h);
+}
+.btn.primary:hover {
+  background-color: oklch(from var(--color-primary) calc(0.95 * l) c h);
+  border-color: oklch(from oklch(from var(--color-primary) calc(0.7 * l) c h) calc(0.95 * l) c h);
+}
+
+.scroll-container {
+  overflow-y: scroll;
+}
+
+.columns {
+  display: grid;
+  grid-auto-columns: 250px;
+  grid-auto-flow: column;
+  -moz-column-gap: 1.5rem;
+       column-gap: 1.5rem;
+}
+
+.folder-column {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-auto-rows: 30px;
+  row-gap: 0.5rem;
+  -moz-column-gap: 0.3rem;
+       column-gap: 0.3rem;
+}
+.folder-column > * {
+  max-width: 250px;
+  grid-column: 1/span 2;
+}
+.folder-column .text-input {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  -moz-column-gap: 0.3rem;
+       column-gap: 0.3rem;
+}
+.folder-column .text-input input {
+  width: 100%;
+}
+.folder-column .btn {
+  margin: 0;
+  padding: 0 0.3rem;
+  height: 100%;
+}
+.folder-column .item {
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: center;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.folder-column .item span {
+  display: block;
+  padding: 0 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.folder-column .item span::after {
+  content: ">";
+  margin-left: 0.3rem;
+}
+.folder-column .folder-item {
+  background-color: var(--color-primary);
+}
+.folder-column .note-item {
+  background-color: var(--color-secondary);
+}
+
+.note-column {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-auto-rows: max-content;
+  row-gap: 0.5rem;
+  -moz-column-gap: 0.3rem;
+       column-gap: 0.3rem;
+}
+.note-column > * {
+  grid-column: 1/span 2;
+}
+.note-column .text-input,
+.note-column .text-area {
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: first baseline;
+}
+.note-column h2,
+.note-column .text-input {
+  height: 30px;
+}
+.note-column textarea {
+  min-height: 100px;
+}
+
+.input-label.required::after {
+  content: " *";
+  color: var(--color-danger);
 }/*# sourceMappingURL=site.css.map */

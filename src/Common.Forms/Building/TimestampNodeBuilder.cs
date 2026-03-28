@@ -4,6 +4,8 @@ using System;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
+using RobinEpple.Common.Forms.SelectLists;
+using RobinEpple.Common.Forms.Validation;
 
 internal class TimestampNodeBuilder : FieldNodeBuilder<ITimestampNodeBuilder, TimestampNode>, ITimestampNodeBuilder
 {
@@ -65,4 +67,33 @@ internal class TimestampNodeBuilder : FieldNodeBuilder<ITimestampNodeBuilder, Ti
 
 	/// <inheritdoc />
 	protected override TimestampNodeBuilder CastThis() => this;
+
+	/// <inheritdoc />
+	public ITimestampNodeBuilder UseSelectList(
+		ISelectListSource<DateTime?> source,
+		bool validate,
+		string? errorMessageTemplate = null
+	)
+	{
+		Node.UseSelectList(source);
+		if (validate)
+		{
+			Node.UseValidator(new SelectListValidator<DateTime?>(errorMessageTemplate));
+		}
+		return this;
+	}
+
+	/// <inheritdoc />
+	public ITimestampNodeBuilder UseSelectList(
+		IEnumerable<DateTime?> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<DateTime?>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public ITimestampNodeBuilder UseSelectList(
+		IEnumerable<(DateTime? Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<DateTime?>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }

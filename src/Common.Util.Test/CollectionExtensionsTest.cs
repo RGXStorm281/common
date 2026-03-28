@@ -24,44 +24,6 @@ public class CollectionExtensionsTest
 	}
 
 	[TestMethod]
-	public void WithPrepended_ShouldInsertInFirstPlace()
-	{
-		var initial = List(1, 2, 3);
-		var extended = initial.WithPrepended(4).ToList();
-
-		Assert.AreEqual(extended[0], 4);
-		AssertListEquals(initial, extended[1..]);
-	}
-
-	[TestMethod]
-	public void WithAppended_ShouldInsertInsertInLastPlace()
-	{
-		var initial = List(1, 2, 3);
-		var extended = initial.WithAppended(4).ToList();
-
-		Assert.AreEqual(extended[3], 4);
-		AssertListEquals(initial, extended[..3]);
-	}
-
-	[TestMethod]
-	public void WithRemoved_ShouldRemoveAllInstances()
-	{
-		var initial = List(1, 2, 1, 1, 3);
-		var reduced = initial.WithRemoved(1).ToList();
-
-		AssertListEquals(reduced, List(2, 3));
-	}
-
-	[TestMethod]
-	public void WithRemoved_EqualityComparerShouldTakeEffect()
-	{
-		var initial = List(1, 2, 5, 1, 3);
-		var reduced = initial.WithRemoved(1, new ModEqualityComparer(2)).ToList();
-
-		AssertListEquals(reduced, List(2));
-	}
-
-	[TestMethod]
 	public void None()
 	{
 		var list = List(1, 2, 5, 1, 3);

@@ -1,12 +1,10 @@
 namespace RobinEpple.Common.Forms.Binding;
 
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using RobinEpple.Common.Forms.Extensions;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
 
-public class TemplateNodeBinding<TValue>(TValue emptyValue) : IValueAccessor<TValue>
+internal class TemplateNodeBinding<TValue>(TValue emptyValue) : IValueAccessor<TValue>
 {
 	private readonly TValue _emptyValue = emptyValue;
 

@@ -9,12 +9,15 @@ using Microsoft.AspNetCore.Html;
 /// </summary>
 public partial class Encode(string text) : IHtmlContent
 {
-	public string Text { get; } = text;
+	private string _text { get; } = text;
 
+	/// <summary>
+	/// Writes the html text to the writer.
+	/// </summary>
 	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
 	{
 		var builder = new HtmlContentBuilder();
-		builder.Append(Text);
+		builder.Append(_text);
 		builder.WriteTo(writer, encoder);
 	}
 }

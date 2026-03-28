@@ -1,6 +1,7 @@
 namespace RobinEpple.Common.WebUi.Test;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using RobinEpple.Common.Caching;
 using RobinEpple.Common.WebUi.Test.Code;
 
 public static class Startup
@@ -21,6 +22,7 @@ public static class Startup
 	{
 		AddControllers(services, hostingEnvironment);
 		AddSessionAndHttp(services, testSettings);
+		services.AddManagedCache(TimeSpan.FromSeconds(30));
 	}
 
 	private static void AddControllers(IServiceCollection services, IWebHostEnvironment hostingEnvironment)

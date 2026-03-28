@@ -2,7 +2,7 @@ namespace RobinEpple.Common.Forms.Wrappers;
 
 using Microsoft.CodeAnalysis;
 
-public class MessageLogger(SourceProductionContext context)
+internal class MessageLogger(SourceProductionContext context)
 {
 	private readonly SourceProductionContext _context = context;
 

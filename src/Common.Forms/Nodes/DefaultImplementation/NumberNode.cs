@@ -2,6 +2,7 @@ namespace RobinEpple.Common.Forms.Nodes.DefaultImplementation;
 
 using System.Globalization;
 using RobinEpple.Common.Forms.Nodes.Formatters;
+using RobinEpple.Common.Forms.SelectLists;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 internal partial class NumberNode : FieldNode, INumberNode
@@ -21,6 +22,17 @@ internal partial class NumberNode : FieldNode, INumberNode
 		set => _value.CurrentValue = value;
 	}
 
+	/// <inheritdoc />
+	public ISelectListSource<decimal?>? SelectList { get; private set; }
+
+	/// <inheritdoc />
+	public IEnumerable<ISelectListItem<decimal?>>? CurrentSelectListItems { get; private set; }
+
+	public void UseSelectList(ISelectListSource<decimal?>? selectList)
+	{
+		SelectList = selectList;
+	}
+
 	internal void ReplaceDefaultValue(decimal? newDefaultValue) => _value.ReplaceDefault(newDefaultValue);
 
 	/// <inheritdoc />
@@ -29,6 +41,14 @@ internal partial class NumberNode : FieldNode, INumberNode
 	{
 		base.Reset();
 		_value.Reset();
+	}
+
+	/// <inheritdoc />
+	[GenerateAsyncOverload]
+	public override void Update()
+	{
+		CurrentSelectListItems = SelectList?.LoadFor(this);
+		base.Update();
 	}
 
 	/// <inheritdoc />

@@ -4,6 +4,9 @@ using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Wrappers.Abstractions;
 
+/// <summary>
+/// A builder for a (sub)form.
+/// </summary>
 public interface IFormBuilder : INodeBuilder<IFormBuilder>
 {
 	/// <summary>

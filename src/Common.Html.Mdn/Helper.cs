@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Html.Mdn;
 
+using System.Security;
 using System.Text;
 using HtmlAgilityPack;
 
@@ -21,6 +22,43 @@ public class Helper
 			return indentation + line;
 		});
 		return string.Join("\n", indentedLines);
+	}
+
+	public static string PrintMdnDocumentation(string text, string mdnUrl)
+	{
+		return PrintDocumentation(text) + PrintMdnReference(mdnUrl);
+	}
+
+	public static string PrintDocumentation(string text)
+	{
+		// Escape <> and other XML characters.
+		var escaped = SecurityElement.Escape(text);
+		return Indent(escaped, indentPattern: "/// ");
+	}
+
+	public static string PrintMdnReference(string mdnUrl)
+	{
+		var licenseInfo =
+			$@"
+<br/> <b>This documentation text is derived from MDN and licensed under CC BY-SA 2.5:</b>
+<br/> {mdnUrl}
+<br/> - by Mozilla Contributors";
+		return Indent(licenseInfo, indentPattern: "///");
+	}
+
+	public static string PrintMdnLicenseHeader(string mdnUrl)
+	{
+		var licenseInfo =
+			$@"
+This file contains documentation text derived from Mozilla Developer Network (MDN) Web Docs.
+The article by Mozilla Contributors can be found at:
+{mdnUrl}
+MDN content is licensed under CC BY-SA 2.5:
+https://creativecommons.org/licenses/by-sa/2.5/
+
+All other code in this file is licensed under the Apache License 2.0.
+";
+		return Indent(licenseInfo, indentPattern: "// ");
 	}
 
 	private static string Repeat(string text, int numberOfTimes)

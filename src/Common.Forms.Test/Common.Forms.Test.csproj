@@ -5,12 +5,12 @@
         <RootNamespace>RobinEpple.Common.Forms.Test</RootNamespace>
 
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-        <CompilerGeneratedFilesOutputPath>./Generated</CompilerGeneratedFilesOutputPath>
+        <CompilerGeneratedFilesOutputPath>./_generated</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="Generated\**\*.cs" />
-        <Compile Remove="Generated\**\*.cs" />
+        <None Include="_generated\**\*.cs" />
+        <Compile Remove="_generated\**\*.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -21,6 +21,7 @@
     <ItemGroup>
         <ProjectReference Include="../Common.Forms/Common.Forms.csproj" />
         <PackageReference Include="RobinEpple.Common.Forms.Wrappers" PrivateAssets="all" ExcludeAssets="runtime" />
+        <PackageReference Include="RobinEpple.Common.SourceGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 
     <ItemGroup>

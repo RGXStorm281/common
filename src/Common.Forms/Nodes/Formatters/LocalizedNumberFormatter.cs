@@ -3,6 +3,9 @@ namespace RobinEpple.Common.Forms.Nodes.Formatters;
 using System.Globalization;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
+/// <summary>
+/// A formatter for number values.
+/// </summary>
 public partial class LocalizedNumberFormatter(CultureInfo culture) : IValueFormatter
 {
 	private readonly CultureInfo _culture = culture;

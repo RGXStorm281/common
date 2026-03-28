@@ -8,11 +8,12 @@ using RobinEpple.Common.Forms.Nodes;
 /// </summary>
 /// <typeparam name="TFieldValue">The value type of the field node.</typeparam>
 /// <typeparam name="TProperty">The type of the property to bind to.</typeparam>
-public class PropertyBinding<TFieldValue, TProperty> : IValueAccessor<TFieldValue>
+internal class PropertyBinding<TFieldValue, TProperty> : IValueAccessor<TFieldValue>
 {
 	private readonly Func<TFieldValue> _getter;
 	private readonly Action<TFieldValue> _setter;
 
+	/// <inheritdoc cref="PropertyBinding{TFieldValue,TProperty}"/>
 	public PropertyBinding(Expression<Func<TProperty>> propertyAccessor)
 	{
 		// Compile the getter and setter expressions

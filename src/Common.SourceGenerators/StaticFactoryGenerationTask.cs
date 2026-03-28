@@ -3,7 +3,7 @@ namespace RobinEpple.Common.SourceGenerators;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-public class StaticFactoryGenerationTask(
+internal class StaticFactoryGenerationTask(
 	ClassDeclarationSyntax factoryClassSyntax,
 	INamedTypeSymbol factoryClass,
 	IEnumerable<AttributeData> attributes,

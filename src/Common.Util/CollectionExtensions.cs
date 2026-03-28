@@ -2,98 +2,12 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+/// <summary>
+/// A collection of useful methods on collections.
+/// </summary>
 public static class CollectionExtensions
 {
 	#region Enumerables
-
-	/// <summary>
-	/// Returns the same collection but with the new item added as first element.
-	/// </summary>
-	/// <typeparam name="TElement">The type of elements in the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="newItem">The new element.</param>
-	/// <returns>The extended collection.</returns>
-	public static IEnumerable<TElement> WithPrepended<TElement>(this IEnumerable<TElement> collection, TElement newItem)
-	{
-		yield return newItem;
-
-		foreach (var element in collection)
-		{
-			yield return element;
-		}
-	}
-
-	/// <summary>
-	/// Returns the same collection but with the new item added as last element.
-	/// </summary>
-	/// <typeparam name="TElement">The type of elements in the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="newItem">The new element.</param>
-	/// <returns>The extended collection.</returns>
-	public static IEnumerable<TElement> WithAppended<TElement>(this IEnumerable<TElement> collection, TElement newItem)
-	{
-		foreach (var element in collection)
-		{
-			yield return element;
-		}
-
-		yield return newItem;
-	}
-
-	/// <summary>
-	/// Returns the same collection but with the specified item removed.
-	/// </summary>
-	/// <typeparam name="TElement">The type of elements in the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="obsoleteItem">The item to remove.</param>
-	/// <param name="comparer">Optional comparer to define when two elements are equal.</param>
-	/// <returns>The reduced collection.</returns>
-	public static IEnumerable<TElement> WithRemoved<TElement>(
-		this IList<TElement> collection,
-		TElement obsoleteItem,
-		IEqualityComparer<TElement>? comparer = null
-	)
-	{
-		foreach (var element in collection)
-		{
-			// Dedicated comparer.
-			if (comparer != null)
-			{
-				if (comparer.Equals(element, obsoleteItem))
-				{
-					continue;
-				}
-				else
-				{
-					yield return element;
-					continue;
-				}
-			}
-
-			// Use default equals implementation.
-			if (obsoleteItem == null && element == null)
-			{
-				// both are null -> do not return.
-				continue;
-			}
-
-			if (element == null)
-			{
-				// unequal -> return this item.
-				yield return element;
-				continue;
-			}
-
-			if (element.Equals(obsoleteItem))
-			{
-				// equal -> do not return.
-				continue;
-			}
-
-			// unequal -> return this item.
-			yield return element;
-		}
-	}
 
 	/// <summary>
 	/// Returns <see langword="true"/> when none of the items in the collection meet the condition.
@@ -206,6 +120,7 @@ public static class CollectionExtensions
 	/// <param name="dictionary">The dictionary.</param>
 	/// <param name="key">The key type, that the value is searched for.</param>
 	/// <param name="createNew">The constructor function, that is called, if a new value needs to be created for the given key for the given key.</param>
+	/// <param name="created">A feedback boolean indicating whether an existing element was accessed or a new one created.</param>
 	/// <returns>The value for the key.</returns>
 	public static TValue GetOrAdd<TKey, TValue>(
 		this IDictionary<TKey, TValue> dictionary,

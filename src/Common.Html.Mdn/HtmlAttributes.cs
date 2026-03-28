@@ -9,10 +9,10 @@ public static class HtmlAttributes
 	{
 		var web = new HtmlWeb();
 		var doc = web.Load(url);
-		return ParseFrom(doc);
+		return ParseFrom(doc, url);
 	}
 
-	public static IEnumerable<HtmlAttribute> ParseFrom(HtmlDocument doc)
+	public static IEnumerable<HtmlAttribute> ParseFrom(HtmlDocument doc, string url)
 	{
 		var results = new List<HtmlAttribute>();
 
@@ -51,7 +51,7 @@ public static class HtmlAttributes
 			// Remove decorative tags but keep their inner text
 			var description = Helper.GetPlainText(p);
 
-			results.Add(new HtmlAttribute(name, description, isDeprecated));
+			results.Add(new HtmlAttribute(name, description, isDeprecated, url));
 		}
 
 		return results;
@@ -61,7 +61,7 @@ public static class HtmlAttributes
 	{
 		var sb = new StringBuilder();
 		sb.AppendLine("/// <summary>");
-		sb.AppendLine(Helper.Indent(attribute.Documentation, indentPattern: "/// "));
+		sb.AppendLine(Helper.PrintMdnDocumentation(attribute.Documentation, attribute.MdnUrl));
 		sb.AppendLine("/// </summary>");
 		var newKeyword = isGlobalOverride ? " new" : string.Empty;
 		if (attribute.IsDeprecated)

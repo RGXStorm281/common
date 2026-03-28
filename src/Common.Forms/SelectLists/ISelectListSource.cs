@@ -1,5 +1,6 @@
 namespace RobinEpple.Common.Forms.SelectLists;
 
+using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.SourceGenerators.Abstractions;
 
 /// <summary>
@@ -9,13 +10,13 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 public partial interface ISelectListSource<TValue>
 {
 	/// <summary>
-	/// Loads the list of options available given the current set of <paramref name="dependencies"/>.<br/>
+	/// Loads the list of options available for the <paramref name="node"/> in the current form state.<br/>
 	/// How the dependencies are defined an interpreted is up to the source implementation.
 	/// </summary>
-	/// <param name="dependencies">The dependency list.</param>
+	/// <param name="node">The form node to load the values for.</param>
 	/// <returns>The list of available selection options.</returns>
 	[GenerateAsyncOverload]
-	public IEnumerable<ISelectListItem<TValue>> LoadItems(IDictionary<string, object?>? dependencies = null);
+	public IEnumerable<ISelectListItem<TValue>> LoadFor(IFormNode node);
 
 	/// <summary>
 	/// Creates a source for a static list of values.

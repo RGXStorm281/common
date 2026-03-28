@@ -5,7 +5,7 @@ using RobinEpple.Common.SourceGenerators.Abstractions;
 using RobinEpple.Common.Util;
 
 /// <summary>
-/// Can only be applied to <see cref="IFileNode">.<br/>
+/// Can only be applied to <see cref="IFileNode"/>.<br/>
 /// Only active on non-<see langword="null"/> file contents.<br/>
 /// Checks the size of the provided file against a maximum file size.
 /// </summary>
@@ -13,6 +13,9 @@ using RobinEpple.Common.Util;
 /// <param name="errorMessageTemplate">Optional custom error message. May contain the placeholder {0} for the field name and {1} for the file size.</param>
 public partial class MaxFileSizeValidator(long maxFileSizeInByte, string? errorMessageTemplate = null) : INodeValidator
 {
+	/// <summary>
+	/// The key errors from this validator will be registered under.
+	/// </summary>
 	public const string ErrorKey = nameof(TemplateRequiredValidator);
 	private readonly long _maxFileSize = maxFileSizeInByte;
 	private readonly string _errorMessageTemplate =

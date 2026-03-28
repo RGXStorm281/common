@@ -3,6 +3,8 @@ namespace RobinEpple.Common.Forms.Building;
 using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
+using RobinEpple.Common.Forms.SelectLists;
+using RobinEpple.Common.Forms.Validation;
 
 internal class TextNodeBuilder : FieldNodeBuilder<ITextNodeBuilder, TextNode>, ITextNodeBuilder
 {
@@ -64,4 +66,33 @@ internal class TextNodeBuilder : FieldNodeBuilder<ITextNodeBuilder, TextNode>, I
 
 	/// <inheritdoc />
 	protected override TextNodeBuilder CastThis() => this;
+
+	/// <inheritdoc />
+	public ITextNodeBuilder UseSelectList(
+		ISelectListSource<string?> source,
+		bool validate,
+		string? errorMessageTemplate = null
+	)
+	{
+		Node.UseSelectList(source);
+		if (validate)
+		{
+			Node.UseValidator(new SelectListValidator<string?>(errorMessageTemplate));
+		}
+		return this;
+	}
+
+	/// <inheritdoc />
+	public ITextNodeBuilder UseSelectList(
+		IEnumerable<string?> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<string?>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public ITextNodeBuilder UseSelectList(
+		IEnumerable<(string? Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<string?>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }

@@ -4,6 +4,8 @@ using System.Linq.Expressions;
 using RobinEpple.Common.Forms.Binding;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Forms.Nodes.DefaultImplementation;
+using RobinEpple.Common.Forms.SelectLists;
+using RobinEpple.Common.Forms.Validation;
 
 internal class FileNodeBuilder : FieldNodeBuilder<IFileNodeBuilder, FileNode>, IFileNodeBuilder
 {
@@ -65,4 +67,33 @@ internal class FileNodeBuilder : FieldNodeBuilder<IFileNodeBuilder, FileNode>, I
 
 	/// <inheritdoc />
 	protected override FileNodeBuilder CastThis() => this;
+
+	/// <inheritdoc />
+	public IFileNodeBuilder UseSelectList(
+		ISelectListSource<FileValue> source,
+		bool validate,
+		string? errorMessageTemplate = null
+	)
+	{
+		Node.UseSelectList(source);
+		if (validate)
+		{
+			Node.UseValidator(new SelectListValidator<FileValue>(errorMessageTemplate));
+		}
+		return this;
+	}
+
+	/// <inheritdoc />
+	public IFileNodeBuilder UseSelectList(
+		IEnumerable<FileValue> values,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<FileValue>.ForValues(values), validate, errorMessageTemplate);
+
+	/// <inheritdoc />
+	public IFileNodeBuilder UseSelectList(
+		IEnumerable<(FileValue Value, string Label)> labelledValues,
+		bool validate,
+		string? errorMessageTemplate = null
+	) => UseSelectList(ISelectListSource<FileValue>.ForLabelledValues(labelledValues), validate, errorMessageTemplate);
 }

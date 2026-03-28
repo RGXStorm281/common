@@ -1,0 +1,41 @@
+namespace RobinEpple.Common.WebUi;
+
+using Microsoft.Extensions.Primitives;
+using RobinEpple.Common.Forms.Nodes;
+
+/// <summary>
+/// A basic strategy to parse numeric values to a number node.
+/// </summary>
+public class NumberBindingStrategy : IFormBindingStrategy
+{
+	/// <inheritdoc />
+	public bool TryBind(IFormNode node, StringValues values)
+	{
+		if (node is not INumberNode numberNode)
+		{
+			return false;
+		}
+
+		var stringValue = values.FirstOrDefault();
+		if (string.IsNullOrEmpty(stringValue))
+		{
+			numberNode.Value = null;
+			return true;
+		}
+
+		if (numberNode.Formatter.Parse(stringValue) is not decimal numberValue)
+		{
+			return false;
+		}
+
+		if (numberNode.Value == numberValue)
+		{
+			// No change required.
+			return true;
+		}
+
+		numberNode.Value = numberValue;
+		numberNode.HasUserInteraction = true;
+		return true;
+	}
+}

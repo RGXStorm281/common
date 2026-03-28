@@ -2,7 +2,7 @@ namespace RobinEpple.Common.SourceGenerators;
 
 using System.Text;
 
-public class IndentHelper
+internal class IndentHelper
 {
 	/// <summary>
 	/// Indents each line of the given string by the specified depth.

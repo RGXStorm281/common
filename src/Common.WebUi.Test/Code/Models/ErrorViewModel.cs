@@ -1,4 +1,4 @@
-namespace Common.WebUi.Test.Models;
+namespace RobinEpple.Common.WebUi.Test.Code.Models;
 
 public class ErrorViewModel(string? requestId, Exception? error)
 {

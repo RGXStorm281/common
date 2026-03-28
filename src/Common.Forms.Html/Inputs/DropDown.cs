@@ -1,0 +1,61 @@
+namespace RobinEpple.Common.Forms.Html.Inputs;
+
+using System.IO;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Html;
+using RobinEpple.Common.Forms.Nodes;
+using static RobinEpple.Common.Forms.Html.FormRendering;
+using static RobinEpple.Common.Html.DSL;
+
+/// <summary>
+/// Renders a select-tag with options for each select list item defined in the <paramref name="node"/>.
+/// </summary>
+/// <typeparam name="TValue">The value type of the node.</typeparam>
+/// <param name="node">The node to render the select tag for.</param>
+public class DropDown<TValue>(IValueNode<TValue> node) : IHtmlContent
+{
+	private readonly IValueNode<TValue> _node = node;
+
+	/// <inheritdoc />
+	public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+	{
+		var nodeId = _node.GetId();
+
+		if (!_node.IsVisible)
+		{
+			return;
+		}
+		if (_node.CurrentSelectListItems == null)
+		{
+			throw new InvalidOperationException($"Node with id '{nodeId}' does not have select list items defined.");
+		}
+
+		// Fieldset --------------------------------|
+		// | Label       							|
+		// | Select     							|
+		// |    Option 1							|
+		// |    Option 2							|
+		// | Error A								|
+		// | Error B								|
+		// |----------------------------------------|
+		var content = InputFieldset(
+				_node,
+				InputLabel(_node),
+				Select(
+						RenderEach(
+							_node.CurrentSelectListItems,
+							(item, index) =>
+								Option(item.Label)
+									.Value(_node.Formatter.Format(item.Value) ?? string.Empty)
+									.ConfigureIf(Equals(item.Value, _node.Value), input => input.Selected("selected"))
+						)
+					)
+					.Name(nodeId)
+					.ConfigureIf(_node.IsReadonly, input => input.Disabled("disabled"))
+					.Id(nodeId),
+				ValidationErrors(_node)
+			)
+			.Class("drop-down");
+		content.WriteTo(writer, encoder);
+	}
+}

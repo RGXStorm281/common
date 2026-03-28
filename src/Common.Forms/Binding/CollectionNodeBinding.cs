@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using RobinEpple.Common.Forms.Nodes;
 using RobinEpple.Common.Util;
 
-public class CollectionNodeBinding<TItem> : IValueAccessor<IEnumerable<TItem>>
+internal class CollectionNodeBinding<TItem> : IValueAccessor<IEnumerable<TItem>>
 {
 	/// <inheritdoc />
 	public IEnumerable<TItem> GetValue(IFormNode node)
