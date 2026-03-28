@@ -89,10 +89,10 @@ Additionally it can be used to generate async overloads for body-less signatures
 The detection logic defines "async overloads" equal to what the generator outputs:
 
 - The name needs to be equal plus "Async" appended.
-- Parameter types need to be equal.
 - The return type needs to match the `Task` equivalent.
+- Parameter types need to be equal, except the async overload is allowed to have additional optional parameters.
 
-It will not recognize methods with additional optional parameters as overloads (like for example a `CancellationToken`). This is intentional to keep the behavior of the generator simple and predictable.
+The last exception is important to make common DB-Mapper overloads like from linq2db work, because they tend to add an optional `CancellationToken` parameter. Careful though, the overload will NOT use these additional parameters. Overloads are called with the exact same parameter set as the original synchronous method. There is no semantic translation like for example an "automatic adding of optional parameters" to the async method. This is intentional, because it keeps the behavior of the generator simple and predictable.
 
 The generator can handle most common control structures like `if`, `for`, `foreach`, ... and is able to understand nested and chained method calls and translate them accordingly. By default, it will only search for async overloads in the same type as the original call. Extension methods can be ambiguous in a compilation context, that's why they require explicit opt-in from you. To whitelist extension methods from a specific namespace, add an `AsyncOverloadExtensionNamespaceAttribute` either to the method specifically or to the containing class:
 
